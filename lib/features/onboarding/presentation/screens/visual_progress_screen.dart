@@ -5,7 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
-/// Screen 3: Visual Progress screen with mock dashboard preview
+/// Screen 3: Visual Progress screen with polished dashboard preview
 class VisualProgressScreen extends StatefulWidget {
   const VisualProgressScreen({super.key});
 
@@ -35,7 +35,7 @@ class _VisualProgressScreenState extends State<VisualProgressScreen>
       ),
     );
 
-    _slideAnimation = Tween<double>(begin: 50.0, end: 0.0).animate(
+    _slideAnimation = Tween<double>(begin: 30.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.0, 0.5, curve: Curves.easeOutCubic),
@@ -68,8 +68,6 @@ class _VisualProgressScreenState extends State<VisualProgressScreen>
         child: Column(
           children: [
             const Spacer(flex: 1),
-
-            // Title and subtitle
             AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
@@ -84,23 +82,20 @@ class _VisualProgressScreenState extends State<VisualProgressScreen>
               child: Column(
                 children: [
                   Text(
-                    'See your growth\nvisually',
+                    'See your progress\nat a glance',
                     style: AppTextStyles.heading2(isDark: isDark),
                     textAlign: TextAlign.center,
                   ),
                   AppSpacing.verticalMd,
                   Text(
-                    'Beautiful charts and insights',
+                    'Beautiful snapshots highlight your weekly momentum.',
                     style: AppTextStyles.bodyLarge(isDark: isDark),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
-
-            AppSpacing.verticalXxl,
-
-            // Mock dashboard preview
+            AppSpacing.verticalXl,
             AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
@@ -109,133 +104,11 @@ class _VisualProgressScreenState extends State<VisualProgressScreen>
                   child: child,
                 );
               },
-              child: Container(
-                padding: AppSpacing.paddingAllLg,
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.surfaceDark : Colors.white,
-                  borderRadius: AppBorderRadius.radiusLg,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primaryForestGreen.withValues(alpha: 0.15),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Dashboard header
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryForestGreen.withValues(alpha: 0.1),
-                            borderRadius: AppBorderRadius.radiusSm,
-                          ),
-                          child: const Icon(
-                            Icons.dashboard_rounded,
-                            color: AppColors.primaryForestGreen,
-                            size: 20,
-                          ),
-                        ),
-                        AppSpacing.horizontalSm,
-                        Text(
-                          'Your Dashboard',
-                          style: AppTextStyles.heading6(isDark: isDark),
-                        ),
-                      ],
-                    ),
-
-                    AppSpacing.verticalLg,
-
-                    // Mock stats row
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _MockStatCard(
-                            icon: Icons.trending_up,
-                            value: '87%',
-                            label: 'Progress',
-                            color: AppColors.secondaryLightGreen,
-                            progress: _progressAnimation,
-                          ),
-                        ),
-                        AppSpacing.horizontalMd,
-                        Expanded(
-                          child: _MockStatCard(
-                            icon: Icons.check_circle,
-                            value: '12',
-                            label: 'Goals Met',
-                            color: AppColors.accentGoldenYellow,
-                            progress: _progressAnimation,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    AppSpacing.verticalLg,
-
-                    // Mock chart
-                    _MockChart(progress: _progressAnimation),
-
-                    AppSpacing.verticalMd,
-
-                    // Animated progress bar
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Weekly Goal',
-                          style: AppTextStyles.labelMedium(isDark: isDark),
-                        ),
-                        AppSpacing.verticalXs,
-                        AnimatedBuilder(
-                          animation: _progressAnimation,
-                          builder: (context, child) {
-                            return Stack(
-                              children: [
-                                Container(
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    color: isDark
-                                        ? AppColors.neutral700
-                                        : AppColors.neutral200,
-                                    borderRadius: AppBorderRadius.radiusFull,
-                                  ),
-                                ),
-                                FractionallySizedBox(
-                                  widthFactor: _progressAnimation.value * 0.75,
-                                  child: Container(
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      gradient: AppColors.primaryGradient,
-                                      borderRadius: AppBorderRadius.radiusFull,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        AppSpacing.verticalXxs,
-                        AnimatedBuilder(
-                          animation: _progressAnimation,
-                          builder: (context, child) {
-                            return Text(
-                              '${(_progressAnimation.value * 75).toInt()}% complete',
-                              style: AppTextStyles.caption(isDark: isDark),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              child: _InsightCard(
+                isDark: isDark,
+                progress: _progressAnimation,
               ),
             ),
-
             const Spacer(flex: 2),
           ],
         ),
@@ -244,77 +117,185 @@ class _VisualProgressScreenState extends State<VisualProgressScreen>
   }
 }
 
-class _MockStatCard extends StatelessWidget {
-  const _MockStatCard({
-    required this.icon,
-    required this.value,
-    required this.label,
-    required this.color,
+class _InsightCard extends StatelessWidget {
+  const _InsightCard({
+    required this.isDark,
     required this.progress,
   });
 
-  final IconData icon;
-  final String value;
-  final String label;
-  final Color color;
+  final bool isDark;
   final Animation<double> progress;
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return AnimatedBuilder(
-      animation: progress,
-      builder: (context, child) {
-        return Opacity(
-          opacity: progress.value,
-          child: Transform.scale(
-            scale: 0.8 + (0.2 * progress.value),
-            child: child,
-          ),
-        );
-      },
-      child: Container(
-        padding: AppSpacing.paddingAllMd,
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
-          borderRadius: AppBorderRadius.radiusMd,
-          border: Border.all(
-            color: color.withValues(alpha: 0.3),
-          ),
+    return Container(
+      padding: AppSpacing.paddingAllLg,
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.surfaceDark : Colors.white,
+        borderRadius: AppBorderRadius.radiusLg,
+        border: Border.all(
+          color: isDark ? AppColors.neutral700 : AppColors.neutral200,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: color, size: 24),
-            AppSpacing.verticalXs,
-            Text(
-              value,
-              style: AppTextStyles.heading4(isDark: isDark),
-            ),
-            Text(
-              label,
-              style: AppTextStyles.caption(isDark: isDark),
-            ),
-          ],
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryForestGreen.withValues(alpha: 0.12),
+                  borderRadius: AppBorderRadius.radiusSm,
+                ),
+                child: const Icon(
+                  Icons.insights_rounded,
+                  color: AppColors.primaryForestGreen,
+                ),
+              ),
+              AppSpacing.horizontalSm,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Weekly snapshot',
+                    style: AppTextStyles.heading6(isDark: isDark),
+                  ),
+                  Text(
+                    'Last 7 days',
+                    style: AppTextStyles.caption(isDark: isDark),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          AppSpacing.verticalLg,
+          Row(
+            children: const [
+              Expanded(
+                child: _MetricTile(
+                  label: 'Consistency',
+                  value: '5 of 7',
+                ),
+              ),
+              AppSpacing.horizontalMd,
+              Expanded(
+                child: _MetricTile(
+                  label: 'Focus time',
+                  value: '6h 40m',
+                ),
+              ),
+            ],
+          ),
+          AppSpacing.verticalLg,
+          _MiniChart(progress: progress),
+          AppSpacing.verticalLg,
+          AnimatedBuilder(
+            animation: progress,
+            builder: (context, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Goal completion',
+                    style: AppTextStyles.labelMedium(isDark: isDark),
+                  ),
+                  AppSpacing.verticalXs,
+                  Stack(
+                    children: [
+                      Container(
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? AppColors.neutral700
+                              : AppColors.neutral200,
+                          borderRadius: AppBorderRadius.radiusFull,
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: progress.value * 0.72,
+                        child: Container(
+                          height: 8,
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            borderRadius: AppBorderRadius.radiusFull,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalXxs,
+                  Text(
+                    '${(progress.value * 72).toInt()}% complete',
+                    style: AppTextStyles.caption(isDark: isDark),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
-class _MockChart extends StatelessWidget {
-  const _MockChart({required this.progress});
+class _MetricTile extends StatelessWidget {
+  const _MetricTile({
+    required this.label,
+    required this.value,
+  });
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: AppSpacing.paddingAllMd,
+      decoration: BoxDecoration(
+        color:
+            isDark ? AppColors.neutral800 : AppColors.backgroundWarmOffWhite,
+        borderRadius: AppBorderRadius.radiusMd,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            value,
+            style: AppTextStyles.heading5(isDark: isDark),
+          ),
+          AppSpacing.verticalXxs,
+          Text(
+            label,
+            style: AppTextStyles.caption(isDark: isDark),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MiniChart extends StatelessWidget {
+  const _MiniChart({required this.progress});
 
   final Animation<double> progress;
 
   @override
   Widget build(BuildContext context) {
-
-    final barHeights = [0.6, 0.8, 0.5, 0.9, 0.7, 0.85, 0.95];
+    final barHeights = [0.55, 0.8, 0.6, 0.9, 0.7, 0.85, 0.95];
 
     return SizedBox(
-      height: 80,
+      height: 90,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -323,8 +304,8 @@ class _MockChart extends StatelessWidget {
             animation: progress,
             builder: (context, child) {
               return Container(
-                width: 24,
-                height: 80 * barHeights[index] * progress.value,
+                width: 20,
+                height: 90 * barHeights[index] * progress.value,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,

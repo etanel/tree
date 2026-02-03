@@ -28,14 +28,14 @@ class DashboardScreen extends ConsumerWidget {
     }
   }
 
-  String _getGreetingEmoji() {
+  IconData _getGreetingIcon() {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return '🌅';
+      return Icons.wb_sunny_rounded;
     } else if (hour < 17) {
-      return '☀️';
+      return Icons.light_mode_rounded;
     } else {
-      return '🌙';
+      return Icons.nightlight_round;
     }
   }
 
@@ -50,27 +50,21 @@ class DashboardScreen extends ConsumerWidget {
     final todayDate = dateFormat.format(DateTime.now());
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: isDark
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark,
+      value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: isDark
-            ? AppColors.backgroundDark
-            : AppColors.backgroundWarmOffWhite,
+        backgroundColor:
+            isDark ? AppColors.backgroundDark : AppColors.backgroundWarmOffWhite,
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // Custom App Bar
             SliverToBoxAdapter(
               child: _CustomAppBar(
                 greeting: _getGreeting(),
-                emoji: _getGreetingEmoji(),
+                icon: _getGreetingIcon(),
                 userName: userName,
                 date: todayDate,
               ),
             ),
-
-            // Tree Hero Section
             SliverToBoxAdapter(
               child: TreeHeroSection(
                 progress: dashboardState.overallProgress,
@@ -78,8 +72,6 @@ class DashboardScreen extends ConsumerWidget {
                 levelTitle: dashboardState.levelTitle,
               ),
             ),
-
-            // Quick Stats
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -99,18 +91,12 @@ class DashboardScreen extends ConsumerWidget {
                 ),
               ),
             ),
-
-            // Section spacing
             const SliverToBoxAdapter(
               child: AppSpacing.verticalLg,
             ),
-
-            // Today's Overview
             const SliverToBoxAdapter(
               child: TodaysOverview(),
             ),
-
-            // Bottom safe area
             SliverToBoxAdapter(
               child: SizedBox(
                 height: MediaQuery.of(context).padding.bottom + 16,
@@ -126,13 +112,13 @@ class DashboardScreen extends ConsumerWidget {
 class _CustomAppBar extends StatelessWidget {
   const _CustomAppBar({
     required this.greeting,
-    required this.emoji,
+    required this.icon,
     required this.userName,
     required this.date,
   });
 
   final String greeting;
-  final String emoji;
+  final IconData icon;
   final String userName;
   final String date;
 
@@ -151,14 +137,40 @@ class _CustomAppBar extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Greeting section
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '$greeting, $userName $emoji',
-                  style: AppTextStyles.heading4(isDark: isDark),
+                Row(
+                  children: [
+                    Text(
+                      '$greeting, $userName',
+                      style: AppTextStyles.heading4(isDark: isDark),
+                    ),
+                    AppSpacing.horizontalXs,
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.surfaceDark
+                            : AppColors.backgroundWarmOffWhite,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isDark
+                              ? AppColors.neutral700
+                              : AppColors.neutral200,
+                        ),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 16,
+                        color: isDark
+                            ? AppColors.secondaryLightGreen
+                            : AppColors.primaryForestGreen,
+                      ),
+                    ),
+                  ],
                 ),
                 AppSpacing.verticalXxs,
                 Text(
@@ -172,12 +184,8 @@ class _CustomAppBar extends StatelessWidget {
               ],
             ),
           ),
-
-          // Profile avatar
           GestureDetector(
-            onTap: () {
-              // Navigate to profile
-            },
+            onTap: () {},
             child: Container(
               width: 48,
               height: 48,

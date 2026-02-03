@@ -208,7 +208,7 @@ class TreeHeroSection extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Tree placeholder
+                // Tree centerpiece
                 Container(
                   width: 100,
                   height: 100,
@@ -222,9 +222,10 @@ class TreeHeroSection extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: const Center(
-                    child: Text(
-                      '🌳',
-                      style: TextStyle(fontSize: 56),
+                    child: Icon(
+                      Icons.park_rounded,
+                      color: AppColors.primaryForestGreen,
+                      size: 54,
                     ),
                   ),
                 ),
@@ -261,7 +262,11 @@ class TreeHeroSection extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('🌱', style: TextStyle(fontSize: 16)),
+                const Icon(
+                  Icons.local_florist_rounded,
+                  color: AppColors.primaryForestGreen,
+                  size: 16,
+                ),
                 AppSpacing.horizontalXs,
                 Text(
                   'Level $level $levelTitle',

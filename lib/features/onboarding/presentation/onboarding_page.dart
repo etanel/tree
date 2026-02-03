@@ -106,6 +106,40 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             ],
           ),
 
+          // Step indicator
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8,
+            left: 16,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: currentPage == 0
+                    ? Colors.white.withValues(alpha: 0.2)
+                    : (isDark
+                        ? AppColors.surfaceDark.withValues(alpha: 0.9)
+                        : Colors.white),
+                borderRadius: AppBorderRadius.radiusFull,
+                border: Border.all(
+                  color: currentPage == 0
+                      ? Colors.white.withValues(alpha: 0.3)
+                      : (isDark
+                          ? AppColors.neutral700
+                          : AppColors.neutral200),
+                ),
+              ),
+              child: Text(
+                'Step ${currentPage + 1} of 4',
+                style: AppTextStyles.labelSmall(
+                  color: currentPage == 0
+                      ? Colors.white
+                      : (isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight),
+                ),
+              ),
+            ),
+          ),
+
           // Skip button (screens 0-2)
           if (currentPage < 3)
             Positioned(
@@ -146,47 +180,56 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 bottom: MediaQuery.of(context).padding.bottom + AppSpacing.lg,
               ),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    (isDark
-                            ? AppColors.backgroundDark
-                            : AppColors.backgroundWarmOffWhite)
-                        .withValues(alpha: 0.0),
-                    isDark
-                        ? AppColors.backgroundDark
-                        : AppColors.backgroundWarmOffWhite,
-                  ],
-                  stops: const [0.0, 0.3],
-                ),
+                color: isDark ? AppColors.surfaceDark : Colors.white,
+                borderRadius: AppBorderRadius.radiusTopXl,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
+                    blurRadius: 16,
+                    offset: const Offset(0, -6),
+                  ),
+                ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Page indicator dots
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) {
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        width: currentPage == index ? 24 : 8,
-                        height: 8,
+                    children: [
+                      Text(
+                        'Progress',
+                        style: AppTextStyles.labelMedium(isDark: isDark),
+                      ),
+                      const Spacer(),
+                      Text(
+                        '${currentPage + 1}/4',
+                        style: AppTextStyles.labelMedium(isDark: isDark),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSm,
+                  Stack(
+                    children: [
+                      Container(
+                        height: 6,
                         decoration: BoxDecoration(
-                          color: currentPage == index
-                              ? (isDark
-                                  ? AppColors.secondaryLightGreen
-                                  : AppColors.primaryForestGreen)
-                              : (isDark
-                                  ? AppColors.neutral600
-                                  : AppColors.neutral300),
+                          color: isDark
+                              ? AppColors.neutral700
+                              : AppColors.neutral200,
                           borderRadius: AppBorderRadius.radiusFull,
                         ),
-                      );
-                    }),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: (currentPage + 1) / 4,
+                        child: Container(
+                          height: 6,
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            borderRadius: AppBorderRadius.radiusFull,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
                   AppSpacing.verticalLg,
 
                   // Action button

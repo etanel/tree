@@ -13,15 +13,15 @@ class OnboardingStorageKeys {
 
 /// Available focus areas for onboarding selection
 enum FocusArea {
-  finance('Finance', '💰'),
-  productivity('Productivity', '📊'),
-  health('Health', '💪'),
-  learning('Learning', '📚'),
-  projects('Projects', '🎯');
+  finance('Finance', Icons.attach_money_rounded),
+  productivity('Productivity', Icons.auto_graph_rounded),
+  health('Health', Icons.fitness_center_rounded),
+  learning('Learning', Icons.menu_book_rounded),
+  projects('Projects', Icons.emoji_objects_rounded);
 
-  const FocusArea(this.label, this.emoji);
+  const FocusArea(this.label, this.icon);
   final String label;
-  final String emoji;
+  final IconData icon;
 
   /// Convert to string for storage
   String toStorageString() => name;
@@ -107,11 +107,12 @@ class OnboardingNotifier extends Notifier<OnboardingState> {
   Future<void> _loadFromStorage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
-      final isComplete = prefs.getBool(OnboardingStorageKeys.isOnboardingComplete) ?? false;
+
+      final isComplete =
+          prefs.getBool(OnboardingStorageKeys.isOnboardingComplete) ?? false;
       final savedName = prefs.getString(OnboardingStorageKeys.userName) ?? '';
       final savedAreasJson = prefs.getString(OnboardingStorageKeys.focusAreas);
-      
+
       Set<FocusArea> savedAreas = {};
       if (savedAreasJson != null) {
         final List<dynamic> areasList = jsonDecode(savedAreasJson);
@@ -137,18 +138,20 @@ class OnboardingNotifier extends Notifier<OnboardingState> {
   Future<void> _saveToStorage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
+
       await prefs.setBool(
-        OnboardingStorageKeys.isOnboardingComplete, 
+        OnboardingStorageKeys.isOnboardingComplete,
         state.isCompleted,
       );
       await prefs.setString(
-        OnboardingStorageKeys.userName, 
+        OnboardingStorageKeys.userName,
         state.userName,
       );
       await prefs.setString(
         OnboardingStorageKeys.focusAreas,
-        jsonEncode(state.selectedFocusAreas.map((e) => e.toStorageString()).toList()),
+        jsonEncode(
+          state.selectedFocusAreas.map((e) => e.toStorageString()).toList(),
+        ),
       );
     } catch (e) {
       debugPrint('Error saving onboarding state: $e');

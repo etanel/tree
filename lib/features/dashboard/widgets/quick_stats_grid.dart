@@ -8,19 +8,19 @@ import '../../../core/theme/app_text_styles.dart';
 /// Quick stat card data
 class QuickStatData {
   const QuickStatData({
-    required this.emoji,
+    required this.icon,
     required this.label,
     required this.value,
-    required this.gradient,
-    this.subtitle,
+    required this.accentColor,
+    this.helper,
     this.onTap,
   });
 
-  final String emoji;
+  final IconData icon;
   final String label;
   final String value;
-  final LinearGradient gradient;
-  final String? subtitle;
+  final Color accentColor;
+  final String? helper;
   final VoidCallback? onTap;
 }
 
@@ -48,13 +48,13 @@ class _QuickStatsGridState extends State<QuickStatsGrid>
     _controllers = List.generate(
       widget.stats.length,
       (index) => AnimationController(
-        duration: const Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 550),
         vsync: this,
       ),
     );
 
     _animations = _controllers.map((controller) {
-      return Tween<double>(begin: 0.0, end: 1.0).animate(
+      return Tween<double>(begin: 0.92, end: 1.0).animate(
         CurvedAnimation(parent: controller, curve: Curves.easeOutBack),
       );
     }).toList();
@@ -64,7 +64,7 @@ class _QuickStatsGridState extends State<QuickStatsGrid>
 
   void _startAnimations() async {
     for (int i = 0; i < _controllers.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 90));
       if (mounted) {
         _controllers[i].forward();
       }
@@ -89,7 +89,7 @@ class _QuickStatsGridState extends State<QuickStatsGrid>
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        childAspectRatio: 1.5,
+        childAspectRatio: 1.6,
       ),
       itemCount: widget.stats.length,
       itemBuilder: (context, index) {
@@ -118,7 +118,9 @@ class _QuickStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final surfaceColor = isDark ? AppColors.surfaceDark : Colors.white;
+    final borderColor = data.accentColor.withValues(alpha: isDark ? 0.3 : 0.22);
 
     return Material(
       color: Colors.transparent,
@@ -128,11 +130,12 @@ class _QuickStatCard extends StatelessWidget {
         child: Container(
           padding: AppSpacing.paddingAllMd,
           decoration: BoxDecoration(
-            gradient: data.gradient,
+            color: surfaceColor,
             borderRadius: AppBorderRadius.radiusMd,
+            border: Border.all(color: borderColor, width: 1.2),
             boxShadow: [
               BoxShadow(
-                color: data.gradient.colors.first.withValues(alpha: 0.4),
+                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.06),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
@@ -143,24 +146,38 @@ class _QuickStatCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    data.emoji,
-                    style: const TextStyle(fontSize: 24),
-                  ),
                   Container(
-                    padding: const EdgeInsets.all(4),
+                    width: 36,
+                    height: 36,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(6),
+                      color: data.accentColor.withValues(alpha: 0.16),
+                      borderRadius: AppBorderRadius.radiusSm,
                     ),
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12,
-                      color: Colors.white,
+                    child: Icon(
+                      data.icon,
+                      color: data.accentColor,
+                      size: 20,
                     ),
                   ),
+                  const Spacer(),
+                  if (data.helper != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: data.accentColor.withValues(alpha: 0.12),
+                        borderRadius: AppBorderRadius.radiusFull,
+                      ),
+                      child: Text(
+                        data.helper!,
+                        style: AppTextStyles.labelSmall(isDark: isDark).copyWith(
+                          color: data.accentColor,
+                        ),
+                      ),
+                    ),
                 ],
               ),
               Column(
@@ -168,11 +185,11 @@ class _QuickStatCard extends StatelessWidget {
                 children: [
                   Text(
                     data.value,
-                    style: AppTextStyles.heading5(color: Colors.white),
+                    style: AppTextStyles.heading5(isDark: isDark),
                   ),
                   Text(
                     data.label,
-                    style: AppTextStyles.caption(color: Colors.white.withValues(alpha: 0.9)),
+                    style: AppTextStyles.caption(isDark: isDark),
                   ),
                 ],
               ),
@@ -188,56 +205,45 @@ class _QuickStatCard extends StatelessWidget {
 class QuickStats {
   static QuickStatData streak(int days, {VoidCallback? onTap}) {
     return QuickStatData(
-      emoji: '🔥',
+      icon: Icons.local_fire_department_rounded,
       label: 'Daily Streak',
       value: '$days days',
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFFFF6B35), Color(0xFFFF8E53)],
-      ),
+      helper: 'This week',
+      accentColor: const Color(0xFFFF8A50),
       onTap: onTap,
     );
   }
 
   static QuickStatData tasks(int completed, int total, {VoidCallback? onTap}) {
     return QuickStatData(
-      emoji: '✅',
+      icon: Icons.check_circle_rounded,
       label: 'Tasks Done',
       value: '$completed/$total',
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [AppColors.primaryForestGreen, AppColors.secondaryLightGreen],
-      ),
+      helper: 'Today',
+      accentColor: AppColors.primaryForestGreen,
       onTap: onTap,
     );
   }
 
-  static QuickStatData savings(double current, double goal, {VoidCallback? onTap}) {
+  static QuickStatData savings(double current, double goal,
+      {VoidCallback? onTap}) {
     return QuickStatData(
-      emoji: '💰',
+      icon: Icons.savings_rounded,
       label: 'Savings Goal',
       value: '\$${current.toInt()}/\$${goal.toInt()}',
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFFFFA726), Color(0xFFFFCC02)],
-      ),
+      helper: 'Monthly',
+      accentColor: const Color(0xFFFFA726),
       onTap: onTap,
     );
   }
 
   static QuickStatData projects(int count, {VoidCallback? onTap}) {
     return QuickStatData(
-      emoji: '📊',
+      icon: Icons.track_changes_rounded,
       label: 'Active Projects',
       value: '$count',
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFF5C6BC0), Color(0xFF7986CB)],
-      ),
+      helper: 'In flight',
+      accentColor: const Color(0xFF5C6BC0),
       onTap: onTap,
     );
   }

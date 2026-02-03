@@ -20,7 +20,6 @@ class TodaysOverview extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header
         Padding(
           padding: AppSpacing.paddingHorizontalMd,
           child: Text(
@@ -28,25 +27,18 @@ class TodaysOverview extends ConsumerWidget {
             style: AppTextStyles.heading5(isDark: isDark),
           ),
         ),
-
         AppSpacing.verticalMd,
-
-        // Tab bar
         _TabBar(
           selectedTab: selectedTab,
           onTabSelected: (tab) {
             ref.read(dashboardProvider.notifier).selectTab(tab);
           },
         ),
-
         AppSpacing.verticalMd,
-
-        // Items list
         if (items.isEmpty)
           _EmptyState(selectedTab: selectedTab)
         else
           ...items.map((item) => _TodayItemCard(item: item)),
-
         AppSpacing.verticalXl,
       ],
     );
@@ -74,51 +66,32 @@ class _TabBar extends StatelessWidget {
           final isSelected = tab == selectedTab;
           return Padding(
             padding: const EdgeInsets.only(right: 8),
-            child: GestureDetector(
-              onTap: () => onTabSelected(tab),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
+            child: ChoiceChip(
+              label: Text(tab.label),
+              selected: isSelected,
+              onSelected: (_) => onTabSelected(tab),
+              selectedColor: isDark
+                  ? AppColors.secondaryLightGreen
+                  : AppColors.primaryForestGreen,
+              backgroundColor:
+                  isDark ? AppColors.surfaceDark : Colors.white,
+              shape: StadiumBorder(
+                side: BorderSide(
                   color: isSelected
-                      ? (isDark
-                          ? AppColors.secondaryLightGreen
-                          : AppColors.primaryForestGreen)
+                      ? Colors.transparent
                       : (isDark
-                          ? AppColors.surfaceDark
-                          : Colors.white),
-                  borderRadius: AppBorderRadius.radiusFull,
-                  border: Border.all(
-                    color: isSelected
-                        ? Colors.transparent
-                        : (isDark
-                            ? AppColors.neutral600
-                            : AppColors.neutral200),
-                  ),
-                  boxShadow: isSelected
-                      ? [
-                          BoxShadow(
-                            color: AppColors.primaryForestGreen.withValues(alpha: 0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ]
-                      : null,
-                ),
-                child: Text(
-                  tab.label,
-                  style: AppTextStyles.labelLarge(isDark: isDark).copyWith(
-                    color: isSelected
-                        ? Colors.white
-                        : (isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight),
-                  ),
+                          ? AppColors.neutral600
+                          : AppColors.neutral200),
                 ),
               ),
+              labelStyle: AppTextStyles.labelLarge(isDark: isDark).copyWith(
+                color: isSelected
+                    ? Colors.white
+                    : (isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             ),
           );
         }).toList(),
@@ -142,11 +115,14 @@ class _TodayItemCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : Colors.white,
         borderRadius: AppBorderRadius.radiusMd,
+        border: Border.all(
+          color: isDark ? AppColors.neutral700 : AppColors.neutral200,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -159,7 +135,6 @@ class _TodayItemCard extends StatelessWidget {
             padding: AppSpacing.paddingAllMd,
             child: Row(
               children: [
-                // Icon container
                 Container(
                   width: 48,
                   height: 48,
@@ -167,17 +142,13 @@ class _TodayItemCard extends StatelessWidget {
                     color: itemColor.withValues(alpha: 0.15),
                     borderRadius: AppBorderRadius.radiusSm,
                   ),
-                  child: Center(
-                    child: Text(
-                      item.icon,
-                      style: const TextStyle(fontSize: 24),
-                    ),
+                  child: Icon(
+                    item.icon,
+                    color: itemColor,
+                    size: 24,
                   ),
                 ),
-
                 AppSpacing.horizontalMd,
-
-                // Content
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,8 +175,6 @@ class _TodayItemCard extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                // Time and status
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -222,9 +191,8 @@ class _TodayItemCard extends StatelessWidget {
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: item.isCompleted
-                            ? AppColors.success
-                            : Colors.transparent,
+                        color:
+                            item.isCompleted ? AppColors.success : Colors.transparent,
                         border: Border.all(
                           color: item.isCompleted
                               ? AppColors.success
@@ -268,25 +236,39 @@ class _EmptyState extends StatelessWidget {
       padding: AppSpacing.paddingAllXl,
       decoration: BoxDecoration(
         color: isDark
-            ? AppColors.surfaceDark.withValues(alpha: 0.5)
+            ? AppColors.surfaceDark.withValues(alpha: 0.6)
             : AppColors.neutral100,
         borderRadius: AppBorderRadius.radiusMd,
+        border: Border.all(
+          color: isDark ? AppColors.neutral700 : AppColors.neutral200,
+        ),
       ),
       child: Column(
         children: [
-          Text(
-            '🌿',
-            style: const TextStyle(fontSize: 40),
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: AppColors.primaryForestGreen.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.inbox_rounded,
+              color: AppColors.primaryForestGreen,
+              size: 28,
+            ),
           ),
           AppSpacing.verticalMd,
           Text(
             'No ${selectedTab.label.toLowerCase()} items today',
             style: AppTextStyles.bodyMedium(isDark: isDark),
+            textAlign: TextAlign.center,
           ),
           AppSpacing.verticalXs,
           Text(
-            'Add some tasks to grow your tree!',
+            'Add a few tasks to keep your tree growing.',
             style: AppTextStyles.caption(isDark: isDark),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

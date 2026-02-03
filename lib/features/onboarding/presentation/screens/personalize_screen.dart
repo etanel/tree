@@ -5,7 +5,6 @@ import '../../../../core/theme/app_border_radius.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-
 import '../../providers/onboarding_provider.dart';
 
 /// Screen 4: Personalize screen with name input and focus area selection
@@ -26,7 +25,9 @@ class _PersonalizeScreenState extends ConsumerState<PersonalizeScreen>
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
+    _nameController = TextEditingController(
+      text: ref.read(onboardingProvider).userName,
+    );
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -39,15 +40,17 @@ class _PersonalizeScreenState extends ConsumerState<PersonalizeScreen>
       ),
     );
 
-    // Create staggered animations for chips
     _chipAnimations = List.generate(FocusArea.values.length, (index) {
       final start = 0.2 + (index * 0.1);
       final end = start + 0.3;
       return Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _controller,
-          curve: Interval(start.clamp(0.0, 1.0), end.clamp(0.0, 1.0), 
-              curve: Curves.elasticOut),
+          curve: Interval(
+            start.clamp(0.0, 1.0),
+            end.clamp(0.0, 1.0),
+            curve: Curves.easeOutBack,
+          ),
         ),
       );
     });
@@ -75,8 +78,6 @@ class _PersonalizeScreenState extends ConsumerState<PersonalizeScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Spacer(flex: 1),
-
-            // Name input section
             AnimatedBuilder(
               animation: _fadeAnimation,
               builder: (context, child) {
@@ -89,25 +90,30 @@ class _PersonalizeScreenState extends ConsumerState<PersonalizeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "What's your name?",
+                    'Tell us about you',
                     style: AppTextStyles.heading3(isDark: isDark),
                   ),
+                  AppSpacing.verticalXs,
+                  Text(
+                    'This helps tailor your dashboard and insights.',
+                    style: AppTextStyles.bodySmall(isDark: isDark),
+                  ),
                   AppSpacing.verticalLg,
+                  Text(
+                    'Your name',
+                    style: AppTextStyles.labelMedium(isDark: isDark),
+                  ),
+                  AppSpacing.verticalXs,
                   _CustomTextField(
                     controller: _nameController,
                     hintText: 'Enter your name',
                     prefixIcon: Icons.person_outline,
-                    onChanged: (value) {
-                      onboardingNotifier.setUserName(value);
-                    },
+                    onChanged: onboardingNotifier.setUserName,
                   ),
                 ],
               ),
             ),
-
-            AppSpacing.verticalXxl,
-
-            // Focus areas section
+            AppSpacing.verticalXl,
             AnimatedBuilder(
               animation: _fadeAnimation,
               builder: (context, child) {
@@ -117,39 +123,45 @@ class _PersonalizeScreenState extends ConsumerState<PersonalizeScreen>
                 );
               },
               child: Text(
-                'What areas do you want\nto focus on?',
+                'Choose your focus areas',
                 style: AppTextStyles.heading4(isDark: isDark),
               ),
             ),
+            AppSpacing.verticalSm,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: List.generate(FocusArea.values.length, (index) {
+                    final area = FocusArea.values[index];
+                    final isSelected =
+                        onboardingState.selectedFocusAreas.contains(area);
 
-            AppSpacing.verticalLg,
-
-            // Focus area chips
-            Wrap(
-              spacing: AppSpacing.sm,
-              runSpacing: AppSpacing.sm,
-              children: List.generate(FocusArea.values.length, (index) {
-                final area = FocusArea.values[index];
-                final isSelected = onboardingState.selectedFocusAreas.contains(area);
-
-                return AnimatedBuilder(
-                  animation: _chipAnimations[index],
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _chipAnimations[index].value,
-                      child: child,
+                    return AnimatedBuilder(
+                      animation: _chipAnimations[index],
+                      builder: (context, child) {
+                        return Transform.scale(
+                          scale: _chipAnimations[index].value,
+                          child: child,
+                        );
+                      },
+                      child: _FocusAreaChip(
+                        area: area,
+                        isSelected: isSelected,
+                        onTap: () => onboardingNotifier.toggleFocusArea(area),
+                      ),
                     );
-                  },
-                  child: _FocusAreaChip(
-                    area: area,
-                    isSelected: isSelected,
-                    onTap: () => onboardingNotifier.toggleFocusArea(area),
-                  ),
-                );
-              }),
+                  }),
+                ),
+              ),
             ),
-
-            const Spacer(flex: 2),
+            AppSpacing.verticalSm,
+            Text(
+              'You can change this later in settings.',
+              style: AppTextStyles.caption(isDark: isDark),
+            ),
+            const Spacer(flex: 1),
           ],
         ),
       ),
@@ -180,7 +192,7 @@ class _CustomTextField extends StatelessWidget {
         borderRadius: AppBorderRadius.radiusMd,
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryForestGreen.withValues(alpha: 0.1),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -189,6 +201,8 @@ class _CustomTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        textInputAction: TextInputAction.done,
+        textCapitalization: TextCapitalization.words,
         style: AppTextStyles.bodyLarge(isDark: isDark),
         decoration: InputDecoration(
           hintText: hintText,
@@ -258,14 +272,14 @@ class _FocusAreaChip extends StatelessWidget {
             color: isSelected
                 ? Colors.transparent
                 : (isDark ? AppColors.neutral600 : AppColors.neutral300),
-            width: 1.5,
+            width: 1.2,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primaryForestGreen.withValues(alpha: 0.3),
+                    color: AppColors.primaryForestGreen.withValues(alpha: 0.25),
                     blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    offset: const Offset(0, 3),
                   ),
                 ]
               : null,
@@ -273,9 +287,14 @@ class _FocusAreaChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              area.emoji,
-              style: const TextStyle(fontSize: 18),
+            Icon(
+              area.icon,
+              size: 18,
+              color: isSelected
+                  ? Colors.white
+                  : (isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight),
             ),
             AppSpacing.horizontalXs,
             Text(

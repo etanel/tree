@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Dashboard tab options
@@ -112,7 +113,7 @@ class TodayItem {
   final String id;
   final String title;
   final String subtitle;
-  final String icon;
+  final IconData icon;
   final int color;
   final DashboardTab category;
   final bool isCompleted;
@@ -125,8 +126,8 @@ final todayItemsProvider = Provider<List<TodayItem>>((ref) {
     TodayItem(
       id: '1',
       title: 'Morning meditation',
-      subtitle: '15 minutes • Wellness routine',
-      icon: '🧘',
+      subtitle: '15 minutes - Wellness routine',
+      icon: Icons.self_improvement_rounded,
       color: 0xFF7CB342,
       category: DashboardTab.wellness,
       isCompleted: true,
@@ -136,7 +137,7 @@ final todayItemsProvider = Provider<List<TodayItem>>((ref) {
       id: '2',
       title: 'Review budget report',
       subtitle: 'Monthly finance check',
-      icon: '💰',
+      icon: Icons.attach_money_rounded,
       color: 0xFFFFC107,
       category: DashboardTab.finance,
       isCompleted: true,
@@ -146,7 +147,7 @@ final todayItemsProvider = Provider<List<TodayItem>>((ref) {
       id: '3',
       title: 'Tree App milestone',
       subtitle: 'Complete dashboard design',
-      icon: '📊',
+      icon: Icons.track_changes_rounded,
       color: 0xFF2D5016,
       category: DashboardTab.projects,
       isCompleted: false,
@@ -156,7 +157,7 @@ final todayItemsProvider = Provider<List<TodayItem>>((ref) {
       id: '4',
       title: 'Gym session',
       subtitle: 'Upper body workout',
-      icon: '💪',
+      icon: Icons.fitness_center_rounded,
       color: 0xFFE53935,
       category: DashboardTab.wellness,
       isCompleted: false,
@@ -166,7 +167,7 @@ final todayItemsProvider = Provider<List<TodayItem>>((ref) {
       id: '5',
       title: 'Transfer to savings',
       subtitle: '\$100 automatic transfer',
-      icon: '🏦',
+      icon: Icons.savings_rounded,
       color: 0xFF1976D2,
       category: DashboardTab.finance,
       isCompleted: false,
