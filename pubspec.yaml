@@ -42,7 +42,7 @@ dependencies:
   go_router: ^17.0.1
 
   # Typography
-  google_fonts: ^8.0.0
+  google_fonts: ^8.0.1
 
   # SVG support
   flutter_svg: ^2.0.10+1
