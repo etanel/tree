@@ -69,8 +69,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '267621253497',
     projectId: 'budget-app-flutter',
     storageBucket: 'budget-app-flutter.appspot.com',
-    androidClientId: '267621253497-0h976snjlf34gs8m75bh8nik8gcvr2mk.apps.googleusercontent.com',
-    iosClientId: '267621253497-ih94g1srq37gun4mdmvadgl3ev588vpf.apps.googleusercontent.com',
+    androidClientId:
+        '267621253497-0h976snjlf34gs8m75bh8nik8gcvr2mk.apps.googleusercontent.com',
+    iosClientId:
+        '267621253497-ih94g1srq37gun4mdmvadgl3ev588vpf.apps.googleusercontent.com',
     iosBundleId: 'com.budget.tracker-app',
   );
 }

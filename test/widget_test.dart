@@ -14,7 +14,8 @@ void main() {
         MaterialApp(
           title: 'Cashew',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF5f85c2)),
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFF5f85c2)),
             useMaterial3: true,
           ),
           home: const Scaffold(
@@ -31,7 +32,8 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('Basic navigation structure renders', (WidgetTester tester) async {
+    testWidgets('Basic navigation structure renders',
+        (WidgetTester tester) async {
       // Test a simplified version of the app's navigation structure
       await tester.pumpWidget(
         MaterialApp(
@@ -88,7 +90,7 @@ void main() {
       // Verify FAB is present and tappable
       expect(find.byType(FloatingActionButton), findsOneWidget);
       expect(find.byIcon(Icons.add), findsOneWidget);
-      
+
       // Tap the FAB
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pump();
@@ -97,7 +99,7 @@ void main() {
     testWidgets('Theme colors are applied', (WidgetTester tester) async {
       // Test that theme is properly applied
       const primaryColor = Color(0xFF5f85c2);
-      
+
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData(
