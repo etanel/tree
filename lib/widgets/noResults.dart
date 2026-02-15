@@ -1,7 +1,7 @@
-import 'package:budget/colors.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 class NoResults extends StatelessWidget {

@@ -1,7 +1,7 @@
-import 'package:budget/colors.dart';
-import 'package:budget/widgets/navigationSidebar.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/util/debouncer.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/widgets/navigationSidebar.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/util/debouncer.dart';
 import 'package:flutter/material.dart';
 
 class GlobalLoadingProgress extends StatefulWidget {

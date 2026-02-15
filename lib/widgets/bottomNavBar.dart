@@ -1,23 +1,23 @@
 import 'dart:math';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/editBudgetPage.dart';
-import 'package:budget/pages/editHomePage.dart';
-import 'package:budget/pages/editObjectivesPage.dart';
-import 'package:budget/pages/subscriptionsPage.dart';
-import 'package:budget/pages/transactionsListPage.dart';
-import 'package:budget/pages/upcomingOverdueTransactionsPage.dart';
-import 'package:budget/struct/navBarIconsData.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
-import 'package:budget/widgets/navigationFramework.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/outlinedButtonStacked.dart';
-import 'package:budget/widgets/framework/navigation_bar/navigation_bar.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/editBudgetPage.dart';
+import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/editObjectivesPage.dart';
+import 'package:tree/pages/subscriptionsPage.dart';
+import 'package:tree/pages/transactionsListPage.dart';
+import 'package:tree/pages/upcomingOverdueTransactionsPage.dart';
+import 'package:tree/struct/navBarIconsData.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/navigationFramework.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/outlinedButtonStacked.dart';
+import 'package:tree/widgets/framework/navigation_bar/navigation_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart'
     hide NavigationDestination, NavigationBar;
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:flutter/services.dart';
 
 class BottomNavBar extends StatefulWidget {

@@ -1,15 +1,15 @@
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/navigationSidebar.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/navigationSidebar.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
-import 'package:budget/widgets/util/multiDirectionalInfiniteScroll.dart';
-import 'package:budget/pages/transactionFilters.dart';
-import 'package:budget/database/tables.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/widgets/util/multiDirectionalInfiniteScroll.dart';
+import 'package:tree/pages/transactionFilters.dart';
+import 'package:tree/database/tables.dart';
 
 class MonthSelector extends StatefulWidget {
   const MonthSelector({

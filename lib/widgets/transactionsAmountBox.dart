@@ -1,13 +1,13 @@
-import 'package:budget/colors.dart';
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/upcomingOverdueTransactionsPage.dart';
-import 'package:budget/widgets/openContainerNavigation.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/upcomingOverdueTransactionsPage.dart';
+import 'package:tree/widgets/openContainerNavigation.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/widgets/countNumber.dart';
+import 'package:tree/widgets/countNumber.dart';
 import 'package:provider/provider.dart';
 
 // If you just added an upcoming transaction and mark it as paid, it will not show up here

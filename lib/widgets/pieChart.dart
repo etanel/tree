@@ -1,12 +1,12 @@
-import 'package:budget/colors.dart';
-import 'package:budget/database/tables.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/widgets/categoryIcon.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/navigationSidebar.dart';
-import 'package:budget/widgets/pinWheelReveal.dart';
-import 'package:budget/widgets/textWidgets.dart';
-import 'package:budget/functions.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/widgets/categoryIcon.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/navigationSidebar.dart';
+import 'package:tree/widgets/pinWheelReveal.dart';
+import 'package:tree/widgets/textWidgets.dart';
+import 'package:tree/functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 

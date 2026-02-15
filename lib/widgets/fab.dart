@@ -1,11 +1,11 @@
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
-import 'package:budget/widgets/navigationFramework.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/openContainerNavigation.dart';
-import 'package:budget/widgets/outlinedButtonStacked.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/navigationFramework.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/openContainerNavigation.dart';
+import 'package:tree/widgets/outlinedButtonStacked.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 class AddFAB extends StatelessWidget {

@@ -1,14 +1,14 @@
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/objectivesListPage.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/categoryIcon.dart';
-import 'package:budget/widgets/textWidgets.dart';
-import 'package:budget/widgets/util/infiniteRotationAnimation.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/objectivesListPage.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/categoryIcon.dart';
+import 'package:tree/widgets/textWidgets.dart';
+import 'package:tree/widgets/util/infiniteRotationAnimation.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:provider/provider.dart';
 
 class TransactionEntryTag extends StatelessWidget {

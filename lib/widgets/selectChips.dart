@@ -1,15 +1,15 @@
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/linearGradientFadedEdges.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/linearGradientFadedEdges.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import 'package:budget/pages/addButton.dart';
+import 'package:tree/pages/addButton.dart';
 import 'util/widgetSize.dart';
 
 class SelectChips<T> extends StatefulWidget {

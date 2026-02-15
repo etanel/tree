@@ -1,4 +1,4 @@
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:flutter/material.dart';
 
 class TableEntry extends StatelessWidget {

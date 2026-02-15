@@ -1,7 +1,7 @@
-import 'package:budget/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
 import 'package:flutter/material.dart'
     hide SliverReorderableList, ReorderCallback, ReorderItemProxyDecorator;
-import 'package:budget/modified/reorderable_list.dart';
+import 'package:tree/modified/reorderable_list.dart';
 import 'dart:async';
 // Still in development and testing...
 // This widget animates the size of a re-orderable sliver list when something is deleted

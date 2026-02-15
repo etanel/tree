@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/dropdownSelect.dart';
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/openPopup.dart';
-import 'package:budget/widgets/settingsContainers.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/dropdownSelect.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/openPopup.dart';
+import 'package:tree/widgets/settingsContainers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

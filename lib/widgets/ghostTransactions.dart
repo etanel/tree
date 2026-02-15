@@ -1,8 +1,8 @@
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
-import 'package:budget/struct/randomConstants.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/struct/randomConstants.dart';
 
 class GhostTransactionsList extends StatelessWidget {
   const GhostTransactionsList({

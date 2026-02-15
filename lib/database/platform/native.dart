@@ -1,6 +1,6 @@
 // native.dart
-import 'package:budget/database/tables.dart';
-import 'package:budget/struct/databaseGlobal.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/struct/databaseGlobal.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;

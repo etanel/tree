@@ -1,8 +1,8 @@
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 class TransactionLabel extends StatelessWidget {

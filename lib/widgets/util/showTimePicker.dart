@@ -1,9 +1,9 @@
-import 'package:budget/colors.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/struct/dateTimePickerLocalizationsDelegate.dart';
-import 'package:budget/widgets/textInput.dart';
-import 'package:budget/widgets/timeDigits.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/struct/dateTimePickerLocalizationsDelegate.dart';
+import 'package:tree/widgets/textInput.dart';
+import 'package:tree/widgets/timeDigits.dart';
 import 'package:flutter/material.dart';
 
 Future<TimeOfDay?> showCustomTimePicker(

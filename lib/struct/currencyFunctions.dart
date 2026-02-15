@@ -1,6 +1,6 @@
-import 'package:budget/struct/settings.dart';
+import 'package:tree/struct/settings.dart';
 import 'dart:convert';
-import 'package:budget/database/tables.dart';
+import 'package:tree/database/tables.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 

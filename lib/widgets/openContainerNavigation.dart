@@ -1,6 +1,6 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/defaultPreferences.dart';
-import 'package:budget/struct/settings.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/defaultPreferences.dart';
+import 'package:tree/struct/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 

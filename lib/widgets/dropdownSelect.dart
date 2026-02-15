@@ -1,10 +1,10 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/breathingAnimation.dart';
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/breathingAnimation.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:flutter/services.dart';
 
 class DropdownSelect extends StatefulWidget {

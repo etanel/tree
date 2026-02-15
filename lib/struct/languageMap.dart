@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:budget/struct/settings.dart';
+import 'package:tree/struct/settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

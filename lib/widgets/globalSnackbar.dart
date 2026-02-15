@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 
 class GlobalSnackbar extends StatefulWidget {

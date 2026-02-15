@@ -1,19 +1,19 @@
-import "package:budget/database/tables.dart";
-import "package:budget/functions.dart";
-import "package:budget/pages/addTransactionPage.dart";
-import "package:budget/pages/budgetPage.dart";
-import "package:budget/struct/databaseGlobal.dart";
-import "package:budget/struct/settings.dart";
-import "package:budget/struct/throttler.dart";
-import "package:budget/widgets/navigationFramework.dart";
-import "package:budget/widgets/openBottomSheet.dart";
-import "package:budget/widgets/openPopup.dart";
+import "package:tree/database/tables.dart";
+import "package:tree/functions.dart";
+import "package:tree/pages/addTransactionPage.dart";
+import "package:tree/pages/budgetPage.dart";
+import "package:tree/struct/databaseGlobal.dart";
+import "package:tree/struct/settings.dart";
+import "package:tree/struct/throttler.dart";
+import "package:tree/widgets/navigationFramework.dart";
+import "package:tree/widgets/openBottomSheet.dart";
+import "package:tree/widgets/openPopup.dart";
 import "package:easy_localization/easy_localization.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:quick_actions/quick_actions.dart";
-import 'package:budget/pages/addWalletPage.dart';
+import 'package:tree/pages/addWalletPage.dart';
 
 Throttler quickActionThrottler =
     Throttler(duration: Duration(milliseconds: 350));

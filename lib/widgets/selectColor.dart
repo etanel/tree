@@ -1,21 +1,21 @@
 import 'dart:math';
 
-import 'package:budget/colors.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addTransactionPage.dart';
-import 'package:budget/pages/premiumPage.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/button.dart';
-import 'package:budget/widgets/colorPicker.dart';
-import 'package:budget/widgets/linearGradientFadedEdges.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/settingsContainers.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/util/checkWidgetLaunch.dart';
-import 'package:budget/widgets/util/keepAliveClientMixin.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addTransactionPage.dart';
+import 'package:tree/pages/premiumPage.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/button.dart';
+import 'package:tree/widgets/colorPicker.dart';
+import 'package:tree/widgets/linearGradientFadedEdges.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/settingsContainers.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/util/checkWidgetLaunch.dart';
+import 'package:tree/widgets/util/keepAliveClientMixin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 

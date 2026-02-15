@@ -1,5 +1,5 @@
-import 'package:budget/colors.dart';
-import 'package:budget/functions.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/functions.dart';
 import 'package:flutter/material.dart';
 
 String addInvisibleSpace(String original, String newString) {

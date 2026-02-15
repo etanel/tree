@@ -1,32 +1,32 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:budget/colors.dart';
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addCategoryPage.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/categoryIcon.dart';
-import 'package:budget/widgets/dropdownSelect.dart';
-import 'package:budget/widgets/fab.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
-import 'package:budget/widgets/globalSnackbar.dart';
-import 'package:budget/widgets/noResults.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/openPopup.dart';
-import 'package:budget/widgets/openSnackbar.dart';
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/selectCategory.dart';
-import 'package:budget/widgets/selectChips.dart';
-import 'package:budget/widgets/textInput.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addCategoryPage.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/categoryIcon.dart';
+import 'package:tree/widgets/dropdownSelect.dart';
+import 'package:tree/widgets/fab.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/globalSnackbar.dart';
+import 'package:tree/widgets/noResults.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/openPopup.dart';
+import 'package:tree/widgets/openSnackbar.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/selectCategory.dart';
+import 'package:tree/widgets/selectChips.dart';
+import 'package:tree/widgets/textInput.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide SliverReorderableList;
 import 'package:flutter/services.dart' hide TextInput;
-import 'package:budget/widgets/editRowEntry.dart';
-import 'package:budget/modified/reorderable_list.dart';
+import 'package:tree/widgets/editRowEntry.dart';
+import 'package:tree/modified/reorderable_list.dart';
 
 class EditCategoriesPage extends StatefulWidget {
   EditCategoriesPage({

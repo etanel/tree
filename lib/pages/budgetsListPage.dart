@@ -1,14 +1,14 @@
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addBudgetPage.dart';
-import 'package:budget/pages/editBudgetPage.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/budgetContainer.dart';
-import 'package:budget/widgets/navigationSidebar.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/openPopup.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addBudgetPage.dart';
+import 'package:tree/pages/editBudgetPage.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/budgetContainer.dart';
+import 'package:tree/widgets/navigationSidebar.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/openPopup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart'
     hide SliverReorderableList, ReorderableDelayedDragStartListener;

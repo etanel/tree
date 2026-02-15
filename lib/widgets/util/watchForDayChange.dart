@@ -1,5 +1,5 @@
-import 'package:budget/main.dart';
-import 'package:budget/widgets/navigationFramework.dart';
+import 'package:tree/main.dart';
+import 'package:tree/widgets/navigationFramework.dart';
 import 'package:flutter/material.dart';
 
 class WatchForDayChange extends StatefulWidget {
