@@ -1,17 +1,17 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/button.dart';
-import 'package:budget/widgets/globalSnackbar.dart';
-import 'package:budget/widgets/navigationFramework.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/openSnackbar.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textInput.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/button.dart';
+import 'package:tree/widgets/globalSnackbar.dart';
+import 'package:tree/widgets/navigationFramework.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/openSnackbar.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textInput.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/widgets/textWidgets.dart';
 
 Future<T?> openPopup<T extends Object?>(
   BuildContext? contextPassed, {

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:budget/database/tables.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/struct/settings.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

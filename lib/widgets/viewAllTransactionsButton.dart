@@ -1,11 +1,11 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/navigationFramework.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/navigationFramework.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 
 class ViewAllTransactionsButton extends StatelessWidget {
   const ViewAllTransactionsButton({this.onPress, super.key});

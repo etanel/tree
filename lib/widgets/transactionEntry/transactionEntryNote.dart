@@ -1,8 +1,8 @@
-import 'package:budget/colors.dart';
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,8 @@
-import 'package:budget/functions.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/iconButtonScaled.dart';
-import 'package:budget/widgets/tappableTextEntry.dart';
-import 'package:budget/widgets/util/showDatePicker.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/iconButtonScaled.dart';
+import 'package:tree/widgets/tappableTextEntry.dart';
+import 'package:tree/widgets/util/showDatePicker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

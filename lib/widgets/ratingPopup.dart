@@ -1,28 +1,28 @@
 import 'dart:async';
 
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addTransactionPage.dart';
-import 'package:budget/struct/firebaseAuthGlobal.dart';
-import 'package:budget/struct/languageMap.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/button.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/globalSnackbar.dart';
-import 'package:budget/widgets/navigationFramework.dart';
-import 'package:budget/widgets/openPopup.dart';
-import 'package:budget/widgets/openSnackbar.dart';
-import 'package:budget/widgets/showChangelog.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textInput.dart';
-import 'package:budget/widgets/textWidgets.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addTransactionPage.dart';
+import 'package:tree/struct/firebaseAuthGlobal.dart';
+import 'package:tree/struct/languageMap.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/button.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/globalSnackbar.dart';
+import 'package:tree/widgets/navigationFramework.dart';
+import 'package:tree/widgets/openPopup.dart';
+import 'package:tree/widgets/openSnackbar.dart';
+import 'package:tree/widgets/showChangelog.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textInput.dart';
+import 'package:tree/widgets/textWidgets.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
 
 final InAppReview inAppReview = InAppReview.instance;
 

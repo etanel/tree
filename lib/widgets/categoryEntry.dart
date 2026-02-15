@@ -1,24 +1,24 @@
 import 'dart:math';
 
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addCategoryPage.dart';
-import 'package:budget/struct/currencyFunctions.dart';
-import 'package:budget/struct/defaultPreferences.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/categoryIcon.dart';
-import 'package:budget/widgets/categoryLimits.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/openPopup.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addCategoryPage.dart';
+import 'package:tree/struct/currencyFunctions.dart';
+import 'package:tree/struct/defaultPreferences.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/categoryIcon.dart';
+import 'package:tree/widgets/categoryLimits.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/openPopup.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/widgets/animatedCircularProgress.dart';
+import 'package:tree/widgets/animatedCircularProgress.dart';
 import 'package:provider/provider.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 
 class CategoryEntry extends StatelessWidget {
   CategoryEntry({

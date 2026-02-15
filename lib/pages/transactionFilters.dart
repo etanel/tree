@@ -1,27 +1,27 @@
 import 'dart:math';
 
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/addBudgetPage.dart';
-import 'package:budget/pages/addObjectivePage.dart';
-import 'package:budget/pages/addTransactionPage.dart';
-import 'package:budget/pages/addWalletPage.dart';
-import 'package:budget/pages/transactionsSearchPage.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/struct/databaseGlobal.dart';
-import 'package:budget/widgets/iconButtonScaled.dart';
-import 'package:budget/widgets/openPopup.dart';
-import 'package:budget/widgets/button.dart';
-import 'package:budget/widgets/selectAmount.dart';
-import 'package:budget/widgets/selectCategory.dart';
-import 'package:budget/widgets/textInput.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/addBudgetPage.dart';
+import 'package:tree/pages/addObjectivePage.dart';
+import 'package:tree/pages/addTransactionPage.dart';
+import 'package:tree/pages/addWalletPage.dart';
+import 'package:tree/pages/transactionsSearchPage.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/widgets/iconButtonScaled.dart';
+import 'package:tree/widgets/openPopup.dart';
+import 'package:tree/widgets/button.dart';
+import 'package:tree/widgets/selectAmount.dart';
+import 'package:tree/widgets/selectCategory.dart';
+import 'package:tree/widgets/textInput.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:budget/widgets/selectChips.dart';
-import 'package:budget/widgets/amountRangeSlider.dart';
+import 'package:tree/widgets/selectChips.dart';
+import 'package:tree/widgets/amountRangeSlider.dart';
 
 class SearchFilters {
   SearchFilters({

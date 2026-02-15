@@ -1,5 +1,5 @@
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/showChangelog.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/showChangelog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
-import 'package:budget/colors.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/src/widgets/sliver_sticky_header.dart';
 

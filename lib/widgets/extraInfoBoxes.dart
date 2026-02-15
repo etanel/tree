@@ -1,10 +1,10 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/button.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/button.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

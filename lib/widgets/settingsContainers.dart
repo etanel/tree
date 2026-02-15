@@ -1,14 +1,14 @@
-import 'package:budget/colors.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/dropdownSelect.dart';
-import 'package:budget/widgets/editRowEntry.dart';
-import 'package:budget/widgets/fadeIn.dart';
-import 'package:budget/widgets/openBottomSheet.dart';
-import 'package:budget/widgets/openContainerNavigation.dart';
-import 'package:budget/widgets/tappable.dart';
-import 'package:budget/widgets/textWidgets.dart';
+import 'package:tree/colors.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/dropdownSelect.dart';
+import 'package:tree/widgets/editRowEntry.dart';
+import 'package:tree/widgets/fadeIn.dart';
+import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/openContainerNavigation.dart';
+import 'package:tree/widgets/tappable.dart';
+import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

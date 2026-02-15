@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/globalSnackbar.dart';
-import 'package:budget/widgets/openSnackbar.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/globalSnackbar.dart';
+import 'package:tree/widgets/openSnackbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';

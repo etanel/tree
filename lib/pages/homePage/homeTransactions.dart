@@ -1,8 +1,8 @@
-import 'package:budget/database/tables.dart';
-import 'package:budget/functions.dart';
-import 'package:budget/pages/transactionFilters.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/transactionEntries.dart';
+import 'package:tree/database/tables.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/pages/transactionFilters.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/transactionEntries.dart';
 import 'package:flutter/material.dart';
 
 class HomeTransactions extends StatelessWidget {

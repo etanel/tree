@@ -1,4 +1,4 @@
-import 'package:budget/widgets/transactionEntry/transactionEntry.dart';
+import 'package:tree/widgets/transactionEntry/transactionEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';

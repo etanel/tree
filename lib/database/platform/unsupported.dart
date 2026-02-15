@@ -1,6 +1,6 @@
 // unsupported.dart
 import 'dart:typed_data';
-import 'package:budget/database/tables.dart';
+import 'package:tree/database/tables.dart';
 
 Future<FinanceDatabase> constructDb(String dbName,
         {Uint8List? initialDataWeb}) =>

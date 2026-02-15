@@ -1,14 +1,14 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/framework/popupFramework.dart';
-import 'package:budget/widgets/textWidgets.dart';
-import 'package:budget/widgets/util/contextMenu.dart';
-import 'package:budget/widgets/util/onAppResume.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/framework/popupFramework.dart';
+import 'package:tree/widgets/textWidgets.dart';
+import 'package:tree/widgets/util/contextMenu.dart';
+import 'package:tree/widgets/util/onAppResume.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:budget/colors.dart';
+import 'package:tree/colors.dart';
 
 FocusNode? _currentTextInputFocus;
 bool shouldAutoRefocus = false;

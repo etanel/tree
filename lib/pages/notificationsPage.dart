@@ -1,9 +1,9 @@
-import 'package:budget/struct/settings.dart';
-import 'package:budget/widgets/animatedExpanded.dart';
-import 'package:budget/widgets/notificationsSettings.dart';
-import 'package:budget/widgets/framework/pageFramework.dart';
-import 'package:budget/widgets/statusBox.dart';
-import 'package:budget/widgets/util/onAppResume.dart';
+import 'package:tree/struct/settings.dart';
+import 'package:tree/widgets/animatedExpanded.dart';
+import 'package:tree/widgets/notificationsSettings.dart';
+import 'package:tree/widgets/framework/pageFramework.dart';
+import 'package:tree/widgets/statusBox.dart';
+import 'package:tree/widgets/util/onAppResume.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:app_settings/app_settings.dart';

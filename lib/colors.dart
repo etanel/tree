@@ -1,12 +1,12 @@
-import 'package:budget/functions.dart';
-import 'package:budget/struct/settings.dart';
+import 'package:tree/functions.dart';
+import 'package:tree/struct/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:system_theme/system_theme.dart';
 
-//import 'package:budget/colors.dart';
+//import 'package:tree/colors.dart';
 //getColor(context, "lightDarkAccent")
 
 Color getColor(BuildContext context, String colorName) {
