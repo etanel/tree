@@ -29,10 +29,9 @@ import 'package:tree/struct/randomConstants.dart';
 
 extension CapExtension on String {
   String get capitalizeFirst =>
-      this.length > 0 ? '${this[0].toUpperCase()}${this.substring(1)}' : '';
-  String get allCaps => this.toUpperCase();
-  String get capitalizeFirstofEach => this
-      .replaceAll(RegExp(' +'), ' ')
+      isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : '';
+  String get allCaps => toUpperCase();
+  String get capitalizeFirstofEach => replaceAll(RegExp(' +'), ' ')
       .split(" ")
       .map((str) => str.capitalizeFirst)
       .join(" ");
@@ -64,11 +63,11 @@ extension DateUtils on DateTime {
   DateTime justDay(
       {int yearOffset = 0, int monthOffset = 0, int dayOffset = 0}) {
     return DateTime(
-        this.year + yearOffset, this.month + monthOffset, this.day + dayOffset);
+        year + yearOffset, month + monthOffset, day + dayOffset);
   }
 
   DateTime firstDayOfMonth() {
-    return DateTime(this.year, this.month, 1);
+    return DateTime(year, month, 1);
   }
 }
 
@@ -82,9 +81,7 @@ String convertToPercent(double amount,
 
   if (amount.isNaN || amount == 0 || finalNumber == 0) return "0%";
 
-  int numberDecimalsGet = numberDecimals != null
-      ? numberDecimals
-      : (int.tryParse(appStateSettings["percentagePrecision"].toString()) ?? 0);
+  int numberDecimalsGet = numberDecimals ?? (int.tryParse(appStateSettings["percentagePrecision"].toString()) ?? 0);
 
   String roundedAmount = amount.toStringAsFixed(numberDecimalsGet);
 
@@ -127,7 +124,7 @@ String convertToPercent(double amount,
     }
   }
 
-  return absoluteZeroString(roundedAmount) + "%";
+  return "${absoluteZeroString(roundedAmount)}%";
 }
 
 String removeLastCharacter(String text) {
@@ -253,13 +250,12 @@ String convertToMoney(AllWallets allWallets, double amount,
   String formatOutput = formatter.format(amount).trim();
   String? currencyName;
   if (addCurrencyName == true && currencyKey != null) {
-    currencyName = " " + currencyKey.toUpperCase();
+    currencyName = " ${currencyKey.toUpperCase()}";
   } else if (addCurrencyName == true) {
-    currencyName = " " +
-        (allWallets.indexedByPk[appStateSettings["selectedWalletPk"]]
+    currencyName = " ${(allWallets.indexedByPk[appStateSettings["selectedWalletPk"]]
                     ?.currency ??
                 "")
-            .toUpperCase();
+            .toUpperCase()}";
   }
 
   if (useCustomNumberFormat) {
@@ -323,7 +319,7 @@ String formatOutputWithNewDelimiterAndDecimal({
   if (appStateSettings["numberFormatCurrencyFirst"] == false) {
     return negativeSign +
         input +
-        (symbol.length > 0 ? "  " : "") +
+        (symbol.isNotEmpty ? "  " : "") +
         symbol +
         (currencyName ?? "");
   } else {
@@ -332,7 +328,7 @@ String formatOutputWithNewDelimiterAndDecimal({
 }
 
 List<String> localizedMonthNames = [];
-initializeLocalizedMonthNames() {
+void initializeLocalizedMonthNames() {
   localizedMonthNames = [];
   for (int i = 1; i <= 12; i++) {
     final DateTime date = DateTime(2022, i);
@@ -340,7 +336,7 @@ initializeLocalizedMonthNames() {
     final String monthName = DateFormat.MMMM(locale).format(date).toLowerCase();
     localizedMonthNames.add(monthName);
   }
-  print("Initializing local months: " + localizedMonthNames.toString());
+  print("Initializing local months: $localizedMonthNames");
 }
 
 String getMonth(DateTime dateTime, {bool includeYear = false}) {
@@ -434,15 +430,9 @@ String getWordedDateShortMore(
     }
   }
   if (includeYear) {
-    return DateFormat.MMMMd(locale).format(date) +
-        ", " +
-        DateFormat.y(locale).format(date);
+    return "${DateFormat.MMMMd(locale).format(date)}, ${DateFormat.y(locale).format(date)}";
   } else if (includeTime) {
-    return DateFormat.MMMMd(locale).format(date) +
-        ", " +
-        DateFormat.y(locale).format(date) +
-        " - " +
-        getWordedTime(locale, date);
+    return "${DateFormat.MMMMd(locale).format(date)}, ${DateFormat.y(locale).format(date)} - ${getWordedTime(locale, date)}";
   }
   return DateFormat.MMMMd(locale).format(date);
 }
@@ -481,17 +471,14 @@ getWordedDate(DateTime date,
 
   String extraYear = "";
   if (includeYearIfNotCurrentYear && now.year != date.year) {
-    extraYear = ", " + date.year.toString();
+    extraYear = ", ${date.year}";
   }
 
   if (checkYesterdayTodayTomorrow(date) != false) {
     return checkYesterdayTodayTomorrow(date) +
         (includeMonthDate
-            ? ", " +
-                DateFormat.MMMMd(navigatorKey.currentContext?.locale.toString())
-                    .format(date)
-                    .toString() +
-                extraYear
+            ? ", ${DateFormat.MMMMd(navigatorKey.currentContext?.locale.toString())
+                    .format(date)}$extraYear"
             : "");
   }
 
@@ -687,7 +674,7 @@ DateTimeRange getBudgetDate(Budget budget, DateTime currentDate) {
 String getWordedNumber(
     BuildContext context, AllWallets allWallets, double value) {
   if (removeTrailingZeroes(value.toStringAsFixed(10)) == "0") {
-    return getCurrencyString(allWallets) + "0";
+    return "${getCurrencyString(allWallets)}0";
   }
   return convertToMoney(
     allWallets,
@@ -907,7 +894,7 @@ String pluralString(bool condition, String string) {
   if (condition)
     return string;
   else
-    return string + "s";
+    return "${string}s";
 }
 
 // String? getOSInsideWeb() {
@@ -1217,7 +1204,7 @@ String getDevicesDefaultCurrencyCode() {
       }
     }
   } catch (e) {
-    print("Error getting default currency " + e.toString());
+    print("Error getting default currency $e");
   }
   return popularCurrencies[0];
 }
@@ -1247,7 +1234,7 @@ Future shareToClipboard(String text, {required BuildContext context}) async {
       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
     );
   } catch (e) {
-    print("There was an error sharing: " + e.toString());
+    print("There was an error sharing: $e");
     copyToClipboard(text);
   }
 }
@@ -1374,7 +1361,7 @@ Future<int?> getAndroidVersion() async {
       String androidVersionString = androidInfo.version.release;
       androidVersion = int.tryParse(androidVersionString);
     } catch (e) {
-      print("Error parsing Android version" + e.toString());
+      print("Error parsing Android version$e");
     }
   }
   return androidVersion;
@@ -1386,7 +1373,7 @@ Future<bool> setHighRefreshRate() async {
       await FlutterDisplayMode.setHighRefreshRate();
     return true;
   } catch (e) {
-    print("Error setting high refresh rate: " + e.toString());
+    print("Error setting high refresh rate: $e");
   }
   return false;
 }
@@ -1422,10 +1409,7 @@ String getWalletStringName(AllWallets allWallets, TransactionWallet? wallet) {
     bool showCurrencyLabel = appStateSettings["showCurrencyLabel"] == true &&
         allWallets.allContainSameCurrency() == false;
     if (showCurrencyLabel) {
-      return wallet.name +
-          " (" +
-          wallet.currency.toString().toUpperCase() +
-          ")";
+      return "${wallet.name} (${wallet.currency.toString().toUpperCase()})";
     } else {
       return wallet.name;
     }
@@ -1434,14 +1418,9 @@ String getWalletStringName(AllWallets allWallets, TransactionWallet? wallet) {
 
 String addAmountToString(String string, int amount,
     {String? extraText, bool addCommaWithExtraText = true}) {
-  return string +
-      " " +
-      "( ×" +
-      amount.toString() +
-      (extraText == null
+  return "$string ( ×$amount${extraText == null
           ? ""
-          : (addCommaWithExtraText ? ", " : " ") + (extraText)) +
-      " )";
+          : (addCommaWithExtraText ? ", " : " ") + (extraText)} )";
 }
 
 int directionalityReverse(BuildContext context) {
