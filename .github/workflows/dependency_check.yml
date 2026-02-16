@@ -1,0 +1,30 @@
+name: Dependency Check
+
+on:
+  pull_request:
+    branches: [master]
+  schedule:
+    # Run weekly on Monday at 8am UTC
+    - cron: '0 8 * * 1'
+
+jobs:
+  outdated:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check outdated packages
+        run: flutter pub outdated
