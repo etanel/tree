@@ -712,7 +712,7 @@ class FinanceDatabase extends _$FinanceDatabase {
       //   }
       // },
       onUpgrade: (migrator, from, to) async {
-        print("Migrating from: " + from.toString() + " to " + to.toString());
+        print("Migrating from: $from to $to");
         if (from <= 9) {
           await migrator.createTable($AppSettingsTable(database));
         }
@@ -956,8 +956,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                     schema.transactions, schema.transactions.originalDateDue);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column originalDateDue " +
-                        e.toString());
+                    "Migration Error: Error creating column originalDateDue $e");
               }
             },
             from38To39: (m, schema) async {
@@ -970,8 +969,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.categories, schema.categories.emojiIconName);
               } catch (e) {
-                print("Migration Error: Error creating column emojiIconName " +
-                    e.toString());
+                print("Migration Error: Error creating column emojiIconName $e");
               }
             },
             from39To40: (m, schema) async {
@@ -980,14 +978,12 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.transactions, schema.transactions.objectiveFk);
               } catch (e) {
-                print("Migration Error: Error creating column objectiveFk " +
-                    e.toString());
+                print("Migration Error: Error creating column objectiveFk $e");
               }
               try {
                 await migrator.createTable($ObjectivesTable(database));
               } catch (e) {
-                print("Migration Error: Error creating table ObjectivesTable " +
-                    e.toString());
+                print("Migration Error: Error creating table ObjectivesTable $e");
               }
             },
             from40To41: (m, schema) async {
@@ -997,14 +993,12 @@ class FinanceDatabase extends _$FinanceDatabase {
                     schema.budgets, schema.budgets.categoryFksExclude);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column categoryFksExclude " +
-                        e.toString());
+                    "Migration Error: Error creating column categoryFksExclude $e");
               }
               try {
                 await m.alterTable(TableMigration(budgets));
               } catch (e) {
-                print("Migration Error: Error deleting includeAllCategories " +
-                    e.toString());
+                print("Migration Error: Error deleting includeAllCategories $e");
               }
               try {
                 List<Budget> allBudgets = await getAllBudgets();
@@ -1021,8 +1015,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await updateBatchBudgetsOnly(budgetsInserting);
               } catch (e) {
                 print(
-                    "Migration Error: Error upgrading transaction filters default for budgets " +
-                        e.toString());
+                    "Migration Error: Error upgrading transaction filters default for budgets $e");
               }
             },
             from41To42: (m, schema) async {
@@ -1031,23 +1024,20 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.categories, schema.categories.mainCategoryPk);
               } catch (e) {
-                print("Migration Error: Error creating column mainCategoryPk " +
-                    e.toString());
+                print("Migration Error: Error creating column mainCategoryPk $e");
               }
               try {
                 await m.addColumn(
                     schema.wallets, schema.wallets.homePageWidgetDisplay);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column homePageWidgetDisplay " +
-                        e.toString());
+                    "Migration Error: Error creating column homePageWidgetDisplay $e");
               }
               try {
                 await m.addColumn(
                     schema.transactions, schema.transactions.subCategoryFk);
               } catch (e) {
-                print("Migration Error: Error creating column subCategoryFk " +
-                    e.toString());
+                print("Migration Error: Error creating column subCategoryFk $e");
               }
               // Also see beforeOpen
               // We modify the entries of homePageWidgetDisplay of wallet entries after this migration
@@ -1062,8 +1052,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                     schema.transactions, schema.transactions.budgetFksExclude);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column budgetFksExclude " +
-                        e.toString());
+                    "Migration Error: Error creating column budgetFksExclude $e");
               }
             },
             from43To44: (m, schema) async {
@@ -1073,15 +1062,13 @@ class FinanceDatabase extends _$FinanceDatabase {
                     schema.transactions, schema.transactions.endDate);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column transactions.endDate" +
-                        e.toString());
+                    "Migration Error: Error creating column transactions.endDate$e");
               }
               try {
                 await m.addColumn(schema.objectives, schema.objectives.endDate);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column objectives.endDate " +
-                        e.toString());
+                    "Migration Error: Error creating column objectives.endDate $e");
               }
             },
             from44To45: (m, schema) async {
@@ -1090,30 +1077,26 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(schema.budgets, schema.budgets.walletFks);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column budgets.walletFks" +
-                        e.toString());
+                    "Migration Error: Error creating column budgets.walletFks$e");
               }
               try {
                 await m.addColumn(schema.budgets, schema.budgets.income);
               } catch (e) {
-                print("Migration Error: Error creating column budgets.income " +
-                    e.toString());
+                print("Migration Error: Error creating column budgets.income $e");
               }
               try {
                 await m.addColumn(
                     schema.objectives, schema.objectives.walletFk);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column objectives.walletFk " +
-                        e.toString());
+                    "Migration Error: Error creating column objectives.walletFk $e");
               }
               try {
                 await m.addColumn(schema.categoryBudgetLimits,
                     schema.categoryBudgetLimits.walletFk);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column categoryBudgetLimits.walletFk " +
-                        e.toString());
+                    "Migration Error: Error creating column categoryBudgetLimits.walletFk $e");
               }
             },
             from45To46: (m, schema) async {
@@ -1122,46 +1105,40 @@ class FinanceDatabase extends _$FinanceDatabase {
                     schema.transactions.pairedTransactionFk);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column transactions.pairedTransactionFk " +
-                        e.toString());
+                    "Migration Error: Error creating column transactions.pairedTransactionFk $e");
               }
               try {
                 await m.addColumn(
                     schema.transactions, schema.transactions.objectiveLoanFk);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column transactions.objectiveLoanFk " +
-                        e.toString());
+                    "Migration Error: Error creating column transactions.objectiveLoanFk $e");
               }
               try {
                 await m.addColumn(
                     schema.wallets, schema.wallets.currencyFormat);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column wallets.currencyFormat " +
-                        e.toString());
+                    "Migration Error: Error creating column wallets.currencyFormat $e");
               }
               try {
                 await m.addColumn(schema.budgets, schema.budgets.archived);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column budgets.archived " +
-                        e.toString());
+                    "Migration Error: Error creating column budgets.archived $e");
               }
               try {
                 await m.addColumn(
                     schema.objectives, schema.objectives.archived);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column objectives.archived " +
-                        e.toString());
+                    "Migration Error: Error creating column objectives.archived $e");
               }
               try {
                 await m.addColumn(schema.objectives, schema.objectives.type);
               } catch (e) {
                 print(
-                    "Migration Error: Error creating column objectives.type " +
-                        e.toString());
+                    "Migration Error: Error creating column objectives.type $e");
               }
             },
           ),
@@ -1180,8 +1157,8 @@ class FinanceDatabase extends _$FinanceDatabase {
 
         if (details.hadUpgrade && details.versionBefore != null) {
           print(
-              "Migration Version Before: " + details.versionBefore.toString());
-          print("Migration Version After: " + details.versionNow.toString());
+              "Migration Version Before: ${details.versionBefore}");
+          print("Migration Version After: ${details.versionNow}");
 
           if (details.versionBefore! < 42) {
             // Migration 41to42
@@ -1198,8 +1175,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               await updateBatchWalletsOnly(walletsInserting);
             } catch (e) {
               print(
-                  "Migration Error: Error upgrading home page widget display default for wallets " +
-                      e.toString());
+                  "Migration Error: Error upgrading home page widget display default for wallets $e");
             }
           }
           if (details.versionBefore! < 45) {
@@ -1217,8 +1193,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               await updateBatchObjectivesOnly(objectivesInserting);
             } catch (e) {
               print(
-                  "Migration Error: Error upgrading objectives.walletFk to current wallet " +
-                      e.toString());
+                  "Migration Error: Error upgrading objectives.walletFk to current wallet $e");
             }
 
             print(
@@ -1233,8 +1208,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               await updateBatchBudgetsOnly(budgetsInserting);
             } catch (e) {
               print(
-                  "Migration Error: Error upgrading objectives.walletFk to current wallet " +
-                      e.toString());
+                  "Migration Error: Error upgrading objectives.walletFk to current wallet $e");
             }
 
             print(
@@ -1252,8 +1226,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   categoryBudgetLimitsInserting);
             } catch (e) {
               print(
-                  "Migration Error: Error upgrading objectives.walletFk to current wallet " +
-                      e.toString());
+                  "Migration Error: Error upgrading objectives.walletFk to current wallet $e");
             }
           }
         }
@@ -1652,13 +1625,14 @@ class FinanceDatabase extends _$FinanceDatabase {
       ..where(transactions.dateCreated.isNotNull())
       ..limit(limit ?? DEFAULT_LIMIT, offset: null);
 
-    if (limit == null)
+    if (limit == null) {
       return query.map((row) => row.read(transactions.dateCreated)).watch();
-    else
+    } else {
       return query
           .map((row) => row.read(transactions.dateCreated))
           .watch()
           .map((list) => list.reversed.toList());
+    }
   }
 
   Future<List<String?>> getUniqueCurrenciesFromWallets() {
@@ -1980,7 +1954,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   ? Constant(true)
                   : b.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchFor) + "%")))
+                      .like("%$searchFor%")))
           ..orderBy([
             if (archivedLast) (b) => OrderingTerm.asc(b.archived),
             (b) => OrderingTerm.asc(b.order)
@@ -2025,7 +1999,7 @@ class FinanceDatabase extends _$FinanceDatabase {
     ])
                   ..where(associatedTitles.title
                           .collate(Collate.noCase)
-                          .like("%" + title + "%") &
+                          .like("%$title%") &
                       associatedTitles.title.isNotIn(excludeTitles))
                   // Group by happens before the orderby,
                   // so we get titles with the least order if they are grouped
@@ -2044,13 +2018,14 @@ class FinanceDatabase extends _$FinanceDatabase {
     }).toList();
 
     if (list.length > limit) return list;
-    if (limit - list.length < 0)
+    if (limit - list.length < 0) {
       limit = 0;
-    else
+    } else {
       limit = limit - list.length;
+    }
 
     // Search based on individual words
-    if (tryToCompleteSearch)
+    if (tryToCompleteSearch) {
       list.addAll((await (select(associatedTitles).join([
         innerJoin(categories,
             categories.categoryPk.equalsExp(associatedTitles.categoryFk)),
@@ -2072,13 +2047,16 @@ class FinanceDatabase extends _$FinanceDatabase {
           partialTitleString: foundTitle.title,
         );
       }).toList());
+    }
 
-    if (list.length > limit)
+    if (list.length > limit) {
       return removeDuplicateTransactionAssociatedTitleWithCategory(list);
-    if (limit - list.length < 0)
+    }
+    if (limit - list.length < 0) {
       limit = 0;
-    else
+    } else {
       limit = limit - list.length;
+    }
 
     // // Search based on last word, complete last word
     // String? lastWord = title.split(" ").lastOrNull;
@@ -2113,10 +2091,10 @@ class FinanceDatabase extends _$FinanceDatabase {
     //   limit = limit - list.length;
 
     // Search category names
-    if (alsoSearchCategories)
+    if (alsoSearchCategories) {
       list.addAll((await (select(categories)
                 ..where((c) =>
-                    c.name.collate(Collate.noCase).like("%" + title + "%"))
+                    c.name.collate(Collate.noCase).like("%$title%"))
                 ..orderBy([
                   (c) => OrderingTerm.asc(c.mainCategoryPk),
                   (c) => OrderingTerm.asc(c.order),
@@ -2139,6 +2117,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               : TitleType.SubCategoryName,
         );
       }).toList());
+    }
 
     return removeDuplicateTransactionAssociatedTitleWithCategory(list);
   }
@@ -2152,7 +2131,7 @@ class FinanceDatabase extends _$FinanceDatabase {
       if (splitText.isNotEmpty) {
         splitText.removeLast();
       }
-      return splitText.join(" ") + " " + titleText;
+      return "${splitText.join(" ")} $titleText";
     }
   }
 
@@ -2396,7 +2375,7 @@ class FinanceDatabase extends _$FinanceDatabase {
     return (select(wallets)
           ..where((w) => (searchFor == null
               ? Constant(true)
-              : w.name.collate(Collate.noCase).like("%" + (searchFor) + "%")))
+              : w.name.collate(Collate.noCase).like("%$searchFor%")))
           ..orderBy([(w) => OrderingTerm.asc(w.order)])
           ..limit(limit ?? DEFAULT_LIMIT, offset: offset ?? DEFAULT_OFFSET))
         .watch();
@@ -2419,7 +2398,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   ? Constant(true)
                   : w.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchFor) + "%"))))
+                      .like("%$searchFor%"))))
           ..orderBy([(w) => OrderingTerm.asc(w.order)]))
         .join([
       leftOuterJoin(
@@ -2673,8 +2652,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     if (type == DeleteLogType.Transaction) {
       Transaction? transactionToDelete =
           await database.tryGetTransactionFromPk(deletedPk);
-      if (transactionToDelete != null)
+      if (transactionToDelete != null) {
         addTransactionToRecentlyDeleted(transactionToDelete, save: true);
+      }
     }
     await into(deleteLogs).insert(
       DeleteLogsCompanion.insert(
@@ -2708,8 +2688,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     }));
 
     fetchedTransactions.forEach((deletePk, transactionToDelete) {
-      if (transactionToDelete != null)
+      if (transactionToDelete != null) {
         addTransactionToRecentlyDeleted(transactionToDelete, save: false);
+      }
     });
     saveRecentlyDeletedTransactions();
 
@@ -2823,9 +2804,9 @@ class FinanceDatabase extends _$FinanceDatabase {
   Future<int> createOrUpdateCategoryLimit(CategoryBudgetLimit categoryLimit,
       {bool insert = false}) async {
     double maxAmount = 999999999999;
-    if (categoryLimit.amount >= maxAmount)
+    if (categoryLimit.amount >= maxAmount) {
       categoryLimit = categoryLimit.copyWith(amount: maxAmount);
-    else if (categoryLimit.amount <= -maxAmount)
+    } else if (categoryLimit.amount <= -maxAmount)
       categoryLimit = categoryLimit.copyWith(amount: -maxAmount);
 
     categoryLimit =
@@ -2856,7 +2837,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               ? Constant(true)
               : associatedTitles.title
                   .collate(Collate.noCase)
-                  .like("%" + (searchFor) + "%"))
+                  .like("%$searchFor%"))
           ..orderBy([OrderingTerm.desc(associatedTitles.order)])
         // ..limit(limit ?? DEFAULT_LIMIT, offset: offset ?? DEFAULT_OFFSET)
         )
@@ -2901,14 +2882,16 @@ class FinanceDatabase extends _$FinanceDatabase {
 
     TransactionCategory? category;
     category = await getCategory(categories.name.equals(searchFor));
-    if (category == null)
+    if (category == null) {
       category = await getCategory(categories.name
           .lower()
           .trim()
           .equals(searchFor.toLowerCase().trim()));
-    if (category == null)
+    }
+    if (category == null) {
       category = await getCategory(
-          categories.name.collate(Collate.noCase).like("%" + searchFor + "%"));
+          categories.name.collate(Collate.noCase).like("%$searchFor%"));
+    }
     return category;
   }
 
@@ -2924,12 +2907,14 @@ class FinanceDatabase extends _$FinanceDatabase {
 
     TransactionWallet? wallet;
     wallet = await getCategory(wallets.name.equals(searchFor));
-    if (wallet == null)
+    if (wallet == null) {
       wallet = await getCategory(
           wallets.name.lower().trim().equals(searchFor.toLowerCase().trim()));
-    if (wallet == null)
+    }
+    if (wallet == null) {
       wallet = await getCategory(
-          wallets.name.collate(Collate.noCase).like("%" + searchFor + "%"));
+          wallets.name.collate(Collate.noCase).like("%$searchFor%"));
+    }
     return wallet;
   }
 
@@ -3198,8 +3183,9 @@ class FinanceDatabase extends _$FinanceDatabase {
         .get();
     bool requiresUpdate = false;
     for (int i = 0; i < budgetsList.length; i++) {
-      if (budgetsList[i].order != i && requiresUpdate == false)
+      if (budgetsList[i].order != i && requiresUpdate == false) {
         requiresUpdate = true;
+      }
       budgetsList[i] = budgetsList[i].copyWith(
         order: i,
         // Don't update the dateTimeModified, opening the page will cause them all to have a new dateTimeModified... when something was actually not modified
@@ -3223,8 +3209,9 @@ class FinanceDatabase extends _$FinanceDatabase {
         .get();
     bool requiresUpdate = false;
     for (int i = 0; i < objectivesList.length; i++) {
-      if (objectivesList[i].order != i && requiresUpdate == false)
+      if (objectivesList[i].order != i && requiresUpdate == false) {
         requiresUpdate = true;
+      }
       objectivesList[i] = objectivesList[i].copyWith(
         order: i,
         // Don't update the dateTimeModified, opening the page will cause them all to have a new dateTimeModified... when something was actually not modified
@@ -3250,8 +3237,9 @@ class FinanceDatabase extends _$FinanceDatabase {
         .get();
     bool requiresUpdate = false;
     for (int i = 0; i < categoriesList.length; i++) {
-      if (categoriesList[i].order != i && requiresUpdate == false)
+      if (categoriesList[i].order != i && requiresUpdate == false) {
         requiresUpdate = true;
+      }
       categoriesList[i] = categoriesList[i].copyWith(
         order: i,
         // Don't update the dateTimeModified, opening the page will cause them all to have a new dateTimeModified... when something was actually not modified
@@ -3273,8 +3261,9 @@ class FinanceDatabase extends _$FinanceDatabase {
         .get();
     bool requiresUpdate = false;
     for (int i = 0; i < walletsList.length; i++) {
-      if (walletsList[i].order != i && requiresUpdate == false)
+      if (walletsList[i].order != i && requiresUpdate == false) {
         requiresUpdate = true;
+      }
       walletsList[i] = walletsList[i].copyWith(
         order: i,
         // Don't update the dateTimeModified, opening the page will cause them all to have a new dateTimeModified... when something was actually not modified
@@ -3319,7 +3308,7 @@ class FinanceDatabase extends _$FinanceDatabase {
         batch.deleteWhere(
             associatedTitles, (t) => t.associatedTitlePk.isIn(titlesToDelete));
       });
-      print("Removed " + duplicatedTitles.length.toString() + " titles");
+      print("Removed ${duplicatedTitles.length} titles");
     }
 
     return true;
@@ -3332,8 +3321,9 @@ class FinanceDatabase extends _$FinanceDatabase {
             .get();
     bool requiresUpdate = false;
     for (int i = 0; i < associatedTitlesList.length; i++) {
-      if (associatedTitlesList[i].order != i && requiresUpdate == false)
+      if (associatedTitlesList[i].order != i && requiresUpdate == false) {
         requiresUpdate = true;
+      }
       associatedTitlesList[i] = associatedTitlesList[i].copyWith(
         order: i,
         // Don't update the dateTimeModified, opening the page will cause them all to have a new dateTimeModified... when something was actually not modified
@@ -3360,11 +3350,12 @@ class FinanceDatabase extends _$FinanceDatabase {
     if (direction == -1 || direction == 1) {
       List<TransactionAssociatedTitle> associatedTitlesNeedUpdating = [];
       for (TransactionAssociatedTitle associatedTitle in associatedTitlesList) {
-        if (associatedTitle.order >= pastIndexIncluding)
+        if (associatedTitle.order >= pastIndexIncluding) {
           associatedTitlesNeedUpdating.add(associatedTitle.copyWith(
             order: associatedTitle.order + direction,
             dateTimeModified: Value(DateTime.now()),
           ));
+        }
       }
       await batch((batch) {
         batch.insertAll(associatedTitles, associatedTitlesNeedUpdating,
@@ -3430,12 +3421,13 @@ class FinanceDatabase extends _$FinanceDatabase {
     bool updateSharedEntry = true,
     Transaction? originalTransaction,
   }) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false)
+    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
+    }
     double maxAmount = 999999999999;
-    if (transaction.amount >= maxAmount)
+    if (transaction.amount >= maxAmount) {
       transaction = transaction.copyWith(amount: maxAmount);
-    else if (transaction.amount <= -maxAmount)
+    } else if (transaction.amount <= -maxAmount)
       transaction = transaction.copyWith(amount: -maxAmount);
 
     if (transaction.amount == double.infinity ||
@@ -3610,10 +3602,7 @@ class FinanceDatabase extends _$FinanceDatabase {
     await batch((batch) {
       for (SyncLog syncLog in syncLogs) {
         if (syncLog.deleteLogType != null) {
-          print("Sync Log: Deleting " +
-              syncLog.deleteLogType.toString() +
-              " " +
-              syncLog.pk.toString());
+          print("Sync Log: Deleting ${syncLog.deleteLogType} ${syncLog.pk}");
         } else if (syncLog.updateLogType != null) {
           String name = "";
           try {
@@ -3623,10 +3612,7 @@ class FinanceDatabase extends _$FinanceDatabase {
             name = syncLog.itemToUpdate?.name;
           } catch (e) {}
           print(
-            "Sync Log: Creating " +
-                syncLog.updateLogType.toString() +
-                " " +
-                name,
+            "Sync Log: Creating ${syncLog.updateLogType} $name",
           );
         }
 
@@ -4013,8 +3999,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     DateTime? customDateTimeModified,
     bool insert = false,
   }) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false)
+    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
+    }
 
     category = category.copyWith(name: category.name.trim());
     category = category.copyWith(
@@ -4031,8 +4018,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     int result = await into(categories)
         .insert((companionToInsert), mode: InsertMode.insertOrReplace);
 
-    if (updateSharedEntry)
+    if (updateSharedEntry) {
       updateTransactionOnServerAfterChangingCategoryInformation(category);
+    }
     return result;
   }
 
@@ -4201,9 +4189,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     int maxTimePeriodWeeks = 500;
     int maxTimePeriodDays = 1000;
     if (budget.reoccurrence == BudgetReoccurence.yearly &&
-        budget.periodLength >= maxTimePeriodYears)
+        budget.periodLength >= maxTimePeriodYears) {
       budget = budget.copyWith(periodLength: maxTimePeriodYears);
-    else if (budget.reoccurrence == BudgetReoccurence.monthly &&
+    } else if (budget.reoccurrence == BudgetReoccurence.monthly &&
         budget.periodLength >= maxTimePeriodMonths)
       budget = budget.copyWith(periodLength: maxTimePeriodMonths);
     else if (budget.reoccurrence == BudgetReoccurence.weekly &&
@@ -4228,8 +4216,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     double maxAmount = 999999999999;
     if (budget.amount >= maxAmount) budget = budget.copyWith(amount: maxAmount);
 
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false)
+    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
+    }
 
     budget = budget.copyWith(name: budget.name.trim());
     // print(budget);
@@ -4301,8 +4290,9 @@ class FinanceDatabase extends _$FinanceDatabase {
   // getIsDifferenceOnlyLoan(objective)
   // This defines what a difference only loan can be
   Expression<bool> getIsDifferenceOnlyLoanFromTable($ObjectivesTable o) {
-    if (appStateSettings["longTermLoansDifferenceFeature"] == false)
+    if (appStateSettings["longTermLoansDifferenceFeature"] == false) {
       return Constant(false);
+    }
     return o.amount.equals(-1) & o.type.equals(ObjectiveType.loan.index);
   }
 
@@ -4353,7 +4343,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   ? Constant(true)
                   : c.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchFor) + "%"))))
+                      .like("%$searchFor%"))))
           ..orderBy([
             (c) => OrderingTerm.asc(c.mainCategoryPk),
             (c) => OrderingTerm.asc(c.order),
@@ -4439,7 +4429,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   ? Constant(true)
                   : c.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchFor) + "%"))))
+                      .like("%$searchFor%"))))
           ..orderBy([
             (c) => OrderingTerm.asc(c.order),
           ]))
@@ -4558,7 +4548,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   ? Constant(true)
                   : i.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchFor) + "%")))
+                      .like("%$searchFor%")))
           ..orderBy([
             if (archivedLast) (i) => OrderingTerm.asc(i.archived),
             (i) => OrderingTerm.asc(i.order),
@@ -4677,8 +4667,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     List<Budget> sharedBudgets = await getAllBudgets(sharedBudgetsOnly: true);
     Set<String> members = {};
     for (Budget budget in sharedBudgets) {
-      for (String member in budget.sharedAllMembersEver ?? [])
+      for (String member in budget.sharedAllMembersEver ?? []) {
         members.add(member);
+      }
     }
     return members.toList();
   }
@@ -4879,8 +4870,9 @@ class FinanceDatabase extends _$FinanceDatabase {
   //delete transaction given key
   Future deleteTransaction(String transactionPk,
       {bool updateSharedEntry = true}) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false)
+    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
+    }
     // Send the delete log to the server
     if (updateSharedEntry) {
       Transaction transactionToDelete =
@@ -4900,8 +4892,9 @@ class FinanceDatabase extends _$FinanceDatabase {
 
   Future deleteTransactions(List<String> transactionPks,
       {bool updateSharedEntry = true}) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false)
+    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
+    }
     // Send the delete log to the server
     for (String transactionPk in transactionPks) {
       if (updateSharedEntry) {
@@ -5065,8 +5058,9 @@ class FinanceDatabase extends _$FinanceDatabase {
                 ..orderBy([(w) => OrderingTerm.asc(w.order)]))
               .get())
           .firstOrNull;
-      if (newPrimaryCandidate == null)
+      if (newPrimaryCandidate == null) {
         throw "Can't find another wallet to make default";
+      }
     }
 
     if (appStateSettings["selectedWalletPk"] == walletPk) {
@@ -5477,8 +5471,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     for (CategoryBudgetLimit limit in wanderingCategoryLimits) {
       await deleteCategoryBudgetLimit(limit.categoryLimitPk);
     }
-    if (wanderingCategoryLimits.isNotEmpty)
+    if (wanderingCategoryLimits.isNotEmpty) {
       print("Deleted wandering spending limits with no category");
+    }
 
     //Remove limits not belonging to a budget
     List<Budget> allBudgets = await select(budgets).get();
@@ -5490,8 +5485,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     for (CategoryBudgetLimit limit in wanderingBudgetLimits) {
       await deleteCategoryBudgetLimit(limit.categoryLimitPk);
     }
-    if (wanderingBudgetLimits.isNotEmpty)
+    if (wanderingBudgetLimits.isNotEmpty) {
       print("Deleted wandering spending limits with no budget");
+    }
 
     List<String> duplicatedCategoryLimits = await customSelect(
       '''
@@ -5506,9 +5502,10 @@ class FinanceDatabase extends _$FinanceDatabase {
     for (String limitPkDuplicate in duplicatedCategoryLimits) {
       await deleteCategoryBudgetLimit(limitPkDuplicate);
     }
-    if (duplicatedCategoryLimits.isNotEmpty)
+    if (duplicatedCategoryLimits.isNotEmpty) {
       print(
           "Deleted wandering spending limits that duplicate a budget AND category id");
+    }
 
     return true;
   }
@@ -5849,18 +5846,20 @@ class FinanceDatabase extends _$FinanceDatabase {
     Expression<bool> isLongTermLoanLent = Constant(false);
     if (searchFilters.transactionTypes
         .contains(TransactionSpecialType.credit)) {
-      if (joinedWithObjectiveLoans != null)
+      if (joinedWithObjectiveLoans != null) {
         isLongTermLoanLent =
             tbl.objectiveLoanFk.isNotNull() & joinedWithObjectiveLoans.income;
-      else
+      } else {
         isLongTermLoanLent = tbl.objectiveLoanFk.isNotNull() & tbl.income.not();
+      }
     }
     if (searchFilters.transactionTypes.contains(TransactionSpecialType.debt)) {
-      if (joinedWithObjectiveLoans != null)
+      if (joinedWithObjectiveLoans != null) {
         isLongTermLoanBorrowed = tbl.objectiveLoanFk.isNotNull() &
             joinedWithObjectiveLoans.income.not();
-      else
+      } else {
         isLongTermLoanBorrowed = tbl.objectiveLoanFk.isNotNull() & tbl.income;
+      }
     }
     Expression<bool> isTransactionType =
         searchFilters.transactionTypes.length > 0
@@ -5927,14 +5926,14 @@ class FinanceDatabase extends _$FinanceDatabase {
       }
       for (String titleContain in stringToSplit.split(", ")) {
         isInTitleContains |=
-            tbl.name.collate(Collate.noCase).like("%" + titleContain + "%");
+            tbl.name.collate(Collate.noCase).like("%$titleContain%");
       }
     }
 
     String? noteContains = searchFilters.noteContains;
     Expression<bool> isInNoteContains = noteContains == null
         ? Constant(true)
-        : tbl.note.collate(Collate.noCase).like("%" + noteContains + "%");
+        : tbl.note.collate(Collate.noCase).like("%$noteContains%");
 
     return isInWalletPks &
         isInCategoryPks &
@@ -5971,30 +5970,30 @@ class FinanceDatabase extends _$FinanceDatabase {
         : (withCategories == true
                 ? categories.name
                     .collate(Collate.noCase)
-                    .like("%" + searchQuery + "%")
+                    .like("%$searchQuery%")
                 : Constant(false)) |
             (joinedWithSubcategoriesTable != null
                 ? joinedWithSubcategoriesTable.name
                     .collate(Collate.noCase)
-                    .like("%" + searchQuery + "%")
+                    .like("%$searchQuery%")
                 : Constant(false)) |
             (withBudgets == true
                 ? budgets.name
                     .collate(Collate.noCase)
-                    .like("%" + searchQuery + "%")
+                    .like("%$searchQuery%")
                 : Constant(false)) |
             (withObjectives == true
                 ? objectives.name
                     .collate(Collate.noCase)
-                    .like("%" + searchQuery + "%")
+                    .like("%$searchQuery%")
                 : Constant(false)) |
             (joinedWithObjectiveLoans != null
                 ? joinedWithObjectiveLoans.name
                     .collate(Collate.noCase)
-                    .like("%" + searchQuery + "%")
+                    .like("%$searchQuery%")
                 : Constant(false)) |
-            tbl.name.collate(Collate.noCase).like("%" + searchQuery + "%") |
-            tbl.note.collate(Collate.noCase).like("%" + searchQuery + "%") |
+            tbl.name.collate(Collate.noCase).like("%$searchQuery%") |
+            tbl.note.collate(Collate.noCase).like("%$searchQuery%") |
             onlyShowIfSearchQueryDateIsDate(searchQuery, tbl) |
             onlyShowIfSearchQueryAmount(searchQuery, tbl.amount);
   }
@@ -6277,7 +6276,7 @@ class FinanceDatabase extends _$FinanceDatabase {
           allTime: false);
     }
     CycleType selectedPeriodType = CycleType.values[
-        appStateSettings["selectedPeriodCycleType" + cycleSettingsExtension] ??
+        appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ??
             0];
     if (followCustomPeriodCycle == false) {
       return Constant(true);
@@ -6488,8 +6487,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     // we have to convert currencies to account for all wallets
     List<Stream<double?>> mergedStreams = [];
     for (TransactionWallet wallet in allWallets.list) {
-      if (walletPks != null && walletPks.contains(wallet.walletPk) == false)
+      if (walletPks != null && walletPks.contains(wallet.walletPk) == false) {
         continue;
+      }
       final totalAmt = transactions.amount.sum(
           filter: paidOnly == true
               ? transactions.paid.equals(true)
@@ -6576,8 +6576,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     List<Stream<List<CategoryWithTotal>>> mergedStreams = [];
 
     for (TransactionWallet wallet in allWallets.list) {
-      if (walletPks != null && walletPks.contains(wallet.walletPk) == false)
+      if (walletPks != null && walletPks.contains(wallet.walletPk) == false) {
         continue;
+      }
       final totalAmt = transactions.amount.sum(
           filter: (paidOnly == true
               ? transactions.paid.equals(true)
@@ -6934,7 +6935,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   // Only apply this tab specific total when searching
                   : ((objectives.name
                       .collate(Collate.noCase)
-                      .like("%" + (searchString ?? "") + "%")))) &
+                      .like("%${searchString ?? ""}%")))) &
               transactions.paid.equals(true) &
               transactions.walletFk.equals(wallet.walletPk) &
               (isCredit == null
@@ -7000,7 +7001,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                 // Only apply this tab specific total when searching
                 : (objectives.name
                     .collate(Collate.noCase)
-                    .like("%" + (searchString ?? "") + "%"))) &
+                    .like("%${searchString ?? ""}%"))) &
             (isCredit == null
                 ? Constant(true)
                 : isCredit
@@ -7430,8 +7431,7 @@ class FinanceDatabase extends _$FinanceDatabase {
         batch.deleteWhere(
             associatedTitles, (t) => t.associatedTitlePk.isIn(wanderingTitles));
       });
-      print("Deleted wandering titles (titles without an existing category) " +
-          wanderingTitles.length.toString());
+      print("Deleted wandering titles (titles without an existing category) ${wanderingTitles.length}");
       await fixOrderAssociatedTitles();
     }
     return true;
@@ -7582,9 +7582,10 @@ class FinanceDatabase extends _$FinanceDatabase {
     for (Transaction transaction in allTransactions) {
       double newAmount =
           transaction.amount.abs() * (transaction.income ? 1 : -1);
-      if (transaction.amount != newAmount)
+      if (transaction.amount != newAmount) {
         transactionsToUpdate.add(transaction.copyWith(
             amount: newAmount, dateTimeModified: Value(DateTime.now())));
+      }
     }
     await updateBatchTransactionsOnly(transactionsToUpdate);
     return transactionsToUpdate.length;
@@ -7595,9 +7596,10 @@ class FinanceDatabase extends _$FinanceDatabase {
     List<Transaction> transactionsToUpdate = [];
     for (Transaction transaction in allTransactions) {
       String newName = transaction.name.capitalizeFirst;
-      if (transaction.name != newName)
+      if (transaction.name != newName) {
         transactionsToUpdate.add(transaction.copyWith(
             name: newName, dateTimeModified: Value(DateTime.now())));
+      }
     }
     await updateBatchTransactionsOnly(transactionsToUpdate);
     return transactionsToUpdate.length;
