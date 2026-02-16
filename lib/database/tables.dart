@@ -969,7 +969,8 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.categories, schema.categories.emojiIconName);
               } catch (e) {
-                print("Migration Error: Error creating column emojiIconName $e");
+                print(
+                    "Migration Error: Error creating column emojiIconName $e");
               }
             },
             from39To40: (m, schema) async {
@@ -983,7 +984,8 @@ class FinanceDatabase extends _$FinanceDatabase {
               try {
                 await migrator.createTable($ObjectivesTable(database));
               } catch (e) {
-                print("Migration Error: Error creating table ObjectivesTable $e");
+                print(
+                    "Migration Error: Error creating table ObjectivesTable $e");
               }
             },
             from40To41: (m, schema) async {
@@ -998,7 +1000,8 @@ class FinanceDatabase extends _$FinanceDatabase {
               try {
                 await m.alterTable(TableMigration(budgets));
               } catch (e) {
-                print("Migration Error: Error deleting includeAllCategories $e");
+                print(
+                    "Migration Error: Error deleting includeAllCategories $e");
               }
               try {
                 List<Budget> allBudgets = await getAllBudgets();
@@ -1024,7 +1027,8 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.categories, schema.categories.mainCategoryPk);
               } catch (e) {
-                print("Migration Error: Error creating column mainCategoryPk $e");
+                print(
+                    "Migration Error: Error creating column mainCategoryPk $e");
               }
               try {
                 await m.addColumn(
@@ -1037,7 +1041,8 @@ class FinanceDatabase extends _$FinanceDatabase {
                 await m.addColumn(
                     schema.transactions, schema.transactions.subCategoryFk);
               } catch (e) {
-                print("Migration Error: Error creating column subCategoryFk $e");
+                print(
+                    "Migration Error: Error creating column subCategoryFk $e");
               }
               // Also see beforeOpen
               // We modify the entries of homePageWidgetDisplay of wallet entries after this migration
@@ -1082,7 +1087,8 @@ class FinanceDatabase extends _$FinanceDatabase {
               try {
                 await m.addColumn(schema.budgets, schema.budgets.income);
               } catch (e) {
-                print("Migration Error: Error creating column budgets.income $e");
+                print(
+                    "Migration Error: Error creating column budgets.income $e");
               }
               try {
                 await m.addColumn(
@@ -1156,8 +1162,7 @@ class FinanceDatabase extends _$FinanceDatabase {
         }
 
         if (details.hadUpgrade && details.versionBefore != null) {
-          print(
-              "Migration Version Before: ${details.versionBefore}");
+          print("Migration Version Before: ${details.versionBefore}");
           print("Migration Version After: ${details.versionNow}");
 
           if (details.versionBefore! < 42) {
@@ -1952,9 +1957,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   : Constant(true)) &
               (searchFor == null
                   ? Constant(true)
-                  : b.name
-                      .collate(Collate.noCase)
-                      .like("%$searchFor%")))
+                  : b.name.collate(Collate.noCase).like("%$searchFor%")))
           ..orderBy([
             if (archivedLast) (b) => OrderingTerm.asc(b.archived),
             (b) => OrderingTerm.asc(b.order)
@@ -2093,8 +2096,7 @@ class FinanceDatabase extends _$FinanceDatabase {
     // Search category names
     if (alsoSearchCategories) {
       list.addAll((await (select(categories)
-                ..where((c) =>
-                    c.name.collate(Collate.noCase).like("%$title%"))
+                ..where((c) => c.name.collate(Collate.noCase).like("%$title%"))
                 ..orderBy([
                   (c) => OrderingTerm.asc(c.mainCategoryPk),
                   (c) => OrderingTerm.asc(c.order),
@@ -2396,9 +2398,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   : Constant(true)) &
               (searchFor == null
                   ? Constant(true)
-                  : w.name
-                      .collate(Collate.noCase)
-                      .like("%$searchFor%"))))
+                  : w.name.collate(Collate.noCase).like("%$searchFor%"))))
           ..orderBy([(w) => OrderingTerm.asc(w.order)]))
         .join([
       leftOuterJoin(
@@ -3421,7 +3421,8 @@ class FinanceDatabase extends _$FinanceDatabase {
     bool updateSharedEntry = true,
     Transaction? originalTransaction,
   }) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
+    if (updateSharedEntry == true &&
+        appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
     }
     double maxAmount = 999999999999;
@@ -3999,7 +4000,8 @@ class FinanceDatabase extends _$FinanceDatabase {
     DateTime? customDateTimeModified,
     bool insert = false,
   }) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
+    if (updateSharedEntry == true &&
+        appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
     }
 
@@ -4216,7 +4218,8 @@ class FinanceDatabase extends _$FinanceDatabase {
     double maxAmount = 999999999999;
     if (budget.amount >= maxAmount) budget = budget.copyWith(amount: maxAmount);
 
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
+    if (updateSharedEntry == true &&
+        appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
     }
 
@@ -4341,9 +4344,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                       : Constant(true)) &
               (searchFor == null
                   ? Constant(true)
-                  : c.name
-                      .collate(Collate.noCase)
-                      .like("%$searchFor%"))))
+                  : c.name.collate(Collate.noCase).like("%$searchFor%"))))
           ..orderBy([
             (c) => OrderingTerm.asc(c.mainCategoryPk),
             (c) => OrderingTerm.asc(c.order),
@@ -4427,9 +4428,7 @@ class FinanceDatabase extends _$FinanceDatabase {
           ..where((c) => (onlyShowMainCategoryListing(c) &
               (searchFor == null
                   ? Constant(true)
-                  : c.name
-                      .collate(Collate.noCase)
-                      .like("%$searchFor%"))))
+                  : c.name.collate(Collate.noCase).like("%$searchFor%"))))
           ..orderBy([
             (c) => OrderingTerm.asc(c.order),
           ]))
@@ -4546,9 +4545,7 @@ class FinanceDatabase extends _$FinanceDatabase {
               onlyShowBasedOnIncomeObjective(i, isIncome) &
               (searchFor == null
                   ? Constant(true)
-                  : i.name
-                      .collate(Collate.noCase)
-                      .like("%$searchFor%")))
+                  : i.name.collate(Collate.noCase).like("%$searchFor%")))
           ..orderBy([
             if (archivedLast) (i) => OrderingTerm.asc(i.archived),
             (i) => OrderingTerm.asc(i.order),
@@ -4870,7 +4867,8 @@ class FinanceDatabase extends _$FinanceDatabase {
   //delete transaction given key
   Future deleteTransaction(String transactionPk,
       {bool updateSharedEntry = true}) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
+    if (updateSharedEntry == true &&
+        appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
     }
     // Send the delete log to the server
@@ -4892,7 +4890,8 @@ class FinanceDatabase extends _$FinanceDatabase {
 
   Future deleteTransactions(List<String> transactionPks,
       {bool updateSharedEntry = true}) async {
-    if (updateSharedEntry == true && appStateSettings["sharedBudgets"] == false) {
+    if (updateSharedEntry == true &&
+        appStateSettings["sharedBudgets"] == false) {
       updateSharedEntry = false;
     }
     // Send the delete log to the server
@@ -5968,9 +5967,7 @@ class FinanceDatabase extends _$FinanceDatabase {
     return searchQuery == "" || searchQuery == null
         ? Constant(true)
         : (withCategories == true
-                ? categories.name
-                    .collate(Collate.noCase)
-                    .like("%$searchQuery%")
+                ? categories.name.collate(Collate.noCase).like("%$searchQuery%")
                 : Constant(false)) |
             (joinedWithSubcategoriesTable != null
                 ? joinedWithSubcategoriesTable.name
@@ -5978,14 +5975,10 @@ class FinanceDatabase extends _$FinanceDatabase {
                     .like("%$searchQuery%")
                 : Constant(false)) |
             (withBudgets == true
-                ? budgets.name
-                    .collate(Collate.noCase)
-                    .like("%$searchQuery%")
+                ? budgets.name.collate(Collate.noCase).like("%$searchQuery%")
                 : Constant(false)) |
             (withObjectives == true
-                ? objectives.name
-                    .collate(Collate.noCase)
-                    .like("%$searchQuery%")
+                ? objectives.name.collate(Collate.noCase).like("%$searchQuery%")
                 : Constant(false)) |
             (joinedWithObjectiveLoans != null
                 ? joinedWithObjectiveLoans.name
@@ -7431,7 +7424,8 @@ class FinanceDatabase extends _$FinanceDatabase {
         batch.deleteWhere(
             associatedTitles, (t) => t.associatedTitlePk.isIn(wanderingTitles));
       });
-      print("Deleted wandering titles (titles without an existing category) ${wanderingTitles.length}");
+      print(
+          "Deleted wandering titles (titles without an existing category) ${wanderingTitles.length}");
       await fixOrderAssociatedTitles();
     }
     return true;

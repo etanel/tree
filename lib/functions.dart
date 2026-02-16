@@ -62,8 +62,7 @@ extension DateUtils on DateTime {
 
   DateTime justDay(
       {int yearOffset = 0, int monthOffset = 0, int dayOffset = 0}) {
-    return DateTime(
-        year + yearOffset, month + monthOffset, day + dayOffset);
+    return DateTime(year + yearOffset, month + monthOffset, day + dayOffset);
   }
 
   DateTime firstDayOfMonth() {
@@ -81,7 +80,8 @@ String convertToPercent(double amount,
 
   if (amount.isNaN || amount == 0 || finalNumber == 0) return "0%";
 
-  int numberDecimalsGet = numberDecimals ?? (int.tryParse(appStateSettings["percentagePrecision"].toString()) ?? 0);
+  int numberDecimalsGet = numberDecimals ??
+      (int.tryParse(appStateSettings["percentagePrecision"].toString()) ?? 0);
 
   String roundedAmount = amount.toStringAsFixed(numberDecimalsGet);
 
@@ -252,10 +252,8 @@ String convertToMoney(AllWallets allWallets, double amount,
   if (addCurrencyName == true && currencyKey != null) {
     currencyName = " ${currencyKey.toUpperCase()}";
   } else if (addCurrencyName == true) {
-    currencyName = " ${(allWallets.indexedByPk[appStateSettings["selectedWalletPk"]]
-                    ?.currency ??
-                "")
-            .toUpperCase()}";
+    currencyName =
+        " ${(allWallets.indexedByPk[appStateSettings["selectedWalletPk"]]?.currency ?? "").toUpperCase()}";
   }
 
   if (useCustomNumberFormat) {
@@ -477,8 +475,7 @@ getWordedDate(DateTime date,
   if (checkYesterdayTodayTomorrow(date) != false) {
     return checkYesterdayTodayTomorrow(date) +
         (includeMonthDate
-            ? ", ${DateFormat.MMMMd(navigatorKey.currentContext?.locale.toString())
-                    .format(date)}$extraYear"
+            ? ", ${DateFormat.MMMMd(navigatorKey.currentContext?.locale.toString()).format(date)}$extraYear"
             : "");
   }
 
@@ -1418,9 +1415,7 @@ String getWalletStringName(AllWallets allWallets, TransactionWallet? wallet) {
 
 String addAmountToString(String string, int amount,
     {String? extraText, bool addCommaWithExtraText = true}) {
-  return "$string ( ×$amount${extraText == null
-          ? ""
-          : (addCommaWithExtraText ? ", " : " ") + (extraText)} )";
+  return "$string ( ×$amount${extraText == null ? "" : (addCommaWithExtraText ? ", " : " ") + (extraText)} )";
 }
 
 int directionalityReverse(BuildContext context) {
