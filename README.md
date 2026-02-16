@@ -80,9 +80,9 @@ All pipelines run via **GitHub Actions** (Android only for now).
 
 | Workflow | File | Trigger | What it does |
 |---|---|---|---|
-| Analyze & Test | `analyze_test.yml` | PR / push to `main` | Runs `flutter analyze` and `flutter test` |
-| Build Verification | `build.yml` | PR / push to `main` | Builds debug APK, uploads as artifact |
-| Firebase Distribution | `distribute.yml` | Push to `main` | Builds release APK, uploads to Firebase App Distribution |
+| Analyze & Test | `analyze_test.yml` | PR / push to `master` | Runs `flutter analyze` and `flutter test` |
+| Build Verification | `build.yml` | PR / push to `master` | Builds debug APK, uploads as artifact |
+| Firebase Distribution | `distribute.yml` | Push to `master` | Builds release APK, uploads to Firebase App Distribution |
 | Release Build | `release.yml` | Tag `v*` | Builds signed APK, creates GitHub Release |
 
 ### Required GitHub Secrets
@@ -108,7 +108,7 @@ git push --tags
 
 ## Contributing
 
-1. Create a new branch from `main` for your feature or fix
+1. Create a new branch from `master` for your feature or fix
 2. Make your changes and test locally
 3. Open a pull request with a clear description of what you changed and why
 4. Get at least one review before merging

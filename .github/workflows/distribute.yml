@@ -2,7 +2,7 @@ name: Firebase App Distribution
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   distribute:
