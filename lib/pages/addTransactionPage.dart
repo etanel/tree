@@ -4142,8 +4142,17 @@ Future<List<int>?> getGoogleDriveFileImageData(String url) async {
         await signInGoogle(drivePermissionsAttachments: true);
       }
 
-      final authHeaders = await googleUser!.authHeaders;
-      final authenticateClient = GoogleAuthClient(authHeaders);
+      final authHeaders =
+          await googleUser!.authorizationClient.authorizationHeaders([
+        drive.DriveApi.driveFileScope,
+        drive.DriveApi.driveAppdataScope,
+      ]);
+
+      if (authHeaders == null) {
+        print("Failed to get Drive authorization headers");
+      }
+
+      final authenticateClient = GoogleAuthClient(authHeaders!);
       drive.DriveApi driveApi = drive.DriveApi(authenticateClient);
 
       List<int> dataStore = [];

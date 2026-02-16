@@ -20,8 +20,11 @@ Future<String?> initializeNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('notification_icon_android2');
     final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(
-            onDidReceiveLocalNotification: (_, __, ___, ____) {});
+    DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+    );
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -29,7 +32,7 @@ Future<String?> initializeNotifications() async {
       iOS: initializationSettingsDarwin,
     );
     await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveBackgroundNotificationResponse: onSelectNotification,
       onDidReceiveNotificationResponse: onSelectNotification,
     );
@@ -43,13 +46,13 @@ Future<String?> initializeNotifications() async {
   return response;
 }
 
-onSelectNotification(NotificationResponse notificationResponse) async {
+Future<void> onSelectNotification(NotificationResponse notificationResponse) async {
   String? payloadData = notificationResponse.payload;
   notificationPayload = payloadData;
   runNotificationPayLoadsNoContext();
 }
 
-runNotificationPayLoadsNoContext() {
+void runNotificationPayLoadsNoContext() {
   if (navigatorKey.currentContext == null) return;
   // If the upcoming transaction notification tapped when app opened, auto pay overdue transaction
   if (notificationPayload == "upcomingTransaction") {
@@ -63,7 +66,7 @@ runNotificationPayLoadsNoContext() {
 }
 
 Future<bool> runNotificationPayLoads(context) async {
-  print("Notification payload: " + notificationPayload.toString());
+  print("Notification payload: $notificationPayload");
   if (kIsWeb) return false;
   if (notificationPayload == null) return false;
   if (notificationPayload == "addTransaction") {

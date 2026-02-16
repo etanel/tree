@@ -35,6 +35,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'firebase_options.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Requires hot restart when changed
 bool enableDevicePreview = false || kDebugMode;
@@ -44,6 +45,7 @@ bool allowDangerousDebugFlags = kDebugMode;
 void main() async {
   captureLogs(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: ".env");
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -112,8 +114,8 @@ class App extends StatelessWidget {
       actions: keyboardIntents,
       themeAnimationDuration: Duration(milliseconds: 400),
       themeAnimationCurve: CustomDelayedCurve(),
-      key: ValueKey('CashewAppMain'),
-      title: 'Cashew',
+      key: ValueKey('TreeAppMain'),
+      title: 'Tree',
       theme: getLightTheme(),
       darkTheme: getDarkTheme(),
       scrollBehavior: ScrollBehaviorOverride(),

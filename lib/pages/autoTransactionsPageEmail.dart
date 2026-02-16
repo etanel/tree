@@ -159,12 +159,11 @@ Future queueTransactionFromMessage(String messageString,
 
 String getNotificationMessage(ServiceNotificationEvent event) {
   String output = "";
-  output = output + "Package name: " + event.packageName.toString() + "\n";
-  output =
-      output + "Notification removed: " + event.hasRemoved.toString() + "\n";
-  output = output + "\n----\n\n";
-  output = output + "Notification Title: " + event.title.toString() + "\n\n";
-  output = output + "Notification Content: " + event.content.toString();
+  output = "${output}Package name: ${event.packageName}\n";
+  output = "${output}Notification removed: ${event.hasRemoved}\n";
+  output = "$output\n----\n\n";
+  output = "${output}Notification Title: ${event.title}\n\n";
+  output = "${output}Notification Content: ${event.content}";
   return output;
 }
 
@@ -423,7 +422,17 @@ Future<void> parseEmailsInBackground(context,
           appStateSettings["EmailAutoTransactions-amountOfEmails"] ?? 10;
       int newEmailCount = 0;
 
-      final authHeaders = await googleUser!.authHeaders;
+      final authHeaders = await googleUser!.authorizationClient
+          .authorizationHeaders([
+        gMail.GmailApi.gmailReadonlyScope,
+        gMail.GmailApi.gmailModifyScope
+      ]);
+
+      if (authHeaders == null) {
+        print("Failed to get Gmail authorization headers");
+        return; // or handle the error appropriately
+      }
+
       final authenticateClient = GoogleAuthClient(authHeaders);
       gMail.GmailApi gmailApi = gMail.GmailApi(authenticateClient);
       gMail.ListMessagesResponse results = await gmailApi.users.messages
@@ -556,7 +565,7 @@ Future<void> parseEmailsInBackground(context,
         transactionsToAdd.add(transactionToAdd);
         openSnackbar(
           SnackbarMessage(
-            title: templateFound!.templateName + ": " + "From Email",
+            title: "${templateFound!.templateName}: From Email",
             description: title,
             icon: appStateSettings["outlinedIcons"]
                 ? Icons.payments_outlined
@@ -574,8 +583,8 @@ Future<void> parseEmailsInBackground(context,
       }
       // wait for intro animation to finish
       if (Duration(milliseconds: 2500) > stopwatch.elapsed) {
-        print("waited extra" +
-            (Duration(milliseconds: 2500) - stopwatch.elapsed).toString());
+        print(
+            "waited extra${Duration(milliseconds: 2500) - stopwatch.elapsed}");
         await Future.delayed(
             Duration(milliseconds: 2500) - stopwatch.elapsed, () {});
       }
@@ -591,10 +600,10 @@ Future<void> parseEmailsInBackground(context,
         emails, // Keep 10 extra in case maybe the user deleted some emails recently
         updateGlobalState: false,
       );
-      if (newEmailCount > 0 || sayUpdates == true)
+      if (newEmailCount > 0 || sayUpdates == true) {
         openSnackbar(
           SnackbarMessage(
-            title: "Scanned " + results.messages!.length.toString() + " emails",
+            title: "Scanned ${results.messages!.length} emails",
             description: newEmailCount.toString() +
                 pluralString(newEmailCount == 1, " new email"),
             icon: appStateSettings["outlinedIcons"]
@@ -605,6 +614,7 @@ Future<void> parseEmailsInBackground(context,
             },
           ),
         );
+      }
     }
   }
 }
@@ -661,7 +671,17 @@ class _GmailApiScreenState extends State<GmailApiScreen> {
     loading = true;
     if (googleUser != null) {
       try {
-        final authHeaders = await googleUser!.authHeaders;
+        final authHeaders = await googleUser!.authorizationClient
+            .authorizationHeaders([
+          gMail.GmailApi.gmailReadonlyScope,
+          gMail.GmailApi.gmailModifyScope
+        ]);
+
+        if (authHeaders == null) {
+          print("Failed to get Gmail authorization headers");
+          return; // or handle the error appropriately
+        }
+
         final authenticateClient = GoogleAuthClient(authHeaders);
         gMail.GmailApi gmailApi = gMail.GmailApi(authenticateClient);
         gMail.ListMessagesResponse results = await gmailApi.users.messages
@@ -880,7 +900,7 @@ class ScannerTemplateEntry extends StatelessWidget {
                         popRoute(context);
                         openSnackbar(
                           SnackbarMessage(
-                            title: "Deleted " + scannerTemplate.templateName,
+                            title: "Deleted ${scannerTemplate.templateName}",
                             icon: Icons.delete,
                           ),
                         );
@@ -969,8 +989,9 @@ class EmailsList extends StatelessWidget {
                               getColor(context, "lightDarkAccent"),
                   onTap: () {
                     if (onTap != null) onTap!(messageString);
-                    if (onTap == null)
+                    if (onTap == null) {
                       queueTransactionFromMessage(messageString);
+                    }
                   },
                   child: Row(
                     children: [
@@ -1018,7 +1039,7 @@ class EmailsList extends StatelessWidget {
                                         )
                                       : TextFont(
                                           fontSize: 15,
-                                          text: "Title: " + title,
+                                          text: "Title: $title",
                                           maxLines: 10,
                                           fontWeight: FontWeight.bold,
                                         )
@@ -1043,11 +1064,8 @@ class EmailsList extends StatelessWidget {
                                                   bottom: 8.0),
                                           child: TextFont(
                                             fontSize: 15,
-                                            text: "Amount: " +
-                                                convertToMoney(
-                                                    Provider.of<AllWallets>(
-                                                        context),
-                                                    amountDouble),
+                                            text:
+                                                "Amount: ${convertToMoney(Provider.of<AllWallets>(context), amountDouble)}",
                                             maxLines: 10,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -1091,9 +1109,8 @@ String getEmailMessage(gMail.Message messageData) {
       String parsedString = parseHtmlString(htmlString);
       messageString = parsedString;
     } catch (e) {
-      messageString = (messageData.snippet ?? "") +
-          "\n\n" +
-          "There was an error getting the rest of the email";
+      messageString =
+          "${messageData.snippet ?? ""}\n\nThere was an error getting the rest of the email";
     }
   } else {
     messageString = parseHtmlString(utf8.decode(base64.decode(messageEncoded)));

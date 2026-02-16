@@ -63,3 +63,7 @@ Future<FirebaseFirestore?> firebaseGetDBInstance() async {
     }
   }
 }
+
+extension on GoogleSignInAuthentication? {
+  String? get accessToken => null;
+}
