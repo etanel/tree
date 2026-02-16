@@ -44,7 +44,7 @@ Tree is a project designed to be a single app where you can organize and monitor
 - A Firebase project with Android/iOS/Web apps configured
 - `google-services.json` in `android/app/`
 - `GoogleService-Info.plist` in `ios/Runner/`
-- A `.env` file in the project root with your Firebase config
+- A `.env` file in the project root with your Firebase config (copy `.env.example` and fill in values)
 
 ### Run
 
@@ -72,6 +72,38 @@ lib/
 ├── pages/                # App screens
 ├── struct/               # Core logic (auth, sync, settings)
 └── widgets/              # Reusable UI components
+```
+
+## CI/CD
+
+All pipelines run via **GitHub Actions** (Android only for now).
+
+| Workflow | File | Trigger | What it does |
+|---|---|---|---|
+| Analyze & Test | `analyze_test.yml` | PR / push to `main` | Runs `flutter analyze` and `flutter test` |
+| Build Verification | `build.yml` | PR / push to `main` | Builds debug APK, uploads as artifact |
+| Firebase Distribution | `distribute.yml` | Push to `main` | Builds release APK, uploads to Firebase App Distribution |
+| Release Build | `release.yml` | Tag `v*` | Builds signed APK, creates GitHub Release |
+
+### Required GitHub Secrets
+
+Set these in **Settings → Secrets and variables → Actions**:
+
+| Secret | Used by | Description |
+|---|---|---|
+| `ENV_FILE` | All workflows | Full contents of your `.env` file |
+| `KEYSTORE_BASE64` | Release | Base64-encoded `.jks` keystore |
+| `KEY_ALIAS` | Release | Keystore key alias |
+| `KEY_PASSWORD` | Release | Keystore key password |
+| `STORE_PASSWORD` | Release | Keystore store password |
+| `FIREBASE_APP_ID` | Distribute | Firebase Android App ID |
+| `CREDENTIAL_FILE_CONTENT` | Distribute | Firebase service account JSON |
+
+### Creating a release
+
+```bash
+git tag v5.4.4
+git push --tags
 ```
 
 ## Contributing
