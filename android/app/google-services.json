@@ -12,7 +12,12 @@
           "package_name": "com.tree_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "521698141750-3ikp96fs8bs2mh7qra53c21pttqped93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAHpBNIj2fI9LABMx78p987vOa_UNmNLIg"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521698141750-3ikp96fs8bs2mh7qra53c21pttqped93.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "521698141750-ktqa9rjhrsielt5ae7v7kf35ofohfnml.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tree.tree.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

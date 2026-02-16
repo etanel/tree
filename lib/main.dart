@@ -29,7 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:tree/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_preview/device_preview.dart';
+
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -38,7 +38,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Requires hot restart when changed
-bool enableDevicePreview = false || kDebugMode;
+
 bool allowDebugFlags = true && kIsWeb;
 bool allowDangerousDebugFlags = kDebugMode;
 
@@ -58,18 +58,41 @@ void main() async {
     await loadLanguageNamesJSON();
     await initializeSettings();
     tz.initializeTimeZones();
-    final TimezoneInfo locationName = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(locationName as String));
+    String timeZoneName = 'Unknown';
+    try {
+      final dynamic locationName = await FlutterTimezone.getLocalTimezone();
+      print("Timezone Raw: $locationName");
+      if (locationName is String) {
+        timeZoneName = locationName;
+      } else {
+        // Extract timezone ID from TimezoneInfo object
+        // TimezoneInfo.toString() returns "TimezoneInfo(Africa/Kampala, ...)"
+        // We need to extract just the timezone name (e.g. "Africa/Kampala")
+        final rawString = locationName.toString();
+        final match = RegExp(r'TimezoneInfo\(([^,]+)').firstMatch(rawString);
+        if (match != null && match.group(1) != null) {
+          timeZoneName = match.group(1)!.trim();
+        } else {
+          timeZoneName = rawString;
+        }
+      }
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    } catch (e) {
+      print("Error setting local timezone: $e");
+      try {
+        // Fallback to a safe default if the detected one fails
+        tz.setLocalLocation(tz.getLocation("America/New_York"));
+      } catch (e2) {
+        print("Error setting fallback timezone: $e2");
+      }
+    }
     iconObjects.sort((a, b) => (a.mostLikelyCategoryName ?? a.icon)
         .compareTo((b.mostLikelyCategoryName ?? b.icon)));
     setHighRefreshRate();
     runApp(
-      DevicePreview(
-        enabled: enableDevicePreview,
-        builder: (context) => InitializeLocalizations(
-          child: RestartApp(
-            child: InitializeApp(key: appStateKey),
-          ),
+      InitializeLocalizations(
+        child: RestartApp(
+          child: InitializeApp(key: appStateKey),
         ),
       ),
     );
@@ -105,11 +128,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Rebuilt Material App");
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       showPerformanceOverlay: kProfileMode,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      locale:
-          enableDevicePreview ? DevicePreview.locale(context) : context.locale,
+      locale: context.locale,
       shortcuts: shortcuts,
       actions: keyboardIntents,
       themeAnimationDuration: Duration(milliseconds: 400),
