@@ -338,15 +338,20 @@ const ColorFilter greyScale = ColorFilter.matrix(<double>[
 
 Future<String?> getAccentColorSystemString() async {
   if (supportsSystemColor() && appStateSettings["accentSystemColor"] == true) {
-    SystemTheme.fallbackColor = Colors.blue;
-    await SystemTheme.accentColor.load();
-    Color accentColor = SystemTheme.accentColor.accent;
-    if (accentColor.toString() == "Color(0xff80cbc4)") {
-      // A default cyan color returned from an unsupported accent color Samsung device
+    try {
+      SystemTheme.fallbackColor = Colors.blue;
+      await SystemTheme.accentColor.load();
+      Color accentColor = SystemTheme.accentColor.accent;
+      if (accentColor.toString() == "Color(0xff80cbc4)") {
+        // A default cyan color returned from an unsupported accent color Samsung device
+        return null;
+      }
+      print("System color loaded");
+      return toHexString(accentColor);
+    } catch (e) {
+      print("Error loading system color: $e");
       return null;
     }
-    print("System color loaded");
-    return toHexString(accentColor);
   } else {
     return null;
   }
