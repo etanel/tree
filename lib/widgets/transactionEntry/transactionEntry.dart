@@ -72,9 +72,8 @@ class TransactionEntryHitBox extends RenderProxyBox {
 class TransactionEntryBox extends SingleChildRenderObjectWidget {
   final String transactionKey;
 
-  TransactionEntryBox(
-      {required Widget child, required this.transactionKey, Key? key})
-      : super(child: child, key: key);
+  const TransactionEntryBox(
+      {required Widget super.child, required this.transactionKey, super.key});
 
   @override
   TransactionEntryHitBox createRenderObject(BuildContext context) {
@@ -84,13 +83,13 @@ class TransactionEntryBox extends SingleChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, TransactionEntryHitBox renderObject) {
-    renderObject..transactionKey = transactionKey;
+    renderObject.transactionKey = transactionKey;
   }
 }
 
 class TransactionEntry extends StatelessWidget {
-  TransactionEntry({
-    Key? key,
+  const TransactionEntry({
+    super.key,
     required this.openPage,
     required this.transaction,
     this.listID, //needs to be unique based on the page to avoid conflicting globalSelectedIDs
@@ -113,7 +112,7 @@ class TransactionEntry extends StatelessWidget {
     this.showExcludedBudgetTag,
     this.enableFutureTransactionsDivider = false,
     this.aboveWidget,
-  }) : super(key: key);
+  });
 
   final Widget openPage;
   final Transaction transaction;
@@ -821,7 +820,7 @@ class FlashingContainer extends StatefulWidget {
   final Color backgroundColor;
   final int loopCount; // Add this property
 
-  FlashingContainer({
+  const FlashingContainer({
     required this.child,
     this.flashDuration = const Duration(milliseconds: 500),
     this.isAnimating = true,

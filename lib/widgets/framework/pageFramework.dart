@@ -35,8 +35,8 @@ class PageFramework extends StatefulWidget {
     this.appBarBackgroundColor,
     this.appBarBackgroundColorStart,
     this.backButton = true,
-    this.subtitle = null,
-    this.subtitleSize = null,
+    this.subtitle,
+    this.subtitleSize,
     this.addExtraPaddingAfterCenteredSubtitle,
     this.subtitleAnimationSpeed,
     this.onBottomReached,
@@ -137,13 +137,13 @@ class PageFrameworkState extends State<PageFramework>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final double leftBackSwipeDetectionWidth = 30;
 
-  late ScrollController _scrollController =
+  late final ScrollController _scrollController =
       widget.scrollController ?? ScrollController();
   late AnimationController _animationControllerShift =
       AnimationController(vsync: this);
   late AnimationController _animationControllerOpacity;
   late AnimationController _animationControllerDragY;
-  late AnimationController _scrollToTopAnimationController =
+  late final AnimationController _scrollToTopAnimationController =
       AnimationController(
     vsync: this,
     duration: Duration(milliseconds: 500),
@@ -215,6 +215,7 @@ class PageFrameworkState extends State<PageFramework>
         duration: Duration(milliseconds: duration), curve: Curves.easeInOut);
   }
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -522,7 +523,7 @@ class PageFrameworkState extends State<PageFramework>
               ],
             ),
     );
-    Widget? dragDownToDismissScaffold = null;
+    Widget? dragDownToDismissScaffold;
     if (widget.dragDownToDismiss) {
       dragDownToDismissScaffold = Listener(
         onPointerMove: (ptr) => {_onPointerMove(ptr)},
@@ -802,8 +803,8 @@ class PageFrameworkSliverAppBar extends StatelessWidget {
     this.appBarBackgroundColor,
     this.appBarBackgroundColorStart,
     this.backButton = true,
-    this.subtitle = null,
-    this.subtitleSize = null,
+    this.subtitle,
+    this.subtitleSize,
     this.subtitleAnimationSpeed,
     this.onBottomReached,
     this.pinned = true,
