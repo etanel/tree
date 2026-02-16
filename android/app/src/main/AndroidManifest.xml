@@ -31,7 +31,8 @@
     <application
         android:requestLegacyExternalStorage="true"
         android:label="Tree"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true">
         <!-- Use the new rendering engine Impeller (experimental) -->
         <!-- <meta-data
         android:name="io.flutter.embedding.android.EnableImpeller"
