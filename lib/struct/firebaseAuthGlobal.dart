@@ -42,12 +42,11 @@ Future<FirebaseFirestore?> firebaseGetDBInstance() async {
       if (googleUser == null) {
         await signInGoogle(silentSignIn: true);
       }
-      // GoogleSignInAccount? googleUser = googleUser;
 
-      GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      // In google_sign_in 7.x, authentication is a sync getter with idToken
+      final GoogleSignInAuthentication? googleAuth = googleUser?.authentication;
 
       _credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
@@ -62,8 +61,4 @@ Future<FirebaseFirestore?> firebaseGetDBInstance() async {
       return null;
     }
   }
-}
-
-extension on GoogleSignInAuthentication? {
-  String? get accessToken => null;
 }

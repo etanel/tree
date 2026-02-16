@@ -134,7 +134,11 @@ Future<bool> signInGoogle(
       googleSignIn = signIn.GoogleSignIn.instance;
 
       // Initialize asynchronously (required in 7.x)
-      await googleSignIn!.initialize();
+      // serverClientId is the Web Client ID from google-services.json (client_type: 3)
+      await googleSignIn!.initialize(
+        serverClientId:
+            '521698141750-3ikp96fs8bs2mh7qra53c21pttqped93.apps.googleusercontent.com',
+      );
 
       final signIn.GoogleSignInAccount? account = silentSignIn == true
           ?
