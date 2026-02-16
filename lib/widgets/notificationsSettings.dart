@@ -273,11 +273,9 @@ class _UpcomingTransactionsNotificationsSettingsState
                                         transaction.type),
                                     title: getTransactionLabelSync(
                                         transaction, snapshot.data!),
-                                    description: getWordedDateShortMore(
-                                            transaction.dateCreated) +
-                                        ", " +
-                                        getWordedTime(
-                                            null, transaction.dateCreated),
+                                    description: "${getWordedDateShortMore(
+                                            transaction.dateCreated)}, ${getWordedTime(
+                                            null, transaction.dateCreated)}",
                                     onSwitched: (value) async {
                                       await database.createOrUpdateTransaction(
                                           transaction.copyWith(
@@ -313,7 +311,7 @@ class _UpcomingTransactionsNotificationsSettingsState
 }
 
 List<String> _reminderStrings = [
-  for (int i = 1; i <= 26; i++) "notification-reminder-" + i.toString()
+  for (int i = 1; i <= 26; i++) "notification-reminder-$i"
 ];
 
 Future<bool> scheduleDailyNotification(
@@ -347,34 +345,24 @@ Future<bool> scheduleDailyNotification(
     String chosenMessage =
         _reminderStrings[Random().nextInt(_reminderStrings.length)].tr();
     tz.TZDateTime dateTime = _nextInstanceOfSetTime(timeOfDay, dayOffset: i);
-    if (scheduleNowDebug)
+    if (scheduleNowDebug) {
       dateTime = tz.TZDateTime.now(tz.local).add(Duration(seconds: i * 5));
+    }
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
       iOS: darwinNotificationDetails,
     );
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      i,
-      'notification-reminder-title'.tr(),
-      chosenMessage,
-      dateTime,
-      notificationDetails,
-      androidAllowWhileIdle: true,
+      id: i,
+      title: 'notification-reminder-title'.tr(),
+      body: chosenMessage,
+      scheduledDate: dateTime,
+      notificationDetails: notificationDetails,
       payload: 'addTransaction',
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.dateAndTime,
-
-      // If exact time was used, need USE_EXACT_ALARM and SCHEDULE_EXACT_ALARM permissions
-      // which are only meant for calendar/reminder based applications
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.dateAndTime,
     );
-    print("Notification " +
-        chosenMessage +
-        " scheduled for " +
-        dateTime.toString() +
-        " with id " +
-        i.toString());
+    print("Notification $chosenMessage scheduled for $dateTime with id $i");
   }
 
   // final List<PendingNotificationRequest> pendingNotificationRequests =
@@ -386,7 +374,7 @@ Future<bool> scheduleDailyNotification(
 Future<bool> cancelDailyNotification() async {
   // Need to cancel all, including the one at 0 - even if it does not exist
   for (int i = 0; i <= 14; i++) {
-    await flutterLocalNotificationsPlugin.cancel(i);
+    await flutterLocalNotificationsPlugin.cancel(id: i);
   }
   print("Cancelled notifications for daily reminder");
   return true;
@@ -440,30 +428,20 @@ Future<bool> scheduleUpcomingTransactionsNotification(context) async {
     );
     if (upcomingTransaction.dateCreated.isAfter(DateTime.now())) {
       await flutterLocalNotificationsPlugin.zonedSchedule(
-        idStart,
-        'notification-upcoming-transaction-title'.tr(),
-        chosenMessage,
-        dateTime,
-        notificationDetails,
-        androidAllowWhileIdle: true,
+        id: idStart,
+        title: 'notification-upcoming-transaction-title'.tr(),
+        body: chosenMessage,
+        scheduledDate: dateTime,
+        notificationDetails: notificationDetails,
         payload: 'upcomingTransaction',
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-
-        // If exact time was used, need USE_EXACT_ALARM and SCHEDULE_EXACT_ALARM permissions
-        // which are only meant for calendar/reminder based applications
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
       );
     } else {
       print("Cannot set up notification before current time!");
     }
 
-    print("Notification " +
-        chosenMessage +
-        " scheduled for " +
-        dateTime.toString() +
-        " with id " +
-        upcomingTransaction.transactionPk.toString());
+    print("Notification $chosenMessage scheduled for $dateTime with id ${upcomingTransaction.transactionPk}");
   }
 
   return true;
@@ -478,7 +456,7 @@ Future<bool> cancelUpcomingTransactionsNotification() async {
   int idStart = 100;
   for (Transaction upcomingTransaction in upcomingTransactions) {
     idStart++;
-    await flutterLocalNotificationsPlugin.cancel(idStart);
+    await flutterLocalNotificationsPlugin.cancel(id: idStart);
   }
   print("Cancelled notifications for upcoming");
   return true;
@@ -539,7 +517,7 @@ Future<bool> checkNotificationsPermissionAll() async {
     if (Platform.isAndroid) return await checkNotificationsPermissionAndroid();
     if (Platform.isIOS) return await checkNotificationsPermissionIOS();
   } catch (e) {
-    print("Error setting up notifications: " + e.toString());
+    print("Error setting up notifications: $e");
     return false;
   }
   return false;

@@ -55,3 +55,4 @@ keystore.jks
 
 /.firebase
 .firebase/
+.env

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:tree/colors.dart';
 import 'package:tree/database/generatePreviewData.dart';
 import 'package:tree/database/tables.dart';
-import 'package:tree/firebase_options.dart';
+
 import 'package:tree/functions.dart';
 import 'package:tree/main.dart';
 import 'package:tree/pages/aboutPage.dart';
@@ -129,12 +129,12 @@ Future<bool> signInGoogle(
               ]
             : [])
       ];
-      googleSignIn = getPlatform() == PlatformOS.isIOS
-          ? signIn.GoogleSignIn(
-              clientId: DefaultFirebaseOptions.currentPlatform.iosClientId,
-              scopes: scopes)
-          : signIn.GoogleSignIn.standard(scopes: scopes);
-      // googleSignIn?.currentUser?.clearAuthCache();
+
+      // Google Sign-In 7.x uses singleton pattern
+      googleSignIn = signIn.GoogleSignIn.instance;
+
+      // Initialize asynchronously (required in 7.x)
+      await googleSignIn!.initialize();
 
       final signIn.GoogleSignInAccount? account = silentSignIn == true
           ?
@@ -148,14 +148,23 @@ Future<bool> signInGoogle(
           // Currently we do not use silent sign in anymore, as it does not allow any access
           // to GDrive or other tools, so there is no point to get the username/email form silent
           kIsWeb
-              ? await googleSignIn?.signIn()
-              : await googleSignIn?.signInSilently()
-          : await googleSignIn?.signIn();
+              ? await googleSignIn?.authenticate()
+              : await googleSignIn?.attemptLightweightAuthentication()
+          : await googleSignIn?.authenticate();
 
       if (account != null) {
         // print("ACCOUNT");
         // print(account);
         googleUser = account;
+
+        // In version 7.x, authorize scopes after sign-in
+        try {
+          await googleUser!.authorizationClient.authorizeScopes(scopes);
+        } catch (e) {
+          print("Failed to authorize scopes: $e");
+          // Continue even if scope authorization fails
+        }
+
         await updateSettings("currentUserEmail", googleUser?.email ?? "",
             updateGlobalState: false);
       } else {
@@ -213,7 +222,16 @@ void refreshUIAfterLoginChange() {
 Future<bool> testIfHasGmailAccess() async {
   print("TESTING GMAIL");
   try {
-    final authHeaders = await googleUser!.authHeaders;
+    // In v7.x: use authorizationClient.authorizationHeaders() instead of authHeaders
+    final authHeaders = await googleUser!.authorizationClient
+        .authorizationHeaders([
+      gMail.GmailApi.gmailReadonlyScope,
+      gMail.GmailApi.gmailModifyScope
+    ]);
+    if (authHeaders == null) {
+      print("Failed to get Gmail authorization headers");
+      return false;
+    }
     final authenticateClient = GoogleAuthClient(authHeaders);
     gMail.GmailApi gmailApi = gMail.GmailApi(authenticateClient);
     gMail.ListMessagesResponse results = await gmailApi.users.messages
@@ -227,7 +245,8 @@ Future<bool> testIfHasGmailAccess() async {
 }
 
 Future<bool> signOutGoogle() async {
-  await googleSignIn?.signOut();
+  // In v7.x: signOut() is replaced with disconnect()
+  await googleSignIn?.disconnect();
   googleUser = null;
   await updateSettings("currentUserEmail", "", updateGlobalState: false);
   await updateSettings("hasSignedIn", false, updateGlobalState: false);
@@ -412,13 +431,19 @@ Future<void> createBackup(
   }
 
   try {
-    if (deleteOldBackups)
+    if (deleteOldBackups) {
       await deleteRecentBackups(context, appStateSettings["backupLimit"],
           silentDelete: true);
+    }
 
     DBFileInfo currentDBFileInfo = await getCurrentDBFileInfo();
 
-    final authHeaders = await googleUser!.authHeaders;
+    // In v7.x: use authorizationClient.authorizationHeaders() instead of authHeaders
+    final authHeaders = await googleUser!.authorizationClient
+        .authorizationHeaders([drive.DriveApi.driveAppdataScope]);
+    if (authHeaders == null) {
+      throw Exception("Failed to get Drive authorization headers");
+    }
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = drive.DriveApi(authenticateClient);
 
@@ -431,15 +456,16 @@ Future<void> createBackup(
     // -$timestamp
     driveFile.name =
         "db-v$schemaVersionGlobal-${getCurrentDeviceName()}.sqlite";
-    if (clientIDForSync != null)
+    if (clientIDForSync != null) {
       driveFile.name =
           getCurrentDeviceSyncBackupFileName(clientIDForSync: clientIDForSync);
+    }
     driveFile.modifiedTime = DateTime.now().toUtc();
     driveFile.parents = ["appDataFolder"];
 
     await driveApi.files.create(driveFile, uploadMedia: media);
 
-    if (clientIDForSync == null)
+    if (clientIDForSync == null) {
       openSnackbar(
         SnackbarMessage(
           title: "backup-created".tr(),
@@ -449,9 +475,11 @@ Future<void> createBackup(
               : Icons.backup_rounded,
         ),
       );
-    if (clientIDForSync == null)
+    }
+    if (clientIDForSync == null) {
       await updateSettings("lastBackup", DateTime.now().toString(),
           pagesNeedingRefresh: [], updateGlobalState: false);
+    }
 
     if (silentBackup == false || silentBackup == null) {
       loadingIndeterminateKey.currentState?.setVisibility(false);
@@ -483,7 +511,12 @@ Future<void> deleteRecentBackups(context, amountToKeep,
       loadingIndeterminateKey.currentState?.setVisibility(true);
     }
 
-    final authHeaders = await googleUser!.authHeaders;
+    // In v7.x: use authorizationClient.authorizationHeaders() instead of authHeaders
+    final authHeaders = await googleUser!.authorizationClient
+        .authorizationHeaders([drive.DriveApi.driveAppdataScope]);
+    if (authHeaders == null) {
+      throw Exception("Failed to get Drive authorization headers");
+    }
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = drive.DriveApi(authenticateClient);
 
@@ -764,7 +797,12 @@ class GoogleAccountLoginButtonState extends State<GoogleAccountLoginButton> {
 
 Future<(drive.DriveApi? driveApi, List<drive.File>?)> getDriveFiles() async {
   try {
-    final authHeaders = await googleUser!.authHeaders;
+    // In v7.x: use authorizationClient.authorizationHeaders() instead of authHeaders
+    final authHeaders = await googleUser!.authorizationClient
+        .authorizationHeaders([drive.DriveApi.driveAppdataScope]);
+    if (authHeaders == null) {
+      throw Exception("Failed to get Drive authorization headers");
+    }
     final authenticateClient = GoogleAuthClient(authHeaders);
     drive.DriveApi driveApi = drive.DriveApi(authenticateClient);
 
@@ -1091,9 +1129,10 @@ class _BackupManagementState extends State<BackupManagement> {
                                     popRoute(context);
                                   },
                                 );
-                                if (result == true)
+                                if (result == true) {
                                   loadBackup(
                                       context, driveApiState, file.value);
+                                }
                               }
                               // else {
                               //   await openPopup(
@@ -1336,7 +1375,7 @@ class _BackupManagementState extends State<BackupManagement> {
                                                       });
                                                       // bottomSheetControllerGlobal
                                                       //     .snapToExtent(0);
-                                                      if (widget.isClientSync)
+                                                      if (widget.isClientSync) {
                                                         await updateSettings(
                                                             "devicesHaveBeenSynced",
                                                             appStateSettings[
@@ -1344,6 +1383,7 @@ class _BackupManagementState extends State<BackupManagement> {
                                                                 1,
                                                             updateGlobalState:
                                                                 false);
+                                                      }
                                                       if (widget.isManaging) {
                                                         await updateSettings(
                                                             "numBackups",

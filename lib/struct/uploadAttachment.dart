@@ -32,8 +32,7 @@ Future<String?> getPhotoAndUpload({required ImageSource source}) async {
           fileBytes: fileBytes, fileName: photo.name, mediaStream: mediaStream);
     } catch (e) {
       print(
-          "Error uploading file, trying again and requesting new permissions " +
-              e.toString());
+          "Error uploading file, trying again and requesting new permissions $e");
       await signOutGoogle();
       await signInGoogle(drivePermissionsAttachments: true);
       return await uploadFileToDrive(
@@ -79,8 +78,7 @@ Future<String?> getFileAndUpload() async {
       );
     } catch (e) {
       print(
-          "Error uploading file, trying again and requesting new permissions " +
-              e.toString());
+          "Error uploading file, trying again and requesting new permissions $e");
       await signOutGoogle();
       await signInGoogle(drivePermissionsAttachments: true);
       return await uploadFileToDrive(
@@ -113,9 +111,18 @@ Future<String?> uploadFileToDrive({
     await signInGoogle(drivePermissionsAttachments: true);
   }
 
-  final authHeaders = await googleUser!.authHeaders;
-  final authenticateClient = GoogleAuthClient(authHeaders);
-  final driveApi = drive.DriveApi(authenticateClient);
+  final authHeaders =
+      await googleUser!.authorizationClient.authorizationHeaders([
+    drive.DriveApi.driveFileScope,
+    drive.DriveApi.driveAppdataScope,
+  ]);
+
+  if (authHeaders == null) {
+    print("Failed to get Drive authorization headers");
+  }
+
+  final authenticateClient = GoogleAuthClient(authHeaders!);
+  drive.DriveApi driveApi = drive.DriveApi(authenticateClient);
 
   String folderName = "Cashew";
   drive.FileList list = await driveApi.files.list(
