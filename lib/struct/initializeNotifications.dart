@@ -20,7 +20,7 @@ Future<String?> initializeNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('notification_icon_android2');
     final DarwinInitializationSettings initializationSettingsDarwin =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
       requestAlertPermission: true,
       requestSoundPermission: true,
       requestBadgePermission: true,
@@ -46,7 +46,8 @@ Future<String?> initializeNotifications() async {
   return response;
 }
 
-Future<void> onSelectNotification(NotificationResponse notificationResponse) async {
+Future<void> onSelectNotification(
+    NotificationResponse notificationResponse) async {
   String? payloadData = notificationResponse.payload;
   notificationPayload = payloadData;
   runNotificationPayLoadsNoContext();

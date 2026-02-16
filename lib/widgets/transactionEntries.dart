@@ -232,11 +232,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                 if (widget.showNoResults)
                   NoResults(
                     message: widget.noResultsMessage ??
-                        "${"no-transactions-within-time-range".tr()}.${widget.budget != null
-                                ? ("\n(${getWordedDateShortMore(
-                                        widget.startDay ?? DateTime.now())} – ${getWordedDateShortMore(
-                                        widget.endDay ?? DateTime.now())})")
-                                : ""}",
+                        "${"no-transactions-within-time-range".tr()}.${widget.budget != null ? ("\n(${getWordedDateShortMore(widget.startDay ?? DateTime.now())} – ${getWordedDateShortMore(widget.endDay ?? DateTime.now())})") : ""}",
                     tintColor:
                         Theme.of(context).colorScheme.primary.withOpacity(0.6),
                     noSearchResultsVariation: widget.noSearchResultsVariation,
@@ -360,9 +356,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                                     widget.showNumberOfDaysUntilForFutureDates ==
                                         false
                                 ? ""
-                                : " • ${daysDifference * -1} ${daysDifference * -1 == 1
-                                        ? "day".tr()
-                                        : "days".tr()}",
+                                : " • ${daysDifference * -1} ${daysDifference * -1 == 1 ? "day".tr() : "days".tr()}",
                             info:
                                 appStateSettings["netSpendingDayTotal"] == true
                                     ? convertToMoney(
@@ -507,10 +501,8 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                         bottom: 8,
                       ),
                       child: TextFont(
-                        text: "${"total-cash-flow".tr()}: ${convertToMoney(
-                                Provider.of<AllWallets>(context), totalSpent)}\n$totalNumberTransactions ${totalNumberTransactions == 1
-                                ? "transaction".tr().toLowerCase()
-                                : "transactions".tr().toLowerCase()}",
+                        text:
+                            "${"total-cash-flow".tr()}: ${convertToMoney(Provider.of<AllWallets>(context), totalSpent)}\n$totalNumberTransactions ${totalNumberTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                         fontSize: 13,
                         textAlign: TextAlign.center,
                         textColor: getColor(context, "textLight"),
@@ -1093,10 +1085,8 @@ class TransactionsEntriesSpendingSummary extends StatelessWidget {
                               initialCount: (0),
                               textBuilder: (number) {
                                 return TextFont(
-                                  text: "= ${convertToMoney(
-                                          Provider.of<AllWallets>(context),
-                                          number,
-                                          finalNumber: netSpending.abs())}",
+                                  text:
+                                      "= ${convertToMoney(Provider.of<AllWallets>(context), number, finalNumber: netSpending.abs())}",
                                   fontSize: 15,
                                   textColor: getColor(context, "black"),
                                   autoSizeText: true,

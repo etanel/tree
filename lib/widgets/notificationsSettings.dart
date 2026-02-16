@@ -273,9 +273,8 @@ class _UpcomingTransactionsNotificationsSettingsState
                                         transaction.type),
                                     title: getTransactionLabelSync(
                                         transaction, snapshot.data!),
-                                    description: "${getWordedDateShortMore(
-                                            transaction.dateCreated)}, ${getWordedTime(
-                                            null, transaction.dateCreated)}",
+                                    description:
+                                        "${getWordedDateShortMore(transaction.dateCreated)}, ${getWordedTime(null, transaction.dateCreated)}",
                                     onSwitched: (value) async {
                                       await database.createOrUpdateTransaction(
                                           transaction.copyWith(
@@ -441,7 +440,8 @@ Future<bool> scheduleUpcomingTransactionsNotification(context) async {
       print("Cannot set up notification before current time!");
     }
 
-    print("Notification $chosenMessage scheduled for $dateTime with id ${upcomingTransaction.transactionPk}");
+    print(
+        "Notification $chosenMessage scheduled for $dateTime with id ${upcomingTransaction.transactionPk}");
   }
 
   return true;
