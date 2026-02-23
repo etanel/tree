@@ -555,8 +555,7 @@ class Habits extends Table {
   // ── Basic info ────────────────────────────────────────────────────────────
   TextColumn get name => text().withLength(max: NAME_LIMIT)();
   TextColumn get note => text().withLength(max: NOTE_LIMIT)();
-  TextColumn get colour =>
-      text().withLength(max: COLOUR_LIMIT).nullable()();
+  TextColumn get colour => text().withLength(max: COLOUR_LIMIT).nullable()();
   TextColumn get iconName => text().nullable()();
   TextColumn get emojiIconName => text().nullable()();
   IntColumn get order => integer()();
