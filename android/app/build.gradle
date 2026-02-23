@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         applicationId = "com.tree_app"
-        minSdk = flutter.minSdkVersion
+        minSdk = 31
         targetSdk = 36
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
