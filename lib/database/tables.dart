@@ -91,6 +91,13 @@ enum HomePageWidgetDisplay {
   PieChart,
 }
 
+enum HabitFrequency {
+  daily, // every day
+  specificDays, // only on days stored in frequencyDays
+  weekly, // once per week
+  monthly, // once per month
+}
+
 List<HomePageWidgetDisplay> defaultWalletHomePageWidgetDisplay = [
   HomePageWidgetDisplay.WalletSwitcher,
   HomePageWidgetDisplay.WalletList,
@@ -536,6 +543,91 @@ class Objectives extends Table {
 
   @override
   Set<Column> get primaryKey => {objectivePk};
+}
+
+// ── Habits ──────────────────────────────────────────────────────────────────
+
+@DataClassName('Habit')
+class Habits extends Table {
+  // ── Identity ──────────────────────────────────────────────────────────────
+  TextColumn get habitPk => text().clientDefault(() => uuid.v4())();
+
+  // ── Basic info ────────────────────────────────────────────────────────────
+  TextColumn get name => text().withLength(max: NAME_LIMIT)();
+  TextColumn get note => text().withLength(max: NOTE_LIMIT)();
+  TextColumn get colour =>
+      text().withLength(max: COLOUR_LIMIT).nullable()();
+  TextColumn get iconName => text().nullable()();
+  TextColumn get emojiIconName => text().nullable()();
+  IntColumn get order => integer()();
+  BoolColumn get pinned => boolean().withDefault(const Constant(false))();
+  BoolColumn get archived => boolean().withDefault(const Constant(false))();
+
+  // ── Frequency ─────────────────────────────────────────────────────────────
+  // Stores the HabitFrequency enum index; defaults to daily (index 0)
+  IntColumn get frequency =>
+      intEnum<HabitFrequency>().withDefault(Constant(0))();
+  // Non-null only when frequency == HabitFrequency.specificDays.
+  // Stores day-of-week indices: 0 = Monday … 6 = Sunday
+  TextColumn get frequencyDays =>
+      text().map(const IntListInColumnConverter()).nullable()();
+
+  // ── Optional goal ─────────────────────────────────────────────────────────
+  // Both are null when the habit has no numeric goal
+  RealColumn get goalAmount => real().nullable()();
+  // Free-form unit label e.g. "glasses", "minutes", "km"
+  TextColumn get goalUnit => text().withLength(max: NAME_LIMIT).nullable()();
+
+  // ── Reminder ──────────────────────────────────────────────────────────────
+  BoolColumn get reminderEnabled =>
+      boolean().withDefault(const Constant(false))();
+  // "HH:mm" 24-hour string; null when reminderEnabled is false
+  TextColumn get reminderTime => text().nullable()();
+
+  // ── Date range ────────────────────────────────────────────────────────────
+  DateTimeColumn get startDate => dateTime().nullable()();
+  DateTimeColumn get endDate => dateTime().nullable()();
+
+  // ── Timestamps ────────────────────────────────────────────────────────────
+  DateTimeColumn get dateCreated =>
+      dateTime().clientDefault(() => new DateTime.now())();
+  DateTimeColumn get dateTimeModified =>
+      dateTime().withDefault(Constant(DateTime.now())).nullable()();
+
+  @override
+  Set<Column> get primaryKey => {habitPk};
+}
+
+// ── HabitLogs ────────────────────────────────────────────────────────────────
+
+@DataClassName('HabitLog')
+class HabitLogs extends Table {
+  // ── Identity ──────────────────────────────────────────────────────────────
+  TextColumn get habitLogPk => text().clientDefault(() => uuid.v4())();
+
+  // ── Relation ──────────────────────────────────────────────────────────────
+  TextColumn get habitFk => text().references(Habits, #habitPk)();
+
+  // ── Completion data ───────────────────────────────────────────────────────
+  // The calendar date the user is marking this completion against.
+  // Follows the same pattern as Transaction.dateCreated: it is the
+  // user-meaningful date (today by default) and doubles as the creation
+  // timestamp.  dateTimeModified tracks subsequent edits.
+  DateTimeColumn get dateCreated =>
+      dateTime().clientDefault(() => new DateTime.now())();
+
+  // Non-null only for goal-based habits (mirrors goalAmount on Habits)
+  RealColumn get amount => real().nullable()();
+
+  // Optional per-completion note
+  TextColumn get note => text().withLength(max: NOTE_LIMIT).nullable()();
+
+  // ── Timestamps ────────────────────────────────────────────────────────────
+  DateTimeColumn get dateTimeModified =>
+      dateTime().withDefault(Constant(DateTime.now())).nullable()();
+
+  @override
+  Set<Column> get primaryKey => {habitLogPk};
 }
 
 class TransactionWithCategory {
