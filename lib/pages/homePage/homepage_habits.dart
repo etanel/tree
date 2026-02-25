@@ -51,7 +51,7 @@ class _HomePageHabitsState extends State<HomePageHabits> {
                 width: null,
                 margin: const EdgeInsetsDirectional.only(
                     start: 13, end: 13, bottom: 13),
-                labelUnder: "budget".tr(),
+                labelUnder: "habits".tr(),
                 icon: Icons.format_list_bulleted_add,
               );
             }
