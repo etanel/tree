@@ -34,7 +34,7 @@ class _HomePageBudgetsState extends State<HomePageBudgets> {
         stream: database.getAllPinnedBudgets().$1,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data?.length == 0) {
+            if (snapshot.data?.isEmpty ?? true) {
               return AddButton(
                 onTap: () {
                   openBottomSheet(
@@ -125,6 +125,9 @@ class _HomePageBudgetsState extends State<HomePageBudgets> {
                             addAutomaticKeepAlives: true,
                             clipBehavior: Clip.none,
                             scrollDirection: Axis.horizontal,
+                            padding: EdgeInsetsDirectional.symmetric(
+                              horizontal: 10,
+                            ),
                             children: [
                               for (Widget widget in budgetItems)
                                 Padding(
@@ -136,9 +139,6 @@ class _HomePageBudgetsState extends State<HomePageBudgets> {
                                   ),
                                 )
                             ],
-                            padding: EdgeInsetsDirectional.symmetric(
-                              horizontal: 10,
-                            ),
                           ),
                         )
                       : CarouselSlider(
@@ -199,7 +199,7 @@ class EditHomePagePinnedBudgetsPopup extends StatelessWidget {
                     borderRadius: BorderRadiusDirectional.circular(15),
                     child: TotalSpentToggle(),
                   ),
-                if (allBudgets.length <= 0)
+                if (allBudgets.isEmpty)
                   NoResultsCreate(
                     message: "no-budgets-found".tr(),
                     buttonLabel: "create-budget".tr(),
@@ -215,20 +215,22 @@ class EditHomePagePinnedBudgetsPopup extends StatelessWidget {
                     for (Budget budget in allBudgets) budget.budgetPk.toString()
                   ],
                   getColor: (budgetPk, selected) {
-                    for (Budget budget in allBudgets)
+                    for (Budget budget in allBudgets) {
                       if (budget.budgetPk.toString() == budgetPk.toString()) {
                         return HexColor(budget.colour,
                                 defaultColor:
                                     Theme.of(context).colorScheme.primary)
-                            .withOpacity(selected == true ? 0.7 : 0.5);
+                            .withValues(alpha: selected == true ? 0.7 : 0.5);
                       }
+                    }
                     return null;
                   },
                   displayFilter: (budgetPk) {
-                    for (Budget budget in allBudgets)
+                    for (Budget budget in allBudgets) {
                       if (budget.budgetPk.toString() == budgetPk.toString()) {
                         return budget.name;
                       }
+                    }
                     return "";
                   },
                   initialItems: [
@@ -247,6 +249,7 @@ class EditHomePagePinnedBudgetsPopup extends StatelessWidget {
                   },
                   onLongPress: (String budgetPk) async {
                     Budget budget = await database.getBudgetInstance(budgetPk);
+                    if (!context.mounted) return;
                     pushRoute(
                       context,
                       AddBudgetPage(
@@ -256,7 +259,7 @@ class EditHomePagePinnedBudgetsPopup extends StatelessWidget {
                     );
                   },
                 ),
-                if (allBudgets.length > 0)
+                if (allBudgets.isNotEmpty)
                   AddButton(
                     onTap: () {},
                     height: 50,

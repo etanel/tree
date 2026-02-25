@@ -2,7 +2,7 @@ import 'package:tree/colors.dart';
 import 'package:tree/database/tables.dart';
 import 'package:tree/pages/addTransactionPage.dart';
 import 'package:tree/pages/homePage/homePageAllSpendingSummary.dart';
-import 'package:tree/pages/homePage/homePageBudgets.dart';
+import 'package:tree/pages/homePage/homepage_budgets.dart';
 import 'package:tree/pages/homePage/homePageCreditDebts.dart';
 import 'package:tree/pages/homePage/homePageHeatmap.dart';
 import 'package:tree/pages/homePage/homePageLineGraph.dart';

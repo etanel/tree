@@ -11,8 +11,15 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/widgets/util/keepAliveClientMixin.dart';
 import 'package:flutter/material.dart';
 
-class HomePageHabitsToday extends StatelessWidget {
+class HomePageHabitsToday extends StatefulWidget {
   const HomePageHabitsToday({super.key});
+
+  @override
+  State<HomePageHabitsToday> createState() => _HomePageHabitsTodayState();
+}
+
+class _HomePageHabitsTodayState extends State<HomePageHabitsToday> {
+  double height = 0;
 
   @override
   Widget build(BuildContext context) {
