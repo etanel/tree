@@ -4,7 +4,7 @@ import 'package:tree/pages/activityPage.dart';
 import 'package:tree/pages/addCategoryPage.dart';
 import 'package:tree/pages/creditDebtTransactionsPage.dart';
 import 'package:tree/pages/editCategoriesPage.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/objectivesListPage.dart';
 import 'package:tree/pages/settingsPage.dart';
 import 'package:tree/pages/walletDetailsPage.dart';

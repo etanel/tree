@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/main.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/widgets/framework/pageFramework.dart';
 import 'package:tree/widgets/tappable.dart';
 import 'package:tree/widgets/textWidgets.dart';

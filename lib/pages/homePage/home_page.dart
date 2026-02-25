@@ -15,7 +15,7 @@ import 'package:tree/pages/homePage/homePageBudgets.dart';
 import 'package:tree/pages/homePage/homePageUpcomingTransactions.dart';
 import 'package:tree/pages/homePage/homePageAllSpendingSummary.dart';
 import 'package:tree/pages/homePage/homePageHabitsToday.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/settingsPage.dart';
 import 'package:tree/pages/homePage/homePageCreditDebts.dart';
 import 'package:tree/struct/settings.dart';
@@ -44,8 +44,8 @@ import 'package:flutter/foundation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -78,6 +78,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _animationControllerHeader2;
   int selectedSlidingSelector = 1;
 
+  @override
   void initState() {
     super.initState();
     _animationControllerHeader = AnimationController(vsync: this, value: 1);
@@ -87,7 +88,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _scrollController.addListener(_scrollListener);
   }
 
-  _scrollListener() {
+  void _scrollListener() {
     double percent = _scrollController.offset / (200);
     if (percent <= 1) {
       double offset = _scrollController.offset;
@@ -295,7 +296,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     // Wipe all remaining pixels off - sometimes graphics artifacts are left behind
                     Container(
                         height: 1,
-                        color: Theme.of(context).colorScheme.background),
+                        color: Theme.of(context).colorScheme.surface),
 
                     showWelcomeBanner
                         ? ConstrainedBox(
@@ -407,7 +408,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     // Wipe all remaining pixels off - sometimes graphics artifacts are left behind
                     Container(
                         height: 1,
-                        color: Theme.of(context).colorScheme.background),
+                        color: Theme.of(context).colorScheme.surface),
                   ],
                 ),
               ),
@@ -444,14 +445,14 @@ class _HomePageRatingBoxState extends State<HomePageRatingBox> {
     super.initState();
   }
 
-  hide() {
+  void hide() {
     setState(() {
       hidden = true;
     });
     updateSettings("dismissedStoreRating", true, updateGlobalState: true);
   }
 
-  open() {
+  void open() {
     setState(() {
       hidden = true;
     });

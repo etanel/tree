@@ -2,7 +2,7 @@ import 'package:tree/colors.dart';
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/pages/addCategoryPage.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/transactionFilters.dart';
 import 'package:tree/pages/transactionsSearchPage.dart';
 import 'package:tree/pages/walletDetailsPage.dart';

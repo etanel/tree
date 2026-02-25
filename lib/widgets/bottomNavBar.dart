@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:tree/functions.dart';
 import 'package:tree/pages/editBudgetPage.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/editObjectivesPage.dart';
 import 'package:tree/pages/subscriptionsPage.dart';
 import 'package:tree/pages/transactionsListPage.dart';
