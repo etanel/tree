@@ -158,5 +158,12 @@ Map<String, NavBarIconData> getNavBarIconsData() {
       labelLong: "goals-details",
       navigationIndexedStackIndex: 15,
     ),
+    "habits": NavBarIconData(
+      iconData: appStateSettings["outlinedIcons"]
+          ? Icons.event_repeat_outlined
+          : Icons.event_repeat_rounded,
+      label: "habits", // Might need translation in JSON
+      navigationIndexedStackIndex: 18,
+    ),
   };
 }

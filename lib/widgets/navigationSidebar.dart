@@ -281,7 +281,7 @@ class NavigationSidebarState extends State<NavigationSidebar> {
                                 currentPageIndex: selectedIndex,
                               ),
                               NavigationSidebarButtonWithNavBarIconData(
-                                navBarIconDataKey: "loans",
+                                navBarIconDataKey: "habits",
                                 currentPageIndex: selectedIndex,
                               ),
                               // if (notificationsGlobalEnabled)

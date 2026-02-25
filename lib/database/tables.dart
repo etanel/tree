@@ -26,7 +26,7 @@ import 'package:tree/pages/activityPage.dart';
 import 'package:flutter/material.dart' show RangeValues;
 part 'tables.g.dart';
 
-int schemaVersionGlobal = 46;
+int schemaVersionGlobal = 47;
 
 // To update and migrate the database, check the README
 
@@ -779,6 +779,8 @@ class CategoryWithTotal {
   ScannerTemplates,
   DeleteLogs,
   Objectives,
+  Habits,
+  HabitLogs,
 ])
 class FinanceDatabase extends _$FinanceDatabase {
   // FinanceDatabase() : super(_openConnection());
@@ -1236,6 +1238,19 @@ class FinanceDatabase extends _$FinanceDatabase {
               } catch (e) {
                 print(
                     "Migration Error: Error creating column objectives.type $e");
+              }
+            },
+            from46To47: (m, schema) async {
+              print("46 to 47");
+              try {
+                await m.createTable(schema.habits);
+              } catch (e) {
+                print("Migration Error: Error creating table Habits $e");
+              }
+              try {
+                await m.createTable(schema.habitLogs);
+              } catch (e) {
+                print("Migration Error: Error creating table HabitLogs $e");
               }
             },
           ),
@@ -2530,6 +2545,11 @@ class FinanceDatabase extends _$FinanceDatabase {
           ..orderBy([(s) => OrderingTerm.asc(s.dateCreated)])
           ..limit(limit ?? DEFAULT_LIMIT, offset: offset ?? DEFAULT_OFFSET))
         .get();
+  }
+
+  Stream<Habit> getHabit(String habitPk) {
+    return (select(habits)..where((tbl) => tbl.habitPk.equals(habitPk)))
+        .watchSingle();
   }
 
   Future<List<TransactionWallet>> getAllWallets({int? limit, int? offset}) {
@@ -7688,6 +7708,95 @@ class FinanceDatabase extends _$FinanceDatabase {
     }
     await updateBatchTransactionsOnly(transactionsToUpdate);
     return transactionsToUpdate.length;
+  }
+
+  // ── Habit Queries ──────────────────────────────────────────────────────────
+
+  // Stream of all non-archived habits ordered by their order field
+  Stream<List<Habit>> watchAllHabits() {
+    return (select(habits)
+          ..where((h) => h.archived.equals(false))
+          ..orderBy([(h) => OrderingTerm.asc(h.order)]))
+        .watch();
+  }
+
+  // Stream of archived habits
+  Stream<List<Habit>> watchArchivedHabits() {
+    return (select(habits)
+          ..where((h) => h.archived.equals(true))
+          ..orderBy([(h) => OrderingTerm.asc(h.order)]))
+        .watch();
+  }
+
+  // Stream of all logs for one habit, newest first
+  Stream<List<HabitLog>> watchHabitLogs(String habitPk) {
+    return (select(habitLogs)
+          ..where((l) => l.habitFk.equals(habitPk))
+          ..orderBy([(l) => OrderingTerm.desc(l.dateCreated)]))
+        .watch();
+  }
+
+  // Stream of all habit logs on a specific day
+  Stream<List<HabitLog>> watchLogsForDate(DateTime date) {
+    return (select(habitLogs)
+          ..where((l) => isOnDay(l.dateCreated, date))
+          ..orderBy([(l) => OrderingTerm.desc(l.dateCreated)]))
+        .watch();
+  }
+
+  // Stream of logs between two dates (for heatmap)
+  Stream<List<HabitLog>> watchLogsInRange(DateTime from, DateTime to) {
+    return (select(habitLogs)
+          ..where((l) => l.dateCreated.isBetweenValues(from, to))
+          ..orderBy([(l) => OrderingTerm.desc(l.dateCreated)]))
+        .watch();
+  }
+
+  // Toggle a habit log: if a log exists for that day delete it, otherwise insert one
+  Future<bool> toggleHabitLog(String habitPk, DateTime date) {
+    return transaction(() async {
+      final existing = await (select(habitLogs)
+            ..where((l) =>
+                l.habitFk.equals(habitPk) & isOnDay(l.dateCreated, date)))
+          .get();
+
+      if (existing.isNotEmpty) {
+        // Log exists – remove it
+        await (delete(habitLogs)
+              ..where((l) => l.habitLogPk.equals(existing.first.habitLogPk)))
+            .go();
+        return false; // log was removed
+      } else {
+        // No log – create one
+        await into(habitLogs).insert(HabitLogsCompanion.insert(
+          habitFk: habitPk,
+          dateCreated: Value(date),
+        ));
+        return true; // log was created
+      }
+    });
+  }
+
+  // Upsert a habit
+  Future<int> createOrUpdateHabit(Habit habit, {bool insert = false}) {
+    habit = habit.copyWith(name: habit.name.trim());
+    habit = habit.copyWith(dateTimeModified: Value(DateTime.now()));
+    HabitsCompanion companionToInsert = habit.toCompanion(true);
+
+    if (insert) {
+      companionToInsert = companionToInsert.copyWith(habitPk: Value.absent());
+    }
+
+    return into(habits)
+        .insert((companionToInsert), mode: InsertMode.insertOrReplace);
+  }
+
+  // Delete a habit and all its logs
+  Future<int> deleteHabit(String habitPk) async {
+    // Delete all related habit logs first
+    await (delete(habitLogs)..where((l) => l.habitFk.equals(habitPk))).go();
+    // Then delete the habit itself
+    return (delete(habits)..where((h) => h.habitPk.equals(habitPk))).go();
   }
 }
 
