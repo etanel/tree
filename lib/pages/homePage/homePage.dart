@@ -14,6 +14,7 @@ import 'package:tree/pages/homePage/homePageUsername.dart';
 import 'package:tree/pages/homePage/homePageBudgets.dart';
 import 'package:tree/pages/homePage/homePageUpcomingTransactions.dart';
 import 'package:tree/pages/homePage/homePageAllSpendingSummary.dart';
+import 'package:tree/pages/homePage/homePageHabitsToday.dart';
 import 'package:tree/pages/editHomePage.dart';
 import 'package:tree/pages/settingsPage.dart';
 import 'package:tree/pages/homePage/homePageCreditDebts.dart';
@@ -163,7 +164,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ],
               )
             : null;
-    if (homePageTransactionsList != null)
+    if (homePageTransactionsList != null) {
       homePageTransactionsList = enableDoubleColumn(context)
           ? KeepAliveClientMixin(
               child: homePageTransactionsList,
@@ -174,6 +175,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: homePageTransactionsList,
               ),
             );
+    }
 
     Map<String, Widget?> homePageSections = {
       "wallets": isHomeScreenSectionEnabled(context, "showWalletSwitcher")
@@ -214,6 +216,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           : null,
       "heatMap": isHomeScreenSectionEnabled(context, "showHeatMap")
           ? HomePageHeatMap()
+          : null,
+      "habitsToday": isHomeScreenSectionEnabled(context, "showHabitsToday")
+          ? HomePageHabitsToday()
           : null,
       "transactionsList": homePageTransactionsList ?? SizedBox.shrink(),
     };

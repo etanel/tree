@@ -387,6 +387,14 @@ class _EditHomePageState extends State<EditHomePage> {
               openHeatMapHomePageBottomSheetSettings(context);
             },
           ),
+          "habitsToday": EditHomePageItem(
+            icon: navBarIconsData["habits"]!.iconData,
+            name: "Habits",
+            isEnabled: isHomeScreenSectionEnabled(context, "showHabitsToday"),
+            onSwitched: (value) {
+              switchHomeScreenSection(context, "showHabitsToday", value);
+            },
+          ),
           "transactionsList": EditHomePageItem(
             icon: navBarIconsData["transactions"]!.iconData,
             name: "transactions-list".tr(),
