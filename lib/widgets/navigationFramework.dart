@@ -17,7 +17,7 @@ import 'package:tree/pages/editAssociatedTitlesPage.dart';
 import 'package:tree/pages/editBudgetPage.dart';
 import 'package:tree/pages/editObjectivesPage.dart';
 import 'package:tree/pages/editWalletsPage.dart';
-import 'package:tree/pages/homePage/homePage.dart';
+import 'package:tree/pages/homePage/home_page.dart';
 import 'package:tree/pages/habitsListPage.dart';
 import 'package:tree/pages/notificationsPage.dart';
 import 'package:tree/pages/objectivesListPage.dart';

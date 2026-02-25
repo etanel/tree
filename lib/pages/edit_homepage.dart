@@ -242,6 +242,7 @@ class _EditHomePageState extends State<EditHomePage> {
               String allTimeLabel = "all-time".tr();
               String customLabel = "custom-line-graph".tr();
               List<Budget> allBudgets = await database.getAllBudgets();
+              if (!mounted) return;
               openBottomSheet(
                 context,
                 PopupFramework(
@@ -257,7 +258,7 @@ class _EditHomePageState extends State<EditHomePage> {
                       ],
                     ],
                     colorFilter: (budgetPk) {
-                      for (Budget budget in allBudgets)
+                      for (Budget budget in allBudgets) {
                         if (budget.budgetPk.toString() == budgetPk.toString()) {
                           return dynamicPastel(
                             context,
@@ -272,15 +273,18 @@ class _EditHomePageState extends State<EditHomePage> {
                             amount: 0.1,
                           );
                         }
+                      }
                       return null;
                     },
                     displayFilter: (budgetPk) {
-                      for (Budget budget in allBudgets)
+                      for (Budget budget in allBudgets) {
                         if (budget.budgetPk.toString() == budgetPk.toString()) {
                           return budget.name;
                         }
-                      if (budgetPk == customLabel)
-                        return ('${customLabel} (${getWordedDateShortMore(DateTime.parse(appStateSettings["lineGraphStartDate"]), includeYear: true)})');
+                      }
+                      if (budgetPk == customLabel) {
+                        return ('$customLabel (${getWordedDateShortMore(DateTime.parse(appStateSettings["lineGraphStartDate"]), includeYear: true)})');
+                      }
                       return budgetPk;
                     },
                     initial: appStateSettings["lineGraphDisplayType"] ==
@@ -327,8 +331,7 @@ class _EditHomePageState extends State<EditHomePage> {
                         }
                         updateSettings(
                           "lineGraphStartDate",
-                          (picked ?? appStateSettings["lineGraphDisplayType"])
-                              .toString(),
+                          (picked).toString(),
                           pagesNeedingRefresh: [],
                           updateGlobalState: false,
                         );
@@ -352,6 +355,7 @@ class _EditHomePageState extends State<EditHomePage> {
                           updateGlobalState: false,
                         );
                       }
+                      if (!mounted) return;
                       popRoute(context);
                     },
                   ),
@@ -418,7 +422,7 @@ class _EditHomePageState extends State<EditHomePage> {
     super.initState();
   }
 
-  toggleSwitch(String key) {
+  void toggleSwitch(String key) {
     editHomePageItems[key]
         ?.onSwitched(!(editHomePageItems[key]?.isEnabled ?? false));
     setState(() {
@@ -429,11 +433,10 @@ class _EditHomePageState extends State<EditHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // We need to refresh the home page when this route is popped
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
         homePageStateKey.currentState?.refreshState();
-        return true;
+        result = true;
       },
       child: PageFramework(
         horizontalPaddingConstrained: true,
@@ -494,10 +497,11 @@ class _EditHomePageState extends State<EditHomePage> {
               });
             },
             itemBuilder: (context, index) {
-              if (keyOrder.length <= index)
+              if (keyOrder.length <= index) {
                 return Container(
                   key: ValueKey(index),
                 );
+              }
               String key = keyOrder[index];
 
               if (["ORDER:LEFT", "ORDER:RIGHT"].contains(key)) {
@@ -507,10 +511,11 @@ class _EditHomePageState extends State<EditHomePage> {
                 );
               }
 
-              if (editHomePageItems[key] == null)
+              if (editHomePageItems[key] == null) {
                 return Container(
                   key: ValueKey(index),
                 );
+              }
 
               return HomePageEditRowEntry(
                 key: ValueKey(key),
@@ -579,12 +584,12 @@ class HomePageEditRowEntry extends StatelessWidget {
         children: [
           getPlatform() == PlatformOS.isIOS
               ? CupertinoSwitch(
-                  activeColor: Theme.of(context).colorScheme.primary,
+                  activeTrackColor: Theme.of(context).colorScheme.primary,
                   value: switchValue,
                   onChanged: (value) => toggleSwitch(),
                 )
               : Switch(
-                  activeColor: Theme.of(context).colorScheme.primary,
+                  activeTrackColor: Theme.of(context).colorScheme.primary,
                   value: switchValue,
                   onChanged: (value) => toggleSwitch(),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -686,15 +691,8 @@ class _TransactionsListHomePageBottomSheetSettingsState
   Widget build(BuildContext context) {
     return PopupFramework(
       title: "transaction-list".tr(),
-      subtitle: "transaction-list-home-description".tr() +
-          " " +
-          "and-any-transactions".tr() +
-          " " +
-          futureTransactionDaysHomePage.toString() +
-          " " +
-          (futureTransactionDaysHomePage == 1
-              ? "day-ahead".tr()
-              : "days-ahead".tr()),
+      subtitle:
+          "${"transaction-list-home-description".tr()} ${"and-any-transactions".tr()} $futureTransactionDaysHomePage ${futureTransactionDaysHomePage == 1 ? "day-ahead".tr() : "days-ahead".tr()}",
       child: Column(
         children: [
           SettingsContainerDropdown(
@@ -945,13 +943,13 @@ class _HomePageEditRowEntryUsernameState
       text: widget.name,
       iconData: widget.iconData,
       toggleSwitch: () {
-        bool newValue = !this.value;
+        bool newValue = !value;
         widget.onChanged(newValue);
         setState(() {
-          this.value = newValue;
+          value = newValue;
         });
       },
-      switchValue: this.value,
+      switchValue: value,
       currentReorder: false,
       onTap: () => openBottomSheet(
         context,
@@ -991,10 +989,11 @@ class _HomePageBannerSettingsState extends State<HomePageBannerSettings> {
           onTap: () async {
             dynamic result =
                 await enterNameBottomSheet(context, updatePageWhenSet: false);
-            if (result is String)
+            if (result is String) {
               setState(() {
                 username = result;
               });
+            }
             // Update the size of the bottom sheet
             Future.delayed(Duration(milliseconds: 250), () {
               bottomSheetControllerGlobalCustomAssigned?.snapToExtent(0);
@@ -1024,7 +1023,7 @@ class _HomePageBannerSettingsState extends State<HomePageBannerSettings> {
 void switchHomeScreenSection(
     BuildContext context, String sectionSetting, bool value) {
   if (enableDoubleColumn(context)) {
-    updateSettings(sectionSetting + "FullScreen", value,
+    updateSettings("${sectionSetting}FullScreen", value,
         pagesNeedingRefresh: [], updateGlobalState: false);
   } else {
     updateSettings(sectionSetting, value,
@@ -1034,12 +1033,14 @@ void switchHomeScreenSection(
 
 bool isHomeScreenSectionEnabled(BuildContext context, String sectionSetting) {
   if (enableDoubleColumn(context)) {
-    if (appStateSettings[sectionSetting + "FullScreen"] != null)
-      return appStateSettings[sectionSetting + "FullScreen"];
+    if (appStateSettings["${sectionSetting}FullScreen"] != null) {
+      return appStateSettings["${sectionSetting}FullScreen"];
+    }
     return false;
   } else {
-    if (appStateSettings[sectionSetting] != null)
+    if (appStateSettings[sectionSetting] != null) {
       return appStateSettings[sectionSetting];
+    }
     return false;
   }
 }
@@ -1052,7 +1053,7 @@ String getHomePageOrderSettingsKey(BuildContext context) {
   }
 }
 
-fixHomePageOrder(Map<String, dynamic> defaultPreferences, settingsKey) {
+void fixHomePageOrder(Map<String, dynamic> defaultPreferences, settingsKey) {
   List<String> defaultPrefPageOrder = List<String>.from(
       defaultPreferences[settingsKey].map((element) => element.toString()));
   List<String> currentPageOrder = List<String>.from(

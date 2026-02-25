@@ -5,7 +5,7 @@ import 'package:tree/pages/addTransactionPage.dart';
 import 'package:tree/pages/billSplitter.dart';
 import 'package:tree/pages/budgetsListPage.dart';
 import 'package:tree/pages/creditDebtTransactionsPage.dart';
-import 'package:tree/pages/editHomePage.dart';
+import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/editObjectivesPage.dart';
 import 'package:tree/pages/homePage/homePageNetWorth.dart';
 import 'package:tree/pages/objectivesListPage.dart';
