@@ -7783,7 +7783,8 @@ class FinanceDatabase extends _$FinanceDatabase {
   }
 
   // Upsert a habit
-  Future<int> createOrUpdateHabit(Habit habit, {bool updateSharedEntry = true, bool insert = false}) {
+  Future<int> createOrUpdateHabit(Habit habit,
+      {bool updateSharedEntry = true, bool insert = false}) {
     habit = habit.copyWith(name: habit.name.trim());
     habit = habit.copyWith(dateTimeModified: Value(DateTime.now()));
     HabitsCompanion companionToInsert = habit.toCompanion(true);

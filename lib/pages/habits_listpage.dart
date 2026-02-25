@@ -3,7 +3,10 @@ import 'package:flutter/material.dart'
 import 'package:tree/widgets/framework/pageFramework.dart';
 
 class HabitsListPage extends StatefulWidget {
-  const HabitsListPage({super.key, required this.enableBackButton,});
+  const HabitsListPage({
+    super.key,
+    required this.enableBackButton,
+  });
 
   final bool enableBackButton;
 
@@ -12,7 +15,6 @@ class HabitsListPage extends StatefulWidget {
 }
 
 class HabitsListPageState extends State<HabitsListPage> {
-
   GlobalKey<PageFrameworkState> pageState = GlobalKey();
   void refreshState() {
     setState(() {});

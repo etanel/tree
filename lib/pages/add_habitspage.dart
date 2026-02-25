@@ -3,7 +3,8 @@ import 'package:tree/database/tables.dart';
 import 'package:tree/widgets/openPopup.dart';
 
 class AddHabitsPage extends StatefulWidget {
-  const AddHabitsPage({super.key, required this.routesToPopAfterDelete, this.habit});
+  const AddHabitsPage(
+      {super.key, required this.routesToPopAfterDelete, this.habit});
 
   final RoutesToPopAfterDelete routesToPopAfterDelete;
   final Habit? habit;
