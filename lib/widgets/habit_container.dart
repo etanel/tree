@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tree/database/tables.dart';
 
 class HabitContainer extends StatelessWidget {
-
-  const HabitContainer({super.key,
+  const HabitContainer({
+    super.key,
     required this.habit,
     this.height = 183,
     this.intermediatePadding = true,

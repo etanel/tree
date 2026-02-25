@@ -240,8 +240,8 @@ class EditHomePagePinnedHabitsPopup extends StatelessWidget {
                       if (habit.pinned) habit.habitPk.toString()
                   ],
                   onChangedSingleItem: (value) async {
-                    Habit habit = allHabits[allHabits
-                        .indexWhere((item) => item.habitPk == value)];
+                    Habit habit = allHabits[
+                        allHabits.indexWhere((item) => item.habitPk == value)];
                     Habit habitToUpdate =
                         await database.getHabitInstance(habit.habitPk);
                     await database.createOrUpdateHabit(
