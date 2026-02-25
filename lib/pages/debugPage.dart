@@ -917,7 +917,6 @@ class _AppLinkTestingState extends State<AppLinkTesting> {
               }
             }),
         SizedBox(height: 10),
-        AboutDeepLinking(),
       ],
     );
   }
