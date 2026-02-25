@@ -18,7 +18,6 @@ import 'package:tree/pages/editBudgetPage.dart';
 import 'package:tree/pages/editObjectivesPage.dart';
 import 'package:tree/pages/editWalletsPage.dart';
 import 'package:tree/pages/homePage/home_page.dart';
-import 'package:tree/pages/habitsListPage.dart';
 import 'package:tree/pages/notificationsPage.dart';
 import 'package:tree/pages/objectivesListPage.dart';
 import 'package:tree/pages/onBoardingPage.dart';
@@ -74,6 +73,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_lazy_indexed_stack/flutter_lazy_indexed_stack.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:provider/provider.dart';
+import 'package:tree/pages/habits_listpage.dart';
 // import 'package:feature_discovery/feature_discovery.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -294,12 +294,12 @@ GlobalKey<AccountsPageState> accountsPageStateKey = GlobalKey();
 GlobalKey<GoogleAccountLoginButtonState> settingsGoogleAccountLoginButtonKey =
     GlobalKey();
 GlobalKey<NavigationSidebarState> sidebarStateKey = GlobalKey();
-GlobalKey<HabitsListPageState> habitsListPageStateKey = GlobalKey();
 GlobalKey<GlobalLoadingProgressState> loadingProgressKey = GlobalKey();
 GlobalKey<GlobalLoadingIndeterminateState> loadingIndeterminateKey =
     GlobalKey();
 GlobalKey<GlobalSnackbarState> snackbarKey = GlobalKey();
 GlobalKey<RenderHomePageWidgetsState> renderHomePageWidgetsKey = GlobalKey();
+GlobalKey<HabitsListPageState> habitsListPageStateKey = GlobalKey();
 
 late bool entireAppLoaded;
 bool runningCloudFunctions = false;

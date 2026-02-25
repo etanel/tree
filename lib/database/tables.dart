@@ -2552,6 +2552,11 @@ class FinanceDatabase extends _$FinanceDatabase {
         .watchSingle();
   }
 
+  Future<Habit> getHabitInstance(String habitPk) {
+    return (select(habits)..where((t) => t.habitPk.equals(habitPk)))
+        .getSingle();
+  }
+
   Future<List<TransactionWallet>> getAllWallets({int? limit, int? offset}) {
     return (select(wallets)
           ..orderBy([(w) => OrderingTerm.asc(w.order)])
@@ -7778,7 +7783,7 @@ class FinanceDatabase extends _$FinanceDatabase {
   }
 
   // Upsert a habit
-  Future<int> createOrUpdateHabit(Habit habit, {bool insert = false}) {
+  Future<int> createOrUpdateHabit(Habit habit, {bool updateSharedEntry = true, bool insert = false}) {
     habit = habit.copyWith(name: habit.name.trim());
     habit = habit.copyWith(dateTimeModified: Value(DateTime.now()));
     HabitsCompanion companionToInsert = habit.toCompanion(true);

@@ -11,10 +11,10 @@ import 'package:tree/pages/homePage/homePageWalletList.dart';
 import 'package:tree/pages/homePage/homePageWalletSwitcher.dart';
 import 'package:tree/pages/homePage/homeTransactions.dart';
 import 'package:tree/pages/homePage/homePageUsername.dart';
-import 'package:tree/pages/homePage/homePageBudgets.dart';
+import 'package:tree/pages/homePage/homepage_budgets.dart';
 import 'package:tree/pages/homePage/homePageUpcomingTransactions.dart';
 import 'package:tree/pages/homePage/homePageAllSpendingSummary.dart';
-import 'package:tree/pages/homePage/homePageHabitsToday.dart';
+import 'package:tree/pages/homePage/homepage_habits.dart';
 import 'package:tree/pages/edit_homepage.dart';
 import 'package:tree/pages/settingsPage.dart';
 import 'package:tree/pages/homePage/homePageCreditDebts.dart';
@@ -219,7 +219,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ? HomePageHeatMap()
           : null,
       "habitsToday": isHomeScreenSectionEnabled(context, "showHabitsToday")
-          ? HomePageHabitsToday()
+          ? HomePageHabits()
           : null,
       "transactionsList": homePageTransactionsList ?? SizedBox.shrink(),
     };
