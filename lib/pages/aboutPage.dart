@@ -94,11 +94,6 @@ class AboutPageState extends State<AboutPage> {
       ],
     );
 
-    
-    
-
-    
-
     return PageFramework(
       dragDownToDismiss: true,
       title: "about".tr(),

@@ -16,9 +16,7 @@ loadLanguageNamesJSON() async {
 Map<String, Locale> supportedLocales = {
   "en": Locale("en"),
   "uk": Locale("uk"),
-  
 };
-
 
 class RootBundleAssetLoaderCustomLocaleLoader extends RootBundleAssetLoader {
   const RootBundleAssetLoaderCustomLocaleLoader();
