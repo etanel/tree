@@ -1,7 +1,6 @@
 import 'package:tree/colors.dart';
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
-import 'package:tree/pages/addBudgetPage.dart';
 import 'package:tree/pages/add_habitspage.dart';
 import 'package:tree/pages/editBudgetPage.dart';
 import 'package:tree/pages/edit_habitspage.dart';
@@ -272,7 +271,7 @@ class EditHomePagePinnedHabitsPopup extends StatelessWidget {
                       bottom: 13,
                       top: 13,
                     ),
-                    openPage: AddBudgetPage(
+                    openPage: AddHabitsPage(
                       routesToPopAfterDelete: RoutesToPopAfterDelete.None,
                     ),
                     afterOpenPage: () {
