@@ -4,12 +4,14 @@ import 'package:tree/functions.dart';
 import 'package:tree/pages/homePage/homePageLineGraph.dart';
 import 'package:tree/pages/settingsPage.dart';
 import 'package:tree/struct/databaseGlobal.dart';
+import 'package:tree/struct/habitsFunctions.dart';
 import 'package:tree/struct/settings.dart';
 import 'package:tree/widgets/button.dart';
 import 'package:tree/widgets/framework/popupFramework.dart';
 import 'package:tree/widgets/lineGraph.dart';
 import 'package:tree/widgets/linearGradientFadedEdges.dart';
 import 'package:tree/widgets/openBottomSheet.dart';
+import 'package:tree/widgets/selectChips.dart';
 import 'package:tree/widgets/transactionEntry/incomeAmountArrow.dart';
 import 'package:tree/widgets/util/keepAliveClientMixin.dart';
 import 'package:tree/widgets/tappable.dart';
@@ -17,6 +19,7 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/widgets/transactionEntries.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomePageHeatMap extends StatefulWidget {
@@ -26,8 +29,12 @@ class HomePageHeatMap extends StatefulWidget {
   State<HomePageHeatMap> createState() => _HomePageHeatMapState();
 }
 
+enum HeatMapMode { transactions, habits }
+
 class _HomePageHeatMapState extends State<HomePageHeatMap> {
   int monthsToLoad = 5;
+  HeatMapMode _mode = HeatMapMode.transactions;
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -46,43 +53,112 @@ class _HomePageHeatMapState extends State<HomePageHeatMap> {
     });
   }
 
+  /// Convert habit logs into Pair points for the HeatMap widget.
+  List<Pair> _habitLogsToPairs(List<HabitLog> logs) {
+    final DateTime start = DateTime.now().justDay(monthOffset: -monthsToLoad);
+    final DateTime end = DateTime.now().justDay();
+    final Map<DateTime, int> activityData = getHabitActivityData(logs);
+
+    List<Pair> points = [];
+    DateTime current = start;
+    double x = 0;
+    while (!current.isAfter(end)) {
+      double y = (activityData[current] ?? 0).toDouble();
+      points.add(Pair(x, y, dateTime: current));
+      current = current.add(Duration(days: 1));
+      x++;
+    }
+    return points;
+  }
+
+  Widget _buildTransactionsHeatMap(BuildContext context) {
+    return StreamBuilder<List<Transaction>>(
+      stream: database.getTransactionsInTimeRangeFromCategories(
+        DateTime.now().justDay(monthOffset: -monthsToLoad),
+        DateTime.now().justDay(),
+        null,
+        null,
+        true,
+        null,
+        null,
+        null,
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          CalculatePointsParams p = CalculatePointsParams(
+            transactions: snapshot.data ?? [],
+            customStartDate: DateTime.now().justDay(monthOffset: -monthsToLoad),
+            customEndDate: DateTime.now(),
+            totalSpentBefore: 0,
+            isIncome: null,
+            removeBalanceCorrection: true,
+            allWallets: Provider.of<AllWallets>(context, listen: false),
+            showCumulativeSpending: false,
+            appStateSettingsPassed: appStateSettings,
+            cycleThroughAllDays: true,
+          );
+          List<Pair> points = calculatePoints(p);
+          return HeatMap(
+            points: points,
+            loadMoreMonths: loadMoreMonths,
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildHabitsHeatMap(BuildContext context) {
+    return StreamBuilder<List<HabitLog>>(
+      stream: database.watchLogsInRange(
+        DateTime.now().justDay(monthOffset: -monthsToLoad),
+        DateTime.now().justDay().add(Duration(days: 1)),
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Pair> points = _habitLogsToPairs(snapshot.data ?? []);
+          if (points.isEmpty) {
+            points = [Pair(0, 0, dateTime: DateTime.now())];
+          }
+          return HeatMap(
+            points: points,
+            loadMoreMonths: loadMoreMonths,
+            onDayTap: (day) {
+              if (day != null) {
+                openHabitLogsOnDayBottomSheet(context, day);
+              }
+            },
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeepAliveClientMixin(
-      child: StreamBuilder<List<Transaction>>(
-        stream: database.getTransactionsInTimeRangeFromCategories(
-          DateTime.now().justDay(monthOffset: -monthsToLoad),
-          DateTime.now().justDay(),
-          null,
-          null,
-          true,
-          null,
-          null,
-          null,
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            CalculatePointsParams p = CalculatePointsParams(
-              transactions: snapshot.data ?? [],
-              customStartDate:
-                  DateTime.now().justDay(monthOffset: -monthsToLoad),
-              customEndDate: DateTime.now(),
-              totalSpentBefore: 0,
-              isIncome: null,
-              removeBalanceCorrection: true,
-              allWallets: Provider.of<AllWallets>(context, listen: false),
-              showCumulativeSpending: false,
-              appStateSettingsPassed: appStateSettings,
-              cycleThroughAllDays: true, // needed for heatmap
-            );
-            List<Pair> points = calculatePoints(p);
-            return HeatMap(
-              points: points,
-              loadMoreMonths: loadMoreMonths,
-            );
-          }
-          return SizedBox.shrink();
-        },
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsetsDirectional.only(start: 13, end: 13, bottom: 4),
+            child: SelectChips<HeatMapMode>(
+              items: HeatMapMode.values,
+              getSelected: (mode) => mode == _mode,
+              onSelected: (mode) {
+                setState(() => _mode = mode);
+              },
+              getLabel: (mode) => mode == HeatMapMode.transactions
+                  ? "transactions".tr()
+                  : "habits".tr(),
+              allowMultipleSelected: false,
+            ),
+          ),
+          _mode == HeatMapMode.transactions
+              ? _buildTransactionsHeatMap(context)
+              : _buildHabitsHeatMap(context),
+        ],
       ),
     );
   }
@@ -95,6 +171,7 @@ class HeatMap extends StatelessWidget {
     this.dayPadding = 1.5,
     this.bottomTitleSpacing = 24,
     this.loadMoreMonths,
+    this.onDayTap,
     super.key,
   });
   final List<Pair> points;
@@ -102,6 +179,7 @@ class HeatMap extends StatelessWidget {
   final double dayPadding;
   final double bottomTitleSpacing;
   final Function(int monthsToLoad)? loadMoreMonths;
+  final Function(DateTime? day)? onDayTap;
 
   double? getMaxY(List<Pair?> pairs, bool isIncome) {
     double? maxY;
@@ -255,9 +333,14 @@ class HeatMap extends StatelessWidget {
                                           ),
                                     child: Tappable(
                                       onTap: () {
-                                        if (amount != null)
-                                          openTransactionsOnDayBottomSheet(
-                                              context, day);
+                                        if (amount != null) {
+                                          if (onDayTap != null) {
+                                            onDayTap!(day);
+                                          } else {
+                                            openTransactionsOnDayBottomSheet(
+                                                context, day);
+                                          }
+                                        }
                                       },
                                       child: Container(
                                         height: dayWidth,
@@ -416,6 +499,128 @@ Future<dynamic> openTransactionsOnDayBottomSheet(
               includeMonthDate: true,
               includeYearIfNotCurrentYear: true,
             ),
+    ),
+  );
+}
+
+Future<dynamic> openHabitLogsOnDayBottomSheet(
+    BuildContext context, DateTime day) {
+  return openBottomSheet(
+    context,
+    PopupFramework(
+      hasPadding: false,
+      title: getWordedDate(
+        day,
+        includeMonthDate: true,
+        includeYearIfNotCurrentYear: true,
+      ),
+      child: StreamBuilder<List<Habit>>(
+        stream: database.watchAllHabits(),
+        builder: (context, habitsSnapshot) {
+          if (!habitsSnapshot.hasData) return SizedBox.shrink();
+          return StreamBuilder<List<HabitLog>>(
+            stream: database.watchLogsForDate(day),
+            builder: (context, logsSnapshot) {
+              List<HabitLog> logsForDay = logsSnapshot.data ?? [];
+              Set<String> completedHabitPks =
+                  logsForDay.map((l) => l.habitFk).toSet();
+              List<Habit> allHabits = habitsSnapshot.data ?? [];
+              if (allHabits.isEmpty) {
+                return Padding(
+                  padding: EdgeInsetsDirectional.all(20),
+                  child: Center(
+                    child: TextFont(
+                      text: "no-habits-found".tr(),
+                      fontSize: 16,
+                      textColor: getColor(context, "textLight"),
+                    ),
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  for (Habit habit in allHabits)
+                    Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: 16, vertical: 4),
+                      child: Tappable(
+                        onTap: () async {
+                          HapticFeedback.mediumImpact();
+                          await database.toggleHabitLog(habit.habitPk, day);
+                        },
+                        borderRadius: 12,
+                        color: completedHabitPks.contains(habit.habitPk)
+                            ? dynamicPastel(
+                                context,
+                                HexColor(
+                                  habit.colour,
+                                  defaultColor:
+                                      Theme.of(context).colorScheme.primary,
+                                ),
+                                amountLight: 0.8,
+                                amountDark: 0.6,
+                              )
+                            : getColor(context, "lightDarkAccentHeavyLight"),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.symmetric(
+                              horizontal: 16, vertical: 12),
+                          child: Row(
+                            children: [
+                              if (habit.emojiIconName != null)
+                                Padding(
+                                  padding: EdgeInsetsDirectional.only(end: 10),
+                                  child: TextFont(
+                                    text: habit.emojiIconName!,
+                                    fontSize: 22,
+                                  ),
+                                )
+                              else if (habit.iconName != null)
+                                Padding(
+                                  padding: EdgeInsetsDirectional.only(end: 10),
+                                  child: Image.asset(
+                                    "assets/categories/${habit.iconName!}",
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ),
+                              Expanded(
+                                child: TextFont(
+                                  text: habit.name,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                completedHabitPks.contains(habit.habitPk)
+                                    ? Icons.check_circle_rounded
+                                    : Icons.radio_button_unchecked_rounded,
+                                size: 24,
+                                color: completedHabitPks.contains(habit.habitPk)
+                                    ? dynamicPastel(
+                                        context,
+                                        HexColor(
+                                          habit.colour,
+                                          defaultColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        amount: 0.7,
+                                        inverse: true,
+                                      )
+                                    : getColor(context, "black").withAlpha(80),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  SizedBox(height: 10),
+                ],
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 }
