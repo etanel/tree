@@ -58,7 +58,7 @@ class SubscriptionsPageState extends State<SubscriptionsPage> {
       onWillPop: () async {
         if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
-          globalSelectedID.notifyListeners();
+          globalSelectedID.value = Map.from(globalSelectedID.value);
           return false;
         } else {
           return true;

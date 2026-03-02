@@ -1191,7 +1191,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
       onWillPop: () async {
         if ((globalSelectedID.value[listID] ?? []).isNotEmpty) {
           globalSelectedID.value[listID] = [];
-          globalSelectedID.notifyListeners();
+          globalSelectedID.value = Map.from(globalSelectedID.value);
           return false;
         } else {
           return true;
