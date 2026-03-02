@@ -4917,9 +4917,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     if (budget.sharedKey != null) {
       loadingIndeterminateKey.currentState?.setVisibility(true);
       if (budget.sharedOwnerMember == SharedOwnerMember.owner) {
-        bool result = await removedSharedFromBudget(budget);
+        await removedSharedFromBudget(budget);
       } else {
-        bool result = await leaveSharedBudget(budget);
+        await leaveSharedBudget(budget);
       }
       loadingIndeterminateKey.currentState?.setVisibility(false);
     }
@@ -6766,7 +6766,7 @@ class FinanceDatabase extends _$FinanceDatabase {
         return CategoryWithTotal(
             category: category,
             categoryBudgetLimit: categoryBudgetLimit,
-            total: total ?? 0,
+            total: total,
             transactionCount: transactionCount ?? -1);
       }).watch());
     }
@@ -7032,7 +7032,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                   // Only apply this tab specific total when searching
                   : ((objectives.name
                       .collate(Collate.noCase)
-                      .like("%${searchString ?? ""}%")))) &
+                      .like("%$searchString%")))) &
               transactions.paid.equals(true) &
               transactions.walletFk.equals(wallet.walletPk) &
               (isCredit == null
@@ -7098,7 +7098,7 @@ class FinanceDatabase extends _$FinanceDatabase {
                 // Only apply this tab specific total when searching
                 : (objectives.name
                     .collate(Collate.noCase)
-                    .like("%${searchString ?? ""}%"))) &
+                    .like("%$searchString%"))) &
             (isCredit == null
                 ? Constant(true)
                 : isCredit

@@ -50,7 +50,6 @@ class TransactionEntryTag extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsetsDirectional.only(top: 1.0),
         child: LayoutBuilder(builder: (context, constraints) {
-          double maxWidth = constraints.maxWidth;
           List<bool> tagsToShow = [
             appStateSettings["showAccountLabelTagInTransactionEntry"] ==
                 true, //0
@@ -60,7 +59,6 @@ class TransactionEntryTag extends StatelessWidget {
             transaction.objectiveFk != null, //4
             showExcludedBudgetTagCheck, //5
           ];
-          int tagCount = tagsToShow.where((element) => element == true).length;
           List<Widget> tags = [
             // 0
             TransactionTag(

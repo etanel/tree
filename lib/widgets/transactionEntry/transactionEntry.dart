@@ -50,10 +50,15 @@ class RecentlyAddedTransactionInfo {
   void triggerAnimation() {
     shouldAnimate = false;
     isRunningAnimation = true;
-    recentlyAddedTransactionInfo.notifyListeners();
+    recentlyAddedTransactionInfo.value =
+        RecentlyAddedTransactionInfo(transactionPk, shouldAnimate)
+          ..loopCount = loopCount
+          ..isRunningAnimation = true;
     Future.delayed(Duration(milliseconds: 100), () {
-      isRunningAnimation = false;
-      recentlyAddedTransactionInfo.notifyListeners();
+      recentlyAddedTransactionInfo.value =
+          RecentlyAddedTransactionInfo(transactionPk, shouldAnimate)
+            ..loopCount = loopCount
+            ..isRunningAnimation = false;
     });
   }
 }
@@ -147,7 +152,7 @@ class TransactionEntry extends StatelessWidget {
       globalSelectedID.value[listID ?? "0"]!.remove(transaction.transactionPk);
       if (isSwiping) selectingTransactionsActive = -1;
     }
-    globalSelectedID.notifyListeners();
+    globalSelectedID.value = Map.from(globalSelectedID.value);
 
     if (onSelected != null) onSelected!(transaction, selected);
   }
@@ -799,16 +804,14 @@ class CollapseFutureTransactions extends StatelessWidget {
 void toggleFutureTransactionsSection(String? listID) {
   globalCollapsedFutureID.value[listID ?? "0"] =
       !(globalCollapsedFutureID.value[listID ?? "0"] ?? false);
-  globalCollapsedFutureID.notifyListeners();
+  globalCollapsedFutureID.value = Map.from(globalCollapsedFutureID.value);
   sharedPreferences.setString(
       "globalCollapsedFutureID", jsonEncode(globalCollapsedFutureID.value));
 }
 
 void flashTransaction(String transactionPk, {int flashCount = 5}) {
-  recentlyAddedTransactionInfo.value.shouldAnimate = true;
-  recentlyAddedTransactionInfo.value.transactionPk = transactionPk;
-  recentlyAddedTransactionInfo.value.loopCount = flashCount;
-  recentlyAddedTransactionInfo.notifyListeners();
+  recentlyAddedTransactionInfo.value =
+      RecentlyAddedTransactionInfo(transactionPk, true)..loopCount = flashCount;
 }
 
 class FlashingContainer extends StatefulWidget {

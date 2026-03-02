@@ -1,3 +1,5 @@
+// ignore_for_file: doc_directive_missing_closing_tag, doc_directive_unknown
+
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';

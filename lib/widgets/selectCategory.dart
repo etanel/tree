@@ -104,6 +104,7 @@ class _SelectCategoryState extends State<SelectCategory> {
 
   @override
   void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
     if (widget.selectedCategories != oldWidget.selectedCategories) {
       setState(() {
         selectedCategories = widget.selectedCategories ?? [];

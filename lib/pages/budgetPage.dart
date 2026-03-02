@@ -1050,6 +1050,7 @@ class _BudgetLineGraphState extends State<BudgetLineGraph> {
 
   @override
   void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
       _init();
     }
@@ -1057,6 +1058,7 @@ class _BudgetLineGraphState extends State<BudgetLineGraph> {
 
   @override
   initState() {
+    super.initState();
     _init();
   }
 

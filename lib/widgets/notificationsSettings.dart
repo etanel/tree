@@ -454,7 +454,7 @@ Future<bool> cancelUpcomingTransactionsNotification() async {
     endDate: DateTime.now().justDay(dayOffset: 30),
   );
   int idStart = 100;
-  for (Transaction upcomingTransaction in upcomingTransactions) {
+  for (Transaction _ in upcomingTransactions) {
     idStart++;
     await flutterLocalNotificationsPlugin.cancel(id: idStart);
   }

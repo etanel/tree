@@ -887,7 +887,6 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
       note = row[assignedColumns["note"]!["setHeaderIndex"]].toString().trim();
     }
 
-    String categoryFk = "0";
     TransactionCategory selectedCategory;
     try {
       selectedCategory = await database.getCategoryInstanceGivenName(
@@ -944,7 +943,7 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
 
       // }
     }
-    categoryFk = selectedCategory.categoryPk;
+    // categoryFk is derived from selectedCategory below
 
     // This will cause the app to crash if importing too many, so we now use batching
     // if (name != "") {

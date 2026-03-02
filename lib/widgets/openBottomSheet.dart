@@ -10,8 +10,6 @@ import 'package:tree/widgets/scrollbarWrap.dart';
 
 bool getIsFullScreen(context) {
   return getWidthNavigationSidebar(context) > 0;
-  double maxWidth = 700;
-  return MediaQuery.sizeOf(context).width > maxWidth;
 }
 
 double getWidthBottomSheet(context) {
