@@ -472,12 +472,11 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                               : barData.color) ??
                           Theme.of(context).colorScheme.primary,
                       strokeWidth: 2,
-                      strokeColor:
-                          (widget.extraCategorySpots.keys.isEmpty &&
-                                      widget.lineColors == null
-                                  ? widget.color.withOpacity(0.9)
-                                  : barData.color) ??
-                              Theme.of(context).colorScheme.primary,
+                      strokeColor: (widget.extraCategorySpots.keys.isEmpty &&
+                                  widget.lineColors == null
+                              ? widget.color.withOpacity(0.9)
+                              : barData.color) ??
+                          Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 );
@@ -485,18 +484,17 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
             },
             touchTooltipData: LineTouchTooltipData(
               maxContentWidth: 170,
-              getTooltipColor: (_) =>
-                  widget.extraCategorySpots.keys.isEmpty &&
-                          (widget.lineColors == null ||
-                              (widget.lineColors?.length ?? 0) <= 0)
-                      ? widget.color.withOpacity(0.7)
-                      : dynamicPastel(
-                          context,
-                          getColor(context, "white"),
-                          inverse: true,
-                          amountLight: 0.2,
-                          amountDark: 0.05,
-                        ).withOpacity(0.8),
+              getTooltipColor: (_) => widget.extraCategorySpots.keys.isEmpty &&
+                      (widget.lineColors == null ||
+                          (widget.lineColors?.length ?? 0) <= 0)
+                  ? widget.color.withOpacity(0.7)
+                  : dynamicPastel(
+                      context,
+                      getColor(context, "white"),
+                      inverse: true,
+                      amountLight: 0.2,
+                      amountDark: 0.05,
+                    ).withOpacity(0.8),
               tooltipBorderRadius: BorderRadius.all(Radius.circular(8)),
               fitInsideVertically: true,
               fitInsideHorizontally: true,
@@ -534,9 +532,7 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                               dateRange.start.year != DateTime.now().year);
                     } else {
                       startAndEndDateString =
-                          "${getWordedDateShort(dateRange.start)} – ${getWordedDateShort(dateRange.end,
-                                  includeYear: dateRange.end.year !=
-                                      DateTime.now().year)}";
+                          "${getWordedDateShort(dateRange.start)} – ${getWordedDateShort(dateRange.end, includeYear: dateRange.end.year != DateTime.now().year)}";
                     }
                     startAndEndDateString = "$startAndEndDateString\n";
                   }

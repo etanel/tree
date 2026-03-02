@@ -194,6 +194,7 @@ class _EditAssociatedTitlesPageState extends State<EditAssociatedTitlesPage> {
                         ),
                       );
                     }
+
                     return EditRowEntry(
                       canReorder: searchValue == "" &&
                           (snapshot.data ?? []).length != 1,

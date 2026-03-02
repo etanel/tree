@@ -246,7 +246,8 @@ class _ImportCSVState extends State<ImportCSV> {
                 )
               : null,
           title: "assign-columns".tr(),
-          subtitle: "${fileContents.length - 1} ${"transactions-in-the-csv".tr()}",
+          subtitle:
+              "${fileContents.length - 1} ${"transactions-in-the-csv".tr()}",
           child: Column(
             children: [
               TableEntry(
@@ -384,8 +385,7 @@ class _ImportCSVState extends State<ImportCSV> {
                             ? Icons.warning_outlined
                             : Icons.warning_rounded,
                         title: "csv-error".tr(),
-                        description:
-                            "${"consider-csv-template".tr()}\n$e",
+                        description: "${"consider-csv-template".tr()}\n$e",
                         onSubmit: () {
                           popRoute(context);
                         },
@@ -469,13 +469,8 @@ class _ImportCSVState extends State<ImportCSV> {
                 ? Icons.check_circle_outline_outlined
                 : Icons.check_circle_outline_rounded,
             title: "${"done".tr()}!",
-            description: "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0
-                    ? (" " +
-                        "errors".tr().capitalizeFirst +
-                        ": " +
-                        numberOfErrors.toString() +
-                        ".")
-                    : ""}",
+            description:
+                "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0 ? (" " + "errors".tr().capitalizeFirst + ": " + numberOfErrors.toString() + ".") : ""}",
             onSubmitLabel: "ok".tr(),
             onSubmit: () {
               popRoute(context);
@@ -677,8 +672,7 @@ class _CustomDateFormatInputState extends State<CustomDateFormatInput> {
     }
     String parsedDateText = dateTimeParsed == null
         ? "???"
-        : "${getWordedDateShort(dateTimeParsed,
-                includeYear: true, showTodayTomorrow: false)} ${getWordedTime(context.locale.toString(), dateTimeParsed)}";
+        : "${getWordedDateShort(dateTimeParsed, includeYear: true, showTodayTomorrow: false)} ${getWordedTime(context.locale.toString(), dateTimeParsed)}";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -817,7 +811,8 @@ Future saveSampleCSV({required BuildContext boxContext}) async {
       "",
     ]);
     String csv = ListToCsvConverter().convert(csvData);
-    String fileName = "cashew-import-template${DateTime.now().millisecondsSinceEpoch}.csv";
+    String fileName =
+        "cashew-import-template${DateTime.now().millisecondsSinceEpoch}.csv";
     return saveCSV(boxContext: boxContext, csv: csv, fileName: fileName);
   });
   return;
@@ -1133,8 +1128,7 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
           );
         } catch (e) {
           transactionAndTitle = null;
-          skippedError
-              .add("Skipping row #$i\n$e");
+          skippedError.add("Skipping row #$i\n$e");
         }
         if (transactionAndTitle == null) continue;
 
@@ -1171,7 +1165,8 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
         await openPopup(
           context,
           title: "csv-error".tr(),
-          description: "${"consider-csv-template".tr()}\nSkipped importing ${skippedError.length} entries: \n\n${skippedError.take(10).join("\n\n")}",
+          description:
+              "${"consider-csv-template".tr()}\nSkipped importing ${skippedError.length} entries: \n\n${skippedError.take(10).join("\n\n")}",
           onCancelWithBoxContext: (BuildContext boxContext) async {
             await saveSampleCSV(boxContext: boxContext);
             popRoute(context);

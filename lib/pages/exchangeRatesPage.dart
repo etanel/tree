@@ -122,7 +122,8 @@ class _ExchangeRatesState extends State<ExchangeRates> {
             openPopup(
               context,
               title: "exchange-rate-notice".tr(),
-              description: "${"exchange-rate-notice-description".tr()}\n\n${"select-an-entry-to-set-custom-exchange-rate".tr()}",
+              description:
+                  "${"exchange-rate-notice-description".tr()}\n\n${"select-an-entry-to-set-custom-exchange-rate".tr()}",
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.info_outlined
                   : Icons.info_outline_rounded,
@@ -222,11 +223,8 @@ class _ExchangeRatesState extends State<ExchangeRates> {
               padding: const EdgeInsetsDirectional.symmetric(
                   horizontal: 17, vertical: 5),
               child: TextFont(
-                text: "1 ${Provider.of<AllWallets>(context)
-                        .indexedByPk[appStateSettings["selectedWalletPk"]]!
-                        .currency
-                        .toString()
-                        .allCaps}",
+                text:
+                    "1 ${Provider.of<AllWallets>(context).indexedByPk[appStateSettings["selectedWalletPk"]]!.currency.toString().allCaps}",
                 maxLines: 2,
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
@@ -296,9 +294,8 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                                         maxLines: 3,
                                         richTextSpan: [
                                           TextSpan(
-                                            text: "${isUnsetCustomCurrency
-                                                    ? " " + "1 USD"
-                                                    : ""} = $calculatedExchangeRateString",
+                                            text:
+                                                "${isUnsetCustomCurrency ? " " + "1 USD" : ""} = $calculatedExchangeRateString",
                                             style: TextStyle(
                                               color: getColor(context, "black"),
                                               fontFamily:

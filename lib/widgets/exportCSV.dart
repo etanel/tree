@@ -152,7 +152,8 @@ class ExportCSV extends StatelessWidget {
 
       String fileName;
       if (dateTimeRange != null) {
-        fileName = "cashew-${DateTime.now().millisecondsSinceEpoch}-${dateTimeRange.start.year}-${dateTimeRange.start.month}-${dateTimeRange.start.day}-to-${dateTimeRange.end.year}-${dateTimeRange.end.month}-${dateTimeRange.end.day}.csv";
+        fileName =
+            "cashew-${DateTime.now().millisecondsSinceEpoch}-${dateTimeRange.start.year}-${dateTimeRange.start.month}-${dateTimeRange.start.day}-to-${dateTimeRange.end.year}-${dateTimeRange.end.month}-${dateTimeRange.end.day}.csv";
       } else {
         fileName =
             "cashew-${cleanFileNameString(DateTime.now().toString())}.csv";

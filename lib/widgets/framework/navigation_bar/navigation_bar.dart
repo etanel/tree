@@ -317,9 +317,7 @@ class NavigationDestination extends StatelessWidget {
   Widget build(BuildContext context) {
     final _NavigationDestinationInfo info =
         _NavigationDestinationInfo.of(context);
-    const Set<WidgetState> selectedState = <WidgetState>{
-      WidgetState.selected
-    };
+    const Set<WidgetState> selectedState = <WidgetState>{WidgetState.selected};
     const Set<WidgetState> unselectedState = <WidgetState>{};
 
     final NavigationBarThemeData navigationBarTheme =

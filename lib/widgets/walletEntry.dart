@@ -97,9 +97,8 @@ class WalletEntry extends StatelessWidget {
                           ),
                           TextFont(
                             textAlign: TextAlign.start,
-                            text: "${walletWithDetails.numberTransactions} ${walletWithDetails.numberTransactions == 1
-                                    ? "transaction".tr().toLowerCase()
-                                    : "transactions".tr().toLowerCase()}",
+                            text:
+                                "${walletWithDetails.numberTransactions} ${walletWithDetails.numberTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                             fontSize: 14,
                             textColor:
                                 getColor(context, "black").withOpacity(0.65),

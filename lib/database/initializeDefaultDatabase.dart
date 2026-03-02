@@ -28,8 +28,7 @@ Future<bool> createDefaultCategories() async {
     try {
       await database.getCategory(category.categoryPk).$2;
     } catch (e) {
-      print(
-          "$e default category does not already exist, creating");
+      print("$e default category does not already exist, creating");
       await database.createOrUpdateCategory(category,
           customDateTimeModified: DateTime(0));
     }

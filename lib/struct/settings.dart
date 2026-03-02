@@ -111,9 +111,8 @@ Future<bool> initializeSettings() async {
   String? retrievedClientID = sharedPreferences.getString("clientID");
   if (retrievedClientID == null) {
     String systemID = await getDeviceInfo();
-    String newClientID = "${systemID
-            .substring(0, (systemID.length > 17 ? 17 : systemID.length))
-            .replaceAll("-", "_")}-${DateTime.now().millisecondsSinceEpoch}";
+    String newClientID =
+        "${systemID.substring(0, (systemID.length > 17 ? 17 : systemID.length)).replaceAll("-", "_")}-${DateTime.now().millisecondsSinceEpoch}";
     await sharedPreferences.setString("clientID", newClientID);
     clientID = newClientID;
   } else {
@@ -142,7 +141,8 @@ Future<bool> initializeSettings() async {
       return MapEntry(key, value is bool ? value : false);
     });
   } catch (e) {
-    print("There was an error restoring globalCollapsedFutureID preference: $e");
+    print(
+        "There was an error restoring globalCollapsedFutureID preference: $e");
   }
 
   try {

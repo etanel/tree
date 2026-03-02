@@ -306,7 +306,8 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                 ],
                               ),
                               TextFont(
-                                text: "${getWordedDateShort(budgetRange.start)} – ${getWordedDateShort(budgetRange.end)}",
+                                text:
+                                    "${getWordedDateShort(budgetRange.start)} – ${getWordedDateShort(budgetRange.end)}",
                                 fontSize: 15,
                               ),
                               Container(height: 2),
@@ -328,13 +329,8 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                             snapshot.data != null) {
                                           return TextFont(
                                             textAlign: TextAlign.start,
-                                            text: "${snapshot.data!} ${snapshot.data! == 1
-                                                    ? "transaction"
-                                                        .tr()
-                                                        .toLowerCase()
-                                                    : "transactions"
-                                                        .tr()
-                                                        .toLowerCase()}",
+                                            text:
+                                                "${snapshot.data!} ${snapshot.data! == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")
@@ -343,8 +339,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                         } else {
                                           return TextFont(
                                             textAlign: TextAlign.start,
-                                            text:
-                                                "/" " " + "transactions".tr(),
+                                            text: "/" " " + "transactions".tr(),
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")

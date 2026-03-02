@@ -303,8 +303,7 @@ class _EditObjectivesPageState extends State<EditObjectivesPage> {
                                     return TextFont(
                                       textAlign: TextAlign.start,
                                       text: getIsDifferenceOnlyLoan(objective)
-                                          ? ("$amountSpentLabel ${differenceOnlyLoanLabel
-                                                  .toLowerCase()}")
+                                          ? ("$amountSpentLabel ${differenceOnlyLoanLabel.toLowerCase()}")
                                           : (amountSpentLabel +
                                               amountRemainingLabel),
                                       fontSize: 14,
@@ -522,12 +521,12 @@ Future<dynamic> selectObjectivePopup(
                                 objective != null &&
                                 objectiveType != ObjectiveType.loan
                             ? (" (${convertToMoney(
-                                  Provider.of<AllWallets>(context),
-                                  objectiveAmountToPrimaryCurrency(
-                                          Provider.of<AllWallets>(context),
-                                          objective) *
-                                      ((objective.income) ? 1 : -1),
-                                )})")
+                                Provider.of<AllWallets>(context),
+                                objectiveAmountToPrimaryCurrency(
+                                        Provider.of<AllWallets>(context),
+                                        objective) *
+                                    ((objective.income) ? 1 : -1),
+                              )})")
                             : "");
                   },
                   initial: selectedObjective,

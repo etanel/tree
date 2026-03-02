@@ -110,8 +110,10 @@ Future createNewSubscriptionTransaction(
       String transactionName = await getTransactionLabel(transaction);
       openSnackbar(
         SnackbarMessage(
-          title: "${transaction.income ? "deposited".tr() : "paid".tr()}: $transactionName",
-          description: "${"created-new-for".tr()} ${getWordedDateShort(newDate, lowerCaseTodayTomorrow: true)}",
+          title:
+              "${transaction.income ? "deposited".tr() : "paid".tr()}: $transactionName",
+          description:
+              "${"created-new-for".tr()} ${getWordedDateShort(newDate, lowerCaseTodayTomorrow: true)}",
           icon: appStateSettings["outlinedIcons"]
               ? Icons.event_repeat_outlined
               : Icons.event_repeat_rounded,
@@ -228,8 +230,7 @@ Future openPayPopup(
         );
   String repeatsLeftLabel = numberRepeats == null
       ? ""
-      : "\n× $numberRepeats ${"remain".tr()} ${"until".tr()} ${getWordedDateShort(transaction.endDate ?? DateTime.now(),
-              includeYear: transaction.endDate?.year != DateTime.now().year)}";
+      : "\n× $numberRepeats ${"remain".tr()} ${"until".tr()} ${getWordedDateShort(transaction.endDate ?? DateTime.now(), includeYear: transaction.endDate?.year != DateTime.now().year)}";
   return await openPopup(
     context,
     icon: appStateSettings["outlinedIcons"]
@@ -358,11 +359,8 @@ Future openPayDebtCreditPopup(
     icon: appStateSettings["outlinedIcons"]
         ? Icons.check_circle_outlined
         : Icons.check_circle_rounded,
-    title: "${transaction.type == TransactionSpecialType.credit
-            ? "collect".tr()
-            : transaction.type == TransactionSpecialType.debt
-                ? "settled".tr()
-                : ""}?",
+    title:
+        "${transaction.type == TransactionSpecialType.credit ? "collect".tr() : transaction.type == TransactionSpecialType.debt ? "settled".tr() : ""}?",
     subtitle: transactionName,
     description: transaction.type == TransactionSpecialType.credit
         ? "collect-description".tr()

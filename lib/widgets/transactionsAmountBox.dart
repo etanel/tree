@@ -114,9 +114,8 @@ class TransactionsAmountBox extends StatelessWidget {
                             SizedBox(height: 6),
                             TextFont(
                               maxLines: 2,
-                              text: "$totalCount ${totalCount == 1
-                                      ? "transaction".tr().toLowerCase()
-                                      : "transactions".tr().toLowerCase()}",
+                              text:
+                                  "$totalCount ${totalCount == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                               fontSize: 13,
                               textAlign: TextAlign.center,
                               textColor: getColor(context, "textLight"),

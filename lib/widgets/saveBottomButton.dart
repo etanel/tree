@@ -39,7 +39,8 @@ class SaveBottomButton extends StatelessWidget {
 }
 
 class AddGradientOnTop extends StatelessWidget {
-  const AddGradientOnTop({super.key, 
+  const AddGradientOnTop({
+    super.key,
     required this.child,
   });
 

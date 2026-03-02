@@ -36,8 +36,7 @@ class LinkHighlighter extends TextEditingController {
         String websiteNameClean = getDomainNameFromURL(match[0] ?? "");
         children.add(
           TextSpan(
-            text:
-                addInvisibleSpace(match[0] ?? "", " $websiteNameClean "),
+            text: addInvisibleSpace(match[0] ?? "", " $websiteNameClean "),
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
               backgroundColor: dynamicPastel(

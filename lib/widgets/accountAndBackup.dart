@@ -1080,344 +1080,302 @@ class _BackupManagementState extends State<BackupManagement> {
                   ],
                 )
               : SizedBox.shrink(),
-          ...filesMap
-              .map(
-                (MapEntry<int, drive.File> file) => AnimatedSizeSwitcher(
-                  child: deletedIndices.contains(file.key)
-                      ? Container(
-                          key: ValueKey(1),
-                        )
-                      : Padding(
-                          padding:
-                              const EdgeInsetsDirectional.only(bottom: 8.0),
-                          child: Tappable(
-                            onTap: () async {
-                              if (!widget.isManaging) {
-                                final result = await openPopup(
-                                  context,
-                                  title: "load-backup".tr(),
-                                  subtitle: "${getWordedDateShortMore(
-                                        (file.value.modifiedTime ??
-                                                DateTime.now())
-                                            .toLocal(),
-                                        includeTime: true,
-                                        includeYear: true,
-                                        showTodayTomorrow: false,
-                                      )}\n${getWordedTime(
-                                          navigatorKey.currentContext?.locale
-                                              .toString(),
-                                          (file.value.modifiedTime ??
-                                                  DateTime.now())
-                                              .toLocal())}",
-                                  beforeDescriptionWidget: Padding(
-                                    padding: const EdgeInsetsDirectional.only(
-                                      top: 8,
-                                      bottom: 5,
-                                    ),
-                                    child: CodeBlock(
-                                        text: (file.value.name ?? "No name")),
-                                  ),
-                                  description: "load-backup-warning".tr(),
-                                  icon: appStateSettings["outlinedIcons"]
-                                      ? Icons.warning_outlined
-                                      : Icons.warning_rounded,
-                                  onSubmit: () async {
-                                    popRoute(context, true);
-                                  },
-                                  onSubmitLabel: "load".tr(),
-                                  onCancelLabel: "cancel".tr(),
-                                  onCancel: () {
-                                    popRoute(context);
-                                  },
-                                );
-                                if (result == true) {
-                                  loadBackup(
-                                      context, driveApiState, file.value);
-                                }
-                              }
-                              // else {
-                              //   await openPopup(
-                              //     context,
-                              //     title: "Backup Details",
-                              //     description: (file.value.name ?? "") +
-                              //         "\n" +
-                              //         (file.value.size ?? "") +
-                              //         "\n" +
-                              //         (file.value.description ?? ""),
-                              //     icon: appStateSettings["outlinedIcons"] ? Icons.warning_outlined : Icons.warning_rounded,
-                              //     onSubmit: () async {
-                              //       popRoute(context, true);
-                              //     },
-                              //     onSubmitLabel: "Close",
-                              //   );
-                              // }
-                            },
-                            borderRadius: 15,
-                            color: widget.isClientSync &&
-                                    isCurrentDeviceSyncBackupFile(
-                                        file.value.name)
+          ...filesMap.map(
+            (MapEntry<int, drive.File> file) => AnimatedSizeSwitcher(
+              child: deletedIndices.contains(file.key)
+                  ? Container(
+                      key: ValueKey(1),
+                    )
+                  : Padding(
+                      padding: const EdgeInsetsDirectional.only(bottom: 8.0),
+                      child: Tappable(
+                        onTap: () async {
+                          if (!widget.isManaging) {
+                            final result = await openPopup(
+                              context,
+                              title: "load-backup".tr(),
+                              subtitle: "${getWordedDateShortMore(
+                                (file.value.modifiedTime ?? DateTime.now())
+                                    .toLocal(),
+                                includeTime: true,
+                                includeYear: true,
+                                showTodayTomorrow: false,
+                              )}\n${getWordedTime(navigatorKey.currentContext?.locale.toString(), (file.value.modifiedTime ?? DateTime.now()).toLocal())}",
+                              beforeDescriptionWidget: Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                  top: 8,
+                                  bottom: 5,
+                                ),
+                                child: CodeBlock(
+                                    text: (file.value.name ?? "No name")),
+                              ),
+                              description: "load-backup-warning".tr(),
+                              icon: appStateSettings["outlinedIcons"]
+                                  ? Icons.warning_outlined
+                                  : Icons.warning_rounded,
+                              onSubmit: () async {
+                                popRoute(context, true);
+                              },
+                              onSubmitLabel: "load".tr(),
+                              onCancelLabel: "cancel".tr(),
+                              onCancel: () {
+                                popRoute(context);
+                              },
+                            );
+                            if (result == true) {
+                              loadBackup(context, driveApiState, file.value);
+                            }
+                          }
+                          // else {
+                          //   await openPopup(
+                          //     context,
+                          //     title: "Backup Details",
+                          //     description: (file.value.name ?? "") +
+                          //         "\n" +
+                          //         (file.value.size ?? "") +
+                          //         "\n" +
+                          //         (file.value.description ?? ""),
+                          //     icon: appStateSettings["outlinedIcons"] ? Icons.warning_outlined : Icons.warning_rounded,
+                          //     onSubmit: () async {
+                          //       popRoute(context, true);
+                          //     },
+                          //     onSubmitLabel: "Close",
+                          //   );
+                          // }
+                        },
+                        borderRadius: 15,
+                        color: widget.isClientSync &&
+                                isCurrentDeviceSyncBackupFile(file.value.name)
+                            ? Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.4)
+                            : appStateSettings["materialYou"]
                                 ? Theme.of(context)
                                     .colorScheme
-                                    .primary
-                                    .withOpacity(0.4)
-                                : appStateSettings["materialYou"]
-                                    ? Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer
-                                    : getColor(
-                                        context, "lightDarkAccentHeavyLight"),
-                            child: Container(
-                              padding: EdgeInsetsDirectional.symmetric(
-                                  horizontal: 20, vertical: 15),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Row(
+                                    .secondaryContainer
+                                : getColor(
+                                    context, "lightDarkAccentHeavyLight"),
+                        child: Container(
+                          padding: EdgeInsetsDirectional.symmetric(
+                              horizontal: 20, vertical: 15),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      widget.isClientSync
+                                          ? appStateSettings["outlinedIcons"]
+                                              ? Icons.devices_outlined
+                                              : Icons.devices_rounded
+                                          : appStateSettings["outlinedIcons"]
+                                              ? Icons.description_outlined
+                                              : Icons.description_rounded,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      size: 30,
+                                    ),
+                                    SizedBox(
+                                        width: widget.isClientSync ? 17 : 13),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TextFont(
+                                            text: getTimeAgo(
+                                              (file.value.modifiedTime ??
+                                                      DateTime.now())
+                                                  .toLocal(),
+                                            ).capitalizeFirst,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            maxLines: 2,
+                                          ),
+                                          TextFont(
+                                            text: (isSyncBackupFile(
+                                                    file.value.name)
+                                                ? "${getDeviceFromSyncBackupFileName(file.value.name)} sync"
+                                                : file.value.name ?? "No name"),
+                                            fontSize: 14,
+                                            maxLines: 2,
+                                          ),
+                                          // isSyncBackupFile(
+                                          //         file.value.name)
+                                          //     ? Padding(
+                                          //         padding:
+                                          //             const EdgeInsetsDirectional
+                                          //                 .only(top: 3),
+                                          //         child: TextFont(
+                                          //           text:
+                                          //               file.value.name ??
+                                          //                   "",
+                                          //           fontSize: 11,
+                                          //           maxLines: 2,
+                                          //         ),
+                                          //       )
+                                          //     : SizedBox.shrink()
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              widget.isManaging
+                                  ? Row(
                                       children: [
-                                        Icon(
-                                          widget.isClientSync
-                                              ? appStateSettings[
-                                                      "outlinedIcons"]
-                                                  ? Icons.devices_outlined
-                                                  : Icons.devices_rounded
-                                              : appStateSettings[
-                                                      "outlinedIcons"]
-                                                  ? Icons.description_outlined
-                                                  : Icons.description_rounded,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          size: 30,
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                widget.isClientSync ? 17 : 13),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              TextFont(
-                                                text: getTimeAgo(
+                                        widget.hideDownloadButton
+                                            ? SizedBox.shrink()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .only(
+                                                  start: 8.0,
+                                                ),
+                                                child: Builder(
+                                                    builder: (boxContext) {
+                                                  return ButtonIcon(
+                                                    color: appStateSettings[
+                                                            "materialYou"]
+                                                        ? Theme.of(context)
+                                                            .colorScheme
+                                                            .onSecondaryContainer
+                                                            .withOpacity(0.08)
+                                                        : getColor(context,
+                                                                "lightDarkAccentHeavy")
+                                                            .withOpacity(0.7),
+                                                    onTap: () {
+                                                      saveDriveFileToDevice(
+                                                        boxContext: boxContext,
+                                                        driveApi: driveApiState,
+                                                        fileToSave: file.value,
+                                                      );
+                                                    },
+                                                    icon:
+                                                        Icons.download_rounded,
+                                                  );
+                                                }),
+                                              ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.only(
+                                                  start: 5),
+                                          child: ButtonIcon(
+                                            color: appStateSettings[
+                                                    "materialYou"]
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .onSecondaryContainer
+                                                    .withOpacity(0.08)
+                                                : getColor(context,
+                                                        "lightDarkAccentHeavy")
+                                                    .withOpacity(0.7),
+                                            onTap: () {
+                                              openPopup(
+                                                context,
+                                                icon: appStateSettings[
+                                                        "outlinedIcons"]
+                                                    ? Icons.delete_outlined
+                                                    : Icons.delete_rounded,
+                                                title: "delete-backup".tr(),
+                                                subtitle:
+                                                    "${getWordedDateShortMore(
                                                   (file.value.modifiedTime ??
                                                           DateTime.now())
                                                       .toLocal(),
-                                                ).capitalizeFirst,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                maxLines: 2,
-                                              ),
-                                              TextFont(
-                                                text: (isSyncBackupFile(
-                                                        file.value.name)
-                                                    ? "${getDeviceFromSyncBackupFileName(
-                                                            file.value.name)} sync"
-                                                    : file.value.name ??
-                                                        "No name"),
-                                                fontSize: 14,
-                                                maxLines: 2,
-                                              ),
-                                              // isSyncBackupFile(
-                                              //         file.value.name)
-                                              //     ? Padding(
-                                              //         padding:
-                                              //             const EdgeInsetsDirectional
-                                              //                 .only(top: 3),
-                                              //         child: TextFont(
-                                              //           text:
-                                              //               file.value.name ??
-                                              //                   "",
-                                              //           fontSize: 11,
-                                              //           maxLines: 2,
-                                              //         ),
-                                              //       )
-                                              //     : SizedBox.shrink()
-                                            ],
+                                                  includeTime: true,
+                                                  includeYear: true,
+                                                  showTodayTomorrow: false,
+                                                )}\n${getWordedTime(navigatorKey.currentContext?.locale.toString(), (file.value.modifiedTime ?? DateTime.now()).toLocal())}",
+                                                beforeDescriptionWidget:
+                                                    Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .only(
+                                                    top: 8,
+                                                    bottom: 5,
+                                                  ),
+                                                  child: CodeBlock(
+                                                    text:
+                                                        "${file.value.name ?? "No name"}\n${convertBytesToMB(file.value.size ?? "0").toStringAsFixed(2)} MB",
+                                                  ),
+                                                ),
+                                                description: (widget
+                                                        .isClientSync
+                                                    ? "delete-sync-backup-warning"
+                                                        .tr()
+                                                    : null),
+                                                onSubmit: () async {
+                                                  popRoute(context);
+                                                  loadingIndeterminateKey
+                                                      .currentState
+                                                      ?.setVisibility(true);
+                                                  await deleteBackup(
+                                                      driveApiState,
+                                                      file.value.id ?? "");
+                                                  openSnackbar(
+                                                    SnackbarMessage(
+                                                        title: "deleted-backup"
+                                                            .tr(),
+                                                        description:
+                                                            (file.value.name ??
+                                                                "No name"),
+                                                        icon: Icons
+                                                            .delete_rounded),
+                                                  );
+                                                  setState(() {
+                                                    deletedIndices
+                                                        .add(file.key);
+                                                  });
+                                                  // bottomSheetControllerGlobal
+                                                  //     .snapToExtent(0);
+                                                  if (widget.isClientSync) {
+                                                    await updateSettings(
+                                                        "devicesHaveBeenSynced",
+                                                        appStateSettings[
+                                                                "devicesHaveBeenSynced"] -
+                                                            1,
+                                                        updateGlobalState:
+                                                            false);
+                                                  }
+                                                  if (widget.isManaging) {
+                                                    await updateSettings(
+                                                        "numBackups",
+                                                        appStateSettings[
+                                                                "numBackups"] -
+                                                            1,
+                                                        updateGlobalState:
+                                                            false);
+                                                  }
+                                                  loadingIndeterminateKey
+                                                      .currentState
+                                                      ?.setVisibility(false);
+                                                },
+                                                onSubmitLabel: "delete".tr(),
+                                                onCancel: () {
+                                                  popRoute(context);
+                                                },
+                                                onCancelLabel: "cancel".tr(),
+                                              );
+                                            },
+                                            icon: appStateSettings[
+                                                    "outlinedIcons"]
+                                                ? Icons.close_outlined
+                                                : Icons.close_rounded,
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  widget.isManaging
-                                      ? Row(
-                                          children: [
-                                            widget.hideDownloadButton
-                                                ? SizedBox.shrink()
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .only(
-                                                      start: 8.0,
-                                                    ),
-                                                    child: Builder(
-                                                        builder: (boxContext) {
-                                                      return ButtonIcon(
-                                                        color: appStateSettings[
-                                                                "materialYou"]
-                                                            ? Theme.of(context)
-                                                                .colorScheme
-                                                                .onSecondaryContainer
-                                                                .withOpacity(
-                                                                    0.08)
-                                                            : getColor(context,
-                                                                    "lightDarkAccentHeavy")
-                                                                .withOpacity(
-                                                                    0.7),
-                                                        onTap: () {
-                                                          saveDriveFileToDevice(
-                                                            boxContext:
-                                                                boxContext,
-                                                            driveApi:
-                                                                driveApiState,
-                                                            fileToSave:
-                                                                file.value,
-                                                          );
-                                                        },
-                                                        icon: Icons
-                                                            .download_rounded,
-                                                      );
-                                                    }),
-                                                  ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .only(start: 5),
-                                              child: ButtonIcon(
-                                                color: appStateSettings[
-                                                        "materialYou"]
-                                                    ? Theme.of(context)
-                                                        .colorScheme
-                                                        .onSecondaryContainer
-                                                        .withOpacity(0.08)
-                                                    : getColor(context,
-                                                            "lightDarkAccentHeavy")
-                                                        .withOpacity(0.7),
-                                                onTap: () {
-                                                  openPopup(
-                                                    context,
-                                                    icon: appStateSettings[
-                                                            "outlinedIcons"]
-                                                        ? Icons.delete_outlined
-                                                        : Icons.delete_rounded,
-                                                    title: "delete-backup".tr(),
-                                                    subtitle:
-                                                        "${getWordedDateShortMore(
-                                                              (file.value.modifiedTime ??
-                                                                      DateTime
-                                                                          .now())
-                                                                  .toLocal(),
-                                                              includeTime: true,
-                                                              includeYear: true,
-                                                              showTodayTomorrow:
-                                                                  false,
-                                                            )}\n${getWordedTime(
-                                                                navigatorKey
-                                                                    .currentContext
-                                                                    ?.locale
-                                                                    .toString(),
-                                                                (file.value.modifiedTime ??
-                                                                        DateTime
-                                                                            .now())
-                                                                    .toLocal())}",
-                                                    beforeDescriptionWidget:
-                                                        Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .only(
-                                                        top: 8,
-                                                        bottom: 5,
-                                                      ),
-                                                      child: CodeBlock(
-                                                        text: "${file.value
-                                                                    .name ??
-                                                                "No name"}\n${convertBytesToMB(file
-                                                                        .value
-                                                                        .size ??
-                                                                    "0")
-                                                                .toStringAsFixed(
-                                                                    2)} MB",
-                                                      ),
-                                                    ),
-                                                    description: (widget
-                                                            .isClientSync
-                                                        ? "delete-sync-backup-warning"
-                                                            .tr()
-                                                        : null),
-                                                    onSubmit: () async {
-                                                      popRoute(context);
-                                                      loadingIndeterminateKey
-                                                          .currentState
-                                                          ?.setVisibility(true);
-                                                      await deleteBackup(
-                                                          driveApiState,
-                                                          file.value.id ?? "");
-                                                      openSnackbar(
-                                                        SnackbarMessage(
-                                                            title:
-                                                                "deleted-backup"
-                                                                    .tr(),
-                                                            description: (file
-                                                                    .value
-                                                                    .name ??
-                                                                "No name"),
-                                                            icon: Icons
-                                                                .delete_rounded),
-                                                      );
-                                                      setState(() {
-                                                        deletedIndices
-                                                            .add(file.key);
-                                                      });
-                                                      // bottomSheetControllerGlobal
-                                                      //     .snapToExtent(0);
-                                                      if (widget.isClientSync) {
-                                                        await updateSettings(
-                                                            "devicesHaveBeenSynced",
-                                                            appStateSettings[
-                                                                    "devicesHaveBeenSynced"] -
-                                                                1,
-                                                            updateGlobalState:
-                                                                false);
-                                                      }
-                                                      if (widget.isManaging) {
-                                                        await updateSettings(
-                                                            "numBackups",
-                                                            appStateSettings[
-                                                                    "numBackups"] -
-                                                                1,
-                                                            updateGlobalState:
-                                                                false);
-                                                      }
-                                                      loadingIndeterminateKey
-                                                          .currentState
-                                                          ?.setVisibility(
-                                                              false);
-                                                    },
-                                                    onSubmitLabel:
-                                                        "delete".tr(),
-                                                    onCancel: () {
-                                                      popRoute(context);
-                                                    },
-                                                    onCancelLabel:
-                                                        "cancel".tr(),
-                                                  );
-                                                },
-                                                icon: appStateSettings[
-                                                        "outlinedIcons"]
-                                                    ? Icons.close_outlined
-                                                    : Icons.close_rounded,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : SizedBox.shrink(),
-                                ],
-                              ),
-                            ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ],
                           ),
                         ),
-                ),
-              )
-              ,
+                      ),
+                    ),
+            ),
+          ),
         ],
       ),
     );
@@ -1549,10 +1507,8 @@ Future<bool> saveDriveFileToDevice({
   await for (var data in response.stream) {
     dataStore.insertAll(dataStore.length, data);
   }
-  String fileName = "cashew-${((fileToSave.name ?? "") +
-              cleanFileNameString(
-                  (fileToSave.modifiedTime ?? DateTime.now()).toString()))
-          .replaceAll(".sqlite", "")}.sql";
+  String fileName =
+      "cashew-${((fileToSave.name ?? "") + cleanFileNameString((fileToSave.modifiedTime ?? DateTime.now()).toString())).replaceAll(".sqlite", "")}.sql";
 
   return await saveFile(
     boxContext: boxContext,
@@ -1574,7 +1530,8 @@ bool openBackupReminderPopupCheck(BuildContext context) {
       icon: MoreIcons.google_drive,
       iconScale: 0.9,
       title: "backup-your-data-reminder".tr(),
-      description: "${"backup-your-data-reminder-description".tr()} ${"google-drive".tr()}",
+      description:
+          "${"backup-your-data-reminder-description".tr()} ${"google-drive".tr()}",
       onSubmitLabel: "backup".tr().capitalizeFirst,
       onSubmit: () async {
         popRoute(context);

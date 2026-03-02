@@ -82,7 +82,8 @@ class FAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? containerColor = color ?? (isOutlined
+    Color? containerColor = color ??
+        (isOutlined
             ? Theme.of(context).colorScheme.onSecondary
             : Theme.of(context).colorScheme.secondary);
     Color? iconColor = color != null

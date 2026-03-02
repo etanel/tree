@@ -930,11 +930,11 @@ Future<bool> correctWalletBalance(
     DateTime? dateTime,
     String title) async {
   String transferString = "${wallet.name}: ${convertToMoney(
-        Provider.of<AllWallets>(context, listen: false),
-        newAmount,
-        currencyKey: wallet.currency,
-        decimals: wallet.decimals,
-      )}";
+    Provider.of<AllWallets>(context, listen: false),
+    newAmount,
+    currencyKey: wallet.currency,
+    decimals: wallet.decimals,
+  )}";
 
   String note = "${"updated-total-balance".tr()}\n$transferString";
 
@@ -963,8 +963,7 @@ Future<TransactionCategory> initializeBalanceCorrectionCategory() async {
   try {
     return await database.getCategory("0").$2;
   } catch (e) {
-    print(
-        "$e- creating default category amount balancing category");
+    print("$e- creating default category amount balancing category");
     int numberOfCategories =
         (await database.getTotalCountOfCategories())[0] ?? 0;
 

@@ -353,8 +353,7 @@ Future attemptToMigrateSetLongTermLoansAmountTo0() async {
       await database.updateBatchObjectivesOnly(objectivesInserting);
     }
   } catch (e) {
-    print(
-        "Error migrating setting long term loans amounts to 0 $e");
+    print("Error migrating setting long term loans amounts to 0 $e");
   }
 }
 
@@ -386,8 +385,7 @@ void attemptToMigrateCustomNumberFormattingSettings() {
       appStateSettings["numberFormatLocale"] = null;
     }
   } catch (e) {
-    print(
-        "Error migrating setting long term loans amounts to 0 $e");
+    print("Error migrating setting long term loans amounts to 0 $e");
   }
 }
 
@@ -401,7 +399,8 @@ Map<String, dynamic> attemptToMigrateCyclePreferences(
             currentUserSettings[key] == null &&
             // We have a current setting for the previous associated value
             currentUserSettings[migrateCyclePreferencesKeys[key]] != null) {
-      print("Migrating cycle setting $key to the value of ${currentUserSettings[migrateCyclePreferencesKeys[key]]} from key ${migrateCyclePreferencesKeys[key]}");
+      print(
+          "Migrating cycle setting $key to the value of ${currentUserSettings[migrateCyclePreferencesKeys[key]]} from key ${migrateCyclePreferencesKeys[key]}");
       currentUserSettings[key] =
           currentUserSettings[migrateCyclePreferencesKeys[key]];
     }

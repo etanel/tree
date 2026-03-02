@@ -394,7 +394,8 @@ class __PastBudgetsPageContentState extends State<_PastBudgetsPageContent> {
                                               categorySpentPoints = {};
                                           if (snapshotMergedStreamsCategoriesTotal
                                                   .hasData &&
-                                              (selectedCategoryFks).isNotEmpty) {
+                                              (selectedCategoryFks)
+                                                  .isNotEmpty) {
                                             maxY = 0.1;
                                             // separate each into a map of their own
                                             int i =
@@ -1313,15 +1314,8 @@ class CategoryAverageSpent extends StatelessWidget {
                                   : (amountSpent / amountPeriods).abs(),
                               textBuilder: (number) {
                                 return TextFont(
-                                  text: "${convertToMoney(
-                                          Provider.of<AllWallets>(context),
-                                          number,
-                                          finalNumber: amountPeriods == 0
-                                              ? 0
-                                              : (amountSpent / amountPeriods)
-                                                  .abs())} ${isSavingsBudget
-                                          ? "average-saved".tr().toLowerCase()
-                                          : "average-spent".tr().toLowerCase()}",
+                                  text:
+                                      "${convertToMoney(Provider.of<AllWallets>(context), number, finalNumber: amountPeriods == 0 ? 0 : (amountSpent / amountPeriods).abs())} ${isSavingsBudget ? "average-saved".tr().toLowerCase() : "average-spent".tr().toLowerCase()}",
                                   fontSize: 14,
                                   textColor: getColor(context, "textLight"),
                                 );

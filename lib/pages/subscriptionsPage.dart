@@ -221,11 +221,8 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                           textColor: daysDifference > 0
                               ? getColor(context, "unPaidOverdue")
                               : getColor(context, "textLight"),
-                          text: " • ${daysDifference.abs()} ${daysDifference.abs() == 1
-                                  ? "day".tr()
-                                  : "days".tr()}${daysDifference > 0
-                                  ? " " + "overdue".tr().toLowerCase()
-                                  : ""}",
+                          text:
+                              " • ${daysDifference.abs()} ${daysDifference.abs() == 1 ? "day".tr() : "days".tr()}${daysDifference > 0 ? " " + "overdue".tr().toLowerCase() : ""}",
                           fontWeight: FontWeight.bold,
                         ),
                       )
@@ -252,17 +249,8 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                       ),
                       SizedBox(width: 3),
                       TextFont(
-                        text: "${transaction.periodLength} ${transaction.periodLength == 1
-                                ? nameRecurrence[transaction.reoccurrence]
-                                    .toString()
-                                    .toLowerCase()
-                                    .tr()
-                                    .toLowerCase()
-                                : namesRecurrence[transaction.reoccurrence]
-                                    .toString()
-                                    .toLowerCase()
-                                    .tr()
-                                    .toLowerCase()}",
+                        text:
+                            "${transaction.periodLength} ${transaction.periodLength == 1 ? nameRecurrence[transaction.reoccurrence].toString().toLowerCase().tr().toLowerCase() : namesRecurrence[transaction.reoccurrence].toString().toLowerCase().tr().toLowerCase()}",
                         fontSize: 14,
                         textColor: dynamicPastel(
                             context, Theme.of(context).colorScheme.primary,
@@ -279,21 +267,13 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                           : TextFont(
                               key: ValueKey(selectedType.toString()),
                               text: "${convertToMoney(
+                                Provider.of<AllWallets>(context),
+                                getTotalSubscriptions(
                                     Provider.of<AllWallets>(context),
-                                    getTotalSubscriptions(
-                                        Provider.of<AllWallets>(context),
-                                        selectedType ??
-                                            SelectedSubscriptionsType.monthly,
-                                        [transaction]),
-                                  )} / ${(selectedType ==
-                                              SelectedSubscriptionsType.monthly
-                                          ? "month".tr()
-                                          : selectedType ==
-                                                  SelectedSubscriptionsType
-                                                      .yearly
-                                              ? "year".tr()
-                                              : "")
-                                      .toLowerCase()}",
+                                    selectedType ??
+                                        SelectedSubscriptionsType.monthly,
+                                    [transaction]),
+                              )} / ${(selectedType == SelectedSubscriptionsType.monthly ? "month".tr() : selectedType == SelectedSubscriptionsType.yearly ? "year".tr() : "").toLowerCase()}",
                               fontSize: 14,
                               textColor: dynamicPastel(context,
                                   Theme.of(context).colorScheme.primary,

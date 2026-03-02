@@ -123,8 +123,8 @@ Future queueTransactionFromMessage(String messageString,
       (await database.getSimilarAssociatedTitles(title: title, limit: 1))
           .firstOrNull;
   category = foundTitle?.category;
-  category ??= await database
-        .getCategoryInstanceOrNull(templateFound.defaultCategoryFk);
+  category ??=
+      await database.getCategoryInstanceOrNull(templateFound.defaultCategoryFk);
 
   TransactionWallet? wallet = templateFound.walletFk == "-1"
       ? null

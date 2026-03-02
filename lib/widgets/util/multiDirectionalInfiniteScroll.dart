@@ -82,8 +82,7 @@ class MultiDirectionalInfiniteScrollState
   }
 
   void scrollTo(duration, {double? position}) {
-    double positionToScroll =
-        position ?? widget.startingScrollPosition;
+    double positionToScroll = position ?? widget.startingScrollPosition;
     double clampedPosition = positionToScroll.clamp(
         _scrollController.position.minScrollExtent,
         _scrollController.position.maxScrollExtent);

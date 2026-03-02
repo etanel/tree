@@ -740,17 +740,17 @@ class AddMoreThingsPopup extends StatelessWidget {
                       //           ?.currency,
                       //     )
                       return "${getTransactionLabelSync(
-                            transactionWithCount.transaction,
-                            categoriesIndexed[
-                                transactionWithCount.transaction.categoryFk],
-                          )} (${convertToMoney(
-                            Provider.of<AllWallets>(context),
-                            transactionWithCount.transaction.amount,
-                            currencyKey: Provider.of<AllWallets>(context)
-                                .indexedByPk[
-                                    transactionWithCount.transaction.walletFk]
-                                ?.currency,
-                          )})";
+                        transactionWithCount.transaction,
+                        categoriesIndexed[
+                            transactionWithCount.transaction.categoryFk],
+                      )} (${convertToMoney(
+                        Provider.of<AllWallets>(context),
+                        transactionWithCount.transaction.amount,
+                        currencyKey: Provider.of<AllWallets>(context)
+                            .indexedByPk[
+                                transactionWithCount.transaction.walletFk]
+                            ?.currency,
+                      )})";
                     },
                     getCustomBorderColor:
                         (TransactionWithCount transactionWithCount) {

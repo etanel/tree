@@ -539,8 +539,7 @@ class DebugPage extends StatelessWidget {
                   openSnackbar(
                     SnackbarMessage(
                       title: "Done",
-                      description:
-                          "Applied to $result transactions",
+                      description: "Applied to $result transactions",
                       icon: Icons.check,
                     ),
                   );
@@ -554,8 +553,7 @@ class DebugPage extends StatelessWidget {
                   openSnackbar(
                     SnackbarMessage(
                       title: "Done",
-                      description:
-                          "Applied to $result transactions",
+                      description: "Applied to $result transactions",
                       icon: Icons.check,
                     ),
                   );
@@ -633,7 +631,8 @@ class DebugPage extends StatelessWidget {
                                               const EdgeInsetsDirectional.only(
                                                   bottom: 4),
                                           child: TextFont(
-                                            text: "${index + 1}) ${deletelog.type} ${deletelog.dateTimeModified}: ${deletelog.deleteLogPk} for ${deletelog.entryPk}",
+                                            text:
+                                                "${index + 1}) ${deletelog.type} ${deletelog.dateTimeModified}: ${deletelog.deleteLogPk} for ${deletelog.entryPk}",
                                             maxLines: 10,
                                             fontSize: 12,
                                           ),
@@ -790,8 +789,7 @@ class DebugPage extends StatelessWidget {
         ColorBox(
             color: Theme.of(context).colorScheme.onSurface, name: "onSurface"),
         ColorBox(
-            color: Theme.of(context).colorScheme.surface,
-            name: "background"),
+            color: Theme.of(context).colorScheme.surface, name: "background"),
         ColorBox(
             color: Theme.of(context).colorScheme.onSurface,
             name: "onBackground"),

@@ -718,7 +718,8 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                 TransactionEntriesRenderType.slivers ||
             widget.renderType ==
                 TransactionEntriesRenderType.implicitlyAnimatedSlivers ||
-            widget.renderType == TransactionEntriesRenderType.sliversNotSticky) {
+            widget.renderType ==
+                TransactionEntriesRenderType.sliversNotSticky) {
           return SliverToBoxAdapter(
             child: SizedBox.shrink(),
           );

@@ -655,7 +655,8 @@ class TransactionEntry extends StatelessWidget {
                           isTransactionAfterSelected ? 0 : borderRadius,
                         ),
                       ),
-                      closedColor: containerColor ?? Theme.of(context).colorScheme.background,
+                      closedColor: containerColor ??
+                          Theme.of(context).colorScheme.background,
                       button: (openContainer) {
                         return FlashingContainer(
                           loopCount: loopCount,
@@ -819,7 +820,8 @@ class FlashingContainer extends StatefulWidget {
   final Color backgroundColor;
   final int loopCount; // Add this property
 
-  const FlashingContainer({super.key, 
+  const FlashingContainer({
+    super.key,
     required this.child,
     this.flashDuration = const Duration(milliseconds: 500),
     this.isAnimating = true,
@@ -907,7 +909,8 @@ class TransactionSelectionCheck extends StatelessWidget {
   final Function(Transaction transaction, bool selected, bool isSwiping)
       selectTransaction;
 
-  const TransactionSelectionCheck({super.key, 
+  const TransactionSelectionCheck({
+    super.key,
     required this.selected,
     required this.areTransactionsBeingSelected,
     this.listID,

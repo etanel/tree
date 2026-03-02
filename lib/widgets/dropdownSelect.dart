@@ -86,7 +86,8 @@ class DropdownSelectState extends State<DropdownSelect> {
         key: _dropdownButtonKey,
         underline: Container(),
         style: TextStyle(color: getColor(context, "black"), fontSize: 15),
-        dropdownColor: widget.backgroundColor ?? getColor(context, "lightDarkAccent"),
+        dropdownColor:
+            widget.backgroundColor ?? getColor(context, "lightDarkAccent"),
         isDense: true,
         value: currentValue ?? widget.initial,
         elevation: 15,
@@ -151,7 +152,8 @@ class CustomPopupMenuButton extends StatelessWidget {
   final bool forceKeepOutFirst;
   final double buttonPadding;
 
-  const CustomPopupMenuButton({super.key, 
+  const CustomPopupMenuButton({
+    super.key,
     required this.items,
     this.showButtons = false,
     this.keepOutFirst = true,
@@ -159,7 +161,8 @@ class CustomPopupMenuButton extends StatelessWidget {
     this.buttonPadding = 15,
   });
 
-  Tooltip menuIconButtonBuilder(BuildContext context, DropdownItemMenu menuItem) {
+  Tooltip menuIconButtonBuilder(
+      BuildContext context, DropdownItemMenu menuItem) {
     return Tooltip(
       message: menuItem.label,
       child: Stack(

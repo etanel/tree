@@ -567,13 +567,7 @@ class ObjectiveContainer extends StatelessWidget {
                                                 ? (objective.income
                                                     ? "lent".tr()
                                                     : "borrowed".tr())
-                                                : ("$numberTransactions ${numberTransactions == 1
-                                                        ? "transaction"
-                                                            .tr()
-                                                            .toLowerCase()
-                                                        : "transactions"
-                                                            .tr()
-                                                            .toLowerCase()}")),
+                                                : ("$numberTransactions ${numberTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}")),
                                             fontSize: 15,
                                             textColor:
                                                 getColor(context, "black")
@@ -855,13 +849,8 @@ class ObjectiveContainerDifferenceLoan extends StatelessWidget {
                                           snapshot.data ?? 0;
                                       return TextFont(
                                         textAlign: TextAlign.start,
-                                        text: "$numberTransactions ${numberTransactions == 1
-                                                ? "transaction"
-                                                    .tr()
-                                                    .toLowerCase()
-                                                : "transactions"
-                                                    .tr()
-                                                    .toLowerCase()}",
+                                        text:
+                                            "$numberTransactions ${numberTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                         fontSize: 14,
                                         textColor: getColor(context, "black")
                                             .withOpacity(0.65),
@@ -952,12 +941,8 @@ String getObjectiveStatus(BuildContext context, Objective objective,
   } else {
     content = (addSpendingSavingIndication
             ? (objective.income
-                ? "${objective.type == ObjectiveType.loan
-                        ? "collect".tr()
-                        : "save".tr()} "
-                : "${objective.type == ObjectiveType.loan
-                        ? "pay".tr()
-                        : "spend".tr()} ")
+                ? "${objective.type == ObjectiveType.loan ? "collect".tr() : "save".tr()} "
+                : "${objective.type == ObjectiveType.loan ? "pay".tr() : "spend".tr()} ")
             : "") +
         convertToMoney(Provider.of<AllWallets>(context), amount.abs()) +
         "/" +

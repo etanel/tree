@@ -478,7 +478,7 @@ dynamic getWordedDate(DateTime date,
   }
 
   final result = checkYesterdayTodayTomorrow(date);
-if (result != false) {
+  if (result != false) {
     final todayTomorrowOut = result as String;
     return todayTomorrowOut +
         (includeMonthDate
@@ -792,8 +792,8 @@ IconData getTransactionTypeIcon(TransactionSpecialType? selectedType) {
       : Icons.event_repeat_rounded;
 }
 
-double getTotalSubscriptions(AllWallets allWallets, SelectedSubscriptionsType type,
-    List<Transaction>? subscriptions) {
+double getTotalSubscriptions(AllWallets allWallets,
+    SelectedSubscriptionsType type, List<Transaction>? subscriptions) {
   double total = 0;
   DateTime today = DateTime.now();
   if (subscriptions != null) {

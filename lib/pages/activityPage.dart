@@ -302,11 +302,8 @@ class ActivityPageState extends State<ActivityPage> {
                               DateDivider(
                                 date: transaction?.dateCreated ?? item.dateTime,
                                 maxLines: 2,
-                                afterDate: " • ${(wasADeletedTransaction
-                                            ? "deleted"
-                                            : "modified")
-                                        .tr()
-                                        .capitalizeFirst} ${getTimeAgo(item.dateTime)}",
+                                afterDate:
+                                    " • ${(wasADeletedTransaction ? "deleted" : "modified").tr().capitalizeFirst} ${getTimeAgo(item.dateTime)}",
                               ),
                               transaction == null
                                   ? noTransactionFound

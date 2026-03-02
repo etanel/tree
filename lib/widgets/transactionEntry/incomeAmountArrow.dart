@@ -38,7 +38,8 @@ class IncomeOutcomeArrow extends StatelessWidget {
             appStateSettings["outlinedIcons"]
                 ? Icons.arrow_drop_down_outlined
                 : Icons.arrow_drop_down_rounded,
-            color: color ?? (isIncome
+            color: color ??
+                (isIncome
                     ? getColor(context, "incomeAmount")
                     : getColor(context, "expenseAmount")),
             size: iconSize,

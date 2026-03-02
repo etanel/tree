@@ -370,7 +370,6 @@ class _AddObjectivePageState extends State<AddObjectivePage>
     }
   }
 
-
   void determineBottomButton() {
     if (selectedTitle != null) {
       if (canAddObjective != true) {
@@ -592,8 +591,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                         child: SelectCategoryImage(
                           setSelectedImage: setSelectedImage,
                           setSelectedEmoji: setSelectedEmoji,
-                          selectedImage:
-                              "assets/categories/$selectedImage",
+                          selectedImage: "assets/categories/$selectedImage",
                           setSelectedTitle: (String? titleRecommendation) {},
                         ),
                       ),
@@ -879,22 +877,21 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                                                           ?.currency,
                                                     );
                                             return TextFont(
-                                              text: "${selectedIncome
-                                                      ? "lent".tr()
-                                                      : "borrowed".tr()} ${"total".tr()}: ${convertToMoney(
-                                                    Provider.of<AllWallets>(
-                                                        context),
+                                              text:
+                                                  "${selectedIncome ? "lent".tr() : "borrowed".tr()} ${"total".tr()}: ${convertToMoney(
+                                                Provider.of<AllWallets>(
+                                                    context),
+                                                selectedAmountConverted,
+                                              )} + ${convertToMoney(
+                                                Provider.of<AllWallets>(
+                                                    context),
+                                                objectiveAmount,
+                                              )} = ${convertToMoney(
+                                                Provider.of<AllWallets>(
+                                                    context),
+                                                objectiveAmount +
                                                     selectedAmountConverted,
-                                                  )} + ${convertToMoney(
-                                                    Provider.of<AllWallets>(
-                                                        context),
-                                                    objectiveAmount,
-                                                  )} = ${convertToMoney(
-                                                    Provider.of<AllWallets>(
-                                                        context),
-                                                    objectiveAmount +
-                                                        selectedAmountConverted,
-                                                  )}",
+                                              )}",
                                               fontSize: 14.5,
                                               textAlign: TextAlign.center,
                                               textColor: getColor(
@@ -1163,11 +1160,8 @@ class _InstallmentObjectivePopupState extends State<InstallmentObjectivePopup> {
 
     return PopupFramework(
       title: "installment".tr(),
-      subtitle: "${widget.objective.name} (${convertToMoney(
-              Provider.of<AllWallets>(context),
-              objectiveAmountToPrimaryCurrency(
-                      Provider.of<AllWallets>(context), widget.objective) *
-                  ((widget.objective.income) ? 1 : -1))})",
+      subtitle:
+          "${widget.objective.name} (${convertToMoney(Provider.of<AllWallets>(context), objectiveAmountToPrimaryCurrency(Provider.of<AllWallets>(context), widget.objective) * ((widget.objective.income) ? 1 : -1))})",
       underTitleSpace: false,
       hasPadding: false,
       child: Column(

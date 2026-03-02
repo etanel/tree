@@ -231,10 +231,8 @@ class CategoryEntry extends StatelessWidget {
                                             const EdgeInsetsDirectional.only(
                                                 bottom: 1),
                                         child: TextFont(
-                                          text: " / ${convertToMoney(
-                                                  Provider.of<AllWallets>(
-                                                      context),
-                                                  spendingLimit)}",
+                                          text:
+                                              " / ${convertToMoney(Provider.of<AllWallets>(context), spendingLimit)}",
                                           fontSize: 14,
                                           textColor: isOverspent
                                               ? overSpentColor ??
@@ -294,12 +292,8 @@ class CategoryEntry extends StatelessWidget {
                                         percentSpent * 100,
                                         useLessThanZero: true,
                                       );
-                                      String text = "$percentString ${isSubcategory
-                                              ? "of-category".tr().toLowerCase()
-                                              : getPercentageAfterText == null
-                                                  ? ""
-                                                  : getPercentageAfterText!(
-                                                      categorySpent)}";
+                                      String text =
+                                          "$percentString ${isSubcategory ? "of-category".tr().toLowerCase() : getPercentageAfterText == null ? "" : getPercentageAfterText!(categorySpent)}";
 
                                       return TextFont(
                                         text: text,
@@ -312,9 +306,8 @@ class CategoryEntry extends StatelessWidget {
                                     }),
                             ),
                             TextFont(
-                              text: "${max(transactionCount, 0)} ${transactionCount == 1
-                                      ? "transaction".tr().toLowerCase()
-                                      : "transactions".tr().toLowerCase()}",
+                              text:
+                                  "${max(transactionCount, 0)} ${transactionCount == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                               fontSize: 14,
                               textColor: selected
                                   ? getColor(context, "black").withOpacity(0.4)
@@ -584,7 +577,8 @@ class ThinProgress extends StatelessWidget {
   final double progress;
   final double? dotProgress;
 
-  const ThinProgress({super.key, 
+  const ThinProgress({
+    super.key,
     required this.color,
     required this.backgroundColor,
     required this.progress,

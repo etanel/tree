@@ -431,9 +431,8 @@ class CenteredAmountAndNumTransactions extends StatelessWidget {
                   ),
                 ),
                 TextFont(
-                  text: "$totalCount ${totalCount == 1
-                          ? "transaction".tr().toLowerCase()
-                          : "transactions".tr().toLowerCase()}",
+                  text:
+                      "$totalCount ${totalCount == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                   fontSize: 16,
                   textColor: getColor(context, "textLight"),
                 ),

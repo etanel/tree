@@ -314,8 +314,10 @@ Future<bool> getCloudBudgets() async {
         icon: appStateSettings["outlinedIcons"]
             ? Icons.cloud_sync_outlined
             : Icons.cloud_sync_rounded,
-        title: "${"synced".tr()} $totalTransactionsUpdated ${pluralString(totalTransactionsUpdated == 1, "change")}",
-        description: "From $amountSynced shared ${pluralString(amountSynced == 1, "budget")}",
+        title:
+            "${"synced".tr()} $totalTransactionsUpdated ${pluralString(totalTransactionsUpdated == 1, "change")}",
+        description:
+            "From $amountSynced shared ${pluralString(amountSynced == 1, "budget")}",
       ),
     );
   }

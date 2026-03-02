@@ -199,9 +199,8 @@ class RenderHomePageWidgetsState extends State<RenderHomePageWidgets> {
             builder: (context, snapshot) {
               Future.delayed(Duration.zero, () async {
                 int totalCount = snapshot.data?.count ?? 0;
-                String netWorthTransactionsNumber = "$totalCount ${totalCount == 1
-                        ? "transaction".tr().toLowerCase()
-                        : "transactions".tr().toLowerCase()}";
+                String netWorthTransactionsNumber =
+                    "$totalCount ${totalCount == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}";
                 double totalSpent = snapshot.data?.total ?? 0;
                 String netWorthAmount = convertToMoney(
                   Provider.of<AllWallets>(context, listen: false),

@@ -679,18 +679,16 @@ class _AddEmailTemplateState extends State<AddEmailTemplate> {
                         ),
                         SizedBox(height: 2),
                         TextFont(
-                          text: "${(amountTransactionBefore ?? "")
-                                  .replaceAll("\n", "")}... [Amount] ...${(amountTransactionAfter ?? "")
-                                  .replaceAll("\n", "")}",
+                          text:
+                              "${(amountTransactionBefore ?? "").replaceAll("\n", "")}... [Amount] ...${(amountTransactionAfter ?? "").replaceAll("\n", "")}",
                           fontSize: 16,
                           maxLines: 10,
                           textColor: Theme.of(context).colorScheme.secondary,
                         ),
                         SizedBox(height: 2),
                         TextFont(
-                          text: "${(titleTransactionBefore ?? "")
-                                  .replaceAll("\n", "")}... [Title] ...${(titleTransactionAfter ?? "")
-                                  .replaceAll("\n", "")}",
+                          text:
+                              "${(titleTransactionBefore ?? "").replaceAll("\n", "")}... [Title] ...${(titleTransactionAfter ?? "").replaceAll("\n", "")}",
                           fontSize: 16,
                           maxLines: 10,
                           textColor: Theme.of(context).colorScheme.tertiary,

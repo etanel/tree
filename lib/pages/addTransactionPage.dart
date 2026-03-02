@@ -299,8 +299,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
   void setSelectedBudgetPk(Budget? selectedBudgetPassed,
       {bool isSharedBudget = false}) {
     setState(() {
-      selectedBudgetPk =
-          selectedBudgetPassed?.budgetPk;
+      selectedBudgetPk = selectedBudgetPassed?.budgetPk;
       selectedBudget = selectedBudgetPassed;
       selectedBudgetIsShared = isSharedBudget;
       if (selectedBudgetPk != null && selectedPayer == null) {
@@ -625,7 +624,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
   }
 
   Transaction createTransaction({bool removeShared = false}) {
-    bool? createdAnotherFutureTransaction = widget.transaction?.createdAnotherFutureTransaction;
+    bool? createdAnotherFutureTransaction =
+        widget.transaction?.createdAnotherFutureTransaction;
     bool paid = widget.transaction != null
         ? widget.transaction!.paid
         : selectedType == null;
@@ -671,14 +671,12 @@ class _AddTransactionPageState extends State<AddTransactionPage>
       periodLength: selectedPeriodLength <= 0 && selectedType != null
           ? 1
           : selectedPeriodLength,
-      methodAdded:
-          widget.transaction?.methodAdded,
+      methodAdded: widget.transaction?.methodAdded,
       createdAnotherFutureTransaction: createdAnotherFutureTransaction,
       sharedKey: removeShared == false && widget.transaction != null
           ? widget.transaction!.sharedKey
           : null,
-      sharedOldKey:
-          widget.transaction?.sharedOldKey,
+      sharedOldKey: widget.transaction?.sharedOldKey,
       transactionOwnerEmail: selectedPayer,
       transactionOriginalOwnerEmail:
           removeShared == false && widget.transaction != null
@@ -691,7 +689,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
           ? widget.transaction!.sharedDateUpdated
           : null,
       sharedReferenceBudgetPk: selectedBudgetPk,
-      upcomingTransactionNotification: widget.transaction?.upcomingTransactionNotification,
+      upcomingTransactionNotification:
+          widget.transaction?.upcomingTransactionNotification,
       originalDateDue: widget.transaction?.originalDateDue,
       objectiveFk: selectedObjectivePk,
       objectiveLoanFk: selectedObjectiveLoanPk,
@@ -944,7 +943,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
     }
   }
 
-  Future<void> selectAmountPopup({VoidCallback? next, String? nextLabel}) async {
+  Future<void> selectAmountPopup(
+      {VoidCallback? next, String? nextLabel}) async {
     await openBottomSheet(
       context,
       fullSnap: true,
@@ -1673,10 +1673,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                       if (widget.transaction?.methodAdded != null &&
                           appStateSettings["showMethodAdded"] == true)
                         TextFont(
-                          text: "Added via: ${widget.transaction?.methodAdded?.name
-                                      .toString()
-                                      .capitalizeFirstofEach ??
-                                  ""}",
+                          text:
+                              "Added via: ${widget.transaction?.methodAdded?.name.toString().capitalizeFirstofEach ?? ""}",
                           fontSize: 13,
                           textColor: getColor(context, "textLight"),
                           textAlign: TextAlign.center,
@@ -1702,10 +1700,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                           horizontal: 10, vertical: 28),
                       child: TextFont(
                         text: "${"synced".tr()} ${getTimeAgo(
-                              widget.transaction!.sharedDateUpdated!,
-                            ).toLowerCase()}\n Created by ${widget.transaction!
-                                    .transactionOriginalOwnerEmail ??
-                                ""}",
+                          widget.transaction!.sharedDateUpdated!,
+                        ).toLowerCase()}\n Created by ${widget.transaction!.transactionOriginalOwnerEmail ?? ""}",
                         fontSize: 13,
                         textColor: getColor(context, "textLight"),
                         textAlign: TextAlign.center,
@@ -2882,7 +2878,8 @@ class _SelectTextState extends State<SelectText> {
                 inputFormatters: widget.inputFormatters,
                 focusNode: _focusNode,
                 textCapitalization: widget.textCapitalization,
-                icon: widget.icon ?? (appStateSettings["outlinedIcons"]
+                icon: widget.icon ??
+                    (appStateSettings["outlinedIcons"]
                         ? Icons.title_outlined
                         : Icons.title_rounded),
                 initialValue: widget.selectedText,
@@ -3523,9 +3520,8 @@ Future deleteTransactionsPopup(
   DeletePopupAction? action = await openDeletePopup(
     context,
     title: "delete-selected-transactions".tr(),
-    subtitle: "${transactionPks.length} ${transactionPks.length == 1
-            ? "transaction".tr().toLowerCase()
-            : "transactions".tr().toLowerCase()}",
+    subtitle:
+        "${transactionPks.length} ${transactionPks.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
   );
   if (action == DeletePopupAction.Delete) {
     if (routesToPopAfterDelete == RoutesToPopAfterDelete.All) {
@@ -3539,9 +3535,8 @@ Future deleteTransactionsPopup(
         SnackbarMessage(
           title: "deleted-transactions".tr(),
           icon: Icons.delete,
-          description: "${transactionPks.length} ${transactionPks.length == 1
-                  ? "transaction".tr().toLowerCase()
-                  : "transactions".tr().toLowerCase()}",
+          description:
+              "${transactionPks.length} ${transactionPks.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
         ),
       );
     });
@@ -3700,10 +3695,8 @@ class SelectTransactionTypePopup extends StatelessWidget {
                     highlightActionButton: true,
                     useHorizontalPaddingConstrained: false,
                     openPage: Container(),
-                    containerColor: Theme.of(context)
-                        .colorScheme
-                        .surface
-                        .withOpacity(0.5),
+                    containerColor:
+                        Theme.of(context).colorScheme.surface.withOpacity(0.5),
                     transaction: Transaction(
                       transactionPk: "-1",
                       name: "",
@@ -4300,7 +4293,8 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
 
   void addAttachmentLinkToNote(String? link) {
     if (link == null) return;
-    String noteUpdated = "${widget.noteInputController.text}${widget.noteInputController.text == "" ? "" : "\n"}$link ";
+    String noteUpdated =
+        "${widget.noteInputController.text}${widget.noteInputController.text == "" ? "" : "\n"}$link ";
 
     widget.setSelectedNoteController(noteUpdated);
     updateExtractedLinks(noteUpdated);

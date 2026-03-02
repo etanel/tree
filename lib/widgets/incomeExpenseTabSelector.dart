@@ -28,7 +28,8 @@ class IncomeExpenseTabSelector extends StatefulWidget {
   final Color? incomeIconColor;
   final Color? expenseIconColor;
 
-  const IncomeExpenseTabSelector({super.key, 
+  const IncomeExpenseTabSelector({
+    super.key,
     required this.onTabChanged,
     required this.initialTabIsIncome,
     this.color,
@@ -106,7 +107,8 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
               getPlatform() == PlatformOS.isIOS ? 10 : 15)
           : BorderRadiusDirectional.zero,
       child: Material(
-        color: widget.unselectedColor ?? (appStateSettings["materialYou"]
+        color: widget.unselectedColor ??
+            (appStateSettings["materialYou"]
                 ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                 : Theme.of(context).brightness == Brightness.dark
                     ? getColor(context, "lightDarkAccentHeavyLight")
@@ -120,7 +122,8 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
           indicatorColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BoxDecoration(
-            color: widget.color ?? (appStateSettings["materialYou"]
+            color: widget.color ??
+                (appStateSettings["materialYou"]
                     ? Theme.of(context).colorScheme.primary.withOpacity(0.25)
                     : Theme.of(context).brightness == Brightness.dark
                         ? getColor(context, "black").withOpacity(0.15)

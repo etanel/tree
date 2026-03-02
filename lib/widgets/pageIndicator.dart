@@ -4,7 +4,8 @@ class PageIndicator extends StatelessWidget {
   final PageController controller;
   final int itemCount;
 
-  const PageIndicator({super.key, 
+  const PageIndicator({
+    super.key,
     required this.controller,
     required this.itemCount,
   });

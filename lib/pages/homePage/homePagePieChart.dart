@@ -158,7 +158,8 @@ class IncomeOutcomeArrowPageIndicator extends StatelessWidget {
   final PageController controller;
   final Function(bool isIncome) onTap;
 
-  const IncomeOutcomeArrowPageIndicator({super.key, 
+  const IncomeOutcomeArrowPageIndicator({
+    super.key,
     required this.controller,
     required this.onTap,
   });
