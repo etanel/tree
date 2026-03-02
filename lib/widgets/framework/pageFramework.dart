@@ -1090,7 +1090,7 @@ List<Widget> getAppBarBackgroundColorLayers({
             height: MediaQuery.sizeOf(context).height - 1,
 
             color: appBarBackgroundColorStart ??
-                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.surface,
           ),
     (animationControllerOpacity != null ||
                 percent != null ||

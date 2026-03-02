@@ -343,7 +343,6 @@ class _Badge extends StatelessWidget {
   final double totalPercentAccumulated;
 
   const _Badge({
-    super.key,
     required this.scale,
     required this.color,
     required this.iconName,

@@ -295,7 +295,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                                         richTextSpan: [
                                           TextSpan(
                                             text:
-                                                "${isUnsetCustomCurrency ? " " + "1 USD" : ""} = $calculatedExchangeRateString",
+                                                "${isUnsetCustomCurrency ? " " "1 USD" : ""} = $calculatedExchangeRateString",
                                             style: TextStyle(
                                               color: getColor(context, "black"),
                                               fontFamily:

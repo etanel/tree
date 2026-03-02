@@ -5,7 +5,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/foundation.dart' show clampDouble;
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter/material.dart';
 

@@ -388,7 +388,7 @@ class _FreePremiumMessageState extends State<FreePremiumMessage> {
                   expandedLayout: true,
                   label: "unlock-for-free".tr() +
                       (timerUp == false
-                          ? (" " "(" + remainingTime.toString() + ")")
+                          ? (" ($remainingTime)")
                           : ""),
                   onTap: () {
                     if (timerUp) {

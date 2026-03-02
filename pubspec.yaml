@@ -102,6 +102,11 @@ dependencies:
   timezone: ^0.10.1
   
 # flutter pub run flutter_launcher_icons:main
+  async: any
+  universal_io: any
+  html: any
+  http: any
+  uuid: any
 flutter_icons:
   android: true
   ios: true

@@ -39,7 +39,7 @@ class DropdownSelect extends StatefulWidget {
 class DropdownSelectState extends State<DropdownSelect> {
   String? currentValue;
 
-  late final GlobalKey? _dropdownButtonKey = GlobalKey();
+  late final GlobalKey _dropdownButtonKey = GlobalKey();
 
   void openDropdown() {
     GestureDetector? detector;
@@ -53,7 +53,7 @@ class DropdownSelectState extends State<DropdownSelect> {
       });
     }
 
-    searchForGestureDetector(_dropdownButtonKey?.currentContext);
+    searchForGestureDetector(_dropdownButtonKey.currentContext);
     assert(detector != null);
 
     detector?.onTap?.call();

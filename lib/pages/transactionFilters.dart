@@ -324,7 +324,7 @@ class SearchFilters {
       outString += "subcategoryPks:-:$element:-:";
     }
     if (subcategoryPks == null) {
-      outString += "subcategoryPks:-:" "null" + ":-:";
+      outString += "subcategoryPks:-:" "null" ":-:";
     }
     for (String? element in budgetPks) {
       outString += "budgetPks:-:$element:-:";
@@ -346,13 +346,13 @@ class SearchFilters {
       outString += "paidStatus:-:${element.index}:-:";
     }
     for (TransactionSpecialType? element in transactionTypes) {
-      outString += "transactionTypes:-:${element?.index ?? null}:-:";
+      outString += "transactionTypes:-:${element?.index}:-:";
     }
     for (BudgetTransactionFilters element in budgetTransactionFilters) {
       outString += "budgetTransactionFilters:-:${element.index}:-:";
     }
     for (MethodAdded? element in methodAdded) {
-      outString += "methodAdded:-:${element?.index ?? null}:-:";
+      outString += "methodAdded:-:${element?.index}:-:";
     }
     outString += "amountRange:-:$amountRange:-:";
     outString += "dateTimeRange:-:$dateTimeRange:-:";

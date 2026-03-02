@@ -470,7 +470,7 @@ class _ImportCSVState extends State<ImportCSV> {
                 : Icons.check_circle_outline_rounded,
             title: "${"done".tr()}!",
             description:
-                "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0 ? (" " + "errors".tr().capitalizeFirst + ": " + numberOfErrors.toString() + ".") : ""}",
+                "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0 ? (" ${"errors".tr().capitalizeFirst}: $numberOfErrors.") : ""}",
             onSubmitLabel: "ok".tr(),
             onSubmit: () {
               popRoute(context);

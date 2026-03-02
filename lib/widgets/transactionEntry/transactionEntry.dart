@@ -15,11 +15,9 @@ import 'package:tree/widgets/tappable.dart';
 import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/widgets/transactionEntry/transactionEntryTypeButton.dart';
 import 'package:tree/widgets/transactionEntry/transactionLabel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tree/colors.dart';
 import 'package:tree/widgets/openBottomSheet.dart';
@@ -656,7 +654,7 @@ class TransactionEntry extends StatelessWidget {
                         ),
                       ),
                       closedColor: containerColor ??
-                          Theme.of(context).colorScheme.background,
+                          Theme.of(context).colorScheme.surface,
                       button: (openContainer) {
                         return FlashingContainer(
                           loopCount: loopCount,

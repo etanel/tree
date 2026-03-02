@@ -222,7 +222,7 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                               ? getColor(context, "unPaidOverdue")
                               : getColor(context, "textLight"),
                           text:
-                              " • ${daysDifference.abs()} ${daysDifference.abs() == 1 ? "day".tr() : "days".tr()}${daysDifference > 0 ? " " + "overdue".tr().toLowerCase() : ""}",
+                              " • ${daysDifference.abs()} ${daysDifference.abs() == 1 ? "day".tr() : "days".tr()}${daysDifference > 0 ? " ${"overdue".tr().toLowerCase()}" : ""}",
                           fontWeight: FontWeight.bold,
                         ),
                       )

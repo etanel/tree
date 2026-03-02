@@ -24,7 +24,6 @@ class _LineChart extends StatefulWidget {
     this.extraLeftPaddingIfSmall = 0,
     this.colors = const [],
     this.amountBefore = 0,
-    super.key,
   });
 
   final List<List<FlSpot>> spots;

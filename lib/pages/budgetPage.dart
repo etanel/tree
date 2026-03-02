@@ -80,7 +80,6 @@ class BudgetPage extends StatelessWidget {
 
 class _BudgetPageContent extends StatefulWidget {
   const _BudgetPageContent({
-    super.key,
     required this.budget,
     this.dateForRange,
     this.dateForRangeIndex = 0,

@@ -139,21 +139,19 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
       initialEntryMode: DatePickerEntryMode.input,
       allTimeButton: true,
     );
-    if (picked != null) {
-      if (searchFilters.dateTimeRange != picked.dateTimeRange) {
-        Future.delayed(Duration(milliseconds: 175), () {
-          setState(() {
-            searchFilters.dateTimeRange = picked.dateTimeRange;
-          });
-          updateSettings(
-            "searchTransactionsSetFiltersString",
-            searchFilters.getFilterString(),
-            updateGlobalState: false,
-          );
+    if (searchFilters.dateTimeRange != picked.dateTimeRange) {
+      Future.delayed(Duration(milliseconds: 175), () {
+        setState(() {
+          searchFilters.dateTimeRange = picked.dateTimeRange;
         });
-      }
+        updateSettings(
+          "searchTransactionsSetFiltersString",
+          searchFilters.getFilterString(),
+          updateGlobalState: false,
+        );
+      });
     }
-  }
+    }
 
   @override
   Widget build(BuildContext context) {

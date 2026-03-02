@@ -2,7 +2,6 @@ import 'package:tree/colors.dart';
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/main.dart';
-import 'package:tree/pages/aboutPage.dart';
 import 'package:tree/pages/addTransactionPage.dart';
 import 'package:tree/struct/databaseGlobal.dart';
 import 'package:tree/struct/logging.dart';

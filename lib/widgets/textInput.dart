@@ -4,7 +4,6 @@ import 'package:tree/widgets/framework/popupFramework.dart';
 import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/widgets/util/contextMenu.dart';
 import 'package:tree/widgets/util/onAppResume.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

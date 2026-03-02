@@ -669,7 +669,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
           openPage: TransactionsSearchPage(
             initialFilters: widget.wallet != null
                 ? SearchFilters().copyWith(walletPks: walletPks)
-                : (searchFilters ?? SearchFilters())?.copyWith(
+                : (searchFilters ?? SearchFilters()).copyWith(
                     dateTimeRange: getDateTimeRangeForPassedSearchFilters(
                       cycleSettingsExtension: "",
                       selectedDateTimeRange: selectedDateTimeRange,
@@ -759,7 +759,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                 null,
                             openPage: TransactionsSearchPage(
                               initialFilters:
-                                  (searchFilters ?? SearchFilters())?.copyWith(
+                                  (searchFilters ?? SearchFilters()).copyWith(
                                 dateTimeRange:
                                     getDateTimeRangeForPassedSearchFilters(
                                         cycleSettingsExtension: "",
@@ -789,7 +789,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                           forceShow: true,
                           openPage: TransactionsSearchPage(
                             initialFilters:
-                                (searchFilters ?? SearchFilters())?.copyWith(
+                                (searchFilters ?? SearchFilters()).copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
                                       cycleSettingsExtension: "",
@@ -817,7 +817,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                           forceShow: true,
                           openPage: TransactionsSearchPage(
                             initialFilters:
-                                (searchFilters ?? SearchFilters())?.copyWith(
+                                (searchFilters ?? SearchFilters()).copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
                                       cycleSettingsExtension: "",
@@ -883,7 +883,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               : TransactionsSearchPage(
                                   initialFilters:
                                       (searchFilters ?? SearchFilters())
-                                          ?.copyWith(
+                                          .copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                             cycleSettingsExtension: "",
@@ -930,7 +930,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               : TransactionsSearchPage(
                                   initialFilters:
                                       (searchFilters ?? SearchFilters())
-                                          ?.copyWith(
+                                          .copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                             cycleSettingsExtension: "",
@@ -978,7 +978,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               : TransactionsSearchPage(
                                   initialFilters:
                                       (searchFilters ?? SearchFilters())
-                                          ?.copyWith(
+                                          .copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                                   cycleSettingsExtension: "",
@@ -1029,7 +1029,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               : TransactionsSearchPage(
                                   initialFilters:
                                       (searchFilters ?? SearchFilters())
-                                          ?.copyWith(
+                                          .copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                                   cycleSettingsExtension: "",
@@ -1844,7 +1844,7 @@ class _WalletDetailsCategorySelectionState
                   context,
                   TransactionsSearchPage(
                     initialFilters:
-                        (widget.searchFilters ?? SearchFilters())?.copyWith(
+                        (widget.searchFilters ?? SearchFilters()).copyWith(
                       dateTimeRange:
                           widget.getDateTimeRangeForPassedSearchFilters(),
                       walletPks: widget.wallet == null

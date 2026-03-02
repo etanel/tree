@@ -248,10 +248,8 @@ class WalletEntryRow extends StatelessWidget {
                                 ),
                                 if (percent != null)
                                   TextSpan(
-                                    text: "  " "(" +
-                                        convertToPercent(percent ?? 0,
-                                            useLessThanZero: true) +
-                                        ")",
+                                    text: "  (${convertToPercent(percent ?? 0,
+                                            useLessThanZero: true)})",
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: getColor(context, "textLight"),

@@ -939,20 +939,11 @@ String getObjectiveStatus(BuildContext context, Objective objective,
         ? "loan-overdue".tr()
         : "goal-overdue".tr();
   } else {
-    content = (addSpendingSavingIndication
+    content = "${addSpendingSavingIndication
             ? (objective.income
                 ? "${objective.type == ObjectiveType.loan ? "collect".tr() : "save".tr()} "
                 : "${objective.type == ObjectiveType.loan ? "pay".tr() : "spend".tr()} ")
-            : "") +
-        convertToMoney(Provider.of<AllWallets>(context), amount.abs()) +
-        "/" +
-        "day".tr() +
-        " " +
-        "for".tr() +
-        " " +
-        remainingDays.toString() +
-        " " +
-        (remainingDays == 1 ? "day".tr() : "days".tr());
+            : ""}${convertToMoney(Provider.of<AllWallets>(context), amount.abs())}/${"day".tr()} ${"for".tr()} $remainingDays ${remainingDays == 1 ? "day".tr() : "days".tr()}";
   }
   return content;
 }

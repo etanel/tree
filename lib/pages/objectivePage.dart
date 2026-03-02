@@ -62,7 +62,6 @@ class ObjectivePage extends StatelessWidget {
 
 class _ObjectivePageContent extends StatefulWidget {
   const _ObjectivePageContent({
-    super.key,
     required this.objective,
   });
 

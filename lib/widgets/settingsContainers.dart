@@ -319,7 +319,7 @@ class SettingsContainerDropdown extends StatefulWidget {
 }
 
 class _SettingsContainerDropdownState extends State<SettingsContainerDropdown> {
-  late final GlobalKey<DropdownSelectState>? _dropdownKey = GlobalKey();
+  late final GlobalKey<DropdownSelectState> _dropdownKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -331,7 +331,7 @@ class _SettingsContainerDropdownState extends State<SettingsContainerDropdown> {
       icon: widget.icon,
       backgroundColor: widget.backgroundColor,
       onTap: () {
-        _dropdownKey!.currentState!.openDropdown();
+        _dropdownKey.currentState!.openDropdown();
       },
       afterWidget: Padding(
         padding: const EdgeInsetsDirectional.only(start: 10),
