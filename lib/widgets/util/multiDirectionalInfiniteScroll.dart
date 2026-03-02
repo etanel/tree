@@ -7,7 +7,7 @@ ValueNotifier<bool> cancelParentScroll = ValueNotifier<bool>(false);
 
 class MultiDirectionalInfiniteScroll extends StatefulWidget {
   const MultiDirectionalInfiniteScroll({
-    Key? key,
+    super.key,
     required this.itemBuilder,
     this.initialItems,
     this.overBoundsDetection = 50,
@@ -22,7 +22,7 @@ class MultiDirectionalInfiniteScroll extends StatefulWidget {
     required this.shouldAddBottom,
     this.physics,
     this.scrollController,
-  }) : super(key: key);
+  });
   final int? initialItems;
   final int overBoundsDetection;
   final Function(int index, bool isFirst, bool isLast) itemBuilder;
@@ -49,6 +49,7 @@ class MultiDirectionalInfiniteScrollState
   List<int> top = [1];
   List<int> bottom = [-1, 0];
 
+  @override
   void initState() {
     super.initState();
     if (widget.initialItems != null) {
@@ -80,9 +81,9 @@ class MultiDirectionalInfiniteScrollState
     super.dispose();
   }
 
-  scrollTo(duration, {double? position}) {
+  void scrollTo(duration, {double? position}) {
     double positionToScroll =
-        position == null ? widget.startingScrollPosition : position;
+        position ?? widget.startingScrollPosition;
     double clampedPosition = positionToScroll.clamp(
         _scrollController.position.minScrollExtent,
         _scrollController.position.maxScrollExtent);
@@ -112,14 +113,14 @@ class MultiDirectionalInfiniteScrollState
     );
   }
 
-  _scrollListener() {
+  void _scrollListener() {
     _onScrollCheck();
     if (widget.onScroll != null) {
       widget.onScroll!(_scrollController.offset);
     }
   }
 
-  _onScrollCheck() {
+  void _onScrollCheck() {
     if (_scrollController.offset >=
         _scrollController.position.maxScrollExtent -
             widget.overBoundsDetection) {
@@ -138,20 +139,22 @@ class MultiDirectionalInfiniteScrollState
     }
   }
 
-  _onEndReached() {
+  void _onEndReached() {
     int indexToAdd = bottom.length;
-    if (widget.shouldAddBottom(indexToAdd))
+    if (widget.shouldAddBottom(indexToAdd)) {
       setState(() {
         bottom.add(indexToAdd);
       });
+    }
   }
 
-  _onStartReached() {
+  void _onStartReached() {
     int indexToAdd = -top.length - 1;
-    if (widget.shouldAddTop(indexToAdd))
+    if (widget.shouldAddTop(indexToAdd)) {
       setState(() {
         top.add(indexToAdd);
       });
+    }
   }
 
   @override
@@ -179,9 +182,11 @@ class MultiDirectionalInfiniteScrollState
           if (_scrollController.offset >=
                   _scrollController.position.maxScrollExtent ||
               _scrollController.offset <=
-                  _scrollController.position.minScrollExtent) _onScrollCheck();
+                  _scrollController.position.minScrollExtent) {
+            _onScrollCheck();
+          }
         },
-        child: Container(
+        child: SizedBox(
           height: widget.height,
           child: CustomScrollView(
             physics: widget.physics,

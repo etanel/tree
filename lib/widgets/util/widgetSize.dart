@@ -6,10 +6,10 @@ class WidgetSize extends StatefulWidget {
   final Function(Size size) onChange;
 
   const WidgetSize({
-    Key? key,
+    super.key,
     required this.onChange,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   _WidgetSizeState createState() => _WidgetSizeState();
@@ -57,9 +57,9 @@ class WidgetSizeBuilder extends StatefulWidget {
   final Widget Function(Size? size) widgetBuilder;
 
   const WidgetSizeBuilder({
-    Key? key,
+    super.key,
     required this.widgetBuilder,
-  }) : super(key: key);
+  });
 
   @override
   _WidgetSizeBuilderState createState() => _WidgetSizeBuilderState();

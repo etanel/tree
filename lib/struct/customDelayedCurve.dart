@@ -4,7 +4,7 @@ class CustomDelayedCurve extends Curve {
   final double delayPercentage;
   final Curve innerCurve;
 
-  CustomDelayedCurve(
+  const CustomDelayedCurve(
       {this.delayPercentage = 0.25, this.innerCurve = Curves.easeInOut});
 
   @override

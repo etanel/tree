@@ -7,11 +7,11 @@ class TableEntry extends StatelessWidget {
   final EdgeInsetsDirectional padding;
 
   const TableEntry({
-    Key? key,
+    super.key,
     required this.headers,
     required this.firstEntry,
     required this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

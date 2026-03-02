@@ -26,9 +26,9 @@ import 'package:tree/widgets/editRowEntry.dart';
 import 'package:tree/modified/reorderable_list.dart';
 
 class EditAssociatedTitlesPage extends StatefulWidget {
-  EditAssociatedTitlesPage({
-    Key? key,
-  }) : super(key: key);
+  const EditAssociatedTitlesPage({
+    super.key,
+  });
 
   @override
   _EditAssociatedTitlesPageState createState() =>
@@ -160,14 +160,14 @@ class _EditAssociatedTitlesPageState extends State<EditAssociatedTitlesPage> {
               List<TransactionAssociatedTitleWithCategory> titles =
                   snapshot.data ?? [];
               // print(snapshot.data);
-              if (snapshot.hasData && titles.length <= 0) {
+              if (snapshot.hasData && titles.isEmpty) {
                 return SliverToBoxAdapter(
                   child: NoResults(
                     message: "no-titles-found".tr(),
                   ),
                 );
               }
-              if (snapshot.hasData && titles.length > 0) {
+              if (snapshot.hasData && titles.isNotEmpty) {
                 return SliverReorderableList(
                   onReorderStart: (index) {
                     HapticFeedback.heavyImpact();
@@ -185,7 +185,7 @@ class _EditAssociatedTitlesPageState extends State<EditAssociatedTitlesPage> {
                   itemBuilder: (context, index) {
                     TransactionAssociatedTitle associatedTitle =
                         titles[index].title;
-                    VoidCallback onTap = () {
+                    void onTap() {
                       openBottomSheet(
                         context,
                         popupWithKeyboard: true,
@@ -193,7 +193,7 @@ class _EditAssociatedTitlesPageState extends State<EditAssociatedTitlesPage> {
                           associatedTitle: associatedTitle,
                         ),
                       );
-                    };
+                    }
                     return EditRowEntry(
                       canReorder: searchValue == "" &&
                           (snapshot.data ?? []).length != 1,
@@ -247,19 +247,19 @@ class _EditAssociatedTitlesPageState extends State<EditAssociatedTitlesPage> {
                     );
                   },
                   itemCount: snapshot.data!.length,
-                  onReorder: (_intPrevious, _intNew) async {
+                  onReorder: (intPrevious, intNew) async {
                     TransactionAssociatedTitle oldTitle =
-                        titles[_intPrevious].title;
-                    _intNew = snapshot.data!.length - _intNew;
-                    _intPrevious = snapshot.data!.length - _intPrevious;
-                    if (_intNew > _intPrevious) {
+                        titles[intPrevious].title;
+                    intNew = snapshot.data!.length - intNew;
+                    intPrevious = snapshot.data!.length - intPrevious;
+                    if (intNew > intPrevious) {
                       await database.moveAssociatedTitle(
                           oldTitle.associatedTitlePk,
-                          _intNew - 1,
+                          intNew - 1,
                           oldTitle.order);
                     } else {
                       await database.moveAssociatedTitle(
-                          oldTitle.associatedTitlePk, _intNew, oldTitle.order);
+                          oldTitle.associatedTitlePk, intNew, oldTitle.order);
                     }
 
                     return true;

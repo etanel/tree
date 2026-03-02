@@ -24,8 +24,7 @@ class BottomNavBar extends StatefulWidget {
   const BottomNavBar(
       {required this.onChanged,
       required this.currentNavigationStackedIndex,
-      Key? key})
-      : super(key: key);
+      super.key});
   final Function(int) onChanged;
 
   // current
@@ -42,24 +41,33 @@ class BottomNavBarState extends State<BottomNavBar> {
 
     if (navigationStackedIndex == widget.currentNavigationStackedIndex &&
         allowReApply == false) {
-      if (navigationStackedIndex == 0)
+      if (navigationStackedIndex == 0) {
         homePageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 1)
+      }
+      if (navigationStackedIndex == 1) {
         transactionsListPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 2)
+      }
+      if (navigationStackedIndex == 2) {
         budgetsListPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 3)
+      }
+      if (navigationStackedIndex == 3) {
         settingsPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 5)
+      }
+      if (navigationStackedIndex == 5) {
         subscriptionsPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 7)
+      }
+      if (navigationStackedIndex == 7) {
         walletDetailsAllSpendingPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 14)
+      }
+      if (navigationStackedIndex == 14) {
         objectivesListPageStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 16)
+      }
+      if (navigationStackedIndex == 16) {
         upcomingOverdueTransactionsStateKey.currentState?.scrollToTop();
-      if (navigationStackedIndex == 17)
+      }
+      if (navigationStackedIndex == 17) {
         creditDebtTransactionsKey.currentState?.scrollToTop();
+      }
     } else {
       // We need to change to the navigation index
       widget.onChanged(navigationStackedIndex);
@@ -89,9 +97,9 @@ class BottomNavBarState extends State<BottomNavBar> {
     if (stackedIndex ==
         (navBarIconsData[appStateSettings["customNavBarShortcut0"]]
                 ?.navigationIndexedStackIndex ??
-            0))
+            0)) {
       return 0;
-    else if (stackedIndex ==
+    } else if (stackedIndex ==
         (navBarIconsData[appStateSettings["customNavBarShortcut1"]]
                 ?.navigationIndexedStackIndex ??
             1))
@@ -227,8 +235,8 @@ class BottomNavBarState extends State<BottomNavBar> {
               ? dynamicPastel(context, Theme.of(context).colorScheme.primary,
                   amount: 0.6)
               : null,
-          labelTextStyle: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
               return TextStyle(
                 fontFamily: appStateSettings["font"],
                 fontFamilyFallback: ['Inter'],

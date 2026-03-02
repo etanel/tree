@@ -31,7 +31,7 @@ import 'package:tree/struct/randomConstants.dart';
 import 'package:tree/widgets/sliderSelector.dart';
 
 class DebugPage extends StatelessWidget {
-  const DebugPage({Key? key}) : super(key: key);
+  const DebugPage({super.key});
   @override
   Widget build(BuildContext context) {
     return PageFramework(
@@ -423,10 +423,11 @@ class DebugPage extends StatelessWidget {
             return SettingsContainer(
               icon: Icons.store,
               title: "Test store review integration",
-              description: "Available: " + snapshot.data.toString(),
+              description: "Available: ${snapshot.data}",
               onTap: () async {
-                if (await inAppReview.isAvailable())
+                if (await inAppReview.isAvailable()) {
                   inAppReview.requestReview();
+                }
               },
             );
           },
@@ -539,7 +540,7 @@ class DebugPage extends StatelessWidget {
                     SnackbarMessage(
                       title: "Done",
                       description:
-                          "Applied to " + result.toString() + " transactions",
+                          "Applied to $result transactions",
                       icon: Icons.check,
                     ),
                   );
@@ -554,7 +555,7 @@ class DebugPage extends StatelessWidget {
                     SnackbarMessage(
                       title: "Done",
                       description:
-                          "Applied to " + result.toString() + " transactions",
+                          "Applied to $result transactions",
                       icon: Icons.check,
                     ),
                   );
@@ -600,7 +601,7 @@ class DebugPage extends StatelessWidget {
                   openSnackbar(
                     SnackbarMessage(
                       title: "Done",
-                      description: "Deleted " + result.toString() + " logs",
+                      description: "Deleted $result logs",
                       icon: Icons.check,
                     ),
                   );
@@ -632,16 +633,7 @@ class DebugPage extends StatelessWidget {
                                               const EdgeInsetsDirectional.only(
                                                   bottom: 4),
                                           child: TextFont(
-                                            text: (index + 1).toString() +
-                                                ") " +
-                                                deletelog.type.toString() +
-                                                " " +
-                                                deletelog.dateTimeModified
-                                                    .toString() +
-                                                ": " +
-                                                deletelog.deleteLogPk +
-                                                " for " +
-                                                deletelog.entryPk,
+                                            text: "${index + 1}) ${deletelog.type} ${deletelog.dateTimeModified}: ${deletelog.deleteLogPk} for ${deletelog.entryPk}",
                                             maxLines: 10,
                                             fontSize: 12,
                                           ),
@@ -699,7 +691,7 @@ class DebugPage extends StatelessWidget {
                         insert: true,
                         Transaction(
                           transactionPk: "-1",
-                          name: "Test" + randomDouble[i].toString(),
+                          name: "Test${randomDouble[i]}",
                           amount: randomInt[i].toDouble(),
                           note: "",
                           categoryFk: categories[i].categoryPk,
@@ -798,10 +790,10 @@ class DebugPage extends StatelessWidget {
         ColorBox(
             color: Theme.of(context).colorScheme.onSurface, name: "onSurface"),
         ColorBox(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             name: "background"),
         ColorBox(
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Theme.of(context).colorScheme.onSurface,
             name: "onBackground"),
         Container(
           margin: EdgeInsetsDirectional.all(10),
@@ -940,8 +932,7 @@ class DangerousDebugFlag extends StatelessWidget {
 }
 
 class ColorBox extends StatelessWidget {
-  const ColorBox({Key? key, required this.color, required this.name})
-      : super(key: key);
+  const ColorBox({super.key, required this.color, required this.name});
 
   final Color color;
   final String name;

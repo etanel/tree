@@ -27,7 +27,7 @@ import 'package:tree/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class AboutPage extends StatefulWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   State<AboutPage> createState() => AboutPageState();
@@ -61,11 +61,12 @@ class AboutPageState extends State<AboutPage> {
             Tappable(
               borderRadius: getPlatform() == PlatformOS.isIOS ? 10 : 15,
               onLongPress: () {
-                if (allowDebugFlags)
+                if (allowDebugFlags) {
                   pushRoute(
                     context,
                     DebugPage(),
                   );
+                }
               },
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(
@@ -176,7 +177,7 @@ class SpreadExpandFlex extends StatelessWidget {
   final List<Widget> majorTools;
   final int maxPerRow;
 
-  SpreadExpandFlex({required this.majorTools, this.maxPerRow = 3});
+  const SpreadExpandFlex({super.key, required this.majorTools, this.maxPerRow = 3});
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +190,8 @@ class SpreadExpandFlex extends StatelessWidget {
       // If the current row is full or it's the last widget, add the row to the rows list
       if ((i + 1) % maxPerRow == 0 || i == majorTools.length - 1) {
         rows.add(Row(
-          children: currentRow,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: currentRow,
         ));
         currentRow = [];
       }
@@ -237,8 +238,7 @@ void openLicensesPage(BuildContext context) {
       context: context,
       applicationVersion: getVersionString(),
       applicationLegalese:
-          "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." +
-              "\n\n" +
+          "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." "\n\n" +
               "exchange-rate-notice-description".tr());
 }
 
@@ -327,7 +327,7 @@ void deleteAllDataFlow(BuildContext context) {
 }
 
 class AboutLinks extends StatelessWidget {
-  const AboutLinks({required this.containerColor, Key? key}) : super(key: key);
+  const AboutLinks({required this.containerColor, super.key});
   final Color containerColor;
 
   @override
@@ -502,10 +502,10 @@ Future clearDatabase(BuildContext context) async {
 
 class TranslationInfoBox extends StatelessWidget {
   const TranslationInfoBox({
-    Key? key,
+    super.key,
     required this.title,
     this.list,
-  }) : super(key: key);
+  });
 
   final String title;
   final List<String>? list;
@@ -523,7 +523,7 @@ class TranslationInfoBox extends StatelessWidget {
 
 class AboutInfoBox extends StatelessWidget {
   const AboutInfoBox({
-    Key? key,
+    super.key,
     required this.title,
     this.link,
     this.list,
@@ -531,7 +531,7 @@ class AboutInfoBox extends StatelessWidget {
     this.listTextColor,
     this.padding,
     this.showLink = true,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? link;

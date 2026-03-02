@@ -354,11 +354,11 @@ Future attemptToMigrateSetLongTermLoansAmountTo0() async {
     }
   } catch (e) {
     print(
-        "Error migrating setting long term loans amounts to 0 " + e.toString());
+        "Error migrating setting long term loans amounts to 0 $e");
   }
 }
 
-attemptToMigrateCustomNumberFormattingSettings() {
+void attemptToMigrateCustomNumberFormattingSettings() {
   try {
     if (appStateSettings["numberFormatLocale"] != null) {
       if (appStateSettings["numberFormatLocale"] == "en") {
@@ -387,7 +387,7 @@ attemptToMigrateCustomNumberFormattingSettings() {
     }
   } catch (e) {
     print(
-        "Error migrating setting long term loans amounts to 0 " + e.toString());
+        "Error migrating setting long term loans amounts to 0 $e");
   }
 }
 
@@ -401,17 +401,12 @@ Map<String, dynamic> attemptToMigrateCyclePreferences(
             currentUserSettings[key] == null &&
             // We have a current setting for the previous associated value
             currentUserSettings[migrateCyclePreferencesKeys[key]] != null) {
-      print("Migrating cycle setting " +
-          key.toString() +
-          " to the value of " +
-          currentUserSettings[migrateCyclePreferencesKeys[key]].toString() +
-          " from key " +
-          migrateCyclePreferencesKeys[key].toString());
+      print("Migrating cycle setting $key to the value of ${currentUserSettings[migrateCyclePreferencesKeys[key]]} from key ${migrateCyclePreferencesKeys[key]}");
       currentUserSettings[key] =
           currentUserSettings[migrateCyclePreferencesKeys[key]];
     }
   } catch (e) {
-    print("Error migrating cycle preferences " + e.toString());
+    print("Error migrating cycle preferences $e");
   }
 
   return currentUserSettings;

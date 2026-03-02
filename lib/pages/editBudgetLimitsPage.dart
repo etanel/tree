@@ -14,8 +14,7 @@ import 'package:provider/provider.dart';
 
 class EditBudgetLimitsPage extends StatefulWidget {
   const EditBudgetLimitsPage(
-      {required this.budget, this.currentIsAbsoluteSpendingLimit, Key? key})
-      : super(key: key);
+      {required this.budget, this.currentIsAbsoluteSpendingLimit, super.key});
   final Budget budget;
   final bool? currentIsAbsoluteSpendingLimit;
 

@@ -62,9 +62,9 @@ bool hideIfSearching(String? searchTerm, bool isFocused, BuildContext context) {
 }
 
 class EditBudgetPage extends StatefulWidget {
-  EditBudgetPage({
-    Key? key,
-  }) : super(key: key);
+  const EditBudgetPage({
+    super.key,
+  });
 
   @override
   _EditBudgetPageState createState() => _EditBudgetPageState();
@@ -183,14 +183,14 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
             stream: database.watchAllBudgets(
                 searchFor: searchValue == "" ? null : searchValue),
             builder: (context, snapshot) {
-              if (snapshot.hasData && (snapshot.data ?? []).length <= 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isEmpty) {
                 return SliverToBoxAdapter(
                   child: NoResults(
                     message: "no-budgets-found".tr(),
                   ),
                 );
               }
-              if (snapshot.hasData && (snapshot.data ?? []).length > 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isNotEmpty) {
                 return SliverReorderableList(
                   onReorderStart: (index) {
                     HapticFeedback.heavyImpact();
@@ -306,9 +306,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                 ],
                               ),
                               TextFont(
-                                text: getWordedDateShort(budgetRange.start) +
-                                    " – " +
-                                    getWordedDateShort(budgetRange.end),
+                                text: "${getWordedDateShort(budgetRange.start)} – ${getWordedDateShort(budgetRange.end)}",
                                 fontSize: 15,
                               ),
                               Container(height: 2),
@@ -316,12 +314,9 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                       !budget.addedTransactionsOnly
                                   ? TextFont(
                                       text: budget.categoryFks == null ||
-                                              budget.categoryFks!.length == 0
+                                              budget.categoryFks!.isEmpty
                                           ? "all-categories-budget".tr()
-                                          : budget.categoryFks!.length
-                                                  .toString() +
-                                              " " +
-                                              "category-budget".tr(),
+                                          : "${budget.categoryFks!.length} ${"category-budget".tr()}",
                                       fontSize: 14,
                                     )
                                   : FutureBuilder<int?>(
@@ -333,15 +328,13 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                             snapshot.data != null) {
                                           return TextFont(
                                             textAlign: TextAlign.start,
-                                            text: snapshot.data!.toString() +
-                                                " " +
-                                                (snapshot.data! == 1
+                                            text: "${snapshot.data!} ${snapshot.data! == 1
                                                     ? "transaction"
                                                         .tr()
                                                         .toLowerCase()
                                                     : "transactions"
                                                         .tr()
-                                                        .toLowerCase()),
+                                                        .toLowerCase()}",
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")
@@ -351,7 +344,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                           return TextFont(
                                             textAlign: TextAlign.start,
                                             text:
-                                                "/" + " " + "transactions".tr(),
+                                                "/" " " + "transactions".tr(),
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")
@@ -431,18 +424,18 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                     );
                   },
                   itemCount: snapshot.data!.length,
-                  onReorder: (_intPrevious, _intNew) async {
-                    Budget oldBudget = snapshot.data![_intPrevious];
+                  onReorder: (intPrevious, intNew) async {
+                    Budget oldBudget = snapshot.data![intPrevious];
 
                     // print(oldBudget.name);
                     // print(oldBudget.order);
 
-                    if (_intNew > _intPrevious) {
+                    if (intNew > intPrevious) {
                       await database.moveBudget(
-                          oldBudget.budgetPk, _intNew - 1, oldBudget.order);
+                          oldBudget.budgetPk, intNew - 1, oldBudget.order);
                     } else {
                       await database.moveBudget(
-                          oldBudget.budgetPk, _intNew, oldBudget.order);
+                          oldBudget.budgetPk, intNew, oldBudget.order);
                     }
                     return true;
                   },
@@ -570,7 +563,7 @@ Future<dynamic> selectAddableBudgetPopup(BuildContext context,
         stream: database.watchAllAddableBudgets(),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
-              (snapshot.data != null && snapshot.data!.length > 0)) {
+              (snapshot.data != null && snapshot.data!.isNotEmpty)) {
             List<Budget> addableBudgets = snapshot.data!;
             return RadioItems(
               ifNullSelectNone: true,
@@ -594,10 +587,11 @@ Future<dynamic> selectAddableBudgetPopup(BuildContext context,
               },
               initial: null,
               onChanged: (Budget? budget) async {
-                if (budget == null)
+                if (budget == null) {
                   popRoute(context, "none");
-                else
+                } else {
                   popRoute(context, budget);
+                }
               },
               onLongPress: (Budget? budget) {
                 pushRoute(
@@ -688,7 +682,7 @@ class BudgetSettings extends StatelessWidget {
 }
 
 class TotalSpentToggle extends StatefulWidget {
-  const TotalSpentToggle({bool this.isForGoalTotal = false, super.key});
+  const TotalSpentToggle({this.isForGoalTotal = false, super.key});
   final bool isForGoalTotal; //Otherwise it's for the budget setting
 
   @override
@@ -769,18 +763,18 @@ Future duplicateBudgetPopup(
     onSubmitLabel: "duplicate".tr(),
     onSubmit: () => Navigator.pop(context, true),
   );
-  if (result == true)
+  if (result == true) {
     openLoadingPopupTryCatch(
       () async {
         int? rowId = await database.createOrUpdateBudget(
           budget.copyWith(
             dateCreated: DateTime.now(),
-            name: budget.name + " (" + "copy".tr() + ")",
+            name: "${budget.name} (${"copy".tr()})",
           ),
           insert: true,
         );
 
-        Budget? budgetJustAdded = null;
+        Budget? budgetJustAdded;
         budgetJustAdded = await database.getBudgetFromRowId(rowId);
 
         List<CategoryBudgetLimit> categoryLimits = await database
@@ -815,4 +809,5 @@ Future duplicateBudgetPopup(
         }
       },
     );
+  }
 }

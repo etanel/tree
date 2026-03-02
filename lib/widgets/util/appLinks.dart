@@ -73,7 +73,7 @@ class AppLinksNative extends StatefulWidget {
 }
 
 class _AppLinksNativeState extends State<AppLinksNative> {
-  AppLinks _appLinks = AppLinks();
+  final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
 
   @override
@@ -130,7 +130,7 @@ Future<Transaction?> processAddTransactionFromParams(
       await getMainAndSubcategoryFromParams(params);
   TransactionWallet? wallet = await getWalletFromParams(params);
   String walletPk = wallet?.walletPk ?? appStateSettings["selectedWalletPk"];
-  DateTime? dateCreated = await getDateTimeFromParams(params, context);
+  DateTime? dateCreated = getDateTimeFromParams(params, context);
   double amount = getAmountFromParams(params);
   String title = params["title"] ?? params["name"] ?? "";
   String note = params["note"] ?? params["notes"] ?? "";
@@ -234,7 +234,7 @@ Future processAddTransactionRouteFromParams(
   MainAndSubcategory mainAndSubCategory =
       await getMainAndSubcategoryFromParams(params);
   TransactionWallet? wallet = await getWalletFromParams(params);
-  DateTime? dateCreated = await getDateTimeFromParams(params, context);
+  DateTime? dateCreated = getDateTimeFromParams(params, context);
   double amount = getAmountFromParams(params);
   // Add a delay so the keyboard can focus
   await Future.delayed(Duration(milliseconds: 50), () async {
@@ -262,7 +262,7 @@ Future processMessageToParse(
   dynamic result = await queueTransactionFromMessage(
     messageString,
     willPushRoute: true,
-    dateTime: await getDateTimeFromParams(params, context),
+    dateTime: getDateTimeFromParams(params, context),
   );
   if (result == false) {
     pushRoute(

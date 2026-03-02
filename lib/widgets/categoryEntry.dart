@@ -21,8 +21,8 @@ import 'package:provider/provider.dart';
 import 'package:tree/colors.dart';
 
 class CategoryEntry extends StatelessWidget {
-  CategoryEntry({
-    Key? key,
+  const CategoryEntry({
+    super.key,
     required this.category,
     required this.transactionCount,
     required this.categorySpent,
@@ -48,7 +48,7 @@ class CategoryEntry extends StatelessWidget {
     this.useHorizontalPaddingConstrained = true,
     this.getPercentageAfterText,
     this.percentageOffset = 0,
-  }) : super(key: key);
+  });
 
   final TransactionCategory category;
   final int transactionCount;
@@ -93,11 +93,12 @@ class CategoryEntry extends StatelessWidget {
     List<CategoryWithTotal> subCategoriesWithTotal =
         subcategoriesWithTotalMap?[category.categoryPk] ?? [];
 
-    if (category.mainCategoryPk != null && subcategoriesWithTotalMap != null)
+    if (category.mainCategoryPk != null && subcategoriesWithTotalMap != null) {
       return SizedBox.shrink();
+    }
 
     bool hasSubCategories =
-        subCategoriesWithTotal.length > 0 && expandSubcategories != false;
+        subCategoriesWithTotal.isNotEmpty && expandSubcategories != false;
 
     double percentSpentWithCategoryLimit = isSubcategory
         ? (categorySpent / mainCategorySpentIfSubcategory).abs()
@@ -230,11 +231,10 @@ class CategoryEntry extends StatelessWidget {
                                             const EdgeInsetsDirectional.only(
                                                 bottom: 1),
                                         child: TextFont(
-                                          text: " / " +
-                                              convertToMoney(
+                                          text: " / ${convertToMoney(
                                                   Provider.of<AllWallets>(
                                                       context),
-                                                  spendingLimit),
+                                                  spendingLimit)}",
                                           fontSize: 14,
                                           textColor: isOverspent
                                               ? overSpentColor ??
@@ -294,14 +294,12 @@ class CategoryEntry extends StatelessWidget {
                                         percentSpent * 100,
                                         useLessThanZero: true,
                                       );
-                                      String text = percentString +
-                                          " " +
-                                          (isSubcategory
+                                      String text = "$percentString ${isSubcategory
                                               ? "of-category".tr().toLowerCase()
                                               : getPercentageAfterText == null
                                                   ? ""
                                                   : getPercentageAfterText!(
-                                                      categorySpent));
+                                                      categorySpent)}";
 
                                       return TextFont(
                                         text: text,
@@ -314,11 +312,9 @@ class CategoryEntry extends StatelessWidget {
                                     }),
                             ),
                             TextFont(
-                              text: max(transactionCount, 0).toString() +
-                                  " " +
-                                  (transactionCount == 1
+                              text: "${max(transactionCount, 0)} ${transactionCount == 1
                                       ? "transaction".tr().toLowerCase()
-                                      : "transactions".tr().toLowerCase()),
+                                      : "transactions".tr().toLowerCase()}",
                               fontSize: 14,
                               textColor: selected
                                   ? getColor(context, "black").withOpacity(0.4)
@@ -334,7 +330,7 @@ class CategoryEntry extends StatelessWidget {
             ),
           );
 
-          if (subCategoriesWithTotal.length <= 0) return mainCategoryWidget;
+          if (subCategoriesWithTotal.isEmpty) return mainCategoryWidget;
 
           Widget subCategoriesSummaryWidget = AnimatedExpanded(
             duration:
@@ -397,9 +393,10 @@ class CategoryEntry extends StatelessWidget {
                         mainCategorySpentIfSubcategory: amountSpent,
                       ),
                     );
-                    if (amountSpent != 0)
+                    if (amountSpent != 0) {
                       totalSpentPercent +=
                           subcategoryWithTotal.total.abs() / amountSpent;
+                    }
                   });
                   return Column(
                     children: categoryEntries,
@@ -475,15 +472,15 @@ class CategoryEntry extends StatelessWidget {
 }
 
 class CategoryIconPercent extends StatelessWidget {
-  CategoryIconPercent({
-    Key? key,
+  const CategoryIconPercent({
+    super.key,
     required this.category,
     this.size = 30,
     required this.percent,
     this.insetPadding = 23,
     required this.progressBackgroundColor,
     required this.percentageOffset,
-  }) : super(key: key);
+  });
 
   final TransactionCategory category;
   final double size;
@@ -556,7 +553,7 @@ class CategoryIconPercent extends StatelessWidget {
 
       AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
-        child: Container(
+        child: SizedBox(
           key: ValueKey(progressBackgroundColor.toString()),
           height: size + insetPadding,
           width: size + insetPadding,
@@ -587,7 +584,7 @@ class ThinProgress extends StatelessWidget {
   final double progress;
   final double? dotProgress;
 
-  ThinProgress({
+  const ThinProgress({super.key, 
     required this.color,
     required this.backgroundColor,
     required this.progress,
@@ -613,6 +610,7 @@ class ThinProgress extends StatelessWidget {
                   AnimatedFractionallySizedBox(
                     duration: Duration(milliseconds: 1000),
                     curve: Curves.easeInOutCubicEmphasized,
+                    widthFactor: progress,
                     child: ClipRRect(
                       borderRadius: BorderRadiusDirectional.circular(100),
                       child: Container(
@@ -620,7 +618,6 @@ class ThinProgress extends StatelessWidget {
                         height: 5,
                       ),
                     ),
-                    widthFactor: progress,
                   ),
                 ],
               ),

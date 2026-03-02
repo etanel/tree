@@ -45,26 +45,26 @@ class SearchFilters {
     this.titleContains,
     this.noteContains,
   }) {
-    walletPks = this.walletPks.isEmpty ? [] : this.walletPks;
-    categoryPks = this.categoryPks.isEmpty ? [] : this.categoryPks;
+    walletPks = walletPks.isEmpty ? [] : walletPks;
+    categoryPks = categoryPks.isEmpty ? [] : categoryPks;
     subcategoryPks =
-        this.subcategoryPks?.isEmpty == true ? [] : this.subcategoryPks;
-    budgetPks = this.budgetPks.isEmpty ? [] : this.budgetPks;
+        subcategoryPks?.isEmpty == true ? [] : subcategoryPks;
+    budgetPks = budgetPks.isEmpty ? [] : budgetPks;
     excludedBudgetPks =
-        this.excludedBudgetPks.isEmpty ? [] : this.excludedBudgetPks;
-    objectivePks = this.objectivePks.isEmpty ? [] : this.objectivePks;
+        excludedBudgetPks.isEmpty ? [] : excludedBudgetPks;
+    objectivePks = objectivePks.isEmpty ? [] : objectivePks;
     objectiveLoanPks =
-        this.objectiveLoanPks.isEmpty ? [] : this.objectiveLoanPks;
-    expenseIncome = this.expenseIncome.isEmpty ? [] : this.expenseIncome;
-    positiveCashFlow = this.positiveCashFlow;
-    paidStatus = this.paidStatus.isEmpty ? [] : this.paidStatus;
+        objectiveLoanPks.isEmpty ? [] : objectiveLoanPks;
+    expenseIncome = expenseIncome.isEmpty ? [] : expenseIncome;
+    positiveCashFlow = positiveCashFlow;
+    paidStatus = paidStatus.isEmpty ? [] : paidStatus;
     transactionTypes =
-        this.transactionTypes.isEmpty ? [] : this.transactionTypes;
-    budgetTransactionFilters = this.budgetTransactionFilters.isEmpty
+        transactionTypes.isEmpty ? [] : transactionTypes;
+    budgetTransactionFilters = budgetTransactionFilters.isEmpty
         ? []
-        : this.budgetTransactionFilters;
+        : budgetTransactionFilters;
     // reoccurence = [];
-    methodAdded = this.methodAdded.isEmpty ? [] : this.methodAdded;
+    methodAdded = methodAdded.isEmpty ? [] : methodAdded;
   }
   //if the value is empty, it means all/ignore
   // think of it, if the tag is added it will be considered in the search
@@ -135,7 +135,7 @@ class SearchFilters {
     );
   }
 
-  clearSearchFilters() {
+  void clearSearchFilters() {
     walletPks = [];
     categoryPks = [];
     subcategoryPks = [];
@@ -176,10 +176,11 @@ class SearchFilters {
         (ignoreDateTimeRange == true || dateTimeRange == null) &&
         (ignoreSearchQuery == true || searchQuery == null) &&
         titleContains == null &&
-        noteContains == null)
+        noteContains == null) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   void loadFilterString(String? filterString,
@@ -310,11 +311,7 @@ class SearchFilters {
         }
       } catch (e) {
         print(
-          e.toString() +
-              " error loading filter string " +
-              key.toString() +
-              " " +
-              value.toString(),
+          "$e error loading filter string $key $value",
         );
       }
     }
@@ -323,53 +320,53 @@ class SearchFilters {
   String getFilterString() {
     String outString = "";
     for (String element in walletPks) {
-      outString += "walletPks:-:" + element + ":-:";
+      outString += "walletPks:-:$element:-:";
     }
     for (String element in categoryPks) {
-      outString += "categoryPks:-:" + element + ":-:";
+      outString += "categoryPks:-:$element:-:";
     }
     for (String element in subcategoryPks ?? []) {
-      outString += "subcategoryPks:-:" + element + ":-:";
+      outString += "subcategoryPks:-:$element:-:";
     }
     if (subcategoryPks == null) {
-      outString += "subcategoryPks:-:" + "null" + ":-:";
+      outString += "subcategoryPks:-:" "null" + ":-:";
     }
     for (String? element in budgetPks) {
-      outString += "budgetPks:-:" + element.toString() + ":-:";
+      outString += "budgetPks:-:$element:-:";
     }
     for (String? element in excludedBudgetPks) {
-      outString += "excludedBudgetPks:-:" + element.toString() + ":-:";
+      outString += "excludedBudgetPks:-:$element:-:";
     }
     for (String? element in objectivePks) {
-      outString += "objectivePks:-:" + element.toString() + ":-:";
+      outString += "objectivePks:-:$element:-:";
     }
     for (String? element in objectiveLoanPks) {
-      outString += "objectiveLoanPks:-:" + element.toString() + ":-:";
+      outString += "objectiveLoanPks:-:$element:-:";
     }
     for (ExpenseIncome element in expenseIncome) {
-      outString += "expenseIncome:-:" + (element.index).toString() + ":-:";
+      outString += "expenseIncome:-:${element.index}:-:";
     }
-    outString += "positiveCashFlow:-:" + positiveCashFlow.toString() + ":-:";
+    outString += "positiveCashFlow:-:$positiveCashFlow:-:";
     for (PaidStatus element in paidStatus) {
-      outString += "paidStatus:-:" + (element.index).toString() + ":-:";
+      outString += "paidStatus:-:${element.index}:-:";
     }
     for (TransactionSpecialType? element in transactionTypes) {
       outString +=
-          "transactionTypes:-:" + (element?.index ?? null).toString() + ":-:";
+          "transactionTypes:-:${element?.index ?? null}:-:";
     }
     for (BudgetTransactionFilters element in budgetTransactionFilters) {
       outString +=
-          "budgetTransactionFilters:-:" + (element.index).toString() + ":-:";
+          "budgetTransactionFilters:-:${element.index}:-:";
     }
     for (MethodAdded? element in methodAdded) {
       outString +=
-          "methodAdded:-:" + (element?.index ?? null).toString() + ":-:";
+          "methodAdded:-:${element?.index ?? null}:-:";
     }
-    outString += "amountRange:-:" + amountRange.toString() + ":-:";
-    outString += "dateTimeRange:-:" + dateTimeRange.toString() + ":-:";
-    outString += "searchQuery:-:" + searchQuery.toString() + ":-:";
-    outString += "titleContains:-:" + titleContains.toString() + ":-:";
-    outString += "noteContains:-:" + noteContains.toString() + ":-:";
+    outString += "amountRange:-:$amountRange:-:";
+    outString += "dateTimeRange:-:$dateTimeRange:-:";
+    outString += "searchQuery:-:$searchQuery:-:";
+    outString += "titleContains:-:$titleContains:-:";
+    outString += "noteContains:-:$noteContains:-:";
     //print(outString);
     return outString;
   }
@@ -528,7 +525,7 @@ class HighlightStringInList extends TextEditingController {
 
   HighlightStringInList({String? initialText})
       : pattern = RegExp(r'\b[^,]+(?=|$)') {
-    this.text = initialText ?? '';
+    text = initialText ?? '';
   }
 
   @override
@@ -615,8 +612,9 @@ class _TransactionFiltersSelectionState
           selectedCategories: selectedFilters.categoryPks,
           setSelectedCategories: (List<String>? categories) async {
             selectedFilters.categoryPks = categories ?? [];
-            if (selectedFilters.categoryPks.length <= 0)
+            if (selectedFilters.categoryPks.isEmpty) {
               selectedFilters.subcategoryPks = [];
+            }
 
             // Remove any subcategories that are selected that no longer
             // have the primary category selected
@@ -683,10 +681,11 @@ class _TransactionFiltersSelectionState
                 rangeLimit: rangeLimit,
                 initialRange: selectedFilters.amountRange,
                 onChange: (RangeValues rangeValue) {
-                  if (rangeLimit == rangeValue)
+                  if (rangeLimit == rangeValue) {
                     selectedFilters.amountRange = null;
-                  else
+                  } else {
                     selectedFilters.amountRange = rangeValue;
+                  }
                 },
               );
             }
@@ -791,8 +790,9 @@ class _TransactionFiltersSelectionState
           StreamBuilder<List<MethodAdded?>>(
             stream: database.watchAllDistinctMethodAdded(),
             builder: (context, snapshot) {
-              if (snapshot.data == null || (snapshot.data?.length ?? 0) <= 1)
+              if (snapshot.data == null || (snapshot.data?.length ?? 0) <= 1) {
                 return SizedBox.shrink();
+              }
               List<MethodAdded?> possibleMethodAdded = snapshot.data ?? [];
               return SelectChips(
                 items: possibleMethodAdded,
@@ -857,8 +857,9 @@ class _TransactionFiltersSelectionState
         StreamBuilder<List<Budget>>(
           stream: database.watchAllAddableBudgets(),
           builder: (context, snapshot) {
-            if (snapshot.data != null && snapshot.data!.length <= 0)
+            if (snapshot.data != null && snapshot.data!.isEmpty) {
               return SizedBox.shrink();
+            }
             if (snapshot.hasData) {
               return Column(
                 children: [
@@ -942,8 +943,9 @@ class _TransactionFiltersSelectionState
         StreamBuilder<List<Budget>>(
           stream: database.watchAllExcludedTransactionsBudgetsInUse(),
           builder: (context, snapshot) {
-            if (snapshot.data != null && snapshot.data!.length <= 0)
+            if (snapshot.data != null && snapshot.data!.isEmpty) {
               return SizedBox.shrink();
+            }
             if (snapshot.hasData) {
               return Column(
                 children: [
@@ -960,7 +962,7 @@ class _TransactionFiltersSelectionState
                       );
                     },
                     getLabel: (Budget item) {
-                      return "excluded-from".tr() + " " + item.name;
+                      return "${"excluded-from".tr()} ${item.name}";
                     },
                     onSelected: (Budget item) {
                       if (selectedFilters.excludedBudgetPks
@@ -1002,8 +1004,9 @@ class _TransactionFiltersSelectionState
           stream: database.watchAllObjectives(
               objectiveType: ObjectiveType.goal, archivedLast: true),
           builder: (context, snapshot) {
-            if (snapshot.data != null && snapshot.data!.length <= 0)
+            if (snapshot.data != null && snapshot.data!.isEmpty) {
               return SizedBox.shrink();
+            }
             if (snapshot.hasData) {
               return SelectChips(
                 items: [null, ...snapshot.data!],
@@ -1059,8 +1062,9 @@ class _TransactionFiltersSelectionState
           stream: database.watchAllObjectives(
               objectiveType: ObjectiveType.loan, archivedLast: true),
           builder: (context, snapshot) {
-            if (snapshot.data != null && snapshot.data!.length <= 0)
+            if (snapshot.data != null && snapshot.data!.isEmpty) {
               return SizedBox.shrink();
+            }
             if (snapshot.hasData) {
               return SelectChips(
                 items: [null, ...snapshot.data!],
@@ -1166,9 +1170,9 @@ class _TransactionFiltersSelectionState
                       .trim()
                       .replaceAll(", ", ",")
                       .split(",");
-                  if (splitTitles.length <= 0) return;
+                  if (splitTitles.isEmpty) return;
                   splitTitles.last = title.title.title;
-                  titleContainsController.text = splitTitles.join(", ") + ", ";
+                  titleContainsController.text = "${splitTitles.join(", ")}, ";
 
                   if (titleContainsController.text == "") {
                     selectedFilters.titleContains = null;
@@ -1201,13 +1205,13 @@ class _TransactionFiltersSelectionState
                 handleOnRecommendedTitleTapped: false,
                 onSubmitted: (_) {},
                 autoFocus: false,
-                labelText: "title-contains".tr() + "...",
+                labelText: "${"title-contains".tr()}...",
               ),
               SizedBox(height: 7),
               TextInput(
                 maxLines: 5,
                 padding: EdgeInsetsDirectional.zero,
-                labelText: "notes-contain".tr() + "...",
+                labelText: "${"notes-contain".tr()}...",
                 onChanged: (value) {
                   if (value.trim() == "") {
                     selectedFilters.noteContains = null;
@@ -1281,14 +1285,14 @@ class AppliedFilterChips extends StatelessWidget {
     if (searchFilters.titleContains != null) {
       out.add(AppliedFilterChip(
         label:
-            "title-contains".tr() + ": " + (searchFilters.titleContains ?? ""),
+            "${"title-contains".tr()}: ${searchFilters.titleContains ?? ""}",
         openFiltersSelection: openFiltersSelection,
       ));
     }
     // Notes contains
     if (searchFilters.noteContains != null) {
       out.add(AppliedFilterChip(
-        label: "notes-contain".tr() + ": " + (searchFilters.noteContains ?? ""),
+        label: "${"notes-contain".tr()}: ${searchFilters.noteContains ?? ""}",
         openFiltersSelection: openFiltersSelection,
       ));
     }
@@ -1327,12 +1331,10 @@ class AppliedFilterChips extends StatelessWidget {
     if (searchFilters.amountRange != null) {
       out.add(
         AppliedFilterChip(
-          label: convertToMoney(allWallets, searchFilters.amountRange!.start) +
-              " – " +
-              convertToMoney(
+          label: "${convertToMoney(allWallets, searchFilters.amountRange!.start)} – ${convertToMoney(
                 allWallets,
                 searchFilters.amountRange!.end,
-              ),
+              )}",
           openFiltersSelection: openFiltersSelection,
         ),
       );
@@ -1434,7 +1436,7 @@ class AppliedFilterChips extends StatelessWidget {
     }
     // Budgets
     for (Budget budget in await database.getAllBudgets()) {
-      if (searchFilters.budgetPks.contains(budget.budgetPk))
+      if (searchFilters.budgetPks.contains(budget.budgetPk)) {
         out.add(AppliedFilterChip(
           label: budget.name,
           customBorderColor: HexColor(
@@ -1443,18 +1445,20 @@ class AppliedFilterChips extends StatelessWidget {
           ),
           openFiltersSelection: openFiltersSelection,
         ));
+      }
     }
     // Excluded Budgets
     for (Budget budget in await database.getAllBudgets()) {
-      if (searchFilters.excludedBudgetPks.contains(budget.budgetPk))
+      if (searchFilters.excludedBudgetPks.contains(budget.budgetPk)) {
         out.add(AppliedFilterChip(
-          label: "excluded-from".tr() + ": " + budget.name,
+          label: "${"excluded-from".tr()}: ${budget.name}",
           customBorderColor: HexColor(
             budget.colour,
             defaultColor: Theme.of(context).colorScheme.primary,
           ),
           openFiltersSelection: openFiltersSelection,
         ));
+      }
     }
     if (searchFilters.budgetPks.contains(null)) {
       out.add(AppliedFilterChip(
@@ -1465,7 +1469,7 @@ class AppliedFilterChips extends StatelessWidget {
     // Objectives
     for (Objective objective
         in await database.getAllObjectives(objectiveType: ObjectiveType.goal)) {
-      if (searchFilters.objectivePks.contains(objective.objectivePk))
+      if (searchFilters.objectivePks.contains(objective.objectivePk)) {
         out.add(AppliedFilterChip(
           label: objective.name,
           customBorderColor: HexColor(
@@ -1474,6 +1478,7 @@ class AppliedFilterChips extends StatelessWidget {
           ),
           openFiltersSelection: openFiltersSelection,
         ));
+      }
     }
     if (searchFilters.objectivePks.contains(null)) {
       out.add(AppliedFilterChip(
@@ -1484,7 +1489,7 @@ class AppliedFilterChips extends StatelessWidget {
     // Loan Objectives
     for (Objective objective
         in await database.getAllObjectives(objectiveType: ObjectiveType.loan)) {
-      if (searchFilters.objectiveLoanPks.contains(objective.objectivePk))
+      if (searchFilters.objectiveLoanPks.contains(objective.objectivePk)) {
         out.add(AppliedFilterChip(
           label: objective.name,
           customBorderColor: HexColor(
@@ -1493,6 +1498,7 @@ class AppliedFilterChips extends StatelessWidget {
           ),
           openFiltersSelection: openFiltersSelection,
         ));
+      }
     }
     if (searchFilters.objectiveLoanPks.contains(null)) {
       out.add(AppliedFilterChip(
@@ -1501,21 +1507,19 @@ class AppliedFilterChips extends StatelessWidget {
       ));
     }
     // Date and time range
-    if (out.length > 0 &&
+    if (out.isNotEmpty &&
         openSelectDate != null &&
         searchFilters.dateTimeRange != null) {
       out.add(AppliedFilterChip(
-        label: getWordedDateShortMore(
+        label: "${getWordedDateShortMore(
               searchFilters.dateTimeRange!.start,
               includeYear:
                   searchFilters.dateTimeRange!.start != DateTime.now().year,
-            ) +
-            " – " +
-            getWordedDateShortMore(
+            )} – ${getWordedDateShortMore(
               searchFilters.dateTimeRange!.end,
               includeYear:
                   searchFilters.dateTimeRange!.end != DateTime.now().year,
-            ),
+            )}",
         openFiltersSelection: () => {openSelectDate!()},
       ));
     }
@@ -1538,7 +1542,7 @@ class AppliedFilterChips extends StatelessWidget {
       double lowerBound = bounds.$1;
       out.add(AppliedFilterChip(
         customBorderColor: Theme.of(context).colorScheme.tertiary,
-        label: "= " + lowerBound.toString(),
+        label: "= $lowerBound",
         openFiltersSelection: () => {openSelectDate!()},
       ));
     }
@@ -1568,7 +1572,7 @@ class AppliedFilterChips extends StatelessWidget {
             duration: Duration(milliseconds: 1000),
             child: snapshot.hasData &&
                     snapshot.data != null &&
-                    snapshot.data!.length > 0
+                    snapshot.data!.isNotEmpty
                 ? Padding(
                     padding: padding,
                     child: SingleChildScrollView(

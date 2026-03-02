@@ -41,7 +41,7 @@ class _HomePagePieChartState extends State<HomePagePieChart>
 
   @override
   Widget build(BuildContext context) {
-    final PageController _pageController = PageController(
+    final PageController pageController = PageController(
         initialPage: appStateSettings["pieChartTotal"] != "incoming" ? 0 : 1);
     TransactionCategory? selectedCategory;
 
@@ -86,7 +86,7 @@ class _HomePagePieChartState extends State<HomePagePieChart>
                           animateFirstPage: true,
                           pageSnapping: true,
                           clipBehavior: Clip.none,
-                          controller: _pageController,
+                          controller: pageController,
                           children: [
                             PieChartHomeAndCategorySummary(
                                 isIncome: false,
@@ -101,7 +101,7 @@ class _HomePagePieChartState extends State<HomePagePieChart>
                           end: 0,
                           bottom: -10,
                           child: PageIndicator(
-                            controller: _pageController,
+                            controller: pageController,
                             itemCount: 2,
                           ),
                         ),
@@ -109,9 +109,9 @@ class _HomePagePieChartState extends State<HomePagePieChart>
                           top: 0,
                           end: 0,
                           child: IncomeOutcomeArrowPageIndicator(
-                            controller: _pageController,
+                            controller: pageController,
                             onTap: (isIncome) {
-                              _pageController.animateToPage(
+                              pageController.animateToPage(
                                 isIncome ? 0 : 1,
                                 duration: Duration(milliseconds: 600),
                                 curve: Curves.easeInOutCubicEmphasized,
@@ -158,7 +158,7 @@ class IncomeOutcomeArrowPageIndicator extends StatelessWidget {
   final PageController controller;
   final Function(bool isIncome) onTap;
 
-  IncomeOutcomeArrowPageIndicator({
+  const IncomeOutcomeArrowPageIndicator({super.key, 
     required this.controller,
     required this.onTap,
   });
@@ -228,7 +228,7 @@ class _PieChartHomeAndCategorySummaryState
     }
   }
 
-  clearCategorySelection() {
+  void clearCategorySelection() {
     pieChartDisplayStateKey.currentState?.setTouchedIndex(-1);
     setState(() {
       expandCategorySelection = false;
@@ -245,9 +245,10 @@ class _PieChartHomeAndCategorySummaryState
       showAllSubcategories = !showAllSubcategories;
     });
     Future.delayed(Duration(milliseconds: 10), () {
-      if (expandCategorySelection)
+      if (expandCategorySelection) {
         pieChartDisplayStateKey.currentState
             ?.setTouchedCategoryPk(selectedCategory?.categoryPk);
+      }
     });
 
     updateSettings("showAllSubcategories", showAllSubcategories,
@@ -263,8 +264,10 @@ class _PieChartHomeAndCategorySummaryState
             appStateSettings["pieChartAllWallets"] == true) {
           List<String>? walletPks =
               (snapshot.data ?? []).map((item) => item.walletPk).toList();
-          if (walletPks.length <= 0 ||
-              appStateSettings["pieChartAllWallets"] == true) walletPks = null;
+          if (walletPks.isEmpty ||
+              appStateSettings["pieChartAllWallets"] == true) {
+            walletPks = null;
+          }
           return StreamBuilder<List<CategoryWithTotal>>(
             stream:
                 database.watchTotalSpentInEachCategoryInTimeRangeFromCategories(
@@ -306,7 +309,7 @@ class _PieChartHomeAndCategorySummaryState
                     if (selectedCategory?.categoryPk ==
                             category.category.categoryPk ||
                         selectedCategory?.mainCategoryPk ==
-                            category.category.categoryPk)
+                            category.category.categoryPk) {
                       categoryEntries.add(
                         CategoryEntry(
                           percentageOffset: totalSpentPercent,
@@ -383,8 +386,10 @@ class _PieChartHomeAndCategorySummaryState
                           allSelected: true,
                         ),
                       );
-                    if (s.totalSpent != 0)
+                    }
+                    if (s.totalSpent != 0) {
                       totalSpentPercent += category.total.abs() / s.totalSpent;
+                    }
                   },
                 );
 
@@ -400,7 +405,7 @@ class _PieChartHomeAndCategorySummaryState
                             builder: (_, boxConstraints) {
                               bool showTopCategoriesLegend =
                                   boxConstraints.maxWidth > 320 &&
-                                      snapshot.data!.length > 0;
+                                      snapshot.data!.isNotEmpty;
                               return Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -457,7 +462,7 @@ class _PieChartHomeAndCategorySummaryState
                                                 "lightDarkAccentHeavyLight"),
                                           ),
                                         ),
-                                        if (snapshot.data!.length <= 0)
+                                        if (snapshot.data!.isEmpty)
                                           Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.all(
@@ -537,9 +542,9 @@ class _PieChartHomeAndCategorySummaryState
                             child: expandCategorySelection == false
                                 ? Container(key: ValueKey(1), height: 10)
                                 : Column(
-                                    children: categoryEntries,
                                     key: ValueKey(
                                         selectedCategory?.categoryPk ?? ""),
+                                    children: categoryEntries,
                                   ),
                           )
                         : AnimatedSwitcher(
@@ -547,9 +552,9 @@ class _PieChartHomeAndCategorySummaryState
                             child: expandCategorySelection == false
                                 ? Container(key: ValueKey(1), height: 10)
                                 : Column(
-                                    children: categoryEntries,
                                     key: ValueKey(
                                         selectedCategory?.categoryPk ?? ""),
+                                    children: categoryEntries,
                                   ),
                           ),
                   ],

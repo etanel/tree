@@ -15,8 +15,7 @@ import 'package:flutter/material.dart'
 import 'addButton.dart';
 
 class BudgetsListPage extends StatefulWidget {
-  const BudgetsListPage({required this.enableBackButton, Key? key})
-      : super(key: key);
+  const BudgetsListPage({required this.enableBackButton, super.key});
   final bool enableBackButton;
 
   @override
@@ -82,7 +81,7 @@ class BudgetsListPageState extends State<BudgetsListPage> {
         StreamBuilder<List<Budget>>(
           stream: database.watchAllBudgets(hideArchived: true),
           builder: (context, snapshot) {
-            if (snapshot.hasData && (snapshot.data ?? []).length <= 0) {
+            if (snapshot.hasData && (snapshot.data ?? []).isEmpty) {
               return SliverPadding(
                 padding: EdgeInsetsDirectional.symmetric(
                     vertical: 7, horizontal: 13),

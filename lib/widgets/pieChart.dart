@@ -54,14 +54,14 @@ class EmptyPieChart extends StatelessWidget {
 
 class PieChartWrapper extends StatelessWidget {
   const PieChartWrapper({
-    Key? key,
+    super.key,
     required this.data,
     required this.totalSpent,
     required this.setSelectedCategory,
     required this.pieChartDisplayStateKey,
     this.middleColor,
     this.disableLarge = false,
-  }) : super(key: key);
+  });
   final List<CategoryWithTotal> data;
   final double totalSpent;
   final Function(String categoryPk, TransactionCategory? category)
@@ -83,7 +83,7 @@ class PieChartWrapper extends StatelessWidget {
         dataFiltered.add(categoryWithTotal);
       }
     }
-    return Container(
+    return SizedBox(
       width: enableDoubleColumn(context) == false || disableLarge ? 200 : 300,
       height: enableDoubleColumn(context) == false || disableLarge ? 200 : 300,
       child: Stack(
@@ -91,9 +91,9 @@ class PieChartWrapper extends StatelessWidget {
         children: [
           ScaledAnimatedSwitcher(
             keyToWatch:
-                (data.length <= 0 || numberZeroTransactions == data.length)
+                (data.isEmpty || numberZeroTransactions == data.length)
                     .toString(),
-            child: data.length <= 0 || numberZeroTransactions == data.length
+            child: data.isEmpty || numberZeroTransactions == data.length
                 ? Container(
                     key: ValueKey(1),
                     decoration: BoxDecoration(
@@ -140,7 +140,7 @@ class PieChartWrapper extends StatelessWidget {
                     : 110,
                 decoration: BoxDecoration(
                     color:
-                        middleColor ?? Theme.of(context).colorScheme.background,
+                        middleColor ?? Theme.of(context).colorScheme.surface,
                     shape: BoxShape.circle),
               ),
             ),
@@ -154,13 +154,13 @@ class PieChartWrapper extends StatelessWidget {
 GlobalKey<PieChartDisplayState> pieChartDisplayStatePastBudgetKey = GlobalKey();
 
 class PieChartDisplay extends StatefulWidget {
-  PieChartDisplay({
-    Key? key,
+  const PieChartDisplay({
+    super.key,
     required this.data,
     required this.totalSpent,
     required this.setSelectedCategory,
     this.disableLarge = false,
-  }) : super(key: key);
+  });
   final List<CategoryWithTotal> data;
   final double totalSpent;
   final Function(String categoryPk, TransactionCategory? category)
@@ -186,10 +186,11 @@ class PieChartDisplayState extends State<PieChartDisplay> {
       int numCategories = (await database.getAllCategories()).length;
       for (int i = 1; i <= numCategories + 25; i++) {
         await Future.delayed(const Duration(milliseconds: 70));
-        if (mounted)
+        if (mounted) {
           setState(() {
             showLabels = showLabels + 1;
           });
+        }
       }
     });
   }
@@ -211,10 +212,11 @@ class PieChartDisplayState extends State<PieChartDisplay> {
       }
       index++;
     }
-    if (found == false)
+    if (found == false) {
       setTouchedIndex(-1);
-    else
+    } else {
       setTouchedIndex(index);
+    }
   }
 
   @override
@@ -284,9 +286,9 @@ class PieChartDisplayState extends State<PieChartDisplay> {
                   : 136.0;
       final double widgetScale = isTouched ? 1.3 : 1.0;
       bool isTouchingSameColorSection = false;
-      if (nullIfIndexOutOfRange(widget.data, i - 1)?.category?.colour ==
+      if (nullIfIndexOutOfRange(widget.data, i - 1)?.category.colour ==
               widget.data[i].category.colour ||
-          nullIfIndexOutOfRange(widget.data, i + 1)?.category?.colour ==
+          nullIfIndexOutOfRange(widget.data, i + 1)?.category.colour ==
               widget.data[i].category.colour) {
         isTouchingSameColorSection = true;
       }
@@ -343,7 +345,7 @@ class _Badge extends StatelessWidget {
   final double totalPercentAccumulated;
 
   const _Badge({
-    Key? key,
+    super.key,
     required this.scale,
     required this.color,
     required this.iconName,
@@ -353,7 +355,7 @@ class _Badge extends StatelessWidget {
     required this.showLabels,
     required this.categoryColor,
     required this.totalPercentAccumulated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +384,7 @@ class _Badge extends StatelessWidget {
             children: [
               AnimatedOpacity(
                 duration: Duration(milliseconds: 200),
-                opacity: this.scale == 1 ? 0 : 1,
+                opacity: scale == 1 ? 0 : 1,
                 child: Center(
                   child: Transform.translate(
                     offset: Offset(
@@ -402,18 +404,18 @@ class _Badge extends StatelessWidget {
                             color: color,
                             width: 1.5,
                           ),
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                         child: Center(
                           child: MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaler: TextScaler.linear(1.0)),
                             child: TextFont(
                               text: convertToPercent(percent),
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               textAlign: TextAlign.center,
                             ),
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
                           ),
                         ),
                       ),
@@ -424,7 +426,7 @@ class _Badge extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
                 child: Center(
                   // child: SimpleShadow(

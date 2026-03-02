@@ -20,8 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class SelectColor extends StatefulWidget {
-  SelectColor({
-    Key? key,
+  const SelectColor({
+    super.key,
     this.setSelectedColor,
     this.selectedColor,
     this.next,
@@ -32,7 +32,7 @@ class SelectColor extends StatefulWidget {
         false, // Will show the option to use the system color (horizontalList must be disabled)
     this.selectableColorsList,
     this.previewBuilder,
-  }) : super(key: key);
+  });
   final Function(Color?)? setSelectedColor;
   final Color? selectedColor;
   final VoidCallback? next;
@@ -287,14 +287,14 @@ class _SelectColorState extends State<SelectColor> {
 }
 
 class ColorIcon extends StatelessWidget {
-  ColorIcon({
-    Key? key,
+  const ColorIcon({
+    super.key,
     required this.color,
     required this.size,
     this.onTap,
     this.margin,
     this.outline = false,
-  }) : super(key: key);
+  });
 
   final Color color;
   final double size;
@@ -338,12 +338,12 @@ class ColorIcon extends StatelessWidget {
 
 class ThemeColorIcon extends StatelessWidget {
   const ThemeColorIcon({
-    Key? key,
+    super.key,
     required this.size,
     required this.onTap,
     this.margin,
     required this.outline,
-  }) : super(key: key);
+  });
 
   final double size;
   final Function()? onTap;
@@ -394,15 +394,15 @@ class ThemeColorIcon extends StatelessWidget {
 }
 
 class ColorIconCustom extends StatefulWidget {
-  ColorIconCustom({
-    Key? key,
+  const ColorIconCustom({
+    super.key,
     required this.size,
     required this.onTap,
     this.margin,
     required this.outline,
     required this.initialSelectedColor,
     this.previewBuilder,
-  }) : super(key: key);
+  });
 
   final double size;
   final Function(Color) onTap;
@@ -572,9 +572,9 @@ class HexColorPicker extends StatefulWidget {
 class _HexColorPickerState extends State<HexColorPicker> {
   late Color selectedColor = widget.initialSelectedColor;
 
-  setColor(String input) {
+  void setColor(String input) {
     if (input.length == 8) {
-      Color color = HexColor("0xFF" + input.replaceAll("0x", ""),
+      Color color = HexColor("0xFF${input.replaceAll("0x", "")}",
           defaultColor: widget.initialSelectedColor);
 
       setState(() {
@@ -648,7 +648,7 @@ class ColorCodeFormatter extends TextInputFormatter {
         .replaceAll("0x", "")
         .allCaps
         .replaceAll(RegExp(r'[^a-fA-F0-9]'), '');
-    cleanedInput = "0x" + cleanedInput;
+    cleanedInput = "0x$cleanedInput";
 
     if (cleanedInput.length > 8) {
       cleanedInput = cleanedInput.substring(0, 8);

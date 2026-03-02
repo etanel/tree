@@ -36,6 +36,8 @@ class HomePageWalletSwitcher extends StatelessWidget {
             if (snapshot.hasData) {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
+                padding: EdgeInsetsDirectional.symmetric(horizontal: 7),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -91,8 +93,6 @@ class HomePageWalletSwitcher extends StatelessWidget {
                     ),
                   ],
                 ),
-                clipBehavior: Clip.none,
-                padding: EdgeInsetsDirectional.symmetric(horizontal: 7),
               );
             }
             return Container();
@@ -134,7 +134,7 @@ class EditHomePagePinnedWalletsPopup extends StatelessWidget {
         List<TransactionWallet> allPinnedWallets = snapshot2.data ?? [];
         Widget child = Column(
           children: [
-            if (allWalletsPks.length <= 0)
+            if (allWalletsPks.isEmpty)
               NoResultsCreate(
                 message: "no-accounts-found".tr(),
                 buttonLabel: "create-account".tr(),
@@ -194,7 +194,7 @@ class EditHomePagePinnedWalletsPopup extends StatelessWidget {
                   );
                 },
               ),
-            if (allWalletsPks.length > 0 && includeFramework == true)
+            if (allWalletsPks.isNotEmpty && includeFramework == true)
               AddButton(
                 onTap: () {},
                 height: 50,

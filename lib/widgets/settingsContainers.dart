@@ -31,8 +31,8 @@ class SettingsContainerSwitch extends StatefulWidget {
     this.backgroundColor,
     this.isOutlined,
     this.horizontalPadding,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final String? description;
@@ -135,13 +135,13 @@ class PlatformSwitch extends StatelessWidget {
   final bool value;
   final Function onTap;
 
-  PlatformSwitch({required this.value, required this.onTap});
+  const PlatformSwitch({super.key, required this.value, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     if (getPlatform() == PlatformOS.isIOS) {
       return CupertinoSwitch(
-        activeColor: Theme.of(context).colorScheme.primary,
+        activeTrackColor: Theme.of(context).colorScheme.primary,
         value: value,
         onChanged: (_) {
           onTap();
@@ -149,7 +149,7 @@ class PlatformSwitch extends StatelessWidget {
       );
     } else {
       return Switch(
-        activeColor: Theme.of(context).colorScheme.primary,
+        activeThumbColor: Theme.of(context).colorScheme.primary,
         value: value,
         onChanged: (_) {
           onTap();
@@ -162,7 +162,7 @@ class PlatformSwitch extends StatelessWidget {
 
 class SettingsContainerOpenPage extends StatelessWidget {
   const SettingsContainerOpenPage({
-    Key? key,
+    super.key,
     required this.openPage,
     this.onClosed,
     this.onOpen,
@@ -178,7 +178,7 @@ class SettingsContainerOpenPage extends StatelessWidget {
     this.afterWidget,
     this.backgroundColor,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget openPage;
   final VoidCallback? onClosed;
@@ -207,7 +207,7 @@ class SettingsContainerOpenPage extends StatelessWidget {
         onClosed: onClosed,
         onOpen: onOpen,
         closedColor:
-            backgroundColor ?? Theme.of(context).colorScheme.background,
+            backgroundColor ?? Theme.of(context).colorScheme.surface,
         borderRadius: isOutlined == true
             ? 10
             : getIsFullScreen(context)
@@ -288,7 +288,7 @@ class MoreChevron extends StatelessWidget {
 
 class SettingsContainerDropdown extends StatefulWidget {
   const SettingsContainerDropdown({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     this.icon,
@@ -300,7 +300,7 @@ class SettingsContainerDropdown extends StatefulWidget {
     this.enableBorderRadius = false,
     this.faintValues = const [],
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? description;
@@ -320,7 +320,7 @@ class SettingsContainerDropdown extends StatefulWidget {
 }
 
 class _SettingsContainerDropdownState extends State<SettingsContainerDropdown> {
-  late GlobalKey<DropdownSelectState>? _dropdownKey = GlobalKey();
+  late final GlobalKey<DropdownSelectState>? _dropdownKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -355,7 +355,7 @@ class _SettingsContainerDropdownState extends State<SettingsContainerDropdown> {
 
 class SettingsContainerOutlined extends StatelessWidget {
   const SettingsContainerOutlined({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     this.icon,
@@ -369,7 +369,7 @@ class SettingsContainerOutlined extends StatelessWidget {
     this.isExpanded = true,
     this.isOutlinedColumn,
     this.isWideOutlined,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? description;
@@ -528,7 +528,7 @@ class SettingsContainerOutlined extends StatelessWidget {
 
 class SettingsContainer extends StatelessWidget {
   const SettingsContainer({
-    Key? key,
+    super.key,
     required this.title,
     this.description,
     this.icon,
@@ -547,7 +547,7 @@ class SettingsContainer extends StatelessWidget {
     this.descriptionColor,
     this.descriptionWidget,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final String? description;
@@ -692,9 +692,9 @@ class SettingsContainer extends StatelessWidget {
 
 class SettingsHeader extends StatelessWidget {
   const SettingsHeader({
-    Key? key,
+    super.key,
     required this.title,
-  }) : super(key: key);
+  });
   final String title;
 
   @override

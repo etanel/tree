@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class _LineChart extends StatefulWidget {
-  _LineChart({
+  const _LineChart({
     required this.spots,
     required this.maxPair,
     required this.minPair,
@@ -24,8 +24,8 @@ class _LineChart extends StatefulWidget {
     this.extraLeftPaddingIfSmall = 0,
     this.colors = const [],
     this.amountBefore = 0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<List<FlSpot>> spots;
   final Pair maxPair;
@@ -300,7 +300,7 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
   //       ),
   //     );
 
-  int? touchedValue = null;
+  int? touchedValue;
 
   LineTouchData get lineTouchData => LineTouchData(
         enabled: true,
@@ -375,14 +375,12 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
               DateTime tooltipDate = currentDate.justDay(
                   dayOffset: -widget.maxPair.x.toInt() + lineBarSpot.x.toInt());
               return LineTooltipItem(
-                getWordedDateShort(
+                "${getWordedDateShort(
                       tooltipDate,
                       includeYear: DateTime.now().year != tooltipDate.year,
-                    ) +
-                    "\n" +
-                    convertToMoney(
+                    )}\n${convertToMoney(
                         Provider.of<AllWallets>(context, listen: false),
-                        lineBarSpot.y),
+                        lineBarSpot.y)}",
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -455,7 +453,7 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
 
   LineChartBarData lineChartBarData(List<FlSpot> spots, int index) {
     return LineChartBarData(
-      color: widget.colors.length > 0
+      color: widget.colors.isNotEmpty
           ? lightenPastel(widget.colors[index], amount: 0.3)
           : lightenPastel(widget.color, amount: 0.3),
       barWidth: 3,
@@ -535,7 +533,9 @@ class Pair {
 
   static Map<DateTime?, double> convertListToDateTimeMap(List<Pair> pairs) {
     Map<DateTime?, double> resultMap = {};
-    for (Pair pair in pairs) resultMap[pair.dateTime] = pair.y;
+    for (Pair pair in pairs) {
+      resultMap[pair.dateTime] = pair.y;
+    }
     return resultMap;
   }
 }
@@ -553,8 +553,8 @@ class LineChartWrapper extends StatelessWidget {
     this.keepHorizontalLineInView = false,
     this.extraLeftPaddingIfSmall = 0,
     this.amountBefore = 0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<List<Pair>> points;
   final bool isCurved;
@@ -585,7 +585,7 @@ class LineChartWrapper extends StatelessWidget {
           pointsOut.add(Pair(point.x, point.y));
         }
       }
-      if (pointsOut.length <= 0) {
+      if (pointsOut.isEmpty) {
         return [Pair(0, 0)];
       }
       pointsOut.last.x != points.last.x
@@ -603,7 +603,7 @@ class LineChartWrapper extends StatelessWidget {
         }
         previousTotal = point.y;
       }
-      if (pointsOut.length <= 0) {
+      if (pointsOut.isEmpty) {
         return [Pair(0, 0)];
       }
       pointsOut.last.x != points.last.x
@@ -660,7 +660,7 @@ class LineChartWrapper extends StatelessWidget {
       min.y = pointsList[0][0].y;
     }
     for (List<Pair> points in pointsList) {
-      if (points.length <= 0 && min.x == 0 && min.y == 0) {
+      if (points.isEmpty && min.x == 0 && min.y == 0) {
         min = Pair(0, 0);
       }
       for (Pair pair in points) {

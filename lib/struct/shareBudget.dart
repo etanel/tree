@@ -70,7 +70,7 @@ Future<bool> shareBudget(Budget? budgetToShare, context) async {
 Future<bool> removedSharedFromBudget(Budget sharedBudget,
     {bool removeFromServer = true}) async {
   if (appStateSettings["sharedBudgets"] == false) return false;
-  if (removeFromServer)
+  if (removeFromServer) {
     try {
       FirebaseFirestore? db = await firebaseGetDBInstance();
       if (db == null) {
@@ -98,6 +98,7 @@ Future<bool> removedSharedFromBudget(Budget sharedBudget,
     } catch (e) {
       print(e.toString());
     }
+  }
 
   List<Transaction> transactionsFromBudget = await database
       .getAllTransactionsBelongingToSharedBudget(sharedBudget.budgetPk);
@@ -238,7 +239,7 @@ Future<bool> compareSharedToCurrentBudgets(
                 : Icons.remove_circle_outline_rounded,
             title: budget.name,
             description: "Is no longer shared with you"));
-        print("You have lost permission to this budget: " + budget.name);
+        print("You have lost permission to this budget: ${budget.name}");
         removedSharedFromBudget(budget);
       }
     }
@@ -255,7 +256,7 @@ Future<bool> compareSharedToCurrentBudgets(
       Map<dynamic, dynamic> budgetDecoded = budgetCloud.data() as Map;
       openSnackbar(SnackbarMessage(
         title: budgetCloud["name"] + " was shared with you",
-        description: "From " + getMemberNickname(budgetDecoded["ownerEmail"]),
+        description: "From ${getMemberNickname(budgetDecoded["ownerEmail"])}",
         icon: appStateSettings["outlinedIcons"]
             ? Icons.share_outlined
             : Icons.share_rounded,
@@ -307,23 +308,17 @@ Future<bool> getCloudBudgets() async {
       await downloadTransactionsFromBudgets(db, snapshotOwned.docs);
   int amountSynced =
       snapshotBudgetMembersOf.docs.length + snapshotOwned.docs.length;
-  if (amountSynced > 0 && totalTransactionsUpdated > 0)
+  if (amountSynced > 0 && totalTransactionsUpdated > 0) {
     openSnackbar(
       SnackbarMessage(
         icon: appStateSettings["outlinedIcons"]
             ? Icons.cloud_sync_outlined
             : Icons.cloud_sync_rounded,
-        title: "synced".tr() +
-            " " +
-            totalTransactionsUpdated.toString() +
-            " " +
-            pluralString(totalTransactionsUpdated == 1, "change"),
-        description: "From " +
-            amountSynced.toString() +
-            " shared " +
-            pluralString(amountSynced == 1, "budget"),
+        title: "${"synced".tr()} $totalTransactionsUpdated ${pluralString(totalTransactionsUpdated == 1, "change")}",
+        description: "From $amountSynced shared ${pluralString(amountSynced == 1, "budget")}",
       ),
     );
+  }
   // else if (amountSynced > 0 && totalTransactionsUpdated == 0) {
   //   openSnackbar(SnackbarMessage(
   //     title: "No updates",
@@ -447,19 +442,21 @@ Future<int> downloadTransactionsFromBudgets(
             sharedReferenceBudgetPk: sharedBudget.budgetPk,
           ),
         );
-        if (transactionDecoded["ownerEmail"] != null)
+        if (transactionDecoded["ownerEmail"] != null) {
           allMembersEver.add(transactionDecoded["ownerEmail"]);
+        }
         if (transactionDecoded["name"] != null &&
-            transactionDecoded["name"] != "")
+            transactionDecoded["name"] != "") {
           await addAssociatedTitles(
               transactionDecoded["name"], selectedCategory);
+        }
       } else if (transaction["logType"] == "delete") {
         print("DELETING");
         try {
           await database.deleteFromSharedTransaction(
               transactionDecoded["deleteSharedKey"]);
         } catch (e) {
-          print("This shared transaction already deleted" + e.toString());
+          print("This shared transaction already deleted$e");
         }
       }
 
@@ -474,7 +471,7 @@ Future<int> downloadTransactionsFromBudgets(
         sharedDateUpdated: Value(DateTime.now()),
         sharedAllMembersEver: Value(allMembersEver.toList())));
 
-    print("DOWNLOADED FROM THIS BUDGET " + budget.data().toString());
+    print("DOWNLOADED FROM THIS BUDGET ${budget.data()}");
   }
 
   return totalUpdated;
@@ -482,7 +479,7 @@ Future<int> downloadTransactionsFromBudgets(
 
 Future<bool> sendTransactionSet(Transaction transaction, Budget budget) async {
   if (appStateSettings["sharedBudgets"] == false) return false;
-  print("SETTING UP TRANSACTION TO BE SET: " + transaction.toString());
+  print("SETTING UP TRANSACTION TO BE SET: $transaction");
   FirebaseFirestore? db = await firebaseGetDBInstance();
   if (db == null) {
     Map<dynamic, dynamic> currentSendTransactionsToServerQueue =
@@ -532,7 +529,7 @@ Future<bool> setOnServer(
     sharedDateUpdated: Value(DateTime.now()),
     sharedOldKey: Value(transaction.sharedKey),
   );
-  print("Transaction updated on server: " + transaction.toString());
+  print("Transaction updated on server: $transaction");
   await database.createOrUpdateTransaction(transaction,
       updateSharedEntry: false);
   return true;

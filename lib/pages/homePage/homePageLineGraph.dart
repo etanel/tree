@@ -286,7 +286,7 @@ class CalculatePointsParams {
     required this.customEndDate,
     required this.totalSpentBefore,
     required this.isIncome,
-    this.removeBalanceCorrection = null,
+    this.removeBalanceCorrection,
     required this.allWallets,
     required this.showCumulativeSpending,
     required this.appStateSettingsPassed,
@@ -307,8 +307,9 @@ List<Pair> calculatePoints(CalculatePointsParams p) {
     // Remove balance correction transactions if not showing all transactions
     if (p.isIncome != null && transaction.categoryFk == "0") continue;
 
-    if (p.removeBalanceCorrection == true && transaction.categoryFk == "0")
+    if (p.removeBalanceCorrection == true && transaction.categoryFk == "0") {
       continue;
+    }
 
     if (p.isPaidOnly && transaction.paid == false) continue;
 
@@ -375,11 +376,13 @@ List<Pair> calculatePoints(CalculatePointsParams p) {
             !date.isAfter(customEndDateStatic))
         .toList();
 
-    if (!filteredDates.contains(customStartDateStatic))
+    if (!filteredDates.contains(customStartDateStatic)) {
       filteredDates.add(customStartDateStatic);
+    }
 
-    if (!filteredDates.contains(customEndDateStatic))
+    if (!filteredDates.contains(customEndDateStatic)) {
       filteredDates.insert(0, customEndDateStatic);
+    }
 
     // We assume the transactions are passed in in order!
 
@@ -390,7 +393,9 @@ List<Pair> calculatePoints(CalculatePointsParams p) {
       cumulativeTotal += totalForDay;
       if (indexDay != customStartDateStatic &&
           indexDay != customEndDateStatic &&
-          index % resolution >= 1) continue;
+          index % resolution >= 1) {
+        continue;
+      }
       points.add(
         Pair(
           index.toDouble(),

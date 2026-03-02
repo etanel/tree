@@ -91,8 +91,9 @@ class OutlinedButtonStacked extends StatelessWidget {
                                           ),
                                         ),
                                       );
-                                      if (customIconBuilder != null)
+                                      if (customIconBuilder != null) {
                                         return customIconBuilder!(icon);
+                                      }
                                       return icon;
                                     }),
                                   if (text != null)
@@ -198,7 +199,7 @@ class HeaderWithIconAndInfo extends StatelessWidget {
   final EdgeInsetsDirectional padding;
   final Widget? extraWidget;
 
-  HeaderWithIconAndInfo({
+  const HeaderWithIconAndInfo({super.key, 
     required this.iconData,
     this.iconScale = 1,
     required this.text,

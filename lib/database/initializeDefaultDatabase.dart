@@ -9,11 +9,11 @@ import 'package:tree/struct/defaultCategories.dart';
 Future<bool> initializeDefaultDatabase() async {
   //Initialize default categories, but not after a backup load
   if (isDatabaseImportedOnThisSession != true &&
-      (await database.getAllCategories()).length <= 0) {
+      (await database.getAllCategories()).isEmpty) {
     await createDefaultCategories();
   }
 
-  if ((await database.getAllWallets()).length <= 0) {
+  if ((await database.getAllWallets()).isEmpty) {
     await database.createOrUpdateWallet(
       defaultWallet(),
       customDateTimeModified: DateTime(0),
@@ -29,7 +29,7 @@ Future<bool> createDefaultCategories() async {
       await database.getCategory(category.categoryPk).$2;
     } catch (e) {
       print(
-          e.toString() + " default category does not already exist, creating");
+          "$e default category does not already exist, creating");
       await database.createOrUpdateCategory(category,
           customDateTimeModified: DateTime(0));
     }

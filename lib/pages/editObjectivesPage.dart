@@ -33,10 +33,10 @@ import 'package:provider/provider.dart';
 import 'package:tree/pages/addButton.dart';
 
 class EditObjectivesPage extends StatefulWidget {
-  EditObjectivesPage({
+  const EditObjectivesPage({
     required this.objectiveType,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final ObjectiveType objectiveType;
 
   @override
@@ -168,7 +168,7 @@ class _EditObjectivesPageState extends State<EditObjectivesPage> {
               searchFor: searchValue == "" ? null : searchValue,
             ),
             builder: (context, snapshot) {
-              if (snapshot.hasData && (snapshot.data ?? []).length <= 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isEmpty) {
                 return SliverToBoxAdapter(
                   child: NoResults(
                     message: widget.objectiveType == ObjectiveType.loan
@@ -177,7 +177,7 @@ class _EditObjectivesPageState extends State<EditObjectivesPage> {
                   ),
                 );
               }
-              if (snapshot.hasData && (snapshot.data ?? []).length > 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isNotEmpty) {
                 return SliverReorderableList(
                   onReorderStart: (index) {
                     HapticFeedback.heavyImpact();
@@ -303,10 +303,8 @@ class _EditObjectivesPageState extends State<EditObjectivesPage> {
                                     return TextFont(
                                       textAlign: TextAlign.start,
                                       text: getIsDifferenceOnlyLoan(objective)
-                                          ? (amountSpentLabel +
-                                              " " +
-                                              differenceOnlyLoanLabel
-                                                  .toLowerCase())
+                                          ? ("$amountSpentLabel ${differenceOnlyLoanLabel
+                                                  .toLowerCase()}")
                                           : (amountSpentLabel +
                                               amountRemainingLabel),
                                       fontSize: 14,
@@ -372,15 +370,15 @@ class _EditObjectivesPageState extends State<EditObjectivesPage> {
                     );
                   },
                   itemCount: snapshot.data!.length,
-                  onReorder: (_intPrevious, _intNew) async {
-                    Objective oldObjective = snapshot.data![_intPrevious];
-                    if (_intNew > _intPrevious) {
+                  onReorder: (intPrevious, intNew) async {
+                    Objective oldObjective = snapshot.data![intPrevious];
+                    if (intNew > intPrevious) {
                       await database.moveObjective(oldObjective.objectivePk,
-                          _intNew - 1, oldObjective.order,
+                          intNew - 1, oldObjective.order,
                           objectiveType: widget.objectiveType);
                     } else {
                       await database.moveObjective(
-                          oldObjective.objectivePk, _intNew, oldObjective.order,
+                          oldObjective.objectivePk, intNew, oldObjective.order,
                           objectiveType: widget.objectiveType);
                     }
                     return true;
@@ -486,7 +484,7 @@ Future<dynamic> selectObjectivePopup(
             stream: database.watchAllObjectives(objectiveType: objectiveType),
             builder: (context, snapshot) {
               if (snapshot.hasData &&
-                  (snapshot.data != null && snapshot.data!.length > 0)) {
+                  (snapshot.data != null && snapshot.data!.isNotEmpty)) {
                 List<Objective> addableObjectives = snapshot.data!;
                 return RadioItems(
                   ifNullSelectNone: true,
@@ -523,23 +521,22 @@ Future<dynamic> selectObjectivePopup(
                         (includeAmount &&
                                 objective != null &&
                                 objectiveType != ObjectiveType.loan
-                            ? (" (" +
-                                convertToMoney(
+                            ? (" (${convertToMoney(
                                   Provider.of<AllWallets>(context),
                                   objectiveAmountToPrimaryCurrency(
                                           Provider.of<AllWallets>(context),
                                           objective) *
                                       ((objective.income) ? 1 : -1),
-                                ) +
-                                ")")
+                                )})")
                             : "");
                   },
                   initial: selectedObjective,
                   onChanged: (Objective? objective) async {
-                    if (objective == null)
+                    if (objective == null) {
                       popRoute(context, "none");
-                    else
+                    } else {
                       popRoute(context, objective);
+                    }
                   },
                 );
               } else {

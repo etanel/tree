@@ -366,7 +366,7 @@ class TransactionEntry extends StatelessWidget {
                           vertical: 2, horizontal: 4),
                       child: TextFont(
                         textColor: Theme.of(context).colorScheme.onSecondary,
-                        text: " ×" + numberRepeats.toString() + " ",
+                        text: " ×$numberRepeats ",
                         fontSize: 10,
                       ),
                     );
@@ -561,7 +561,7 @@ class TransactionEntry extends StatelessWidget {
               ),
             );
 
-      if (aboveWidget != null)
+      if (aboveWidget != null) {
         return Column(
           children: [
             Padding(
@@ -573,8 +573,9 @@ class TransactionEntry extends StatelessWidget {
             finalTransactionContainer,
           ],
         );
-      else
+      } else {
         return finalTransactionContainer;
+      }
     }
 
     return Padding(
@@ -654,9 +655,7 @@ class TransactionEntry extends StatelessWidget {
                           isTransactionAfterSelected ? 0 : borderRadius,
                         ),
                       ),
-                      closedColor: containerColor == null
-                          ? Theme.of(context).colorScheme.background
-                          : containerColor,
+                      closedColor: containerColor ?? Theme.of(context).colorScheme.background,
                       button: (openContainer) {
                         return FlashingContainer(
                           loopCount: loopCount,
@@ -820,7 +819,7 @@ class FlashingContainer extends StatefulWidget {
   final Color backgroundColor;
   final int loopCount; // Add this property
 
-  const FlashingContainer({
+  const FlashingContainer({super.key, 
     required this.child,
     this.flashDuration = const Duration(milliseconds: 500),
     this.isAnimating = true,
@@ -908,7 +907,7 @@ class TransactionSelectionCheck extends StatelessWidget {
   final Function(Transaction transaction, bool selected, bool isSwiping)
       selectTransaction;
 
-  const TransactionSelectionCheck({
+  const TransactionSelectionCheck({super.key, 
     required this.selected,
     required this.areTransactionsBeingSelected,
     this.listID,

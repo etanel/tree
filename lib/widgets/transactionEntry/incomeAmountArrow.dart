@@ -28,7 +28,7 @@ class IncomeOutcomeArrow extends StatelessWidget {
       duration: Duration(milliseconds: 1700),
       curve: ElasticOutCurve(0.5),
       turns: isIncome ? 0.5 : 0,
-      child: Container(
+      child: SizedBox(
         width: width,
         height: height,
         child: UnconstrainedBox(
@@ -38,11 +38,9 @@ class IncomeOutcomeArrow extends StatelessWidget {
             appStateSettings["outlinedIcons"]
                 ? Icons.arrow_drop_down_outlined
                 : Icons.arrow_drop_down_rounded,
-            color: color == null
-                ? (isIncome
+            color: color ?? (isIncome
                     ? getColor(context, "incomeAmount")
-                    : getColor(context, "expenseAmount"))
-                : color,
+                    : getColor(context, "expenseAmount")),
             size: iconSize,
           ),
         ),
@@ -107,8 +105,9 @@ class AmountWithColorAndArrow extends StatelessWidget {
             : totalSpent;
 
     Widget textBuilder(double number) {
-      if (customTextBuilder != null)
+      if (customTextBuilder != null) {
         return customTextBuilder!(number, finalColor);
+      }
       return TextFont(
         text: convertToMoney(
           Provider.of<AllWallets>(context),

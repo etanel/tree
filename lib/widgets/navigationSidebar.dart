@@ -106,7 +106,7 @@ class NavigationSidebarState extends State<NavigationSidebar> {
         width: getWidthNavigationSidebar(context),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             border: BorderDirectional(
               end: BorderSide(
                 color: appStateSettings["materialYou"]
@@ -363,7 +363,7 @@ class SidebarClock extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               // Remove any am/pm indication by substring
                               // Add extra spaces so substring never fails
-                              text: (getWordedTime(null, now) + "      ")
+                              text: ("${getWordedTime(null, now)}      ")
                                   .substring(0, 5)
                                   .trim(),
                               maxLines: 1,
@@ -522,11 +522,9 @@ class _SyncButtonState extends State<SyncButton> {
                                       : getColor(context, "textLight"),
                                   fontSize: 13,
                                   maxLines: 3,
-                                  text: "synced".tr() +
-                                      " " +
-                                      (dateTimeLastSynced == null
+                                  text: "${"synced".tr()} ${dateTimeLastSynced == null
                                           ? "never".tr()
-                                          : getTimeAgo(dateTimeLastSynced)),
+                                          : getTimeAgo(dateTimeLastSynced)}",
                                 );
                               },
                             ),
@@ -552,7 +550,7 @@ class _SyncButtonState extends State<SyncButton> {
 }
 
 DateTime? getTimeLastSynced() {
-  DateTime? timeLastSynced = null;
+  DateTime? timeLastSynced;
   try {
     if (appStateSettings["lastSynced"] == null) throw ("lastSynced is null!");
     timeLastSynced = DateTime.tryParse(

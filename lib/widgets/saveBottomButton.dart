@@ -39,7 +39,7 @@ class SaveBottomButton extends StatelessWidget {
 }
 
 class AddGradientOnTop extends StatelessWidget {
-  const AddGradientOnTop({
+  const AddGradientOnTop({super.key, 
     required this.child,
   });
 
@@ -59,8 +59,8 @@ class AddGradientOnTop extends StatelessWidget {
               foregroundDecoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.background.withOpacity(0),
-                    Theme.of(context).colorScheme.background,
+                    Theme.of(context).colorScheme.surface.withOpacity(0),
+                    Theme.of(context).colorScheme.surface,
                   ],
                   begin: AlignmentDirectional.topCenter,
                   end: AlignmentDirectional.bottomCenter,
@@ -70,7 +70,7 @@ class AddGradientOnTop extends StatelessWidget {
             ),
           ),
           Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             child: child,
           ),
         ],
@@ -100,10 +100,11 @@ class _MinimizeKeyboardFABOverlayState extends State<MinimizeKeyboardFABOverlay>
   @override
   void didChangeMetrics() {
     bool status = getIsKeyboardOpen(context);
-    if (status != isKeyboardOpen)
+    if (status != isKeyboardOpen) {
       setState(() {
         isKeyboardOpen = status;
       });
+    }
   }
 
   @override
@@ -181,7 +182,7 @@ class _KeyboardHeightAreaAnimatedState extends State<KeyboardHeightAreaAnimated>
     return AnimatedContainer(
       duration: Duration(milliseconds: 400),
       curve: Curves.easeInOutCubic,
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       height: isKeyboardOpen ? getKeyboardHeight(context) : 0,
       child: Container(color: Colors.red),
     );

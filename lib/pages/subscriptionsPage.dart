@@ -29,7 +29,7 @@ import 'package:tree/functions.dart';
 import 'package:tree/struct/settings.dart';
 
 class SubscriptionsPage extends StatefulWidget {
-  const SubscriptionsPage({Key? key}) : super(key: key);
+  const SubscriptionsPage({super.key});
 
   @override
   State<SubscriptionsPage> createState() => SubscriptionsPageState();
@@ -56,7 +56,7 @@ class SubscriptionsPageState extends State<SubscriptionsPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value[pageId] ?? []).length > 0) {
+        if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -125,7 +125,7 @@ class SubscriptionsPageState extends State<SubscriptionsPage> {
             stream: database.getAllSubscriptions().$1,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.length <= 0) {
+                if (snapshot.data!.isEmpty) {
                   return SliverToBoxAdapter(
                       child: NoResults(
                           padding: const EdgeInsetsDirectional.only(
@@ -185,11 +185,11 @@ class SubscriptionsPageState extends State<SubscriptionsPage> {
 
 class UpcomingTransactionDateHeader extends StatelessWidget {
   const UpcomingTransactionDateHeader({
-    Key? key,
+    super.key,
     required this.transaction,
     required this.selectedType,
     this.useHorizontalPaddingConstrained = true,
-  }) : super(key: key);
+  });
 
   final Transaction transaction;
   final SelectedSubscriptionsType? selectedType;
@@ -221,15 +221,11 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                           textColor: daysDifference > 0
                               ? getColor(context, "unPaidOverdue")
                               : getColor(context, "textLight"),
-                          text: " • " +
-                              daysDifference.abs().toString() +
-                              " " +
-                              (daysDifference.abs() == 1
+                          text: " • ${daysDifference.abs()} ${daysDifference.abs() == 1
                                   ? "day".tr()
-                                  : "days".tr()) +
-                              (daysDifference > 0
+                                  : "days".tr()}${daysDifference > 0
                                   ? " " + "overdue".tr().toLowerCase()
-                                  : ""),
+                                  : ""}",
                           fontWeight: FontWeight.bold,
                         ),
                       )
@@ -256,9 +252,7 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                       ),
                       SizedBox(width: 3),
                       TextFont(
-                        text: transaction.periodLength.toString() +
-                            " " +
-                            (transaction.periodLength == 1
+                        text: "${transaction.periodLength} ${transaction.periodLength == 1
                                 ? nameRecurrence[transaction.reoccurrence]
                                     .toString()
                                     .toLowerCase()
@@ -268,7 +262,7 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                                     .toString()
                                     .toLowerCase()
                                     .tr()
-                                    .toLowerCase()),
+                                    .toLowerCase()}",
                         fontSize: 14,
                         textColor: dynamicPastel(
                             context, Theme.of(context).colorScheme.primary,
@@ -284,16 +278,14 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                             )
                           : TextFont(
                               key: ValueKey(selectedType.toString()),
-                              text: convertToMoney(
+                              text: "${convertToMoney(
                                     Provider.of<AllWallets>(context),
                                     getTotalSubscriptions(
                                         Provider.of<AllWallets>(context),
                                         selectedType ??
                                             SelectedSubscriptionsType.monthly,
                                         [transaction]),
-                                  ) +
-                                  " / " +
-                                  (selectedType ==
+                                  )} / ${(selectedType ==
                                               SelectedSubscriptionsType.monthly
                                           ? "month".tr()
                                           : selectedType ==
@@ -301,7 +293,7 @@ class UpcomingTransactionDateHeader extends StatelessWidget {
                                                       .yearly
                                               ? "year".tr()
                                               : "")
-                                      .toLowerCase(),
+                                      .toLowerCase()}",
                               fontSize: 14,
                               textColor: dynamicPastel(context,
                                   Theme.of(context).colorScheme.primary,

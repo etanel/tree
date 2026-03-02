@@ -144,7 +144,7 @@ class PageNavigationFrameworkSafeArea extends StatelessWidget {
       children: [
         hasRightSafeArea || hasLeftSafeArea
             ? Container(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
               )
             : SizedBox.shrink(),
         hasRightSafeArea || hasLeftSafeArea
@@ -172,7 +172,7 @@ class PageNavigationFrameworkSafeArea extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Container(
                   width: rightPaddingSafeArea,
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               )
             : SizedBox.shrink(),
@@ -181,7 +181,7 @@ class PageNavigationFrameworkSafeArea extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                   width: leftPaddingSafeArea,
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               )
             : SizedBox.shrink(),
@@ -258,8 +258,7 @@ class HandleWillPopScope extends StatelessWidget {
 
 class PageNavigationFramework extends StatefulWidget {
   const PageNavigationFramework(
-      {Key? key, required this.widthSideNavigationBar})
-      : super(key: key);
+      {super.key, required this.widthSideNavigationBar});
   final double widthSideNavigationBar;
 
   //PageNavigationFramework.changePage(context, 0);
@@ -327,7 +326,7 @@ Future<bool> runAllCloudFunctions(BuildContext context,
     loadingIndeterminateKey.currentState?.setVisibility(true);
     await getExchangeRates();
   } catch (e) {
-    print("Error running sync functions on load: " + e.toString());
+    print("Error running sync functions on load: $e");
     loadingIndeterminateKey.currentState?.setVisibility(false);
     runningCloudFunctions = false;
     canSyncData = true;
@@ -495,13 +494,13 @@ class PageNavigationFrameworkState extends State<PageNavigationFramework> {
       Scaffold(
         resizeToAvoidBottomInset: false,
         body: FadeIndexedStack(
-          children: [...pages, ...pagesExtended],
           index: currentPage,
           duration: !kIsWeb
               ? Duration.zero
               : appStateSettings["batterySaver"]
                   ? Duration.zero
                   : Duration(milliseconds: 300),
+          children: [...pages, ...pagesExtended],
         ),
         extendBody: false,
         bottomNavigationBar: BottomNavBar(
@@ -537,7 +536,7 @@ class PageNavigationFrameworkState extends State<PageNavigationFramework> {
 class AddMoreThingsPopup extends StatelessWidget {
   const AddMoreThingsPopup({super.key});
 
-  createTransactionFromCommon({
+  Future<void> createTransactionFromCommon({
     required BuildContext context,
     required TransactionWithCount transactionWithCount,
     required Map<String, TransactionCategory> categoriesIndexed,
@@ -649,7 +648,7 @@ class AddMoreThingsPopup extends StatelessWidget {
               builder: (context, snapshot) {
                 List<TransactionWithCount> commonTransactions =
                     snapshot.data ?? [];
-                if (commonTransactions.length <= 0) {
+                if (commonTransactions.isEmpty) {
                   return AddThing(
                     iconData: navBarIconsData["transactions"]!.iconData,
                     title: "transaction".tr(),
@@ -740,22 +739,18 @@ class AddMoreThingsPopup extends StatelessWidget {
                       //               transactionWithCount.transaction.walletFk]
                       //           ?.currency,
                       //     )
-                      return getTransactionLabelSync(
+                      return "${getTransactionLabelSync(
                             transactionWithCount.transaction,
                             categoriesIndexed[
                                 transactionWithCount.transaction.categoryFk],
-                          ) +
-                          " " +
-                          "(" +
-                          convertToMoney(
+                          )} (${convertToMoney(
                             Provider.of<AllWallets>(context),
                             transactionWithCount.transaction.amount,
                             currencyKey: Provider.of<AllWallets>(context)
                                 .indexedByPk[
                                     transactionWithCount.transaction.walletFk]
                                 ?.currency,
-                          ) +
-                          ")";
+                          )})";
                     },
                     getCustomBorderColor:
                         (TransactionWithCount transactionWithCount) {
@@ -991,8 +986,9 @@ class AnimateFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (appStateSettings["appAnimations"] != AppAnimations.all.index)
+    if (appStateSettings["appAnimations"] != AppAnimations.all.index) {
       return condition ? fab : SizedBox.shrink();
+    }
     // return AnimatedOpacity(
     //   duration: Duration(milliseconds: 400),
     //   opacity: condition ? 1 : 0,
@@ -1011,13 +1007,13 @@ class AnimateFAB extends StatelessWidget {
       transitionBuilder: (Widget child, Animation<double> animation) {
         return FadeScaleTransitionButton(
           animation: animation,
-          child: child,
           alignment: Alignment(0.7, 0.7),
+          child: child,
         );
       },
       child: condition
           ? fab
-          : Container(
+          : SizedBox(
               key: ValueKey(1),
               width: 50,
               height: 50,
@@ -1028,11 +1024,11 @@ class AnimateFAB extends StatelessWidget {
 
 class FadeScaleTransitionButton extends StatelessWidget {
   const FadeScaleTransitionButton({
-    Key? key,
+    super.key,
     required this.animation,
     required this.alignment,
     this.child,
-  }) : super(key: key);
+  });
 
   final Animation<double> animation;
   final Widget? child;
@@ -1067,8 +1063,8 @@ class FadeScaleTransitionButton extends StatelessWidget {
           opacity: _fadeInTransition.animate(animation),
           child: ScaleTransition(
             scale: _scaleInTransition.animate(animation),
-            child: child,
             alignment: alignment,
+            child: child,
           ),
         );
       },
@@ -1081,8 +1077,8 @@ class FadeScaleTransitionButton extends StatelessWidget {
           opacity: _fadeOutTransition.animate(animation),
           child: ScaleTransition(
             scale: _scaleOutTransition.animate(animation),
-            child: child,
             alignment: alignment,
+            child: child,
           ),
         );
       },

@@ -843,6 +843,7 @@ class PreviewDemoWarning extends StatelessWidget {
               onTap: () async {
                 deletePreviewData(resetOnboard: true);
               },
+              color: Theme.of(context).colorScheme.error,
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(
                     horizontal: 20, vertical: 10),
@@ -853,7 +854,6 @@ class PreviewDemoWarning extends StatelessWidget {
                   maxLines: 10,
                 ),
               ),
-              color: Theme.of(context).colorScheme.error,
             ),
           )
         : SizedBox.shrink();

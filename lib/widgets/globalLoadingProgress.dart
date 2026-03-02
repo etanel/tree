@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class GlobalLoadingProgress extends StatefulWidget {
   const GlobalLoadingProgress({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<GlobalLoadingProgress> createState() => GlobalLoadingProgressState();
@@ -71,8 +71,8 @@ class GlobalLoadingProgressState extends State<GlobalLoadingProgress> {
 
 class GlobalLoadingIndeterminate extends StatefulWidget {
   const GlobalLoadingIndeterminate({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<GlobalLoadingIndeterminate> createState() =>

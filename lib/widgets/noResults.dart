@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 class NoResults extends StatelessWidget {
   const NoResults({
-    Key? key,
+    super.key,
     required this.message,
     this.tintColor,
     this.padding,
     this.noSearchResultsVariation = false,
-  }) : super(key: key);
+  });
   final String message;
   final Color? tintColor;
   final EdgeInsetsDirectional? padding;

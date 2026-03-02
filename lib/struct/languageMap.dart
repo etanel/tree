@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 String globalAppName = "Tree";
 
 Map<String, dynamic> languageNamesJSON = {};
-loadLanguageNamesJSON() async {
+Future<void> loadLanguageNamesJSON() async {
   languageNamesJSON = await json
       .decode(await rootBundle.loadString('assets/static/language-names.json'));
 }
@@ -23,7 +23,7 @@ class RootBundleAssetLoaderCustomLocaleLoader extends RootBundleAssetLoader {
 
   @override
   String getLocalePath(String basePath, Locale locale) {
-    print("Initial Locale: " + locale.toString());
+    print("Initial Locale: $locale");
     print("App Settings Locale: " + appStateSettings["locale"]);
     if (supportedLocales["zh_Hant"] == locale ||
         appStateSettings["locale"] == "zh_Hant") {
@@ -37,7 +37,7 @@ class RootBundleAssetLoaderCustomLocaleLoader extends RootBundleAssetLoader {
       locale = Locale(locale.languageCode);
     }
 
-    print("Set Locale: " + locale.toString());
+    print("Set Locale: $locale");
 
     return '$basePath/${locale.toStringWithSeparator(separator: "-")}.json';
   }

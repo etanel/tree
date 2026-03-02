@@ -87,11 +87,7 @@ class PremiumPage extends StatelessWidget {
                                   CashewProBanner(large: true),
                                   SizedBox(height: 4),
                                   TextFont(
-                                    text: "budget-like-a-pro".tr() +
-                                        " " +
-                                        globalAppName +
-                                        " " +
-                                        "Pro",
+                                    text: "${"budget-like-a-pro".tr()} $globalAppName Pro",
                                     fontSize: 16,
                                     textColor: Colors.black,
                                     maxLines: 3,
@@ -279,7 +275,7 @@ class PremiumPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         richTextSpan: [
                           TextSpan(
-                            text: "in-app-subscription-terms-1".tr() + " ",
+                            text: "${"in-app-subscription-terms-1".tr()} ",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white.withOpacity(0.3),
@@ -325,10 +321,11 @@ class _FreePremiumMessageState extends State<FreePremiumMessage> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       for (int i = remainingTime; i > 0; i--) {
-        if (mounted)
+        if (mounted) {
           setState(() {
             remainingTime--;
           });
+        }
         await Future.delayed(const Duration(milliseconds: 1000));
       }
     });
@@ -356,7 +353,7 @@ class _FreePremiumMessageState extends State<FreePremiumMessage> {
             text: "developer-message-1".tr() +
                 (appStateSettings["premiumPopupFreeSeen"]
                     ? "."
-                    : " " + "developer-message-1-1".tr())),
+                    : " ${"developer-message-1-1".tr()}")),
         SizedBox(height: 10),
         TextFont(
             maxLines: 80,
@@ -390,7 +387,7 @@ class _FreePremiumMessageState extends State<FreePremiumMessage> {
                   expandedLayout: true,
                   label: "unlock-for-free".tr() +
                       (timerUp == false
-                          ? (" " + "(" + remainingTime.toString() + ")")
+                          ? (" " "(" + remainingTime.toString() + ")")
                           : ""),
                   onTap: () {
                     if (timerUp) {
@@ -476,7 +473,7 @@ class TextPill extends StatelessWidget {
   }
 }
 
-openManagePurchase() {
+void openManagePurchase() {
   if (appStateSettings["purchaseID"] == productIDs["lifetime"]) {
     return;
   } else if (getPlatform(ignoreEmulation: true) == PlatformOS.isIOS) {
@@ -488,8 +485,9 @@ openManagePurchase() {
     openUrl(
         "https://play.google.com/store/account/subscriptions?sku=cashew.pro.yearly&package=com.tree_app");
   } else {
-    if (getPlatform(ignoreEmulation: true) == PlatformOS.isAndroid)
+    if (getPlatform(ignoreEmulation: true) == PlatformOS.isAndroid) {
       openUrl("https://play.google.com/store/account/subscriptions");
+    }
   }
 }
 
@@ -585,7 +583,7 @@ void listenToPurchaseUpdated({
           purchaseDetails.status == PurchaseStatus.restored) {
         updateSettings("purchaseID", purchaseDetails.productID,
             updateGlobalState: false, pagesNeedingRefresh: [3]);
-        print("Purchased " + purchaseDetails.productID);
+        print("Purchased ${purchaseDetails.productID}");
         if (popRouteWithPurchase == true) {
           popRoute(null, true);
         }
@@ -693,7 +691,7 @@ Future restorePurchases(BuildContext context) async {
   }
 }
 
-showHelpRestorePopup(BuildContext context) {
+void showHelpRestorePopup(BuildContext context) {
   openPopup(
     context,
     icon: appStateSettings["outlinedIcons"]
@@ -737,7 +735,7 @@ Future<bool> premiumPopupPushRoute(BuildContext context) async {
 
 Future<bool> premiumPopupBudgets(BuildContext context) async {
   if (hidePremiumPopup()) return true;
-  if ((await database.getAllBudgets()).length > 0) {
+  if ((await database.getAllBudgets()).isNotEmpty) {
     if (await premiumPopupPushRoute(context) == true) {
       return true;
     } else {
@@ -752,8 +750,7 @@ Future<bool> premiumPopupBudgets(BuildContext context) async {
 Future<bool> premiumPopupObjectives(BuildContext context,
     {required ObjectiveType objectiveType}) async {
   if (hidePremiumPopup()) return true;
-  if ((await database.getAllObjectives(objectiveType: objectiveType)).length >
-      0) {
+  if ((await database.getAllObjectives(objectiveType: objectiveType)).isNotEmpty) {
     if (await premiumPopupPushRoute(context) == true) {
       return true;
     } else {
@@ -778,8 +775,7 @@ Future<bool> premiumPopupPastBudgets(BuildContext context) async {
 Future premiumPopupAddTransaction(BuildContext context) async {
   if (hidePremiumPopup()) return true;
 
-  print("Checking premium before adding transaction - " +
-      appStateSettings["premiumPopupAddTransactionCount"].toString());
+  print("Checking premium before adding transaction - ${appStateSettings["premiumPopupAddTransactionCount"]}");
 
   try {
     DateTime.parse(appStateSettings["premiumPopupAddTransactionLastShown"]);
@@ -850,10 +846,11 @@ class ProductsState extends State<Products> {
       });
     });
     Future.delayed(Duration(milliseconds: 3500), () async {
-      if (loading)
+      if (loading) {
         setState(() {
           loading = false;
         });
+      }
     });
     super.initState();
   }
@@ -1187,8 +1184,7 @@ class SubscriptionOption extends StatelessWidget {
 
 class LockedFeature extends StatelessWidget {
   const LockedFeature(
-      {required this.child, this.actionAfter, this.showLock = false, Key? key})
-      : super(key: key);
+      {required this.child, this.actionAfter, this.showLock = false, super.key});
   final Widget child;
   final Function? actionAfter;
   final bool showLock;
@@ -1196,7 +1192,7 @@ class LockedFeature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget child = IgnorePointer(child: this.child);
-    if (showLock)
+    if (showLock) {
       child = Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -1206,6 +1202,7 @@ class LockedFeature extends StatelessWidget {
               : Icons.lock_rounded),
         ],
       );
+    }
     return Tappable(
       onTap: () async {
         bool result = await premiumPopupPushRoute(context);
@@ -1242,10 +1239,11 @@ class _FadeOutAndLockFeatureState extends State<FadeOutAndLockFeature> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      if (hidePremiumPopup() == false)
+      if (hidePremiumPopup() == false) {
         setState(() {
           fadeIn = true;
         });
+      }
     });
     super.initState();
   }
@@ -1422,10 +1420,11 @@ class PremiumBanner extends StatelessWidget {
             color: Colors.transparent,
             borderRadius: borderRadius,
             onTap: () {
-              if (kIsWeb)
+              if (kIsWeb) {
                 openUrl("https://ko-fi.com/dapperappdeveloper");
-              else
+              } else {
                 openContainer();
+              }
             },
             child: ClipRRect(
               borderRadius: BorderRadiusDirectional.circular(15),
@@ -1502,11 +1501,7 @@ class PremiumBanner extends StatelessWidget {
                                         children: [
                                           Flexible(
                                             child: TextFont(
-                                              text: "budget-like-a-pro".tr() +
-                                                  " " +
-                                                  globalAppName +
-                                                  " " +
-                                                  "Pro",
+                                              text: "${"budget-like-a-pro".tr()} $globalAppName Pro",
                                               fontSize: 15,
                                               maxLines: 3,
                                               textColor: Colors.black,

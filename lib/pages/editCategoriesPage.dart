@@ -29,9 +29,9 @@ import 'package:tree/widgets/editRowEntry.dart';
 import 'package:tree/modified/reorderable_list.dart';
 
 class EditCategoriesPage extends StatefulWidget {
-  EditCategoriesPage({
-    Key? key,
-  }) : super(key: key);
+  const EditCategoriesPage({
+    super.key,
+  });
 
   @override
   _EditCategoriesPageState createState() => _EditCategoriesPageState();
@@ -169,14 +169,14 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                         )
                         .toList();
 
-                    if (snapshot.hasData && categoriesToShow.length <= 0) {
+                    if (snapshot.hasData && categoriesToShow.isEmpty) {
                       return SliverToBoxAdapter(
                         child: NoResults(
                           message: "no-categories-found".tr(),
                         ),
                       );
                     }
-                    if (snapshot.hasData && categoriesToShow.length > 0) {
+                    if (snapshot.hasData && categoriesToShow.isNotEmpty) {
                       return SliverReorderableList(
                         onReorderStart: (index) {
                           HapticFeedback.heavyImpact();
@@ -209,7 +209,7 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                                 horizontal: 10, vertical: 5),
                             key: ValueKey(category.categoryPk),
                             extraWidgetsBelow: [
-                              if (subCategories.length > 0)
+                              if (subCategories.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsetsDirectional.only(
                                       bottom: 4),
@@ -334,11 +334,8 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                                           ),
                                           TextFont(
                                             textAlign: TextAlign.start,
-                                            text: categoryDetails
-                                                    .numberTransactions
-                                                    .toString() +
-                                                " " +
-                                                (categoryDetails
+                                            text: "${categoryDetails
+                                                    .numberTransactions} ${categoryDetails
                                                             .numberTransactions ==
                                                         1
                                                     ? "transaction"
@@ -346,7 +343,7 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                                                         .toLowerCase()
                                                     : "transactions"
                                                         .tr()
-                                                        .toLowerCase()),
+                                                        .toLowerCase()}",
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")
@@ -377,18 +374,18 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                           );
                         },
                         itemCount: categoriesToShow.length,
-                        onReorder: (_intPrevious, _intNew) async {
+                        onReorder: (intPrevious, intNew) async {
                           CategoryWithDetails oldCategoryDetails =
-                              categoriesToShow[_intPrevious];
+                              categoriesToShow[intPrevious];
                           TransactionCategory oldCategory =
                               oldCategoryDetails.category;
 
-                          if (_intNew > _intPrevious) {
+                          if (intNew > intPrevious) {
                             await database.moveCategory(oldCategory.categoryPk,
-                                _intNew - 1, oldCategory.order);
+                                intNew - 1, oldCategory.order);
                           } else {
                             await database.moveCategory(oldCategory.categoryPk,
-                                _intNew, oldCategory.order);
+                                intNew, oldCategory.order);
                           }
                           return true;
                         },
@@ -419,7 +416,7 @@ class RefreshButton extends StatefulWidget {
   final bool iconOnly;
   final Duration timeout;
 
-  RefreshButton({
+  const RefreshButton({
     required this.onTap,
     this.padding,
     this.visualDensity,
@@ -428,8 +425,8 @@ class RefreshButton extends StatefulWidget {
     this.halfAnimation,
     this.iconOnly = false,
     this.timeout = const Duration(seconds: 5),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   RefreshButtonState createState() => RefreshButtonState();
@@ -475,10 +472,11 @@ class RefreshButtonState extends State<RefreshButton>
       });
       await widget.onTap();
       Timer(widget.timeout, () {
-        if (mounted)
+        if (mounted) {
           setState(() {
             _isEnabled = true;
           });
+        }
       });
     }
   }
@@ -625,7 +623,7 @@ void mergeCategoryPopup(
           Future.delayed(Duration(milliseconds: 90), () async {
             final result = await openPopup(
               context,
-              title: "merge-into".tr() + " " + category.name + "?",
+              title: "${"merge-into".tr()} ${category.name}?",
               description: "merge-into-description-categories".tr(),
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.merge_outlined
@@ -654,7 +652,7 @@ void mergeCategoryPopup(
                     icon: appStateSettings["outlinedIcons"]
                         ? Icons.merge_outlined
                         : Icons.merge_rounded,
-                    description: categoryOriginal.name + " → " + category.name,
+                    description: "${categoryOriginal.name} → ${category.name}",
                   ),
                 );
               });
@@ -685,7 +683,7 @@ void mergeSubcategoryPopup(
           Future.delayed(Duration(milliseconds: 90), () async {
             final result = await openPopup(
               context,
-              title: "merge-into".tr() + " " + subcategory.name + "?",
+              title: "${"merge-into".tr()} ${subcategory.name}?",
               description: "merge-into-description-subcategories".tr(),
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.merge_outlined
@@ -715,7 +713,7 @@ void mergeSubcategoryPopup(
                         ? Icons.merge_outlined
                         : Icons.merge_rounded,
                     description:
-                        subcategoryOriginal.name + " → " + subcategory.name,
+                        "${subcategoryOriginal.name} → ${subcategory.name}",
                   ),
                 );
               });
@@ -787,7 +785,7 @@ void makeSubCategoryPopup(
           Future.delayed(Duration(milliseconds: 90), () async {
             final result = await openPopup(
               context,
-              title: "make-subcategory-of".tr() + " " + category.name + "?",
+              title: "${"make-subcategory-of".tr()} ${category.name}?",
               description: "make-subcategory-description-categories".tr(),
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.move_up_outlined
@@ -816,7 +814,7 @@ void makeSubCategoryPopup(
                     icon: appStateSettings["outlinedIcons"]
                         ? Icons.move_to_inbox_outlined
                         : Icons.move_to_inbox_rounded,
-                    description: categoryOriginal.name + " → " + category.name,
+                    description: "${categoryOriginal.name} → ${category.name}",
                   ),
                 );
               });

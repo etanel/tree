@@ -123,7 +123,7 @@ class BudgetHistoryLineGraph extends StatelessWidget {
           spots.firstOrNull?.length) {
         setNoPastRegionsAreZero(true);
       }
-      if (filteredDateRanges.length <= 0 || filteredSpotsFixedX.length <= 0) {
+      if (filteredDateRanges.isEmpty || filteredSpotsFixedX.isEmpty) {
         filteredDateRanges = dateRanges;
         filteredSpotsFixedX = spots;
       }
@@ -239,7 +239,7 @@ class _BudgetHistoryLineGraph extends StatefulWidget {
 
 class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
   bool loaded = false;
-  int? touchedValue = null;
+  int? touchedValue;
 
   @override
   void initState() {
@@ -420,8 +420,9 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
             touchCallback:
                 (FlTouchEvent event, LineTouchResponse? touchResponse) {
               if (!event.isInterestedForInteractions || touchResponse == null) {
-                if (touchedValue != null) if (widget.onTouchedIndex != null)
+                if (touchedValue != null) if (widget.onTouchedIndex != null) {
                   widget.onTouchedIndex!(null);
+                }
                 touchedValue = null;
                 return;
               }
@@ -432,7 +433,9 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                       (widget.spots.firstOrNull ?? []).length) +
                   touchResponse.lineBarSpots![0].x;
               if (touchedValue != value.toInt()) if (widget.onTouchedIndex !=
-                  null) widget.onTouchedIndex!(value.toInt());
+                  null) {
+                widget.onTouchedIndex!(value.toInt());
+              }
 
               if (event.runtimeType == FlLongPressStart) {
                 HapticFeedback.selectionClick();
@@ -451,7 +454,7 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
               return spotIndexes.map((index) {
                 return TouchedSpotIndicatorData(
                   FlLine(
-                    color: (widget.extraCategorySpots.keys.length <= 0
+                    color: (widget.extraCategorySpots.keys.isEmpty
                             ? widget.color
                             : barData.color) ??
                         Theme.of(context).colorScheme.primary,
@@ -463,14 +466,14 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                     getDotPainter: (spot, percent, barData, index) =>
                         FlDotCirclePainter(
                       radius: 3,
-                      color: (widget.extraCategorySpots.keys.length <= 0 &&
+                      color: (widget.extraCategorySpots.keys.isEmpty &&
                                   widget.lineColors == null
                               ? widget.color.withOpacity(0.9)
                               : barData.color) ??
                           Theme.of(context).colorScheme.primary,
                       strokeWidth: 2,
                       strokeColor:
-                          (widget.extraCategorySpots.keys.length <= 0 &&
+                          (widget.extraCategorySpots.keys.isEmpty &&
                                       widget.lineColors == null
                                   ? widget.color.withOpacity(0.9)
                                   : barData.color) ??
@@ -483,7 +486,7 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
             touchTooltipData: LineTouchTooltipData(
               maxContentWidth: 170,
               getTooltipColor: (_) =>
-                  widget.extraCategorySpots.keys.length <= 0 &&
+                  widget.extraCategorySpots.keys.isEmpty &&
                           (widget.lineColors == null ||
                               (widget.lineColors?.length ?? 0) <= 0)
                       ? widget.color.withOpacity(0.7)
@@ -516,8 +519,7 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                         dateRanges.length - 1 - (lineBarsSpot.first.x).round()];
                   } catch (e) {
                     print(
-                        "Error with date ranges passed in, length mismatched that of lines: " +
-                            e.toString());
+                        "Error with date ranges passed in, length mismatched that of lines: $e");
                   }
 
                   String startAndEndDateString = "";
@@ -532,13 +534,11 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                               dateRange.start.year != DateTime.now().year);
                     } else {
                       startAndEndDateString =
-                          getWordedDateShort(dateRange.start) +
-                              " – " +
-                              getWordedDateShort(dateRange.end,
+                          "${getWordedDateShort(dateRange.start)} – ${getWordedDateShort(dateRange.end,
                                   includeYear: dateRange.end.year !=
-                                      DateTime.now().year);
+                                      DateTime.now().year)}";
                     }
-                    startAndEndDateString = startAndEndDateString + "\n";
+                    startAndEndDateString = "$startAndEndDateString\n";
                   }
 
                   return LineTooltipItem(

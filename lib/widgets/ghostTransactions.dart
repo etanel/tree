@@ -6,8 +6,8 @@ import 'package:tree/struct/randomConstants.dart';
 
 class GhostTransactionsList extends StatelessWidget {
   const GhostTransactionsList({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

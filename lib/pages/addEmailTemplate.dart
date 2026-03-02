@@ -24,11 +24,11 @@ import 'package:tree/colors.dart';
 import 'package:provider/provider.dart';
 
 class AddEmailTemplate extends StatefulWidget {
-  AddEmailTemplate({
-    Key? key,
+  const AddEmailTemplate({
+    super.key,
     required this.messagesList,
     this.scannerTemplate,
-  }) : super(key: key);
+  });
   final List<String> messagesList;
   //When a transaction is passed in, we are editing that transaction
   final ScannerTemplate? scannerTemplate;
@@ -73,7 +73,7 @@ class _AddEmailTemplateState extends State<AddEmailTemplate> {
     });
   }
 
-  updateInitial() async {
+  Future<void> updateInitial() async {
     if (widget.scannerTemplate != null) {
       TransactionCategory? getSelectedCategory = await database
           .getCategoryInstance(widget.scannerTemplate!.defaultCategoryFk);
@@ -88,7 +88,7 @@ class _AddEmailTemplateState extends State<AddEmailTemplate> {
     super.dispose();
   }
 
-  determineBottomButton() {
+  bool determineBottomButton() {
     if (getTransactionAmountFromEmail(
               selectedMessageString ?? "",
               amountTransactionBefore ?? "",
@@ -99,21 +99,21 @@ class _AddEmailTemplateState extends State<AddEmailTemplate> {
       setState(() {
         canAddTemplate = false;
       });
-      return;
+      return false;
     }
     if (selectedTitle == null && selectedMessageString != null) {
       setState(() {
         canAddTemplate = false;
       });
-      return;
+      return false;
     }
 
-    if (selectedName == null) return;
-    if (selectedCategory == null) return;
-    if (amountTransactionBefore == null) return;
-    if (amountTransactionAfter == null) return;
-    if (titleTransactionBefore == null) return;
-    if (titleTransactionAfter == null) return;
+    if (selectedName == null) return false;
+    if (selectedCategory == null) return false;
+    if (amountTransactionBefore == null) return false;
+    if (amountTransactionAfter == null) return false;
+    if (titleTransactionBefore == null) return false;
+    if (titleTransactionAfter == null) return false;
 
     setState(() {
       canAddTemplate = true;
@@ -679,26 +679,18 @@ class _AddEmailTemplateState extends State<AddEmailTemplate> {
                         ),
                         SizedBox(height: 2),
                         TextFont(
-                          text: (amountTransactionBefore ?? "")
-                                  .replaceAll("\n", "") +
-                              "..." +
-                              " [Amount] " +
-                              "..." +
-                              (amountTransactionAfter ?? "")
-                                  .replaceAll("\n", ""),
+                          text: "${(amountTransactionBefore ?? "")
+                                  .replaceAll("\n", "")}... [Amount] ...${(amountTransactionAfter ?? "")
+                                  .replaceAll("\n", "")}",
                           fontSize: 16,
                           maxLines: 10,
                           textColor: Theme.of(context).colorScheme.secondary,
                         ),
                         SizedBox(height: 2),
                         TextFont(
-                          text: (titleTransactionBefore ?? "")
-                                  .replaceAll("\n", "") +
-                              "..." +
-                              " [Title] " +
-                              "..." +
-                              (titleTransactionAfter ?? "")
-                                  .replaceAll("\n", ""),
+                          text: "${(titleTransactionBefore ?? "")
+                                  .replaceAll("\n", "")}... [Title] ...${(titleTransactionAfter ?? "")
+                                  .replaceAll("\n", "")}",
                           fontSize: 16,
                           maxLines: 10,
                           textColor: Theme.of(context).colorScheme.tertiary,

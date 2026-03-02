@@ -128,8 +128,11 @@ class CustomTabBar extends AdaptiveTextSelectionToolbar {
   })  : children = null,
         super(children: const [], anchors: anchors);
 
+  @override
   final List<ContextMenuButtonItem>? buttonItems;
+  @override
   final List<Widget>? children;
+  @override
   final TextSelectionToolbarAnchors anchors;
 
   @override
@@ -202,7 +205,7 @@ Widget contextMenuBuilder(
         color: getToolbarColor(context, Theme.of(context).colorScheme),
         onTap: buttonItem.onPressed,
         child: ConstrainedBox(
-          constraints: new BoxConstraints(
+          constraints: BoxConstraints(
               minHeight:
                   const Size(kMinInteractiveDimension, kMinInteractiveDimension)
                       .height,

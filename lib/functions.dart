@@ -372,7 +372,7 @@ String getMeridiemString(DateTime dateTime) {
   return DateFormat("aa").format(dateTime).replaceAll(".", "").allCaps;
 }
 
-checkYesterdayTodayTomorrow(DateTime date) {
+Object checkYesterdayTodayTomorrow(DateTime date) {
   DateTime now = DateTime.now();
   if (date.justDay() == now.justDay()) {
     return "today".tr();
@@ -392,11 +392,14 @@ String getWordedDateShort(
   showTodayTomorrow = true,
   lowerCaseTodayTomorrow = false,
 }) {
-  if (showTodayTomorrow && checkYesterdayTodayTomorrow(date) != false) {
-    String todayTomorrowOut = checkYesterdayTodayTomorrow(date);
-    return lowerCaseTodayTomorrow
-        ? todayTomorrowOut.toLowerCase()
-        : todayTomorrowOut;
+  if (showTodayTomorrow) {
+    final result = checkYesterdayTodayTomorrow(date);
+    if (result != false) {
+      final todayTomorrowOut = result as String;
+      return lowerCaseTodayTomorrow
+          ? todayTomorrowOut.toLowerCase()
+          : todayTomorrowOut;
+    }
   }
 
   final locale = navigatorKey.currentContext?.locale.toString();
@@ -418,13 +421,15 @@ String getWordedDateShortMore(
 }) {
   final String? locale = navigatorKey.currentContext?.locale.toString();
 
-  if (showTodayTomorrow && checkYesterdayTodayTomorrow(date) != false) {
-    if (includeTimeIfToday) {
-      return checkYesterdayTodayTomorrow(date) +
-          " - " +
-          getWordedTime(locale, date);
-    } else {
-      return checkYesterdayTodayTomorrow(date);
+  if (showTodayTomorrow) {
+    final result = checkYesterdayTodayTomorrow(date);
+    if (result != false) {
+      final todayTomorrowOut = result as String;
+      if (includeTimeIfToday) {
+        return "$todayTomorrowOut - ${getWordedTime(locale, date)}";
+      } else {
+        return todayTomorrowOut;
+      }
     }
   }
   if (includeYear) {
@@ -463,7 +468,7 @@ String getTimeAgo(DateTime time) {
 }
 
 //e.g. Today/Yesterday/Tomorrow/Tuesday/ Thursday, September 15
-getWordedDate(DateTime date,
+dynamic getWordedDate(DateTime date,
     {bool includeMonthDate = false, bool includeYearIfNotCurrentYear = true}) {
   DateTime now = DateTime.now();
 
@@ -472,8 +477,10 @@ getWordedDate(DateTime date,
     extraYear = ", ${date.year}";
   }
 
-  if (checkYesterdayTodayTomorrow(date) != false) {
-    return checkYesterdayTodayTomorrow(date) +
+  final result = checkYesterdayTodayTomorrow(date);
+if (result != false) {
+    final todayTomorrowOut = result as String;
+    return todayTomorrowOut +
         (includeMonthDate
             ? ", ${DateFormat.MMMMd(navigatorKey.currentContext?.locale.toString()).format(date)}$extraYear"
             : "");
@@ -493,7 +500,7 @@ getWordedDate(DateTime date,
       extraYear;
 }
 
-setTextInput(TextEditingController inputController, String value) {
+void setTextInput(TextEditingController inputController, String value) {
   inputController.value = TextEditingValue(
     text: value,
     selection: TextSelection.fromPosition(
@@ -530,9 +537,10 @@ DateTime getDatePastToDetermineBudgetDate(int index, Budget budget,
   if (isChecking && reoccurrence == BudgetReoccurence.monthly) {
     DateTimeRange budgetRange = getBudgetDate(
         budget, getDatePastToDetermineBudgetDate(0, budget, isChecking: false));
-    if (budgetRange.end.isBefore(DateTime.now().subtract(Duration(days: 1))))
+    if (budgetRange.end.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
       return getDatePastToDetermineBudgetDate(index - 1, budget,
           isChecking: false);
+    }
   }
 
   return DateTime(year, month, day, 0, 0, 1);
@@ -738,9 +746,9 @@ String getWelcomeMessage() {
     "greetings-late-2".tr()
   ];
   if (randomInt[0] % 2 == 0) {
-    if (h24 <= 12 && h24 >= 6)
+    if (h24 <= 12 && h24 >= 6) {
       return greetingsMorning[randomInt[0] % (greetingsMorning.length)];
-    else if (h24 <= 16 && h24 >= 13)
+    } else if (h24 <= 16 && h24 >= 13)
       return greetingsAfternoon[randomInt[0] % (greetingsAfternoon.length)];
     else if (h24 <= 22 && h24 >= 19)
       return greetingsEvening[randomInt[0] % (greetingsEvening.length)];
@@ -784,7 +792,7 @@ IconData getTransactionTypeIcon(TransactionSpecialType? selectedType) {
       : Icons.event_repeat_rounded;
 }
 
-getTotalSubscriptions(AllWallets allWallets, SelectedSubscriptionsType type,
+double getTotalSubscriptions(AllWallets allWallets, SelectedSubscriptionsType type,
     List<Transaction>? subscriptions) {
   double total = 0;
   DateTime today = DateTime.now();
@@ -888,10 +896,11 @@ List<BoxShadow>? boxShadowCheck(list) {
 }
 
 String pluralString(bool condition, String string) {
-  if (condition)
+  if (condition) {
     return string;
-  else
+  } else {
     return "${string}s";
+  }
 }
 
 // String? getOSInsideWeb() {
@@ -953,25 +962,21 @@ String filterEmailTitle(string) {
 }
 
 class CustomMaterialPageRoute extends MaterialPageRoute {
+  @override
   @protected
   bool get hasScopedWillPopCallback {
     return false;
   }
 
   CustomMaterialPageRoute({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-  }) : super(
-          builder: builder,
-          settings: settings,
-          maintainState: maintainState,
-          fullscreenDialog: fullscreenDialog,
-        );
+    required super.builder,
+    super.settings,
+    super.maintainState,
+    super.fullscreenDialog,
+  });
 }
 
-popRoute<T extends Object?>(BuildContext? context, [T? result]) {
+void popRoute<T extends Object?>(BuildContext? context, [T? result]) {
   BuildContext? contextToPop = context;
   if (context == null) contextToPop = navigatorKey.currentContext;
   if (contextToPop == null) return;
@@ -996,7 +1001,7 @@ Future<bool> maybePopRoute<T extends Object?>(BuildContext? context,
   return Navigator.of(contextToPop, rootNavigator: false).maybePop(result);
 }
 
-popAllRoutes(BuildContext? context) {
+void popAllRoutes(BuildContext? context) {
   BuildContext? contextToPop = context;
   if (context == null) contextToPop = navigatorKey.currentContext;
   if (contextToPop == null) return;
@@ -1153,20 +1158,22 @@ String cleanupNoteStringWithURLs(String text) {
   String modifiedText = text;
 
   for (Match match in matches) {
-    if (match.group(0) != null)
+    if (match.group(0) != null) {
       modifiedText = modifiedText.replaceFirst(
           match.group(0)!, getDomainNameFromURL(match.group(0)!));
+    }
   }
 
   return modifiedText.trim();
 }
 
 Future<bool> openUrl(String link) async {
-  if (await canLaunchUrl(Uri.parse(link)))
+  if (await canLaunchUrl(Uri.parse(link))) {
     return await launchUrl(
       Uri.parse(link),
       mode: LaunchMode.externalApplication,
     );
+  }
   return false;
 }
 
@@ -1210,7 +1217,7 @@ void copyToClipboard(String text,
     {bool showSnackbar = true, String? customSnackbarDescription}) async {
   HapticFeedback.mediumImpact();
   await Clipboard.setData(ClipboardData(text: text));
-  if (showSnackbar)
+  if (showSnackbar) {
     openSnackbar(
       SnackbarMessage(
         title: "copied-to-clipboard".tr(),
@@ -1221,6 +1228,7 @@ void copyToClipboard(String text,
         timeout: Duration(milliseconds: 2500),
       ),
     );
+  }
 }
 
 Future shareToClipboard(String text, {required BuildContext context}) async {
@@ -1240,7 +1248,7 @@ Future<String?> readClipboard({bool showSnackbar = true}) async {
   HapticFeedback.mediumImpact();
   final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
   String? clipboardText = clipboardData?.text;
-  if (showSnackbar)
+  if (showSnackbar) {
     openSnackbar(
       SnackbarMessage(
         title: "pasted-from-clipboard".tr(),
@@ -1250,6 +1258,7 @@ Future<String?> readClipboard({bool showSnackbar = true}) async {
         timeout: Duration(milliseconds: 2500),
       ),
     );
+  }
   return clipboardText;
 }
 
@@ -1366,8 +1375,9 @@ Future<int?> getAndroidVersion() async {
 
 Future<bool> setHighRefreshRate() async {
   try {
-    if (getPlatform() == PlatformOS.isAndroid)
+    if (getPlatform() == PlatformOS.isAndroid) {
       await FlutterDisplayMode.setHighRefreshRate();
+    }
     return true;
   } catch (e) {
     print("Error setting high refresh rate: $e");

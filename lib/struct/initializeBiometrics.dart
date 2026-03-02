@@ -80,7 +80,7 @@ class _InitializeBiometricsState extends State<InitializeBiometrics> {
     });
   }
 
-  _biometricCheck() async {
+  Future<void> _biometricCheck() async {
     AuthResult result = await checkBiometrics();
     setState(() {
       authResult = result;
@@ -94,7 +94,7 @@ class _InitializeBiometricsState extends State<InitializeBiometrics> {
     }
   }
 
-  _biometricErrorPopup() {
+  void _biometricErrorPopup() {
     // Wait so that we get a context on the navigatorKey
     // Since Initialize biometrics does not have access to Material navigator in the widget tree
     // because we want to keep the app fully locked
@@ -163,9 +163,7 @@ class _InitializeBiometricsState extends State<InitializeBiometrics> {
                 padding: const EdgeInsetsDirectional.symmetric(
                     horizontal: 18, vertical: 20),
                 child: TextFont(
-                  text: "biometrics-error-description".tr() +
-                      "\n" +
-                      "please-check-your-system-settings".tr(),
+                  text: "${"biometrics-error-description".tr()}\n${"please-check-your-system-settings".tr()}",
                   textAlign: TextAlign.center,
                   maxLines: 5,
                   fontSize: 16,

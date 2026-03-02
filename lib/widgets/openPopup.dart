@@ -33,8 +33,9 @@ Future<T?> openPopup<T extends Object?>(
   VoidCallback? onExtra2,
   bool barrierDismissible = true,
 }) {
-  if ((contextPassed ?? navigatorKey.currentContext) == null)
+  if ((contextPassed ?? navigatorKey.currentContext) == null) {
     return Future.error("No context");
+  }
   BuildContext context = contextPassed ?? navigatorKey.currentContext!;
 
   minimizeKeyboard(context);
@@ -53,7 +54,7 @@ Future<T?> openPopup<T extends Object?>(
       }
       return ScaleTransition(
         scale: tween.animate(
-            new CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
+            CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
         child: FadeTransition(
           opacity: anim,
           child: child,
@@ -286,8 +287,9 @@ Future<T?> openPopup<T extends Object?>(
                   // Only use intrinsic width if the content is controlled
                   if (onExtraLabel2 != null &&
                       descriptionWidget == null &&
-                      beforeDescriptionWidget == null)
+                      beforeDescriptionWidget == null) {
                     return IntrinsicWidth(child: content);
+                  }
                   return content;
                 }),
               ),
@@ -368,7 +370,7 @@ Future<T?> openPopupCustom<T extends Object?>(
       }
       return ScaleTransition(
         scale: tween.animate(
-            new CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
+            CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
         child: FadeTransition(
           opacity: anim,
           child: child,
@@ -444,7 +446,7 @@ Future<T?> openLoadingPopup<T extends Object?>(BuildContext context) {
       }
       return ScaleTransition(
         scale: tween.animate(
-            new CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
+            CurvedAnimation(parent: anim, curve: Curves.easeInOutQuart)),
         child: FadeTransition(
           opacity: anim,
           child: child,
@@ -496,11 +498,11 @@ Future openLoadingPopupTryCatch(
     if (onSuccess != null) onSuccess(result);
     return result;
   } catch (e) {
-    print("Error caught: " + e.toString());
+    print("Error caught: $e");
     popRoute(context ?? navigatorKey.currentContext!, null);
-    if (onError != null)
+    if (onError != null) {
       onError(e);
-    else
+    } else {
       openSnackbar(
         SnackbarMessage(
           title: "an-error-occured".tr(),
@@ -510,6 +512,7 @@ Future openLoadingPopupTryCatch(
           description: e.toString(),
         ),
       );
+    }
   }
   return null;
 }

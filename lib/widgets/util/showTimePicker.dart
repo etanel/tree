@@ -100,10 +100,10 @@ class Apply24HourFormatSetting extends StatelessWidget {
       locale: Locale("en", "US"),
       delegates: [delegate],
       child: MediaQuery(
-        child: child,
         data: MediaQuery.of(context).copyWith(
           alwaysUse24HourFormat: isSetting24HourFormat(),
         ),
+        child: child,
       ),
     );
   }

@@ -35,7 +35,7 @@ class CurrencyPicker extends StatefulWidget {
 
 class _CurrencyPickerState extends State<CurrencyPicker> {
   bool viewAll = false;
-  String? selectedCurrency = null;
+  String? selectedCurrency;
   String? searchText = "";
   Map<String, dynamic> currencies = {};
   late String? initialCurrency = widget.initialCurrency;
@@ -56,8 +56,9 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
           popularCurrenciesLocal =
               popularCurrencies.sublist(0, popularCurrencies.length - 1);
           // Don't add again if selected and custom currency
-          if (currenciesJSON[widget.initialCurrency] != null)
+          if (currenciesJSON[widget.initialCurrency] != null) {
             popularCurrenciesLocal.insert(0, widget.initialCurrency!);
+          }
         }
       });
     }
@@ -112,8 +113,9 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
         popularCurrenciesLocal =
             popularCurrencies.sublist(0, popularCurrencies.length - 1);
         // Don't add again if selected and custom currency
-        if (currenciesJSON[currency] != null)
+        if (currenciesJSON[currency] != null) {
           popularCurrenciesLocal.insert(0, currency);
+        }
       });
     }
     widget.onSelected(currency);
@@ -133,8 +135,9 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
                     Expanded(
                       child: Focus(
                         onFocusChange: (hasFocus) {
-                          if (hasFocus && widget.onHasFocus != null)
+                          if (hasFocus && widget.onHasFocus != null) {
                             widget.onHasFocus!();
+                          }
                         },
                         child: TextInput(
                           labelText: "search-currencies-placeholder".tr(),
@@ -239,7 +242,7 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
                           text: "view-all-currencies".tr(),
                         ),
                       ),
-                currencies.length <= 0
+                currencies.isEmpty
                     ? Padding(
                         padding: const EdgeInsetsDirectional.only(bottom: 15),
                         child: NoResults(
@@ -247,7 +250,7 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
                         ),
                       )
                     : SizedBox.shrink(),
-                currencies.length < 9 && currencies.length > 0
+                currencies.length < 9 && currencies.isNotEmpty
                     ? SizedBox(
                         height: 180,
                       )

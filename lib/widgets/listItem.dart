@@ -2,7 +2,7 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 class ListItem extends StatelessWidget {
-  ListItem(this.text);
+  const ListItem(this.text, {super.key});
   final String text;
 
   @override

@@ -118,7 +118,6 @@ class _DateRangePickerPopupState extends State<DateRangePickerPopup> {
       builder: (BuildContext context2, Widget? child) {
         return ApplyStartOfTheWeekSetting(
           child: Theme(
-            child: child ?? Container(),
             data: Theme.of(context2).copyWith(
               // ignore: deprecated_member_use
               useMaterial3: appStateSettings["materialYou"],
@@ -142,6 +141,7 @@ class _DateRangePickerPopupState extends State<DateRangePickerPopup> {
                 ),
               ),
             ),
+            child: child ?? Container(),
           ),
         );
       },
@@ -157,8 +157,9 @@ class _DateRangePickerPopupState extends State<DateRangePickerPopup> {
     if (allTime || forceAllTime) return DateTimeRangeOrAllTime(allTime: true);
     DateTimeRange? safeRange =
         createSafeDateTimeRange(start: startDate, end: endDate);
-    if (safeRange != null)
+    if (safeRange != null) {
       return DateTimeRangeOrAllTime(allTime: false, dateTimeRange: safeRange);
+    }
     return null;
   }
 

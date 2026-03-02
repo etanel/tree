@@ -33,9 +33,10 @@ class HomePageNetWorth extends StatelessWidget {
                 appStateSettings["netWorthAllWallets"] == true) {
               List<String>? walletPks =
                   (snapshot.data ?? []).map((item) => item.walletPk).toList();
-              if (walletPks.length <= 0 ||
-                  appStateSettings["netWorthAllWallets"] == true)
+              if (walletPks.isEmpty ||
+                  appStateSettings["netWorthAllWallets"] == true) {
                 walletPks = null;
+              }
               return Padding(
                 padding: const EdgeInsetsDirectional.only(
                     bottom: 13, start: 13, end: 13),
@@ -260,7 +261,7 @@ Future openNetWorthSettings(BuildContext context) {
       title: "net-worth".tr(),
       subtitle: "applies-to-homepage".tr() +
           (getPlatform(ignoreEmulation: true) == PlatformOS.isAndroid
-              ? " " + "and-applies-to-widget".tr()
+              ? " ${"and-applies-to-widget".tr()}"
               : ""),
       child: WalletPickerPeriodCycle(
         allWalletsSettingKey: "netWorthAllWallets",

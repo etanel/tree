@@ -69,7 +69,7 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
   void initState() {
     if (widget.wrapped == false) {
       Future.delayed(Duration(milliseconds: 0), () {
-        int? scrollToIndex = null;
+        int? scrollToIndex;
         int currentIndex = 0;
         for (T item in widget.items) {
           if (widget.getSelected(item)) {
@@ -97,10 +97,11 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
         }
       });
       Future.delayed(Duration(milliseconds: 1000), () {
-        if (mounted)
+        if (mounted) {
           setState(() {
             isDoneAnimation = true;
           });
+        }
       });
     }
     super.initState();
@@ -203,7 +204,7 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
             ),
           );
         },
-      ).toList(),
+      ),
       if (widget.extraWidgetAfter != null)
         widget.extraWidgetAfter ?? SizedBox.shrink(),
     ];
@@ -221,7 +222,7 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
       padding: const EdgeInsetsDirectional.only(bottom: 8),
       child: Stack(
         children: [
-          children.length > 0
+          children.isNotEmpty
               ? IgnorePointer(
                   child: Visibility(
                     maintainSize: true,
@@ -287,6 +288,8 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
                               height: heightOfScroll,
                               child: widget.scrollablePositionedList == false
                                   ? SingleChildScrollView(
+                                      padding: scrollPadding,
+                                      scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: children,
                                         mainAxisAlignment:
@@ -294,8 +297,6 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                       ),
-                                      padding: scrollPadding,
-                                      scrollDirection: Axis.horizontal,
                                     )
                                   : ScrollablePositionedList.builder(
                                       itemCount: children.length,

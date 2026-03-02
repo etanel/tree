@@ -88,8 +88,8 @@ dynamic transactionTypeDisplayToEnum = {
 };
 
 class AddTransactionPage extends StatefulWidget {
-  AddTransactionPage({
-    Key? key,
+  const AddTransactionPage({
+    super.key,
     this.transaction,
     this.selectedBudget,
     this.selectedType,
@@ -106,7 +106,7 @@ class AddTransactionPage extends StatefulWidget {
     this.startInitialAddTransactionSequence = true,
     this.transferBalancePopup = false,
     required this.routesToPopAfterDelete,
-  }) : super(key: key);
+  });
 
   //When a transaction is passed in, we are editing that transaction
   final Transaction? transaction;
@@ -137,9 +137,9 @@ class _AddTransactionPageState extends State<AddTransactionPage>
   double? selectedAmount;
   String? selectedAmountCalculation;
   String? selectedTitle;
-  TransactionSpecialType? selectedType = null;
+  TransactionSpecialType? selectedType;
   DateTime selectedDate = DateTime.now();
-  DateTime? selectedEndDate = null;
+  DateTime? selectedEndDate;
   int selectedPeriodLength = 1;
   String selectedRecurrence = "Monthly";
   String selectedRecurrenceDisplay = "month";
@@ -170,7 +170,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
     if (picked != null) setSelectedEndDate(picked);
   }
 
-  setSelectedEndDate(DateTime? date) {
+  void setSelectedEndDate(DateTime? date) {
     if (date != selectedEndDate) {
       setState(() {
         selectedEndDate = date;
@@ -300,11 +300,12 @@ class _AddTransactionPageState extends State<AddTransactionPage>
       {bool isSharedBudget = false}) {
     setState(() {
       selectedBudgetPk =
-          selectedBudgetPassed == null ? null : selectedBudgetPassed.budgetPk;
+          selectedBudgetPassed?.budgetPk;
       selectedBudget = selectedBudgetPassed;
       selectedBudgetIsShared = isSharedBudget;
-      if (selectedBudgetPk != null && selectedPayer == null)
+      if (selectedBudgetPk != null && selectedPayer == null) {
         selectedPayer = appStateSettings["currentUserEmail"] ?? "";
+      }
       if (isSharedBudget == false || selectedBudgetPassed?.sharedKey == null) {
         selectedPayer = null;
       }
@@ -336,8 +337,9 @@ class _AddTransactionPageState extends State<AddTransactionPage>
         isAddedToLoanObjective = true;
         selectedObjectivePk = null;
         if (selectedType == TransactionSpecialType.credit ||
-            selectedType == TransactionSpecialType.debt)
+            selectedType == TransactionSpecialType.debt) {
           setSelectedType("Default");
+        }
       }
     });
     return;
@@ -467,7 +469,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
         await addAssociatedTitles(selectedTitle!, selectedCategory!);
       }
 
-      Transaction createdTransaction = await createTransaction();
+      Transaction createdTransaction = createTransaction();
 
       if (widget.transaction != null) {
         // Only ask if changes were made that will affect other balance correction
@@ -623,9 +625,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
   }
 
   Transaction createTransaction({bool removeShared = false}) {
-    bool? createdAnotherFutureTransaction = widget.transaction != null
-        ? widget.transaction!.createdAnotherFutureTransaction
-        : null;
+    bool? createdAnotherFutureTransaction = widget.transaction?.createdAnotherFutureTransaction;
     bool paid = widget.transaction != null
         ? widget.transaction!.paid
         : selectedType == null;
@@ -672,13 +672,13 @@ class _AddTransactionPageState extends State<AddTransactionPage>
           ? 1
           : selectedPeriodLength,
       methodAdded:
-          widget.transaction != null ? widget.transaction!.methodAdded : null,
+          widget.transaction?.methodAdded,
       createdAnotherFutureTransaction: createdAnotherFutureTransaction,
       sharedKey: removeShared == false && widget.transaction != null
           ? widget.transaction!.sharedKey
           : null,
       sharedOldKey:
-          widget.transaction != null ? widget.transaction!.sharedOldKey : null,
+          widget.transaction?.sharedOldKey,
       transactionOwnerEmail: selectedPayer,
       transactionOriginalOwnerEmail:
           removeShared == false && widget.transaction != null
@@ -691,12 +691,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
           ? widget.transaction!.sharedDateUpdated
           : null,
       sharedReferenceBudgetPk: selectedBudgetPk,
-      upcomingTransactionNotification: widget.transaction != null
-          ? widget.transaction!.upcomingTransactionNotification
-          : null,
-      originalDateDue: widget.transaction != null
-          ? widget.transaction!.originalDateDue
-          : null,
+      upcomingTransactionNotification: widget.transaction?.upcomingTransactionNotification,
+      originalDateDue: widget.transaction?.originalDateDue,
       objectiveFk: selectedObjectivePk,
       objectiveLoanFk: selectedObjectiveLoanPk,
       budgetFksExclude:
@@ -730,9 +726,9 @@ class _AddTransactionPageState extends State<AddTransactionPage>
       //We are editing a transaction
       //Fill in the information from the passed in transaction
       _titleInputController =
-          new TextEditingController(text: widget.transaction!.name);
+          TextEditingController(text: widget.transaction!.name);
       _noteInputController =
-          new LinkHighlighter(initialText: widget.transaction!.note);
+          LinkHighlighter(initialText: widget.transaction!.note);
       selectedTitle = widget.transaction!.name;
       selectedDate = widget.transaction!.dateCreated;
       selectedEndDate = widget.transaction!.endDate;
@@ -772,8 +768,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
         setSelectedType(transactionTypeDisplayToEnum[widget.selectedType]);
       }
 
-      _titleInputController = new TextEditingController();
-      _noteInputController = new LinkHighlighter();
+      _titleInputController = TextEditingController();
+      _noteInputController = LinkHighlighter();
 
       Future.delayed(Duration(milliseconds: 0), () async {
         if (widget.transferBalancePopup) {
@@ -830,8 +826,9 @@ class _AddTransactionPageState extends State<AddTransactionPage>
     }
     if (widget.selectedCategory != null) {
       selectedCategory = widget.selectedCategory;
-      if (widget.useCategorySelectedIncome)
+      if (widget.useCategorySelectedIncome) {
         selectedIncome = selectedCategory?.income ?? selectedIncome;
+      }
     }
     if (widget.selectedSubCategory != null) {
       selectedSubCategory = widget.selectedSubCategory;
@@ -863,7 +860,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
     setState(() {});
   }
 
-  updateInitial() async {
+  Future<void> updateInitial() async {
     if (widget.transaction != null) {
       TransactionCategory? getSelectedCategory =
           await database.getCategoryInstance(widget.transaction!.categoryFk);
@@ -947,7 +944,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
     }
   }
 
-  selectAmountPopup({VoidCallback? next, String? nextLabel}) async {
+  Future<void> selectAmountPopup({VoidCallback? next, String? nextLabel}) async {
     await openBottomSheet(
       context,
       fullSnap: true,
@@ -1356,9 +1353,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                                           fontSize: 14.5,
                                           textColor:
                                               getColor(context, "textLight"),
-                                          text: "( ×" +
-                                              numberRepeats.toString() +
-                                              " )",
+                                          text: "( ×$numberRepeats )",
                                         ),
                                       )
                                     : Container(
@@ -1678,11 +1673,10 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                       if (widget.transaction?.methodAdded != null &&
                           appStateSettings["showMethodAdded"] == true)
                         TextFont(
-                          text: "Added via: " +
-                              (widget.transaction?.methodAdded?.name
+                          text: "Added via: ${widget.transaction?.methodAdded?.name
                                       .toString()
                                       .capitalizeFirstofEach ??
-                                  ""),
+                                  ""}",
                           fontSize: 13,
                           textColor: getColor(context, "textLight"),
                           textAlign: TextAlign.center,
@@ -1707,15 +1701,11 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                       padding: const EdgeInsetsDirectional.symmetric(
                           horizontal: 10, vertical: 28),
                       child: TextFont(
-                        text: "synced".tr() +
-                            " " +
-                            getTimeAgo(
+                        text: "${"synced".tr()} ${getTimeAgo(
                               widget.transaction!.sharedDateUpdated!,
-                            ).toLowerCase() +
-                            "\n Created by " +
-                            (widget.transaction!
+                            ).toLowerCase()}\n Created by ${widget.transaction!
                                     .transactionOriginalOwnerEmail ??
-                                ""),
+                                ""}",
                         fontSize: 13,
                         textColor: getColor(context, "textLight"),
                         textAlign: TextAlign.center,
@@ -1966,7 +1956,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                                 ? AnimatedSizeSwitcher(
                                     switcherDuration:
                                         Duration(milliseconds: 350),
-                                    child: Container(
+                                    child: SizedBox(
                                       key: ValueKey(
                                           selectedCategory?.name ?? ""),
                                       width: double.infinity,
@@ -2026,7 +2016,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
           discardChangesPopup(
             context,
             previousObject: await addDefaultMissingValues(widget.transaction!),
-            currentObject: await createTransaction(),
+            currentObject: createTransaction(),
           );
         } else {
           showDiscardChangesPopupIfNotEditing();
@@ -2050,7 +2040,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
               context,
               previousObject:
                   await addDefaultMissingValues(widget.transaction!),
-              currentObject: await createTransaction(),
+              currentObject: createTransaction(),
             );
           } else {
             showDiscardChangesPopupIfNotEditing();
@@ -2062,7 +2052,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
               context,
               previousObject:
                   await addDefaultMissingValues(widget.transaction!),
-              currentObject: await createTransaction(),
+              currentObject: createTransaction(),
             );
           } else {
             showDiscardChangesPopupIfNotEditing();
@@ -2200,9 +2190,9 @@ class _AddTransactionPageState extends State<AddTransactionPage>
                               padding: const EdgeInsetsDirectional.symmetric(
                                   horizontal: 13),
                               child: ClipRRect(
-                                child: transactionAmountAndCategoryHeader,
                                 borderRadius:
                                     BorderRadiusDirectional.circular(15),
+                                child: transactionAmountAndCategoryHeader,
                               ),
                             ),
                             transactionTextInput,
@@ -2247,10 +2237,10 @@ class SelectIncludeAmount extends StatelessWidget {
 
 class SelectedWalletButton extends StatelessWidget {
   const SelectedWalletButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.selectedWalletName,
-  }) : super(key: key);
+  });
   final VoidCallback onTap;
   final String selectedWalletName;
   @override
@@ -2287,7 +2277,7 @@ class SelectedWalletButton extends StatelessWidget {
 
 class DateButton extends StatefulWidget {
   const DateButton({
-    Key? key,
+    super.key,
     required this.initialSelectedDate,
     required this.initialSelectedTime,
     required this.setSelectedDate,
@@ -2295,7 +2285,7 @@ class DateButton extends StatefulWidget {
     this.internalPadding =
         const EdgeInsetsDirectional.only(start: 20, top: 6, bottom: 6, end: 4),
     this.timeBackgroundColor,
-  }) : super(key: key);
+  });
   final DateTime initialSelectedDate;
   final TimeOfDay initialSelectedTime;
   final Function(DateTime) setSelectedDate;
@@ -2434,8 +2424,8 @@ class _DateButtonState extends State<DateButton> {
 }
 
 class SelectTitle extends StatefulWidget {
-  SelectTitle({
-    Key? key,
+  const SelectTitle({
+    super.key,
     required this.setSelectedTitle,
     required this.setSelectedNote,
     required this.setSelectedCategory,
@@ -2448,7 +2438,7 @@ class SelectTitle extends StatefulWidget {
     this.next,
     this.disableAskForNote = false,
     this.customTitleInputWidgetBuilder,
-  }) : super(key: key);
+  });
   final Function(String) setSelectedTitle;
   final Function(String) setSelectedNote;
   final Function(TransactionCategory) setSelectedCategory;
@@ -2509,10 +2499,11 @@ class _SelectTitleState extends State<SelectTitle> {
         widget.setSelectedCategory(selectedAssociatedTitle!.category);
       }
 
-      if (foundFromCategory == false)
+      if (foundFromCategory == false) {
         widget.setSelectedTitle(selectedAssociatedTitle?.title.title ?? "");
-      else
+      } else {
         widget.setSelectedTitle("");
+      }
     }
 
     popRoute(context);
@@ -2803,8 +2794,8 @@ class _SelectTitleState extends State<SelectTitle> {
 // }
 
 class SelectText extends StatefulWidget {
-  SelectText({
-    Key? key,
+  const SelectText({
+    super.key,
     required this.setSelectedText,
     this.selectedText,
     this.labelText = "",
@@ -2824,7 +2815,7 @@ class SelectText extends StatefulWidget {
     required this.buttonLabel,
     this.maxLength,
     this.enableButton = true,
-  }) : super(key: key);
+  });
   final Function(String) setSelectedText;
   final String? selectedText;
   final VoidCallback? next;
@@ -2857,14 +2848,15 @@ class _SelectTextState extends State<SelectText> {
   void initState() {
     super.initState();
     input = widget.selectedText;
-    _focusNode = new FocusNode();
-    if (widget.requestLateAutoFocus)
+    _focusNode = FocusNode();
+    if (widget.requestLateAutoFocus) {
       Future.delayed(Duration(milliseconds: 250), () {
         _focusNode.requestFocus();
       });
+    }
   }
 
-  onEditingComplete() {
+  void onEditingComplete() {
     widget.setSelectedText(input ?? "");
     if (widget.popContext) {
       popRoute(context, input);
@@ -2890,11 +2882,9 @@ class _SelectTextState extends State<SelectText> {
                 inputFormatters: widget.inputFormatters,
                 focusNode: _focusNode,
                 textCapitalization: widget.textCapitalization,
-                icon: widget.icon != null
-                    ? widget.icon
-                    : appStateSettings["outlinedIcons"]
+                icon: widget.icon ?? (appStateSettings["outlinedIcons"]
                         ? Icons.title_outlined
-                        : Icons.title_rounded,
+                        : Icons.title_rounded),
                 initialValue: widget.selectedText,
                 autoFocus: widget.autoFocus,
                 readOnly: widget.readOnly,
@@ -2929,13 +2919,13 @@ class _SelectTextState extends State<SelectText> {
 
 class EnterTextButton extends StatefulWidget {
   const EnterTextButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.placeholder,
     this.defaultValue,
     required this.setSelectedText,
     this.icon,
-  }) : super(key: key);
+  });
 
   final String title;
   final String placeholder;
@@ -2954,7 +2944,7 @@ class _EnterTextButtonState extends State<EnterTextButton> {
   void initState() {
     super.initState();
     if (widget.defaultValue != null) {
-      _textController = new TextEditingController(text: widget.defaultValue);
+      _textController = TextEditingController(text: widget.defaultValue);
     }
   }
 
@@ -3014,7 +3004,7 @@ Future<bool> addAssociatedTitles(
         return false;
       }
 
-      print("Found associated title: " + foundTitle.toString());
+      print("Found associated title: $foundTitle");
 
       if (foundTitle != null &&
           (foundTitle.category.categoryPk == selectedCategory.categoryPk ||
@@ -3051,7 +3041,7 @@ Future<bool> addAssociatedTitles(
         );
       }
     } catch (e) {
-      print("Error adding associated title: " + e.toString());
+      print("Error adding associated title: $e");
     }
   }
   return true;
@@ -3095,7 +3085,7 @@ class _SelectAddedBudgetState extends State<SelectAddedBudget> {
       stream: database.watchAllAddableBudgets(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.length <= 0) return Container();
+          if (snapshot.data!.isEmpty) return Container();
           return HorizontalBreakAbove(
             enabled:
                 enableDoubleColumn(context) && widget.horizontalBreak == true,
@@ -3203,7 +3193,7 @@ class _SelectObjectiveState extends State<SelectObjective> {
           objectiveType: widget.objectiveType, archivedLast: true),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.length <= 0) return Container();
+          if (snapshot.data!.isEmpty) return Container();
           return HorizontalBreakAbove(
             enabled:
                 enableDoubleColumn(context) && widget.horizontalBreak == true,
@@ -3312,7 +3302,7 @@ class _SelectExcludeBudgetState extends State<SelectExcludeBudget> {
       stream: database.watchAllNonAddableBudgets(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.length <= 0)
+          if (snapshot.data!.isEmpty) {
             return Padding(
               padding: const EdgeInsetsDirectional.only(
                   start: 17, end: 17, top: 6, bottom: 15),
@@ -3326,6 +3316,7 @@ class _SelectExcludeBudgetState extends State<SelectExcludeBudget> {
                 ],
               ),
             );
+          }
           return Padding(
               padding: const EdgeInsetsDirectional.only(top: 5),
               child: SelectChips(
@@ -3532,11 +3523,9 @@ Future deleteTransactionsPopup(
   DeletePopupAction? action = await openDeletePopup(
     context,
     title: "delete-selected-transactions".tr(),
-    subtitle: transactionPks.length.toString() +
-        " " +
-        (transactionPks.length == 1
+    subtitle: "${transactionPks.length} ${transactionPks.length == 1
             ? "transaction".tr().toLowerCase()
-            : "transactions".tr().toLowerCase()),
+            : "transactions".tr().toLowerCase()}",
   );
   if (action == DeletePopupAction.Delete) {
     if (routesToPopAfterDelete == RoutesToPopAfterDelete.All) {
@@ -3550,11 +3539,9 @@ Future deleteTransactionsPopup(
         SnackbarMessage(
           title: "deleted-transactions".tr(),
           icon: Icons.delete,
-          description: transactionPks.length.toString() +
-              " " +
-              (transactionPks.length == 1
+          description: "${transactionPks.length} ${transactionPks.length == 1
                   ? "transaction".tr().toLowerCase()
-                  : "transactions".tr().toLowerCase()),
+                  : "transactions".tr().toLowerCase()}",
         ),
       );
     });
@@ -3715,7 +3702,7 @@ class SelectTransactionTypePopup extends StatelessWidget {
                     openPage: Container(),
                     containerColor: Theme.of(context)
                         .colorScheme
-                        .background
+                        .surface
                         .withOpacity(0.5),
                     transaction: Transaction(
                       transactionPk: "-1",
@@ -3787,8 +3774,8 @@ class TransactionTypeInfoEntry extends StatelessWidget {
   final VoidCallback? onTap;
   final List<dynamic>? transactionTypesToShow;
 
-  TransactionTypeInfoEntry({
-    Key? key,
+  const TransactionTypeInfoEntry({
+    super.key,
     required this.setTransactionType,
     required this.selectedTransactionType,
     this.childrenDescription,
@@ -3798,12 +3785,13 @@ class TransactionTypeInfoEntry extends StatelessWidget {
     this.onlyShowOneTransactionType,
     this.onTap,
     this.transactionTypesToShow,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (transactionTypesToShow?.contains(transactionType) == false)
+    if (transactionTypesToShow?.contains(transactionType) == false) {
       return SizedBox.shrink();
+    }
     if (onlyShowOneTransactionType == null ||
         onlyShowOneTransactionType == transactionType) {
       return Padding(
@@ -3911,12 +3899,13 @@ Future<MainAndSubcategory> selectCategorySequence(
                     Tappable(
                       color: Theme.of(context).colorScheme.secondaryContainer,
                       onTap: () {
-                        if (setSelectedSubCategory != null)
+                        if (setSelectedSubCategory != null) {
                           setSelectedSubCategory(null);
+                        }
                         popRoute(context, false);
                       },
                       borderRadius: 18,
-                      child: Container(
+                      child: SizedBox(
                         height: constraints.maxWidth < 70
                             ? constraints.maxWidth
                             : 66,
@@ -4311,10 +4300,7 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
 
   void addAttachmentLinkToNote(String? link) {
     if (link == null) return;
-    String noteUpdated = widget.noteInputController.text +
-        (widget.noteInputController.text == "" ? "" : "\n") +
-        (link) +
-        " ";
+    String noteUpdated = "${widget.noteInputController.text}${widget.noteInputController.text == "" ? "" : "\n"}$link ";
 
     widget.setSelectedNoteController(noteUpdated);
     updateExtractedLinks(noteUpdated);
@@ -4323,9 +4309,9 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
   void removeLinkFromNote(String link) {
     String originalText = widget.noteInputController.text;
     String noteUpdated =
-        widget.noteInputController.text.replaceAll(link + " ", "");
+        widget.noteInputController.text.replaceAll("$link ", "");
     if (noteUpdated == originalText) {
-      noteUpdated = widget.noteInputController.text.replaceAll(link + "\n", "");
+      noteUpdated = widget.noteInputController.text.replaceAll("$link\n", "");
     }
     widget.setSelectedNoteController(noteUpdated);
     updateExtractedLinks(noteUpdated);
@@ -4450,8 +4436,9 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
                                         true) {
                                       String? result = await getPhotoAndUpload(
                                           source: ImageSource.camera);
-                                      if (result != null)
+                                      if (result != null) {
                                         addAttachmentLinkToNote(result);
+                                      }
                                     }
                                   },
                                 ),
@@ -4526,7 +4513,7 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
             },
           ),
           AnimatedSizeSwitcher(
-            child: extractedLinks.length <= 0
+            child: extractedLinks.isEmpty
                 ? Container(
                     key: ValueKey(1),
                   )
@@ -4635,7 +4622,7 @@ class _TransactionNotesTextInputState extends State<TransactionNotesTextInput> {
 Future<void> selectPeriodLength({
   required BuildContext context,
   required int selectedPeriodLength,
-  required setSelectedPeriodLength(double period),
+  required Function(double period) setSelectedPeriodLength,
 }) async {
   openBottomSheet(
     context,
@@ -4660,11 +4647,11 @@ Future<void> selectRecurrence(
     {required BuildContext context,
     required String selectedRecurrence,
     required int selectedPeriodLength,
-    required onChanged(
+    required Function(
       String selectedRecurrence,
       BudgetReoccurence selectedRecurrenceEnum,
       String selectedRecurrenceDisplay,
-    )}) async {
+    ) onChanged}) async {
   openBottomSheet(
     context,
     PopupFramework(
@@ -4698,10 +4685,10 @@ Future<void> selectRecurrence(
 void setSelectedPeriodLength({
   required double period,
   required String selectedRecurrence,
-  required setPeriodLength(
+  required Function(
     int selectedPeriodLength,
     String selectedRecurrenceDisplay,
-  ),
+  ) setPeriodLength,
 }) {
   int selectedPeriodLength;
   String selectedRecurrenceDisplay;
@@ -4744,7 +4731,7 @@ class SelectSubcategoryChips extends StatelessWidget {
       builder: (context, snapshot) {
         List<TransactionCategory> subCategories = snapshot.data ?? [];
         return AnimatedSizeSwitcher(
-          child: (subCategories.length <= 0)
+          child: (subCategories.isEmpty)
               ? Container()
               : Column(
                   children: [
@@ -4754,7 +4741,7 @@ class SelectSubcategoryChips extends StatelessWidget {
                         allowMultipleSelected: false,
                         selectedColor: Theme.of(context)
                             .colorScheme
-                            .background
+                            .surface
                             .withOpacity(0.6),
                         onLongPress: (category) {
                           pushRoute(
@@ -4793,7 +4780,7 @@ class SelectSubcategoryChips extends StatelessWidget {
                           );
                         },
                         getCustomBorderColor: (TransactionCategory category) {
-                          if (selectedSubCategoryPk == category.categoryPk)
+                          if (selectedSubCategoryPk == category.categoryPk) {
                             return lightenPastel(
                               HexColor(
                                 category.colour,
@@ -4809,6 +4796,7 @@ class SelectSubcategoryChips extends StatelessWidget {
                                   ? 0.8
                                   : 0.65,
                             );
+                          }
                           return dynamicPastel(
                             context,
                             lightenPastel(
@@ -4868,14 +4856,14 @@ List<dynamic>
     ...TransactionSpecialType.values,
     //"installments"
   ];
-  if (isAddedToLoanObjective)
+  if (isAddedToLoanObjective) {
     return [
       null,
       TransactionSpecialType.upcoming,
       TransactionSpecialType.repetitive,
       TransactionSpecialType.subscription,
     ];
-  else if (transactionType == null)
+  } else if (transactionType == null)
     return defaultList;
   else if ([TransactionSpecialType.credit, TransactionSpecialType.debt]
       .contains(transactionType))
@@ -4960,7 +4948,7 @@ class _TitleInputState extends State<TitleInput> {
   void initState() {
     super.initState();
     if (widget.titleInputController == null) {
-      _titleInputController = new TextEditingController();
+      _titleInputController = TextEditingController();
     } else {
       _titleInputController = widget.titleInputController!;
     }
@@ -4986,10 +4974,11 @@ class _TitleInputState extends State<TitleInput> {
           children: [
             Focus(
               onFocusChange: (value) {
-                if (value == false && widget.clearWhenUnfocused == true)
+                if (value == false && widget.clearWhenUnfocused == true) {
                   setState(() {
                     foundAssociatedTitles = [];
                   });
+                }
               },
               child: TextInput(
                 // To allow the user to select and scroll to the dropdown options
@@ -5026,8 +5015,9 @@ class _TitleInputState extends State<TitleInput> {
                   if (foundAssociatedTitles.toString() !=
                       newFoundAssociatedTitles.toString()) {
                     if (widget.resizePopupWhenChanged) fixResizingPopup();
-                    if (widget.onNewRecommendedTitle != null)
+                    if (widget.onNewRecommendedTitle != null) {
                       widget.onNewRecommendedTitle!();
+                    }
                   }
 
                   foundAssociatedTitles = newFoundAssociatedTitles;
@@ -5039,7 +5029,7 @@ class _TitleInputState extends State<TitleInput> {
               ),
             ),
             AnimatedSizeSwitcher(
-              child: foundAssociatedTitles.length <= 0
+              child: foundAssociatedTitles.isEmpty
                   ? Container(
                       key: ValueKey(0),
                     )
@@ -5099,19 +5089,22 @@ class _TitleInputState extends State<TitleInput> {
                                       setTextInput(_titleInputController, "");
                                     }
 
-                                    if (widget.unfocusWhenRecommendedTapped)
+                                    if (widget.unfocusWhenRecommendedTapped) {
                                       FocusScope.of(context).unfocus();
+                                    }
                                   }
 
                                   setState(() {
                                     foundAssociatedTitles = [];
                                   });
 
-                                  if (widget.onRecommendedTitleTapped != null)
+                                  if (widget.onRecommendedTitleTapped != null) {
                                     widget.onRecommendedTitleTapped!(
                                         foundAssociatedTitle);
-                                  if (widget.resizePopupWhenChanged)
+                                  }
+                                  if (widget.resizePopupWhenChanged) {
                                     fixResizingPopup();
+                                  }
                                 },
                                 child: Row(
                                   children: [
@@ -5175,11 +5168,13 @@ class _TitleInputState extends State<TitleInput> {
                                               scale: 1.1,
                                               onTap: () async {
                                                 if (widget.onDeleteButton !=
-                                                    null)
+                                                    null) {
                                                   widget.onDeleteButton!();
+                                                }
                                                 if (widget
-                                                    .resizePopupWhenChanged)
+                                                    .resizePopupWhenChanged) {
                                                   fixResizingPopup();
+                                                }
 
                                                 DeletePopupAction? action =
                                                     await deleteAssociatedTitlePopup(

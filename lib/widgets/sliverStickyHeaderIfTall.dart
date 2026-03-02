@@ -10,7 +10,7 @@ class SliverStickyHeaderIfTall extends StatelessWidget {
     return MediaQuery.sizeOf(context).height > 800
         ? SliverPinnedHeader(
             child: Container(
-                color: Theme.of(context).colorScheme.background, child: child))
+                color: Theme.of(context).colorScheme.surface, child: child))
         : SliverToBoxAdapter(child: child);
   }
 }

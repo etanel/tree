@@ -56,7 +56,7 @@ Future<bool> requestReadNotificationPermission() async {
   return status;
 }
 
-onNotification(ServiceNotificationEvent event) async {
+Future<void> onNotification(ServiceNotificationEvent event) async {
   String messageString = getNotificationMessage(event);
   recentCapturedNotifications.insert(0, messageString);
   recentCapturedNotifications.take(50);
@@ -123,10 +123,8 @@ Future queueTransactionFromMessage(String messageString,
       (await database.getSimilarAssociatedTitles(title: title, limit: 1))
           .firstOrNull;
   category = foundTitle?.category;
-  if (category == null) {
-    category = await database
+  category ??= await database
         .getCategoryInstanceOrNull(templateFound.defaultCategoryFk);
-  }
 
   TransactionWallet? wallet = templateFound.walletFk == "-1"
       ? null
@@ -168,7 +166,7 @@ String getNotificationMessage(ServiceNotificationEvent event) {
 }
 
 class AutoTransactionsPageNotifications extends StatefulWidget {
-  const AutoTransactionsPageNotifications({Key? key}) : super(key: key);
+  const AutoTransactionsPageNotifications({super.key});
 
   @override
   State<AutoTransactionsPageNotifications> createState() =>
@@ -235,7 +233,7 @@ class _AutoTransactionsPageNotificationsState
           stream: database.watchAllScannerTemplates(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data!.length <= 0) {
+              if (snapshot.data!.isEmpty) {
                 return Padding(
                   padding: const EdgeInsetsDirectional.all(5),
                   child: StatusBox(
@@ -294,7 +292,7 @@ class _AutoTransactionsPageNotificationsState
 }
 
 class AutoTransactionsPageEmail extends StatefulWidget {
-  const AutoTransactionsPageEmail({Key? key}) : super(key: key);
+  const AutoTransactionsPageEmail({super.key});
 
   @override
   State<AutoTransactionsPageEmail> createState() =>
@@ -399,7 +397,7 @@ Future<void> parseEmailsInBackground(context,
   if (entireAppLoaded == false || forceParse) {
     if (appStateSettings["AutoTransactions-canReadEmails"] == true) {
       List<Transaction> transactionsToAdd = [];
-      Stopwatch stopwatch = new Stopwatch()..start();
+      Stopwatch stopwatch = Stopwatch()..start();
       print("Scanning emails");
 
       bool hasSignedIn = false;
@@ -442,7 +440,7 @@ Future<void> parseEmailsInBackground(context,
 
       List<ScannerTemplate> scannerTemplates =
           await database.getAllScannerTemplates();
-      if (scannerTemplates.length <= 0) {
+      if (scannerTemplates.isEmpty) {
         openSnackbar(
           SnackbarMessage(
             title:
@@ -648,6 +646,8 @@ double? getTransactionAmountFromEmail(String messageString,
 }
 
 class GmailApiScreen extends StatefulWidget {
+  const GmailApiScreen({super.key});
+
   @override
   _GmailApiScreenState createState() => _GmailApiScreenState();
 }
@@ -667,7 +667,7 @@ class _GmailApiScreenState extends State<GmailApiScreen> {
     super.initState();
   }
 
-  init() async {
+  Future<void> init() async {
     loading = true;
     if (googleUser != null) {
       try {
@@ -779,7 +779,7 @@ class _GmailApiScreenState extends State<GmailApiScreen> {
             stream: database.watchAllScannerTemplates(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.length <= 0) {
+                if (snapshot.data!.isEmpty) {
                   return Padding(
                     padding: const EdgeInsetsDirectional.all(5),
                     child: StatusBox(
@@ -1118,6 +1118,6 @@ String getEmailMessage(gMail.Message messageData) {
   return messageString
       .split(RegExp(r"[ \t\r\f\v]+"))
       .join(" ")
-      .replaceAll(new RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n\n')
+      .replaceAll(RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n\n')
       .replaceAll(RegExp(r"(?<=\n) +"), "");
 }

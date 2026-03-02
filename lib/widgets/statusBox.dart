@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class StatusBox extends StatelessWidget {
   const StatusBox({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.color,
@@ -13,7 +13,7 @@ class StatusBox extends StatelessWidget {
     this.padding,
     this.onTap,
     this.forceDark,
-  }) : super(key: key);
+  });
 
   final String title;
   final String description;

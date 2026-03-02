@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({
-    Key? key,
+    super.key,
     required this.onTap,
     this.margin = EdgeInsetsDirectional.zero,
     this.padding = EdgeInsetsDirectional.zero,
@@ -19,7 +19,7 @@ class AddButton extends StatelessWidget {
     this.afterOpenPage,
     this.onOpenPage,
     this.labelUnder,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
   final EdgeInsetsDirectional margin;

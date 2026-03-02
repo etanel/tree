@@ -31,13 +31,13 @@ class TextFont extends StatelessWidget {
   final double? letterSpacing;
 
   const TextFont({
-    Key? key,
+    super.key,
     required this.text,
     this.fontSize = 20,
     this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.start,
     this.textColor,
-    this.maxLines = null,
+    this.maxLines,
     this.fixParagraphMargin = false,
     this.shadow = false,
     this.selectableText = false,
@@ -49,7 +49,7 @@ class TextFont extends StatelessWidget {
     this.softWrap,
     this.overflowReplacement,
     this.letterSpacing,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +64,8 @@ class TextFont extends StatelessWidget {
 
     final TextStyle textStyle = TextStyle(
       letterSpacing: letterSpacing,
-      fontWeight: this.fontWeight,
-      fontSize: this.fontSize,
+      fontWeight: fontWeight,
+      fontSize: fontSize,
       fontFamily: fallbackFontLocales.contains(appStateSettings["locale"]) &&
               appStateSettings["font"] == "Avenir"
           ? "DMSans"
@@ -93,7 +93,7 @@ class TextFont extends StatelessWidget {
         child: Transform.translate(
           offset: Offset(
             0,
-            this.fontSize *
+            fontSize *
                 (fallbackFontLocales.contains(appStateSettings["locale"]) ==
                             true ||
                         appStateSettings["font"] != "Avenir"

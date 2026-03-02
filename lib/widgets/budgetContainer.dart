@@ -29,14 +29,14 @@ import 'package:tree/struct/randomConstants.dart';
 
 class BudgetContainer extends StatelessWidget {
   const BudgetContainer({
-    Key? key,
+    super.key,
     required this.budget,
     this.height = 183,
     this.dateForRange,
     this.longPressToEdit = true,
     this.intermediatePadding = true,
     this.squishInactiveBudgetContainerHeight = false,
-  }) : super(key: key);
+  });
 
   final Budget budget;
   final double height;
@@ -72,9 +72,9 @@ class BudgetContainer extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           double totalSpent = 0;
-          snapshot.data!.forEach((category) {
+          for (var category in snapshot.data!) {
             totalSpent = totalSpent + category.total;
-          });
+          }
           totalSpent = totalSpent * determineBudgetPolarity(budget);
           return Container(
             // height: height,

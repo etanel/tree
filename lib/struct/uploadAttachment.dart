@@ -22,7 +22,7 @@ Future<String?> getPhotoAndUpload({required ImageSource source}) async {
       throw ("error-getting-photo");
     }
 
-    var fileBytes;
+    Uint8List fileBytes;
     late Stream<List<int>> mediaStream;
     fileBytes = await photo.readAsBytes();
     mediaStream = Stream.value(List<int>.from(fileBytes));
@@ -146,9 +146,9 @@ Future<String?> uploadFileToDrive({
 
   if (folderId == null) throw ("Folder could not be created in Google Drive");
 
-  drive.Media media = new drive.Media(mediaStream, fileBytes.length);
+  drive.Media media = drive.Media(mediaStream, fileBytes.length);
 
-  drive.File driveFile = new drive.File();
+  drive.File driveFile = drive.File();
   String timestamp = DateFormat("yyyy-MM-dd-hhmmss").format(DateTime.now());
   driveFile.name = timestamp + fileName;
   driveFile.modifiedTime = DateTime.now().toUtc();

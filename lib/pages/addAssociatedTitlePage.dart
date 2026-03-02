@@ -15,10 +15,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class AddAssociatedTitlePage extends StatefulWidget {
-  AddAssociatedTitlePage({
-    Key? key,
+  const AddAssociatedTitlePage({
+    super.key,
     this.associatedTitle,
-  }) : super(key: key);
+  });
 
   //When a Title is passed in, we are editing that Title
   final TransactionAssociatedTitle? associatedTitle;
@@ -76,7 +76,7 @@ class _AddAssociatedTitlePageState extends State<AddAssociatedTitlePage> {
   @override
   void initState() {
     super.initState();
-    _focusNode = new FocusNode();
+    _focusNode = FocusNode();
     if (widget.associatedTitle != null) {
       //We are editing a Title
       //Fill in the information from the passed in Title
@@ -98,7 +98,7 @@ class _AddAssociatedTitlePageState extends State<AddAssociatedTitlePage> {
     _focusNode.requestFocus();
   }
 
-  updateInitial() async {
+  Future<void> updateInitial() async {
     if (widget.associatedTitle != null) {
       setSelectedCategory(await database
           .getCategoryInstance(widget.associatedTitle!.categoryFk));
@@ -110,23 +110,25 @@ class _AddAssociatedTitlePageState extends State<AddAssociatedTitlePage> {
     super.dispose();
   }
 
-  determineBottomButton() {
+  void determineBottomButton() {
     if (selectedTitle != null &&
         selectedTitle != "" &&
         selectedCategory != null) {
-      if (canAddTitle != true)
-        this.setState(() {
+      if (canAddTitle != true) {
+        setState(() {
           canAddTitle = true;
         });
+      }
     } else {
-      if (canAddTitle != false)
-        this.setState(() {
+      if (canAddTitle != false) {
+        setState(() {
           canAddTitle = false;
         });
+      }
     }
   }
 
-  selectCategory() async {
+  Future<void> selectCategory() async {
     MainAndSubcategory mainAndSubcategory = await selectCategorySequence(
       context,
       selectedCategory: selectedCategory,

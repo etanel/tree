@@ -13,10 +13,10 @@ import 'package:tree/database/tables.dart';
 
 class MonthSelector extends StatefulWidget {
   const MonthSelector({
-    Key? key,
+    super.key,
     required this.setSelectedDateStart,
     this.width,
-  }) : super(key: key);
+  });
   final Function(DateTime, int) setSelectedDateStart;
   final double? width;
   @override
@@ -32,12 +32,12 @@ class MonthSelectorState extends State<MonthSelector> {
   GlobalKey<MultiDirectionalInfiniteScrollState>
       MultiDirectionalInfiniteScrollKey = GlobalKey();
 
-  scrollTo(double position) {
+  void scrollTo(double position) {
     MultiDirectionalInfiniteScrollKey.currentState!
         .scrollTo(Duration(milliseconds: 700), position: position);
   }
 
-  setSelectedDateStart(DateTime dateTime, int offset) {
+  void setSelectedDateStart(DateTime dateTime, int offset) {
     setState(() {
       selectedDateStart = dateTime;
       pageOffset = offset;
@@ -49,29 +49,33 @@ class MonthSelectorState extends State<MonthSelector> {
         (MediaQuery.sizeOf(context).width - getWidthNavigationSidebar(context));
   }
 
-  _onScroll(double position) {
+  void _onScroll(double position) {
     final upperBound = 200;
     final lowerBound = -200 - measureWidth() / 2 - 100;
     if (position > upperBound) {
-      if (showScrollBottom == false)
+      if (showScrollBottom == false) {
         setState(() {
           showScrollBottom = true;
         });
+      }
     } else if (position < lowerBound) {
-      if (showScrollTop == false)
+      if (showScrollTop == false) {
         setState(() {
           showScrollTop = true;
         });
+      }
     }
     if (position > lowerBound && position < upperBound) {
-      if (showScrollTop == true)
+      if (showScrollTop == true) {
         setState(() {
           showScrollTop = false;
         });
-      if (showScrollBottom == true)
+      }
+      if (showScrollBottom == true) {
         setState(() {
           showScrollBottom = false;
         });
+      }
     }
   }
 
@@ -131,7 +135,7 @@ class MonthSelectorState extends State<MonthSelector> {
                         DateTime.now().firstDayOfMonth();
                     double spacePadding = measureWidth() / 2 - monthWidth / 2;
                     return Container(
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme.of(context).colorScheme.surface,
                       padding: EdgeInsetsDirectional.only(
                         start: isFirst &&
                                 getDateFromIndex(index)
@@ -146,7 +150,7 @@ class MonthSelectorState extends State<MonthSelector> {
                       ),
                       child: Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 50,
                             child: Tappable(
                               onTap: () {
@@ -318,7 +322,7 @@ class MonthSelectorState extends State<MonthSelector> {
                           widget.setSelectedDateStart(
                               DateTime.now().firstDayOfMonth(), 0);
                         },
-                        child: Container(
+                        child: SizedBox(
                           width: 44,
                           height: 34,
                           child: Transform.scale(
@@ -355,7 +359,7 @@ class MonthSelectorState extends State<MonthSelector> {
                           widget.setSelectedDateStart(
                               DateTime.now().firstDayOfMonth(), 0);
                         },
-                        child: Container(
+                        child: SizedBox(
                           width: 44,
                           height: 34,
                           child: Transform.scale(

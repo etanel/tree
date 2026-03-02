@@ -10,8 +10,8 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CategoryIcon extends StatelessWidget {
-  CategoryIcon({
-    Key? key,
+  const CategoryIcon({
+    super.key,
     this.categoryPk,
     required this.size,
     this.onTap,
@@ -32,7 +32,7 @@ class CategoryIcon extends StatelessWidget {
     this.correctionEmojiPaddingBottom = 0,
     this.emojiSize,
     this.emojiScale = 1,
-  }) : super(key: key);
+  });
 
   final String? categoryPk;
   final double size;
@@ -118,7 +118,7 @@ class CategoryIcon extends StatelessWidget {
                     ? null
                     : () {
                         if (onLongPress != null) onLongPress!();
-                        if (canEditByLongPress)
+                        if (canEditByLongPress) {
                           pushRoute(
                             context,
                             AddCategoryPage(
@@ -127,6 +127,7 @@ class CategoryIcon extends StatelessWidget {
                                   RoutesToPopAfterDelete.One,
                             ),
                           );
+                        }
                       },
                 borderRadius: borderRadius - 3,
                 child: Center(
@@ -195,10 +196,10 @@ class CategoryIcon extends StatelessWidget {
       return Tooltip(
         waitDuration: Duration(milliseconds: 100),
         message: category?.name ?? "",
-        child: child,
         // A hover will still trigger the tooltip,
         // but a long press won't since category icons can be long pressed to reorder/edited
         triggerMode: TooltipTriggerMode.manual,
+        child: child,
       );
     } else {
       return child;
@@ -241,7 +242,7 @@ class _CacheCategoryIconState extends State<CacheCategoryIcon> {
   void initState() {
     super.initState();
     image = Image.asset(
-      "assets/categories/" + widget.iconName,
+      "assets/categories/${widget.iconName}",
       width: widget.size,
     );
   }
@@ -252,7 +253,7 @@ class _CacheCategoryIconState extends State<CacheCategoryIcon> {
         widget.size != oldWidget.size) {
       setState(() {
         image = Image.asset(
-          "assets/categories/" + widget.iconName,
+          "assets/categories/${widget.iconName}",
           width: widget.size,
         );
       });
@@ -287,7 +288,7 @@ class EmojiIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQueryData(textScaleFactor: 1),
+      data: MediaQueryData(textScaler: TextScaler.linear(1)),
       child: IgnorePointer(
         child: Padding(
           padding: EdgeInsetsDirectional.only(

@@ -62,9 +62,9 @@ class ObjectivePage extends StatelessWidget {
 
 class _ObjectivePageContent extends StatefulWidget {
   const _ObjectivePageContent({
-    Key? key,
+    super.key,
     required this.objective,
-  }) : super(key: key);
+  });
 
   final Objective objective;
 
@@ -78,7 +78,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
 
   bool showTotalSpent = appStateSettings["showTotalSpentForObjective"];
 
-  _swapTotalSpentDisplay() {
+  void _swapTotalSpentDisplay() {
     setState(() {
       showTotalSpent = !showTotalSpent;
     });
@@ -101,7 +101,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
     super.dispose();
   }
 
-  confettiListener() {
+  void confettiListener() {
     if (mounted &&
         confettiController.state == ConfettiControllerState.playing) {
       Future.delayed(Duration(milliseconds: 2000), () {
@@ -110,7 +110,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
     }
   }
 
-  openSelectIconPopup() {
+  void openSelectIconPopup() {
     openBottomSheet(
       context,
       PopupFramework(
@@ -138,7 +138,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
             print(newObjective);
           },
           selectedImage:
-              "assets/categories/" + widget.objective.iconName.toString(),
+              "assets/categories/${widget.objective.iconName}",
           setSelectedTitle: (String? titleRecommendation) {},
         ),
       ),
@@ -156,11 +156,9 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
         if (snapshot.hasData && snapshot.data != null) {
           return TextFont(
             textAlign: TextAlign.center,
-            text: snapshot.data.toString() +
-                " " +
-                (snapshot.data == 1
+            text: "${snapshot.data} ${snapshot.data == 1
                     ? "transaction".tr().toLowerCase()
-                    : "transactions".tr().toLowerCase()),
+                    : "transactions".tr().toLowerCase()}",
             fontSize: 16,
             maxLines: 3,
           );
@@ -185,7 +183,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
     String pageId = widget.objective.objectivePk;
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value[pageId] ?? []).length > 0) {
+        if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -521,13 +519,12 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
                                               DateTime.now().year,
                                         ) +
                                         (widget.objective.endDate != null
-                                            ? " – " +
-                                                getWordedDateShortMore(
+                                            ? " – ${getWordedDateShortMore(
                                                   widget.objective.endDate!,
                                                   includeYear: widget.objective
                                                           .endDate!.year !=
                                                       DateTime.now().year,
-                                                )
+                                                )}"
                                             : ""),
                                     maxLines: 3,
                                     textAlign: TextAlign.center,
@@ -592,7 +589,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
                 showObjectivePercentage: false,
                 noResultsMessage: "no-transactions-found".tr() +
                     (widget.objective.type == ObjectiveType.loan
-                        ? "\n" + "add-record-using-plus-button".tr()
+                        ? "\n${"add-record-using-plus-button".tr()}"
                         : ""),
                 showNoResults: widget.objective.type == ObjectiveType.loan,
                 noResultsExtraWidget:
@@ -675,9 +672,9 @@ String objectiveRemainingAmountText({
 
   if (appStateSettings["showTotalSpentForObjective"] == false) {
     if (totalAmount > objectiveAmount) {
-      result = " " + "over".tr() + " ";
+      result = " ${"over".tr()} ";
     } else {
-      result = " " + "remaining".tr() + " / ";
+      result = " ${"remaining".tr()} / ";
     }
   } else {
     result = " / ";

@@ -50,12 +50,12 @@ class BillSplitterItem {
 
   // Convert a BillSplitterItem object to a JSON Map
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    data['cost'] = this.cost;
-    data['evenSplit'] = this.evenSplit;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['cost'] = cost;
+    data['evenSplit'] = evenSplit;
     data['userAmounts'] =
-        this.userAmounts.map((person) => person.toJson()).toList();
+        userAmounts.map((person) => person.toJson()).toList();
     return data;
   }
 
@@ -82,9 +82,9 @@ class SplitPerson {
 
   // Convert a SplitPerson object to a JSON Map
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    data['percent'] = this.percent;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['percent'] = percent;
     return data;
   }
 
@@ -120,14 +120,14 @@ class _BillSplitterState extends State<BillSplitter> {
     });
   }
 
-  addBillSplitterItem(BillSplitterItem billSplitterItem) {
+  void addBillSplitterItem(BillSplitterItem billSplitterItem) {
     billSplitterAddItem(billSplitterItem);
     setState(() {
       billSplitterItems.add(billSplitterItem);
     });
   }
 
-  updateBillSplitterItem(BillSplitterItem billSplitterItem, int? index) {
+  void updateBillSplitterItem(BillSplitterItem billSplitterItem, int? index) {
     if (index == null) return;
     billSplitterUpdateItem(billSplitterItem, index);
     setState(() {
@@ -273,7 +273,7 @@ class _BillSplitterState extends State<BillSplitter> {
 
                 for (SplitPerson splitPerson in billSplitterItem.userAmounts) {
                   double percentOfTotal = billSplitterItem.evenSplit
-                      ? billSplitterItem.userAmounts.length == 0
+                      ? billSplitterItem.userAmounts.isEmpty
                           ? 0
                           : 1 / billSplitterItem.userAmounts.length
                       : (splitPerson.percent ?? 0) / 100;
@@ -332,12 +332,11 @@ class _BillSplitterState extends State<BillSplitter> {
                       textBuilder: (number) {
                         return TextFont(
                           textAlign: TextAlign.center,
-                          text: " / " +
-                              convertToMoney(
+                          text: " / ${convertToMoney(
                                 Provider.of<AllWallets>(context),
                                 number,
                                 finalNumber: number.abs(),
-                              ),
+                              )}",
                           fontSize: 16,
                           textColor: getColor(context, "textLight"),
                         );
@@ -356,10 +355,10 @@ class _BillSplitterState extends State<BillSplitter> {
               Expanded(
                 flex: 1,
                 child: IgnorePointer(
-                  ignoring: billSplitterItems.length <= 0,
+                  ignoring: billSplitterItems.isEmpty,
                   child: AnimatedOpacity(
                     duration: Duration(milliseconds: 500),
-                    opacity: billSplitterItems.length <= 0 ? 0.5 : 1,
+                    opacity: billSplitterItems.isEmpty ? 0.5 : 1,
                     child: Padding(
                       padding:
                           const EdgeInsetsDirectional.symmetric(horizontal: 4),
@@ -397,10 +396,10 @@ class _BillSplitterState extends State<BillSplitter> {
               Expanded(
                 flex: 1,
                 child: IgnorePointer(
-                  ignoring: billSplitterItems.length <= 0,
+                  ignoring: billSplitterItems.isEmpty,
                   child: AnimatedOpacity(
                     duration: Duration(milliseconds: 500),
-                    opacity: billSplitterItems.length <= 0 ? 0.5 : 1,
+                    opacity: billSplitterItems.isEmpty ? 0.5 : 1,
                     child: SettingsContainerOpenPage(
                       isOutlinedColumn: true,
                       title: "summary".tr(),
@@ -475,7 +474,7 @@ Future<List<SplitPerson>> getBillSplitterPersonList() async {
         jsonList.map((json) => SplitPerson.fromJson(json)).toList();
   }
   if (appStateSettings["longTermLoansDifferenceFeature"] == true &&
-      billSplitterPersonList.length <= 0) {
+      billSplitterPersonList.isEmpty) {
     List<Objective> differenceOnlyObjectives = await database.getAllObjectives(
         objectiveType: ObjectiveType.loan,
         showDifferenceLoans: true,
@@ -594,7 +593,7 @@ class BillSplitterItemEntry extends StatelessWidget {
       Provider.of<AllWallets>(context),
       billSplitterItem.cost * multiplierAmount,
     );
-    if (billSplitterItem.evenSplit && billSplitterItem.userAmounts.length > 0) {
+    if (billSplitterItem.evenSplit && billSplitterItem.userAmounts.isNotEmpty) {
       totalString = originalCostString;
     }
     Color? errorColor = totalString == originalCostString
@@ -675,11 +674,10 @@ class BillSplitterItemEntry extends StatelessWidget {
                             padding:
                                 const EdgeInsetsDirectional.only(bottom: 2),
                             child: TextFont(
-                              text: " / " +
-                                  convertToMoney(
+                              text: " / ${convertToMoney(
                                     Provider.of<AllWallets>(context),
                                     billSplitterItem.cost * multiplierAmount,
-                                  ),
+                                  )}",
                               fontSize: 15,
                               textColor: getColor(context, "textLight"),
                             ),
@@ -701,7 +699,7 @@ class BillSplitterItemEntry extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        billSplitterItem.userAmounts.length <= 0
+                        billSplitterItem.userAmounts.isEmpty
                             ? SizedBox.shrink()
                             : SizedBox(height: 7),
                         for (SplitPerson splitPerson
@@ -709,7 +707,7 @@ class BillSplitterItemEntry extends StatelessWidget {
                           Builder(
                             builder: (context) {
                               double percentOfTotal = billSplitterItem.evenSplit
-                                  ? billSplitterItem.userAmounts.length == 0
+                                  ? billSplitterItem.userAmounts.isEmpty
                                       ? 0
                                       : 1 / billSplitterItem.userAmounts.length
                                   : (splitPerson.percent ?? 0) / 100;
@@ -755,6 +753,7 @@ class BillSplitterItemEntry extends StatelessWidget {
                                               Duration(milliseconds: 1500),
                                           curve:
                                               Curves.easeInOutCubicEmphasized,
+                                          widthFactor: percentOfTotal,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadiusDirectional
@@ -766,7 +765,6 @@ class BillSplitterItemEntry extends StatelessWidget {
                                               height: 5,
                                             ),
                                           ),
-                                          widthFactor: percentOfTotal,
                                         ),
                                       ],
                                     ),
@@ -855,7 +853,7 @@ class _AddBillItemPageState extends State<AddBillItemPage> {
         );
   late List<SplitPerson> splitPersons = widget.splitPersons;
   List<SplitPerson> selectedSplitPersons = [];
-  late TextEditingController _titleInputController =
+  late final TextEditingController _titleInputController =
       TextEditingController(text: billSplitterItem.name);
   late double multiplierAmount = widget.multiplierAmount;
 
@@ -1058,12 +1056,12 @@ class _AddBillItemPageState extends State<AddBillItemPage> {
             minVerticalPadding: 0,
             initial:
                 billSplitterItem.userAmounts.map((item) => item.name).toList(),
-            items: [
+            items: <dynamic>{
               ...splitPersons
                   .map((SplitPerson splitPerson) => splitPerson.name)
-                  .toList(),
-              ...billSplitterItem.userAmounts.map((item) => item.name).toList(),
-            ].toSet().toList(),
+                  ,
+              ...billSplitterItem.userAmounts.map((item) => item.name),
+            }.toList(),
             onChanged: (currentValues) {
               selectedSplitPersons = [];
               for (String name in currentValues) {
@@ -1184,7 +1182,7 @@ SplitPerson? getPerson(List<SplitPerson> splitPersons, String personName) {
 
 void openAddPersonPopup({
   required BuildContext context,
-  required void setState(void Function() fn),
+  required void Function(void Function() fn) setState,
   required bool Function(SplitPerson) addPerson,
 }) {
   openBottomSheet(
@@ -1235,7 +1233,7 @@ class _PeoplePageState extends State<PeoplePage> {
       dragDownToDismiss: true,
       horizontalPaddingConstrained: true,
       listWidgets: [
-        widget.splitPersons.length <= 0
+        widget.splitPersons.isEmpty
             ? NoResults(
                 message: "no-names-found".tr(),
               )
@@ -1331,7 +1329,7 @@ class SummaryPage extends StatelessWidget {
         if (splitPerson == null) continue;
 
         double percentOfTotal = billSplitterItem.evenSplit
-            ? billSplitterItem.userAmounts.length == 0
+            ? billSplitterItem.userAmounts.isEmpty
                 ? 0
                 : 1 / billSplitterItem.userAmounts.length
             : (splitPerson.percent ?? 0) / 100;
@@ -1372,7 +1370,7 @@ class SummaryPage extends StatelessWidget {
           info: "name".tr(),
           extraInfo: "owed-to-you".tr(),
           sliver: ColumnSliver(
-            children: splitPersonSummaries.length <= 0
+            children: splitPersonSummaries.isEmpty
                 ? [NoResults(message: "missing-data".tr())]
                 : [
                     for (int i = 0; i < splitPersonSummaries.length; i++)
@@ -1506,7 +1504,7 @@ Future<bool> generateLoanTransactionsFromBillSummary(
         double amountSpent = 0;
         if (splitPerson == null) continue;
         double percentOfTotal = billSplitterItem.evenSplit
-            ? billSplitterItem.userAmounts.length == 0
+            ? billSplitterItem.userAmounts.isEmpty
                 ? 0
                 : 1 / billSplitterItem.userAmounts.length
             : (splitPerson.percent ?? 0) / 100;
@@ -1515,19 +1513,16 @@ Future<bool> generateLoanTransactionsFromBillSummary(
         if (amountSpent == 0) percentOfTotal = 0;
         if (amountSpent == 0) continue;
 
-        note += billSplitterItem.name +
-            ": " +
-            convertToMoney(
+        note += "${billSplitterItem.name}: ${convertToMoney(
               Provider.of<AllWallets>(context, listen: false),
               amountSpent,
-            ) +
-            (percentOfTotal < 1
+            )}${percentOfTotal < 1
                 ? (" / " +
                     convertToMoney(
                       Provider.of<AllWallets>(context, listen: false),
                       billSplitterItem.cost * multiplierAmount,
                     ))
-                : "");
+                : ""}";
         note += "\n";
       }
       note = note.trim();
@@ -1545,7 +1540,7 @@ Future<bool> generateLoanTransactionsFromBillSummary(
           transactionPk: "-1",
           name: isThePayee || associatedPersonLoan != null
               ? billName.trim()
-              : (summary.splitPerson.name.trim() + " - " + billName.trim()),
+              : ("${summary.splitPerson.name.trim()} - ${billName.trim()}"),
           amount: amountSpentTotal.abs() * -1,
           note: note,
           categoryFk: mainAndSubcategory.main?.categoryPk ?? "0",
@@ -1688,12 +1683,13 @@ class _SummaryPersonRowEntryState extends State<SummaryPersonRowEntry> {
                                     break;
                                   }
                                 }
-                                if (splitPerson == null)
+                                if (splitPerson == null) {
                                   return SizedBox.shrink();
+                                }
 
                                 double percentOfTotal = billSplitterItem
                                         .evenSplit
-                                    ? billSplitterItem.userAmounts.length == 0
+                                    ? billSplitterItem.userAmounts.isEmpty
                                         ? 0
                                         : 1 /
                                             billSplitterItem.userAmounts.length
@@ -1745,6 +1741,7 @@ class _SummaryPersonRowEntryState extends State<SummaryPersonRowEntry> {
                                                   Duration(milliseconds: 1500),
                                               curve: Curves
                                                   .easeInOutCubicEmphasized,
+                                              widthFactor: percentOfTotal,
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadiusDirectional
@@ -1756,7 +1753,6 @@ class _SummaryPersonRowEntryState extends State<SummaryPersonRowEntry> {
                                                   height: 5,
                                                 ),
                                               ),
-                                              widthFactor: percentOfTotal,
                                             ),
                                           ],
                                         ),

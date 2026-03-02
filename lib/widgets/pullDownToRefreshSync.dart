@@ -25,8 +25,8 @@ class PullDownToRefreshSync extends StatefulWidget {
     required this.child,
     required this.scrollController,
     this.checkEnabled,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final ScrollController scrollController;
@@ -73,7 +73,7 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
     super.dispose();
   }
 
-  _onScroll() {
+  void _onScroll() {
     if (widget.scrollController.offset > scrollDownToDismissThreshold) {
       if (swipeDownToRefresh == true) {
         setState(() {
@@ -84,7 +84,7 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
     }
   }
 
-  _onPointerMove(PointerMoveEvent ptr) {
+  void _onPointerMove(PointerMoveEvent ptr) {
     if ((widget.checkEnabled == null || widget.checkEnabled!()) &&
         enableSwipeDownToRefresh(context)) {
       if (swipeDownToRefresh) {
@@ -108,7 +108,7 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
     }
   }
 
-  _onPointerUp(PointerUpEvent event) {
+  void _onPointerUp(PointerUpEvent event) {
     if ((totalDragY - swipeDownThreshold) > dragAmountForRefresh &&
         swipeDownToRefresh) {
       _refreshSync();
@@ -121,7 +121,7 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
     totalDragX = 0;
   }
 
-  _onPointerDown(PointerDownEvent event) {
+  void _onPointerDown(PointerDownEvent event) {
     if (widget.scrollController.offset > 0) {
       swipeDownToRefresh = false;
     } else {
@@ -129,7 +129,7 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
     }
   }
 
-  _refreshSync() async {
+  Future<void> _refreshSync() async {
     _animationController.reverse();
     if (runningCloudFunctions == false) {
       await runAllCloudFunctions(context);
@@ -200,11 +200,9 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
                             textColor: getColor(context, "textLight"),
                             fontSize: 13,
                             maxLines: 3,
-                            text: "synced".tr().capitalizeFirst +
-                                " " +
-                                (dateTimeLastSynced == null
+                            text: "${"synced".tr().capitalizeFirst} ${dateTimeLastSynced == null
                                     ? "never".tr()
-                                    : getTimeAgo(dateTimeLastSynced)),
+                                    : getTimeAgo(dateTimeLastSynced)}",
                           ),
                         );
                       },

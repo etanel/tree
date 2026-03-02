@@ -47,7 +47,7 @@ class UpcomingOverdueTransactionsState
     extends State<UpcomingOverdueTransactions> {
   late bool? overdueTransactions = widget.overdueTransactions;
   String? searchValue;
-  FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   SelectedSubscriptionsType selectedType = SelectedSubscriptionsType
       .values[appStateSettings["selectedSubscriptionType"]];
   GlobalKey<PageFrameworkState> pageState = GlobalKey();
@@ -61,7 +61,7 @@ class UpcomingOverdueTransactionsState
     String pageId = "OverdueUpcoming";
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value[pageId] ?? []).length > 0) {
+        if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -166,9 +166,9 @@ class UpcomingOverdueTransactionsState
                                 ? 1
                                 : 2,
                         onSelected: (int index) {
-                          if (index == 1)
+                          if (index == 1) {
                             overdueTransactions = null;
-                          else if (index == 2)
+                          } else if (index == 2)
                             overdueTransactions = false;
                           else if (index == 3) overdueTransactions = true;
                           setState(() {});
@@ -245,7 +245,7 @@ class UpcomingOverdueTransactionsState
                 searchString: searchValue),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.length <= 0) {
+                if (snapshot.data!.isEmpty) {
                   return SliverToBoxAdapter(
                     child: Center(
                       child: NoResults(message: "no-transactions-found".tr()),
@@ -431,11 +431,9 @@ class CenteredAmountAndNumTransactions extends StatelessWidget {
                   ),
                 ),
                 TextFont(
-                  text: totalCount.toString() +
-                      " " +
-                      (totalCount == 1
+                  text: "$totalCount ${totalCount == 1
                           ? "transaction".tr().toLowerCase()
-                          : "transactions".tr().toLowerCase()),
+                          : "transactions".tr().toLowerCase()}",
                   fontSize: 16,
                   textColor: getColor(context, "textLight"),
                 ),

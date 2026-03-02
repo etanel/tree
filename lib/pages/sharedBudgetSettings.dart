@@ -23,10 +23,10 @@ import 'package:tree/struct/randomConstants.dart';
 import 'addButton.dart';
 
 class SharedBudgetSettings extends StatefulWidget {
-  SharedBudgetSettings({
-    Key? key,
+  const SharedBudgetSettings({
+    super.key,
     required this.budget,
-  }) : super(key: key);
+  });
 
   final Budget budget;
 
@@ -67,7 +67,7 @@ class _SharedBudgetSettingsState extends State<SharedBudgetSettings> {
     });
   }
 
-  addMember(String member,
+  Future<void> addMember(String member,
       {bool updateEntry = false, String originalMember = ""}) async {
     member = member.replaceAll(' ', '');
     if (members.contains(member)) {
@@ -109,7 +109,7 @@ class _SharedBudgetSettingsState extends State<SharedBudgetSettings> {
     }
   }
 
-  removeMember(String member) async {
+  Future<void> removeMember(String member) async {
     await removeMemberFromBudget(
         widget.budget.sharedKey!, member, widget.budget);
     setState(() {
@@ -445,7 +445,7 @@ class _SharedBudgetSettingsState extends State<SharedBudgetSettings> {
                     popRoute(context);
                     openPopup(
                       context,
-                      title: "Delete " + widget.budget.name + " budget?",
+                      title: "Delete ${widget.budget.name} budget?",
                       description:
                           "This will delete all transactions associated with this category. This will only delete the transactions on your device.",
                       icon: appStateSettings["outlinedIcons"]
@@ -463,7 +463,7 @@ class _SharedBudgetSettingsState extends State<SharedBudgetSettings> {
                         popRoute(context);
                         openSnackbar(
                           SnackbarMessage(
-                            title: "Deleted " + widget.budget.name,
+                            title: "Deleted ${widget.budget.name}",
                             icon: Icons.delete,
                           ),
                         );
@@ -484,14 +484,14 @@ class _SharedBudgetSettingsState extends State<SharedBudgetSettings> {
 
 class CategoryMemberContainer extends StatelessWidget {
   const CategoryMemberContainer({
-    Key? key,
+    super.key,
     required this.member,
     required this.setMember,
     required this.onDelete,
     required this.isOwner,
     required this.isYou,
     required this.canModify,
-  }) : super(key: key);
+  });
 
   final String member;
   final Function(String) setMember;
@@ -506,9 +506,9 @@ class CategoryMemberContainer extends StatelessWidget {
       padding: const EdgeInsetsDirectional.only(bottom: 8.0),
       child: Tappable(
         onTap: () {
-          if (!canModify)
+          if (!canModify) {
             memberPopup(context, member);
-          else
+          } else {
             openBottomSheet(
               context,
               PopupFramework(
@@ -550,6 +550,7 @@ class CategoryMemberContainer extends StatelessWidget {
                 ),
               ),
             );
+          }
         },
         borderRadius: 15,
         color: getColor(context, "lightDarkAccent"),
@@ -568,17 +569,17 @@ class CategoryMemberContainer extends StatelessWidget {
                           ? isYou
                               ? getMemberNickname(member) == member
                                   ? "Owner (You)"
-                                  : getMemberNickname(member) + " (Owner - You)"
+                                  : "${getMemberNickname(member)} (Owner - You)"
                               : getMemberNickname(member) == member
                                   ? "Owner"
-                                  : getMemberNickname(member) + " (Owner)"
+                                  : "${getMemberNickname(member)} (Owner)"
                           : isYou
                               ? getMemberNickname(member) != "Me"
-                                  ? getMemberNickname(member) + " (Member - Me)"
+                                  ? "${getMemberNickname(member)} (Member - Me)"
                                   : "Me (Member)"
                               : getMemberNickname(member) == member
                                   ? "Member"
-                                  : getMemberNickname(member) + " (Member)",
+                                  : "${getMemberNickname(member)} (Member)",
                       fontSize: 15,
                       textColor: Theme.of(context).colorScheme.secondary,
                     ),
@@ -633,7 +634,7 @@ class CategoryMemberContainer extends StatelessWidget {
   }
 }
 
-memberPopup(context, String member) {
+void memberPopup(context, String member) {
   openBottomSheet(
     context,
     PopupFramework(

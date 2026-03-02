@@ -38,13 +38,13 @@ import 'package:tree/widgets/extraInfoBoxes.dart';
 import 'addButton.dart';
 
 class AddCategoryPage extends StatefulWidget {
-  AddCategoryPage({
-    Key? key,
+  const AddCategoryPage({
+    super.key,
     this.category,
     required this.routesToPopAfterDelete,
     this.mainCategoryPkWhenSubCategory,
     this.initiallyIsExpense = true,
-  }) : super(key: key);
+  });
 
   //When a category is passed in, we are editing that category
   final TransactionCategory? category;
@@ -70,10 +70,10 @@ class _AddCategoryPageState extends State<AddCategoryPage>
   bool? canAddCategory;
   TransactionCategory? widgetCategory;
   List<String>? selectedMembers;
-  TextEditingController _titleController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
   bool userAttemptedToChangeTitle = false;
-  FocusNode _titleFocusNode = FocusNode();
-  late TabController _incomeTabController =
+  final FocusNode _titleFocusNode = FocusNode();
+  late final TabController _incomeTabController =
       TabController(length: 2, vsync: this);
   late bool isSubCategory = widget.mainCategoryPkWhenSubCategory != null ||
       widget.category?.mainCategoryPk != null;
@@ -135,17 +135,19 @@ class _AddCategoryPageState extends State<AddCategoryPage>
     return;
   }
 
-  determineBottomButton() {
+  void determineBottomButton() {
     if (selectedTitle != null) {
-      if (canAddCategory != true)
-        this.setState(() {
+      if (canAddCategory != true) {
+        setState(() {
           canAddCategory = true;
         });
+      }
     } else {
-      if (canAddCategory != false)
-        this.setState(() {
+      if (canAddCategory != false) {
+        setState(() {
           canAddCategory = false;
         });
+      }
     }
   }
 
@@ -165,7 +167,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
           icon: appStateSettings["outlinedIcons"]
               ? Icons.move_to_inbox_outlined
               : Icons.move_to_inbox_rounded,
-          description: (selectedTitle ?? "") + " → " + categoryMain.name,
+          description: "${selectedTitle ?? ""} → ${categoryMain.name}",
         ),
       );
     }
@@ -201,13 +203,11 @@ class _AddCategoryPageState extends State<AddCategoryPage>
       iconName: selectedImage,
       emojiIconName: selectedEmoji,
       methodAdded:
-          widget.category != null ? widget.category!.methodAdded : null,
+          widget.category?.methodAdded,
       mainCategoryPk: canSelectIfSubCategoryOrMainCategory() &&
               mainCategoryPkForSubcategoryWhenCreating != null
           ? mainCategoryPkForSubcategoryWhenCreating
-          : widget.mainCategoryPkWhenSubCategory != null
-              ? widget.mainCategoryPkWhenSubCategory
-              : widget.category?.mainCategoryPk,
+          : widget.mainCategoryPkWhenSubCategory ?? widget.category?.mainCategoryPk,
     );
   }
 
@@ -380,9 +380,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                     .watchCategory(widget.mainCategoryPkWhenSubCategory!),
                 builder: (context, snapshot) {
                   return TextFont(
-                    text: "for".tr().capitalizeFirst +
-                        " " +
-                        (snapshot.data?.name ?? ""),
+                    text: "${"for".tr().capitalizeFirst} ${snapshot.data?.name ?? ""}",
                     fontSize: getCenteredTitle(
                                     context: context,
                                     backButtonEnabled: true) ==
@@ -521,16 +519,16 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                             child: SelectCategoryImage(
                               setSelectedImage: setSelectedImage,
                               setSelectedEmoji: setSelectedEmoji,
-                              selectedImage: "assets/categories/" +
-                                  selectedImage.toString(),
+                              selectedImage: "assets/categories/$selectedImage",
                               setSelectedTitle: (String? titleRecommendation) {
                                 if (titleRecommendation != null &&
                                     (userAttemptedToChangeTitle == false ||
                                         selectedTitle == "" ||
-                                        selectedTitle == null))
+                                        selectedTitle == null)) {
                                   setSelectedTitle(
                                       titleRecommendation.capitalizeFirstofEach,
                                       modifyControllerValue: true);
+                                }
                               },
                             ),
                           ),
@@ -598,7 +596,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                     ),
                   ],
                 ),
-                Container(
+                SizedBox(
                   height: 65,
                   child: SelectColor(
                     horizontalList: true,
@@ -729,9 +727,9 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                   widget.category!.categoryPk),
               builder: (context, snapshot) {
                 List<TransactionCategory> subCategories = snapshot.data ?? [];
-                if (subCategories.length <= 0 &&
+                if (subCategories.isEmpty &&
                     widget.routesToPopAfterDelete !=
-                        RoutesToPopAfterDelete.PreventDelete)
+                        RoutesToPopAfterDelete.PreventDelete) {
                   return SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsetsDirectional.only(
@@ -743,13 +741,14 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                       child: SettingsContainer(
                         isOutlined: true,
                         onTap: () async {
-                          if (widget.category != null)
+                          if (widget.category != null) {
                             makeSubCategoryPopup(
                               context,
                               categoryOriginal: widget.category!,
                               routesToPopAfterDelete:
                                   widget.routesToPopAfterDelete,
                             );
+                          }
                         },
                         title: "make-subcategory".tr(),
                         icon: appStateSettings["outlinedIcons"]
@@ -760,6 +759,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                       ),
                     ),
                   );
+                }
                 return SliverReorderableList(
                   onReorderStart: (index) {
                     HapticFeedback.heavyImpact();
@@ -831,15 +831,13 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                                           snapshot.data != null) {
                                         return TextFont(
                                           textAlign: TextAlign.start,
-                                          text: snapshot.data![0].toString() +
-                                              " " +
-                                              (snapshot.data![0] == 1
+                                          text: "${snapshot.data![0]} ${snapshot.data![0] == 1
                                                   ? "transaction"
                                                       .tr()
                                                       .toLowerCase()
                                                   : "transactions"
                                                       .tr()
-                                                      .toLowerCase()),
+                                                      .toLowerCase()}",
                                           fontSize: 14,
                                           textColor: getColor(context, "black")
                                               .withOpacity(0.65),
@@ -879,21 +877,21 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                     );
                   },
                   itemCount: subCategories.length,
-                  onReorder: (_intPrevious, _intNew) async {
+                  onReorder: (intPrevious, intNew) async {
                     TransactionCategory oldCategory =
-                        subCategories[_intPrevious];
+                        subCategories[intPrevious];
 
-                    if (_intNew > _intPrevious) {
+                    if (intNew > intPrevious) {
                       await database.moveCategory(
                         oldCategory.categoryPk,
-                        _intNew - 1,
+                        intNew - 1,
                         oldCategory.order,
                         mainCategoryPk: oldCategory.mainCategoryPk,
                       );
                     } else {
                       await database.moveCategory(
                         oldCategory.categoryPk,
-                        _intNew,
+                        intNew,
                         oldCategory.order,
                         mainCategoryPk: oldCategory.mainCategoryPk,
                       );
@@ -971,10 +969,11 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                               top: 4,
                             ),
                             onTap: () {
-                              if (canAddCategory != true)
+                              if (canAddCategory != true) {
                                 setState(() {
                                   canAddCategory = true;
                                 });
+                              }
                               openBottomSheet(
                                 context,
                                 popupWithKeyboard: true,
@@ -995,7 +994,7 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                       builder: (context, snapshot) {
                         // print(snapshot.data);
                         if (snapshot.hasData &&
-                            (snapshot.data ?? []).length > 0) {
+                            (snapshot.data ?? []).isNotEmpty) {
                           return Column(
                             children: [
                               for (int i = 0; i < snapshot.data!.length; i++)
@@ -1058,7 +1057,7 @@ class _AddTitleState extends State<AddTitle> {
     return PopupFramework(
       title: "set-title".tr(),
       child: SelectText(
-        enableButton: selectedText.trim().length > 0,
+        enableButton: selectedText.trim().isNotEmpty,
         buttonLabel: "set-title".tr(),
         setSelectedText: (value) {
           setState(() {
@@ -1090,10 +1089,10 @@ class _AddTitleState extends State<AddTitle> {
 
 class AssociatedTitleContainer extends StatelessWidget {
   const AssociatedTitleContainer({
-    Key? key,
+    super.key,
     required this.title,
     required this.setTitle,
-  }) : super(key: key);
+  });
 
   final TransactionAssociatedTitle title;
   final Function(String) setTitle;
