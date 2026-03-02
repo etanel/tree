@@ -258,12 +258,11 @@ class TransactionsListPageState extends State<TransactionsListPage>
                                     : TransactionEntriesRenderType
                                         .implicitlyAnimatedSlivers,
                                 startDate,
-                                DateTime(startDate.year,
-                                    startDate.month + 1, startDate.day - 1),
+                                DateTime(startDate.year, startDate.month + 1,
+                                    startDate.day - 1),
                                 listID: pageId,
-                                noResultsMessage: "${"no-transactions-for".tr()} ${getMonth(startDate,
-                                        includeYear: startDate.year !=
-                                            DateTime.now().year)}.",
+                                noResultsMessage:
+                                    "${"no-transactions-for".tr()} ${getMonth(startDate, includeYear: startDate.year != DateTime.now().year)}.",
                                 showTotalCashFlow: true,
                                 enableSpendingSummary: true,
                                 showSpendingSummary: appStateSettings[

@@ -178,9 +178,8 @@ class TextInput extends StatelessWidget {
                   !appStateSettings["incognitoKeyboard"],
               scrollPadding: EdgeInsets.only(bottom: 80),
               focusNode: focusNode,
-              keyboardType: keyboardType ?? (numbersOnly
-                      ? TextInputType.number
-                      : TextInputType.text),
+              keyboardType: keyboardType ??
+                  (numbersOnly ? TextInputType.number : TextInputType.text),
               maxLines: maxLines,
               minLines: minLines,
               onTap: onTap,
@@ -193,8 +192,7 @@ class TextInput extends StatelessWidget {
               textAlign: textAlign,
               autocorrect: autocorrect,
               style: TextStyle(
-                fontSize:
-                    fontSize ?? (bubbly == false ? 18 : 15),
+                fontSize: fontSize ?? (bubbly == false ? 18 : 15),
                 height: kIsWeb
                     ? null
                     : bubbly == true

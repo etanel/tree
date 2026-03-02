@@ -42,7 +42,8 @@ class ColorPicker extends StatefulWidget {
   final double? shadeSliderPosition;
   final Color? initialColor;
   final Function(Color, double, double) onChange;
-  const ColorPicker({super.key, 
+  const ColorPicker({
+    super.key,
     required this.width,
     required this.ringColor,
     required this.ringSize,
@@ -102,7 +103,8 @@ class _ColorPickerState extends State<ColorPicker> {
             ));
     _shadedColor = _calculateShadedColor(_shadeSliderPosition);
     Future.delayed(Duration.zero, () {
-      print("Distance to predicted color: ${colorDistance(widget.initialColor ?? Colors.red, _shadedColor)}");
+      print(
+          "Distance to predicted color: ${colorDistance(widget.initialColor ?? Colors.red, _shadedColor)}");
 
       if (widget.colorSliderPosition == null &&
           widget.shadeSliderPosition == null) {

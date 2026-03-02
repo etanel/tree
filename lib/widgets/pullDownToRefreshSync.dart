@@ -200,9 +200,8 @@ class _PullDownToRefreshSyncState extends State<PullDownToRefreshSync>
                             textColor: getColor(context, "textLight"),
                             fontSize: 13,
                             maxLines: 3,
-                            text: "${"synced".tr().capitalizeFirst} ${dateTimeLastSynced == null
-                                    ? "never".tr()
-                                    : getTimeAgo(dateTimeLastSynced)}",
+                            text:
+                                "${"synced".tr().capitalizeFirst} ${dateTimeLastSynced == null ? "never".tr() : getTimeAgo(dateTimeLastSynced)}",
                           ),
                         );
                       },

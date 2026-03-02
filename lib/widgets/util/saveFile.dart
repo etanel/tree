@@ -33,8 +33,7 @@ Future<bool> saveFile({
   }
   if (kIsWeb) {
     try {
-      String base64String = base64Encode(
-          dataStore ?? utf8.encode(dataString!));
+      String base64String = base64Encode(dataStore ?? utf8.encode(dataString!));
       AnchorElement anchor = AnchorElement(
           href: 'data:application/octet-stream;base64,$base64String')
         ..download = fileName

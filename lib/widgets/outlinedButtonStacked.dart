@@ -199,7 +199,8 @@ class HeaderWithIconAndInfo extends StatelessWidget {
   final EdgeInsetsDirectional padding;
   final Widget? extraWidget;
 
-  const HeaderWithIconAndInfo({super.key, 
+  const HeaderWithIconAndInfo({
+    super.key,
     required this.iconData,
     this.iconScale = 1,
     required this.text,

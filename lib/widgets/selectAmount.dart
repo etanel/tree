@@ -301,8 +301,7 @@ class _SelectAmountState extends State<SelectAmount> {
     }
     // bottomSheetControllerGlobal.snapToExtent(0);
     String amountClone = amount;
-    if (input == "." &&
-        !decimalCheck(operationsWithSpaces("$amountClone."))) {
+    if (input == "." && !decimalCheck(operationsWithSpaces("$amountClone."))) {
     } else if (amount.isEmpty && !includesOperations(input, false)) {
       if (input == "0") {
       } else if (input == ".") {

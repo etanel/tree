@@ -90,9 +90,8 @@ class PieChartWrapper extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         children: [
           ScaledAnimatedSwitcher(
-            keyToWatch:
-                (data.isEmpty || numberZeroTransactions == data.length)
-                    .toString(),
+            keyToWatch: (data.isEmpty || numberZeroTransactions == data.length)
+                .toString(),
             child: data.isEmpty || numberZeroTransactions == data.length
                 ? Container(
                     key: ValueKey(1),
@@ -139,8 +138,7 @@ class PieChartWrapper extends StatelessWidget {
                     ? 80
                     : 110,
                 decoration: BoxDecoration(
-                    color:
-                        middleColor ?? Theme.of(context).colorScheme.surface,
+                    color: middleColor ?? Theme.of(context).colorScheme.surface,
                     shape: BoxShape.circle),
               ),
             ),

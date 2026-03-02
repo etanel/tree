@@ -466,7 +466,8 @@ class _CyclePeriodSelectionState extends State<CyclePeriodSelection> {
               top: 15,
             ),
             child: TextFont(
-              text: "(${getWordedDateShortMore(budgetRange.start)} – ${getWordedDateShortMore(budgetRange.end)})",
+              text:
+                  "(${getWordedDateShortMore(budgetRange.start)} – ${getWordedDateShortMore(budgetRange.end)})",
               fontSize: 16,
               maxLines: 3,
               textColor: Theme.of(context).brightness == Brightness.dark &&
@@ -487,8 +488,7 @@ class _CyclePeriodSelectionState extends State<CyclePeriodSelection> {
 Budget getCustomCycleTempBudget(String cycleSettingsExtension) {
   return Budget(
     startDate: DateTime.tryParse(
-            appStateSettings["cycleStartDate$cycleSettingsExtension"] ??
-                "") ??
+            appStateSettings["cycleStartDate$cycleSettingsExtension"] ?? "") ??
         DateTime.now(),
     periodLength:
         appStateSettings["cyclePeriodLength$cycleSettingsExtension"] ?? 1,
@@ -533,8 +533,7 @@ DateTime? getStartDateOfSelectedCustomPeriod(
     return forcedDateTimeRange.start.justDay();
   }
   CycleType selectedPeriodType = CycleType.values[
-      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ??
-          0];
+      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ?? 0];
   if (selectedPeriodType == CycleType.allTime) {
     return null;
   } else if (selectedPeriodType == CycleType.cycle) {
@@ -543,16 +542,16 @@ DateTime? getStartDateOfSelectedCustomPeriod(
     return startDate.justDay();
   } else if (selectedPeriodType == CycleType.pastDays) {
     DateTime startDate = DateTime.now().subtract(Duration(
-        days: (appStateSettings[
-                "customPeriodPastDays$cycleSettingsExtension"] ??
-            0)));
+        days:
+            (appStateSettings["customPeriodPastDays$cycleSettingsExtension"] ??
+                0)));
     if (startDate.year <= 1900) return DateTime(1900);
     if (startDate.isAfter(DateTime.now())) return DateTime(1900);
     return startDate.justDay();
   } else if (selectedPeriodType == CycleType.dateRange) {
-    DateTime startDate = DateTime.tryParse(appStateSettings[
-                "customPeriodStartDate$cycleSettingsExtension"] ??
-            "") ??
+    DateTime startDate = DateTime.tryParse(
+            appStateSettings["customPeriodStartDate$cycleSettingsExtension"] ??
+                "") ??
         DateTime.now();
     return startDate.justDay();
   }
@@ -568,8 +567,7 @@ DateTime? getEndDateOfSelectedCustomPeriod(
   }
 
   CycleType selectedPeriodType = CycleType.values[
-      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ??
-          0];
+      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ?? 0];
 
   // If it is a cycle, we want the end date to be null (display everything up to today!)
   // Therefore, do not add this code in!
@@ -596,8 +594,7 @@ DateTime? getEndDateOfSelectedCustomPeriod(
 
 String getLabelOfSelectedCustomPeriod(String cycleSettingsExtension) {
   CycleType selectedPeriodType = CycleType.values[
-      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ??
-          0];
+      appStateSettings["selectedPeriodCycleType$cycleSettingsExtension"] ?? 0];
   if (selectedPeriodType == CycleType.allTime) {
     return "all-time".tr();
   } else if (selectedPeriodType == CycleType.cycle) {

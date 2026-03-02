@@ -953,7 +953,8 @@ class PageFrameworkSliverAppBar extends StatelessWidget {
                             ? (enableDoubleColumn(context) ? 19 : 16)
                             : 22,
                         fontWeight: FontWeight.bold,
-                        textColor: textColor ?? Theme.of(context).colorScheme.onSecondaryContainer,
+                        textColor: textColor ??
+                            Theme.of(context).colorScheme.onSecondaryContainer,
                         textAlign: centeredTitleWithDefault
                             ? TextAlign.center
                             : TextAlign.start,
@@ -1047,7 +1048,8 @@ Color calculateAppBarBGColor({
   required Color? appBarBackgroundColor,
   required bool centeredTitleSmall,
 }) {
-  Color appBarBGColorCalculated = appBarBackgroundColor ?? Theme.of(context).colorScheme.secondaryContainer;
+  Color appBarBGColorCalculated =
+      appBarBackgroundColor ?? Theme.of(context).colorScheme.secondaryContainer;
   if (centeredTitleSmall && getPlatform() == PlatformOS.isIOS) {
     appBarBGColorCalculated =
         appBarBackgroundColor ?? Theme.of(context).colorScheme.surface;
@@ -1087,7 +1089,8 @@ List<Widget> getAppBarBackgroundColorLayers({
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height - 1,
 
-            color: appBarBackgroundColorStart ?? Theme.of(context).colorScheme.background,
+            color: appBarBackgroundColorStart ??
+                Theme.of(context).colorScheme.background,
           ),
     (animationControllerOpacity != null ||
                 percent != null ||

@@ -320,13 +320,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
                 child: TextFont(
                   text: searchFilters.dateTimeRange == null
                       ? "all-time".tr()
-                      : "${getWordedDateShortMore(
-                              searchFilters.dateTimeRange?.start ??
-                                  DateTime.now(),
-                              includeYear: true)} – ${getWordedDateShortMore(
-                              searchFilters.dateTimeRange?.end ??
-                                  DateTime.now(),
-                              includeYear: true)}",
+                      : "${getWordedDateShortMore(searchFilters.dateTimeRange?.start ?? DateTime.now(), includeYear: true)} – ${getWordedDateShortMore(searchFilters.dateTimeRange?.end ?? DateTime.now(), includeYear: true)}",
                   fontSize: 13,
                   textAlign: TextAlign.center,
                   textColor: getColor(context, "textLight"),

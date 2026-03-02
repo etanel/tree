@@ -253,8 +253,8 @@ class ObjectivePercentTag extends StatelessWidget {
         return TransactionTag(
           color: HexColor(objective.colour,
               defaultColor: Theme.of(context).colorScheme.primary),
-          name: "${objective.name}: ${convertToPercent(percentageTowardsGoal * 100,
-                  numberDecimals: 0, useLessThanZero: true)}",
+          name:
+              "${objective.name}: ${convertToPercent(percentageTowardsGoal * 100, numberDecimals: 0, useLessThanZero: true)}",
           progress: percentageTowardsGoal,
         );
       },
@@ -270,7 +270,8 @@ class TransactionTag extends StatelessWidget {
   final Widget? leading;
   final double? progress;
 
-  const TransactionTag({super.key, 
+  const TransactionTag({
+    super.key,
     required this.color,
     required this.name,
     this.margin = const EdgeInsetsDirectional.only(start: 3),
@@ -418,25 +419,8 @@ class SharedBudgetLabel extends StatelessWidget {
                             if (snapshot.hasData) {
                               return TextFont(
                                 overflow: TextOverflow.ellipsis,
-                                text: "${transaction.transactionOwnerEmail
-                                                .toString() ==
-                                            appStateSettings["currentUserEmail"]
-                                        ? getMemberNickname(appStateSettings[
-                                            "currentUserEmail"])
-                                        : transaction.sharedStatus ==
-                                                    SharedStatus.waiting &&
-                                                (transaction.transactionOwnerEmail ==
-                                                        appStateSettings[
-                                                            "currentUserEmail"] ||
-                                                    transaction
-                                                            .transactionOwnerEmail ==
-                                                        null)
-                                            ? getMemberNickname(
-                                                appStateSettings[
-                                                    "currentUserEmail"])
-                                            : getMemberNickname(transaction
-                                                .transactionOwnerEmail
-                                                .toString())} for ${snapshot.data!.name}",
+                                text:
+                                    "${transaction.transactionOwnerEmail.toString() == appStateSettings["currentUserEmail"] ? getMemberNickname(appStateSettings["currentUserEmail"]) : transaction.sharedStatus == SharedStatus.waiting && (transaction.transactionOwnerEmail == appStateSettings["currentUserEmail"] || transaction.transactionOwnerEmail == null) ? getMemberNickname(appStateSettings["currentUserEmail"]) : getMemberNickname(transaction.transactionOwnerEmail.toString())} for ${snapshot.data!.name}",
                                 fontSize: 12.5,
                                 textColor:
                                     getColor(context, "black").withOpacity(0.7),

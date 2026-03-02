@@ -99,7 +99,8 @@ class _BudgetPageContent extends StatefulWidget {
 class _BudgetPageContentState extends State<_BudgetPageContent> {
   String? selectedMember;
   bool showAllSubcategories = appStateSettings["showAllSubcategories"] == true;
-  TransactionCategory? selectedCategory; //We shouldn't always rely on this, if for example the user changes the category and we are still on this page. But for less important info and O(1) we can reference it quickly.
+  TransactionCategory?
+      selectedCategory; //We shouldn't always rely on this, if for example the user changes the category and we are still on this page. But for less important info and O(1) we can reference it quickly.
   final GlobalKey<PieChartDisplayState> _pieChartDisplayStateKey = GlobalKey();
   bool showAllCategoriesWithCategoryLimit =
       appStateSettings["expandAllCategoriesWithSpendingLimits"] == true;
@@ -950,9 +951,10 @@ class _BudgetPageContentState extends State<_BudgetPageContent> {
                         start: 10, end: 10, bottom: 0),
                     child: TextFont(
                       text: "${"synced".tr()} ${getTimeAgo(
-                            widget.budget.sharedDateUpdated!,
-                          ).toLowerCase()}\n Created by ${getMemberNickname(
-                              (widget.budget.sharedMembers ?? [""])[0])}",
+                        widget.budget.sharedDateUpdated!,
+                      ).toLowerCase()}\n Created by ${getMemberNickname((widget.budget.sharedMembers ?? [
+                            ""
+                          ])[0])}",
                       fontSize: 13,
                       textColor: getColor(context, "textLight"),
                       textAlign: TextAlign.center,

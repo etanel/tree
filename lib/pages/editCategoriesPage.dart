@@ -334,16 +334,8 @@ class _EditCategoriesPageState extends State<EditCategoriesPage> {
                                           ),
                                           TextFont(
                                             textAlign: TextAlign.start,
-                                            text: "${categoryDetails
-                                                    .numberTransactions} ${categoryDetails
-                                                            .numberTransactions ==
-                                                        1
-                                                    ? "transaction"
-                                                        .tr()
-                                                        .toLowerCase()
-                                                    : "transactions"
-                                                        .tr()
-                                                        .toLowerCase()}",
+                                            text:
+                                                "${categoryDetails.numberTransactions} ${categoryDetails.numberTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")

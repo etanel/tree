@@ -49,59 +49,59 @@ TotalSpentCategoriesSummary watchTotalSpentInTimeRangeHelper(
   TotalSpentCategoriesSummary s = TotalSpentCategoriesSummary();
 
   for (var categoryWithTotal in dataInput) {
-      // Don't re-add the subcategory total, since the main category total includes this already
-      if (categoryWithTotal.category.mainCategoryPk == null) {
-        s.totalSpent = s.totalSpent +
-            (absoluteTotal
-                ? categoryWithTotal.total.abs()
-                : categoryWithTotal.total);
-      }
+    // Don't re-add the subcategory total, since the main category total includes this already
+    if (categoryWithTotal.category.mainCategoryPk == null) {
+      s.totalSpent = s.totalSpent +
+          (absoluteTotal
+              ? categoryWithTotal.total.abs()
+              : categoryWithTotal.total);
+    }
 
-      if (categoryWithTotal.category.mainCategoryPk != null) {
-        if (s.subCategorySpendingIndexedByMainCategoryPk[
-                categoryWithTotal.category.mainCategoryPk!] ==
-            null) {
-          s.subCategorySpendingIndexedByMainCategoryPk[
-              categoryWithTotal.category.mainCategoryPk!] = [];
-        }
+    if (categoryWithTotal.category.mainCategoryPk != null) {
+      if (s.subCategorySpendingIndexedByMainCategoryPk[
+              categoryWithTotal.category.mainCategoryPk!] ==
+          null) {
         s.subCategorySpendingIndexedByMainCategoryPk[
-                categoryWithTotal.category.mainCategoryPk!]!
-            .add(categoryWithTotal);
+            categoryWithTotal.category.mainCategoryPk!] = [];
       }
+      s.subCategorySpendingIndexedByMainCategoryPk[
+              categoryWithTotal.category.mainCategoryPk!]!
+          .add(categoryWithTotal);
+    }
 
-      // if countUnassignedTransactions: true then we need to get the total of the main category
-      // Since the main category will have the total of everything
-      // If we include subcategories in the pie chart, we need to subtract the total of subcategories from the main category total
-      // If we are not showing all subcategories, we only want the total for main categories
-      if (showAllSubcategories) {
-        if (categoryWithTotal.category.mainCategoryPk == null) {
-          s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                  categoryWithTotal.category.categoryPk] =
-              (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                          categoryWithTotal.category.categoryPk] ??
-                      0) +
-                  categoryWithTotal.total;
-        } else {
-          s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                  categoryWithTotal.category.mainCategoryPk!] =
-              (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                          categoryWithTotal.category.mainCategoryPk!] ??
-                      0) -
-                  categoryWithTotal.total;
-          s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-              categoryWithTotal.category.categoryPk] = categoryWithTotal.total;
-        }
+    // if countUnassignedTransactions: true then we need to get the total of the main category
+    // Since the main category will have the total of everything
+    // If we include subcategories in the pie chart, we need to subtract the total of subcategories from the main category total
+    // If we are not showing all subcategories, we only want the total for main categories
+    if (showAllSubcategories) {
+      if (categoryWithTotal.category.mainCategoryPk == null) {
+        s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                categoryWithTotal.category.categoryPk] =
+            (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                        categoryWithTotal.category.categoryPk] ??
+                    0) +
+                categoryWithTotal.total;
       } else {
-        if (categoryWithTotal.category.mainCategoryPk == null) {
-          s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                  categoryWithTotal.category.categoryPk] =
-              (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
-                          categoryWithTotal.category.categoryPk] ??
-                      0) +
-                  categoryWithTotal.total;
-        }
+        s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                categoryWithTotal.category.mainCategoryPk!] =
+            (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                        categoryWithTotal.category.mainCategoryPk!] ??
+                    0) -
+                categoryWithTotal.total;
+        s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+            categoryWithTotal.category.categoryPk] = categoryWithTotal.total;
+      }
+    } else {
+      if (categoryWithTotal.category.mainCategoryPk == null) {
+        s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                categoryWithTotal.category.categoryPk] =
+            (s.totalSpentOfCategoriesRemoveUnassignedTransactions[
+                        categoryWithTotal.category.categoryPk] ??
+                    0) +
+                categoryWithTotal.total;
       }
     }
+  }
 
   for (var categoryWithTotal in dataInput) {
     double? newTotal = s.totalSpentOfCategoriesRemoveUnassignedTransactions[

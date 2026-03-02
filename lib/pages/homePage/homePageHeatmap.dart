@@ -302,9 +302,11 @@ class HeatMap extends StatelessWidget {
                                 builder: (context) {
                                   int index = totalDays - (itemIndex * 7 + j);
                                   double? amount = nullIfIndexOutOfRange(
-                                              pointsOffsetFixed, index)?.y;
+                                          pointsOffsetFixed, index)
+                                      ?.y;
                                   DateTime? day = nullIfIndexOutOfRange(
-                                              pointsOffsetFixed, index)?.dateTime;
+                                          pointsOffsetFixed, index)
+                                      ?.dateTime;
                                   Color color = getHeatMapColor(
                                     context: context,
                                     amount: amount,

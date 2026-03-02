@@ -376,11 +376,9 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
                   dayOffset: -widget.maxPair.x.toInt() + lineBarSpot.x.toInt());
               return LineTooltipItem(
                 "${getWordedDateShort(
-                      tooltipDate,
-                      includeYear: DateTime.now().year != tooltipDate.year,
-                    )}\n${convertToMoney(
-                        Provider.of<AllWallets>(context, listen: false),
-                        lineBarSpot.y)}",
+                  tooltipDate,
+                  includeYear: DateTime.now().year != tooltipDate.year,
+                )}\n${convertToMoney(Provider.of<AllWallets>(context, listen: false), lineBarSpot.y)}",
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

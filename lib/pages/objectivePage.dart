@@ -137,8 +137,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
             );
             print(newObjective);
           },
-          selectedImage:
-              "assets/categories/${widget.objective.iconName}",
+          selectedImage: "assets/categories/${widget.objective.iconName}",
           setSelectedTitle: (String? titleRecommendation) {},
         ),
       ),
@@ -156,9 +155,8 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
         if (snapshot.hasData && snapshot.data != null) {
           return TextFont(
             textAlign: TextAlign.center,
-            text: "${snapshot.data} ${snapshot.data == 1
-                    ? "transaction".tr().toLowerCase()
-                    : "transactions".tr().toLowerCase()}",
+            text:
+                "${snapshot.data} ${snapshot.data == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
             fontSize: 16,
             maxLines: 3,
           );
@@ -520,11 +518,11 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
                                         ) +
                                         (widget.objective.endDate != null
                                             ? " – ${getWordedDateShortMore(
-                                                  widget.objective.endDate!,
-                                                  includeYear: widget.objective
-                                                          .endDate!.year !=
-                                                      DateTime.now().year,
-                                                )}"
+                                                widget.objective.endDate!,
+                                                includeYear: widget.objective
+                                                        .endDate!.year !=
+                                                    DateTime.now().year,
+                                              )}"
                                             : ""),
                                     maxLines: 3,
                                     textAlign: TextAlign.center,

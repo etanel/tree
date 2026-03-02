@@ -224,9 +224,8 @@ class _SelectCategoryState extends State<SelectCategory> {
               child: AnimatedSizeSwitcher(
                 child: SizedBox(
                   key: ValueKey(children.isEmpty),
-                  height: children.isEmpty
-                      ? 0
-                      : widget.horizontalListViewHeight,
+                  height:
+                      children.isEmpty ? 0 : widget.horizontalListViewHeight,
                   child: ListView(
                     addAutomaticKeepAlives: true,
                     clipBehavior: Clip.none,

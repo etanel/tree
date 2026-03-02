@@ -148,7 +148,8 @@ class ScalingWidget extends StatefulWidget {
   final String keyToWatch;
   final Widget child;
 
-  const ScalingWidget({super.key, required this.keyToWatch, required this.child});
+  const ScalingWidget(
+      {super.key, required this.keyToWatch, required this.child});
 
   @override
   _ScalingWidgetState createState() => _ScalingWidgetState();
@@ -262,7 +263,8 @@ class ScaledAnimatedSwitcher extends StatelessWidget {
 enum Direction { vertical, horizontal }
 
 class SlideFadeTransition extends StatefulWidget {
-  const SlideFadeTransition({super.key, 
+  const SlideFadeTransition({
+    super.key,
     required this.child,
     this.offset = 1,
     this.curve = Curves.decelerate,
@@ -548,7 +550,8 @@ class BouncingWidget extends StatefulWidget {
   final Duration duration;
 
   const BouncingWidget(
-      {super.key, required this.child,
+      {super.key,
+      required this.child,
       required this.animate,
       this.amountEnd = -8,
       this.duration = const Duration(milliseconds: 800)});

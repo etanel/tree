@@ -202,12 +202,12 @@ class _AddCategoryPageState extends State<AddCategoryPage>
       colour: toHexString(selectedColor),
       iconName: selectedImage,
       emojiIconName: selectedEmoji,
-      methodAdded:
-          widget.category?.methodAdded,
+      methodAdded: widget.category?.methodAdded,
       mainCategoryPk: canSelectIfSubCategoryOrMainCategory() &&
               mainCategoryPkForSubcategoryWhenCreating != null
           ? mainCategoryPkForSubcategoryWhenCreating
-          : widget.mainCategoryPkWhenSubCategory ?? widget.category?.mainCategoryPk,
+          : widget.mainCategoryPkWhenSubCategory ??
+              widget.category?.mainCategoryPk,
     );
   }
 
@@ -380,7 +380,8 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                     .watchCategory(widget.mainCategoryPkWhenSubCategory!),
                 builder: (context, snapshot) {
                   return TextFont(
-                    text: "${"for".tr().capitalizeFirst} ${snapshot.data?.name ?? ""}",
+                    text:
+                        "${"for".tr().capitalizeFirst} ${snapshot.data?.name ?? ""}",
                     fontSize: getCenteredTitle(
                                     context: context,
                                     backButtonEnabled: true) ==
@@ -831,13 +832,8 @@ class _AddCategoryPageState extends State<AddCategoryPage>
                                           snapshot.data != null) {
                                         return TextFont(
                                           textAlign: TextAlign.start,
-                                          text: "${snapshot.data![0]} ${snapshot.data![0] == 1
-                                                  ? "transaction"
-                                                      .tr()
-                                                      .toLowerCase()
-                                                  : "transactions"
-                                                      .tr()
-                                                      .toLowerCase()}",
+                                          text:
+                                              "${snapshot.data![0]} ${snapshot.data![0] == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                           fontSize: 14,
                                           textColor: getColor(context, "black")
                                               .withOpacity(0.65),

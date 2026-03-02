@@ -295,7 +295,8 @@ class AccountsPageState extends State<AccountsPage> {
                           text: "",
                           richTextSpan: [
                             TextSpan(
-                              text: "${"why-is-auto-login-disabled-on-web".tr()} ",
+                              text:
+                                  "${"why-is-auto-login-disabled-on-web".tr()} ",
                               style: TextStyle(
                                 color: getColor(context, "black"),
                                 fontFamily: appStateSettings["font"],

@@ -522,9 +522,8 @@ class _SyncButtonState extends State<SyncButton> {
                                       : getColor(context, "textLight"),
                                   fontSize: 13,
                                   maxLines: 3,
-                                  text: "${"synced".tr()} ${dateTimeLastSynced == null
-                                          ? "never".tr()
-                                          : getTimeAgo(dateTimeLastSynced)}",
+                                  text:
+                                      "${"synced".tr()} ${dateTimeLastSynced == null ? "never".tr() : getTimeAgo(dateTimeLastSynced)}",
                                 );
                               },
                             ),

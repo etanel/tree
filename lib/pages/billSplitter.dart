@@ -54,8 +54,7 @@ class BillSplitterItem {
     data['name'] = name;
     data['cost'] = cost;
     data['evenSplit'] = evenSplit;
-    data['userAmounts'] =
-        userAmounts.map((person) => person.toJson()).toList();
+    data['userAmounts'] = userAmounts.map((person) => person.toJson()).toList();
     return data;
   }
 
@@ -333,10 +332,10 @@ class _BillSplitterState extends State<BillSplitter> {
                         return TextFont(
                           textAlign: TextAlign.center,
                           text: " / ${convertToMoney(
-                                Provider.of<AllWallets>(context),
-                                number,
-                                finalNumber: number.abs(),
-                              )}",
+                            Provider.of<AllWallets>(context),
+                            number,
+                            finalNumber: number.abs(),
+                          )}",
                           fontSize: 16,
                           textColor: getColor(context, "textLight"),
                         );
@@ -675,9 +674,9 @@ class BillSplitterItemEntry extends StatelessWidget {
                                 const EdgeInsetsDirectional.only(bottom: 2),
                             child: TextFont(
                               text: " / ${convertToMoney(
-                                    Provider.of<AllWallets>(context),
-                                    billSplitterItem.cost * multiplierAmount,
-                                  )}",
+                                Provider.of<AllWallets>(context),
+                                billSplitterItem.cost * multiplierAmount,
+                              )}",
                               fontSize: 15,
                               textColor: getColor(context, "textLight"),
                             ),
@@ -1058,8 +1057,7 @@ class _AddBillItemPageState extends State<AddBillItemPage> {
                 billSplitterItem.userAmounts.map((item) => item.name).toList(),
             items: <dynamic>{
               ...splitPersons
-                  .map((SplitPerson splitPerson) => splitPerson.name)
-                  ,
+                  .map((SplitPerson splitPerson) => splitPerson.name),
               ...billSplitterItem.userAmounts.map((item) => item.name),
             }.toList(),
             onChanged: (currentValues) {
@@ -1514,15 +1512,12 @@ Future<bool> generateLoanTransactionsFromBillSummary(
         if (amountSpent == 0) continue;
 
         note += "${billSplitterItem.name}: ${convertToMoney(
+          Provider.of<AllWallets>(context, listen: false),
+          amountSpent,
+        )}${percentOfTotal < 1 ? (" / " + convertToMoney(
               Provider.of<AllWallets>(context, listen: false),
-              amountSpent,
-            )}${percentOfTotal < 1
-                ? (" / " +
-                    convertToMoney(
-                      Provider.of<AllWallets>(context, listen: false),
-                      billSplitterItem.cost * multiplierAmount,
-                    ))
-                : ""}";
+              billSplitterItem.cost * multiplierAmount,
+            )) : ""}";
         note += "\n";
       }
       note = note.trim();

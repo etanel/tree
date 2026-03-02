@@ -53,7 +53,8 @@ class SelectedTransactionsAppBar extends StatelessWidget {
       transactionOutput.add("$name  •  $amount");
     }
     String outString = "";
-    outString += "**${"total".tr()}**  •  ${convertToMoney(allWallets, totalAmount)}";
+    outString +=
+        "**${"total".tr()}**  •  ${convertToMoney(allWallets, totalAmount)}";
     outString += "\n${transactionOutput.join("\n")}";
 
     if (shareInsteadOfCopy == false || kIsWeb) {
@@ -276,7 +277,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                 ? Icons.file_copy_outlined
                 : Icons.file_copy_rounded,
             title: "created-copy-for-current-time".tr(),
-            description: "${selectedTransactionPks.length} ${"transactions".tr().toLowerCase()}",
+            description:
+                "${selectedTransactionPks.length} ${"transactions".tr().toLowerCase()}",
           ),
         );
       } else {
@@ -286,7 +288,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                 ? Icons.file_copy_outlined
                 : Icons.file_copy_rounded,
             title: "created-copy".tr(),
-            description: "${selectedTransactionPks.length} ${"transactions".tr().toLowerCase()}",
+            description:
+                "${selectedTransactionPks.length} ${"transactions".tr().toLowerCase()}",
           ),
         );
       }
@@ -388,7 +391,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                     ? Icons.rule_outlined
                                     : Icons.rule_rounded,
                                 title: "maximum-transactions".tr(),
-                                description: "${"only-the-first".tr()} $maxSelectableTransactionsListedOnPage ${"selected".tr().toLowerCase()}",
+                                description:
+                                    "${"only-the-first".tr()} $maxSelectableTransactionsListedOnPage ${"selected".tr().toLowerCase()}",
                               ),
                             );
                           }
@@ -446,9 +450,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                       ? Icons.calendar_month_outlined
                                       : Icons.calendar_month_rounded,
                                   title: "changed-date".tr(),
-                                  description: "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1
-                                          ? "transaction".tr().toLowerCase()
-                                          : "transactions".tr().toLowerCase()}",
+                                  description:
+                                      "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                 ),
                               );
                               globalSelectedID.value[pageID] = [];
@@ -525,9 +528,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                       ? Icons.title_outlined
                                       : Icons.title_rounded,
                                   title: "changed-title".tr(),
-                                  description: "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1
-                                          ? "transaction".tr().toLowerCase()
-                                          : "transactions".tr().toLowerCase()}",
+                                  description:
+                                      "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                 ),
                               );
 
@@ -573,9 +575,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                       ? Icons.category_outlined
                                       : Icons.category_rounded,
                                   title: "changed-category".tr(),
-                                  description: "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1
-                                          ? "transaction".tr().toLowerCase()
-                                          : "transactions".tr().toLowerCase()}",
+                                  description:
+                                      "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                 ),
                               );
                               globalSelectedID.value[pageID] = [];
@@ -611,11 +612,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                         ? Icons.account_balance_wallet_outlined
                                         : Icons.account_balance_wallet_rounded,
                                     title: "changed-account".tr(),
-                                    description: "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1
-                                            ? "transaction".tr().toLowerCase()
-                                            : "transactions"
-                                                .tr()
-                                                .toLowerCase()}",
+                                    description:
+                                        "${"for".tr().capitalizeFirst} ${transactions.length} ${transactions.length == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                   ),
                                 );
                                 globalSelectedID.value[pageID] = [];
@@ -662,11 +660,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                     title: budget == "none"
                                         ? "removed-from-budget".tr()
                                         : "added-to-budget".tr(),
-                                    description: "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1
-                                            ? "transaction".tr().toLowerCase()
-                                            : "transactions"
-                                                .tr()
-                                                .toLowerCase()}",
+                                    description:
+                                        "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                   ),
                                 );
 
@@ -710,11 +705,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                     title: objective == "none"
                                         ? "removed-from-goal".tr()
                                         : "added-to-goal-action".tr(),
-                                    description: "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1
-                                            ? "transaction".tr().toLowerCase()
-                                            : "transactions"
-                                                .tr()
-                                                .toLowerCase()}",
+                                    description:
+                                        "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                   ),
                                 );
 
@@ -756,11 +748,8 @@ class SelectedTransactionsAppBarMenu extends StatelessWidget {
                                     title: objective == "none"
                                         ? "removed-from-loan".tr()
                                         : "added-to-loan-action".tr(),
-                                    description: "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1
-                                            ? "transaction".tr().toLowerCase()
-                                            : "transactions"
-                                                .tr()
-                                                .toLowerCase()}",
+                                    description:
+                                        "${"for".tr().capitalizeFirst} $numberMoved ${numberMoved == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()}",
                                   ),
                                 );
 
@@ -802,9 +791,8 @@ class EditSelectedTransactionsPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupFramework(
       title: "edit-transactions".tr(),
-      subtitle: "$numTransactions ${numTransactions == 1
-              ? "transaction".tr().toLowerCase()
-              : "transactions".tr().toLowerCase()} ${"selected".tr()}",
+      subtitle:
+          "$numTransactions ${numTransactions == 1 ? "transaction".tr().toLowerCase() : "transactions".tr().toLowerCase()} ${"selected".tr()}",
       child: Column(
         children: editSelectedTransactionsContainers,
       ),

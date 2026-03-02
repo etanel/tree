@@ -1451,9 +1451,8 @@ class _CustomNumberFormatPopupState extends State<CustomNumberFormatPopup> {
               child: SettingsContainer(
                 isOutlined: true,
                 isOutlinedColumn: true,
-                title: "${"symbol".tr()}\n${numberFormatCurrencyFirst
-                        ? "before".tr().capitalizeFirst
-                        : "after".tr().capitalizeFirst}",
+                title:
+                    "${"symbol".tr()}\n${numberFormatCurrencyFirst ? "before".tr().capitalizeFirst : "after".tr().capitalizeFirst}",
                 icon: appStateSettings["outlinedIcons"]
                     ? Icons.monetization_on_outlined
                     : Icons.monetization_on_rounded,

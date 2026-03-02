@@ -92,16 +92,8 @@ class _CategoryLimitsState extends State<CategoryLimits> {
                                         ? 0.7
                                         : 0.5),
                             text: widget.isAbsoluteSpendingLimit
-                                ? ("${convertToMoney(
-                                        Provider.of<AllWallets>(context),
-                                        number,
-                                        finalNumber: number)} / ${convertToMoney(
-                                        Provider.of<AllWallets>(context),
-                                        widget.budgetLimit)}")
-                                : ("${convertToPercent(number,
-                                        numberDecimals: 2,
-                                        shouldRemoveTrailingZeroes: true,
-                                        finalNumber: number)} / 100%"),
+                                ? ("${convertToMoney(Provider.of<AllWallets>(context), number, finalNumber: number)} / ${convertToMoney(Provider.of<AllWallets>(context), widget.budgetLimit)}")
+                                : ("${convertToPercent(number, numberDecimals: 2, shouldRemoveTrailingZeroes: true, finalNumber: number)} / 100%"),
                           ),
                           Opacity(
                             opacity: appStateSettings["increaseTextContrast"] ==
@@ -114,19 +106,8 @@ class _CategoryLimitsState extends State<CategoryLimits> {
                               textColor: isOver
                                   ? getColor(context, "expenseAmount")
                                   : getColor(context, "textLight"),
-                              text: "${widget.isAbsoluteSpendingLimit
-                                      ? (convertToMoney(
-                                          Provider.of<AllWallets>(context),
-                                          (widget.budgetLimit - number).abs(),
-                                          finalNumber:
-                                              (widget.budgetLimit - number)
-                                                  .abs()))
-                                      : (convertToPercent((100 - number).abs(),
-                                          numberDecimals: 2,
-                                          shouldRemoveTrailingZeroes: true,
-                                          finalNumber: (100 - number).abs()))} ${isOver
-                                      ? "over".tr().toLowerCase()
-                                      : "remaining".tr().toLowerCase()}",
+                              text:
+                                  "${widget.isAbsoluteSpendingLimit ? (convertToMoney(Provider.of<AllWallets>(context), (widget.budgetLimit - number).abs(), finalNumber: (widget.budgetLimit - number).abs())) : (convertToPercent((100 - number).abs(), numberDecimals: 2, shouldRemoveTrailingZeroes: true, finalNumber: (100 - number).abs()))} ${isOver ? "over".tr().toLowerCase() : "remaining".tr().toLowerCase()}",
                             ),
                           ),
                         ],
@@ -161,8 +142,7 @@ class _CategoryLimitsState extends State<CategoryLimits> {
                             },
                           )
                         : Container(
-                            key: ValueKey(
-                                "${category.categoryPk}Container"),
+                            key: ValueKey("${category.categoryPk}Container"),
                           ),
                   widget.showAddCategoryButton == false
                       ? SizedBox.shrink()
@@ -287,18 +267,13 @@ class CategoryLimitEntry extends StatelessWidget {
                       TextFont(
                         text: isAbsoluteSpendingLimit
                             ? "${convertToPercent(
-                                  budgetLimit == 0
-                                      ? 0
-                                      : categoryLimitAmount / budgetLimit * 100,
-                                  numberDecimals: 2,
-                                  shouldRemoveTrailingZeroes: true,
-                                )} ${isSubCategory == true
-                                    ? "of-category".tr().toLowerCase()
-                                    : "of-budget".tr().toLowerCase()}"
-                            : ("${convertToMoney(Provider.of<AllWallets>(context),
-                                    budgetLimit * categoryLimitAmount / 100)} ${isSubCategory == true
-                                    ? "of-category".tr().toLowerCase()
-                                    : "of-budget".tr().toLowerCase()}"),
+                                budgetLimit == 0
+                                    ? 0
+                                    : categoryLimitAmount / budgetLimit * 100,
+                                numberDecimals: 2,
+                                shouldRemoveTrailingZeroes: true,
+                              )} ${isSubCategory == true ? "of-category".tr().toLowerCase() : "of-budget".tr().toLowerCase()}"
+                            : ("${convertToMoney(Provider.of<AllWallets>(context), budgetLimit * categoryLimitAmount / 100)} ${isSubCategory == true ? "of-category".tr().toLowerCase() : "of-budget".tr().toLowerCase()}"),
                         fontSize: 14,
                         textColor: getColor(context, "textLight"),
                       ),
@@ -398,16 +373,8 @@ class CategoryLimitEntry extends StatelessWidget {
                                 ? getColor(context, "expenseAmount")
                                 : getColor(context, "textLight"),
                             text: isAbsoluteSpendingLimit
-                                ? ("${convertToMoney(
-                                        Provider.of<AllWallets>(context),
-                                        number,
-                                        finalNumber: snapshot.data ?? 0)} / ${convertToMoney(
-                                        Provider.of<AllWallets>(context),
-                                        subCategoryBudgetLimit)}")
-                                : ("${convertToPercent(number,
-                                        numberDecimals: 2,
-                                        shouldRemoveTrailingZeroes: true,
-                                        finalNumber: snapshot.data ?? 0)} / 100%"),
+                                ? ("${convertToMoney(Provider.of<AllWallets>(context), number, finalNumber: snapshot.data ?? 0)} / ${convertToMoney(Provider.of<AllWallets>(context), subCategoryBudgetLimit)}")
+                                : ("${convertToPercent(number, numberDecimals: 2, shouldRemoveTrailingZeroes: true, finalNumber: snapshot.data ?? 0)} / 100%"),
                           );
                         },
                       );

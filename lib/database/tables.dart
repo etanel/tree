@@ -2977,8 +2977,7 @@ class FinanceDatabase extends _$FinanceDatabase {
   }
 
   Future<TransactionCategory?> getRelatingCategory(String searchFor,
-      {bool onlySubCategories = false,
-      String? mainCategoryPkMustBe}) async {
+      {bool onlySubCategories = false, String? mainCategoryPkMustBe}) async {
     Future<TransactionCategory?> getCategory(
             Expression<bool> nameMatching) async =>
         (await (select(categories)
@@ -2998,12 +2997,10 @@ class FinanceDatabase extends _$FinanceDatabase {
 
     TransactionCategory? category;
     category = await getCategory(categories.name.equals(searchFor));
-    category ??= await getCategory(categories.name
-          .lower()
-          .trim()
-          .equals(searchFor.toLowerCase().trim()));
     category ??= await getCategory(
-          categories.name.collate(Collate.noCase).like("%$searchFor%"));
+        categories.name.lower().trim().equals(searchFor.toLowerCase().trim()));
+    category ??= await getCategory(
+        categories.name.collate(Collate.noCase).like("%$searchFor%"));
     return category;
   }
 
@@ -3020,9 +3017,9 @@ class FinanceDatabase extends _$FinanceDatabase {
     TransactionWallet? wallet;
     wallet = await getCategory(wallets.name.equals(searchFor));
     wallet ??= await getCategory(
-          wallets.name.lower().trim().equals(searchFor.toLowerCase().trim()));
+        wallets.name.lower().trim().equals(searchFor.toLowerCase().trim()));
     wallet ??= await getCategory(
-          wallets.name.collate(Collate.noCase).like("%$searchFor%"));
+        wallets.name.collate(Collate.noCase).like("%$searchFor%"));
     return wallet;
   }
 
@@ -5975,17 +5972,17 @@ class FinanceDatabase extends _$FinanceDatabase {
                 isLongTermLoanBorrowed
             : Constant(true);
 
-    Expression<bool> includeShared =
-        searchFilters.budgetTransactionFilters.isEmpty
-            ? Constant(true)
-            : searchFilters.budgetTransactionFilters.contains(
-                        BudgetTransactionFilters.sharedToOtherBudget) ==
-                    true
-                ? tbl.sharedKey.isNotNull()
-                : Constant(false);
+    Expression<bool> includeShared = searchFilters
+            .budgetTransactionFilters.isEmpty
+        ? Constant(true)
+        : searchFilters.budgetTransactionFilters
+                    .contains(BudgetTransactionFilters.sharedToOtherBudget) ==
+                true
+            ? tbl.sharedKey.isNotNull()
+            : Constant(false);
 
     Expression<bool> includeAdded = searchFilters
-                .budgetTransactionFilters.isEmpty
+            .budgetTransactionFilters.isEmpty
         ? Constant(true)
         : searchFilters.budgetTransactionFilters
                     .contains(BudgetTransactionFilters.addedToOtherBudget) ==

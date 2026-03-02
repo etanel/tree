@@ -47,22 +47,17 @@ class SearchFilters {
   }) {
     walletPks = walletPks.isEmpty ? [] : walletPks;
     categoryPks = categoryPks.isEmpty ? [] : categoryPks;
-    subcategoryPks =
-        subcategoryPks?.isEmpty == true ? [] : subcategoryPks;
+    subcategoryPks = subcategoryPks?.isEmpty == true ? [] : subcategoryPks;
     budgetPks = budgetPks.isEmpty ? [] : budgetPks;
-    excludedBudgetPks =
-        excludedBudgetPks.isEmpty ? [] : excludedBudgetPks;
+    excludedBudgetPks = excludedBudgetPks.isEmpty ? [] : excludedBudgetPks;
     objectivePks = objectivePks.isEmpty ? [] : objectivePks;
-    objectiveLoanPks =
-        objectiveLoanPks.isEmpty ? [] : objectiveLoanPks;
+    objectiveLoanPks = objectiveLoanPks.isEmpty ? [] : objectiveLoanPks;
     expenseIncome = expenseIncome.isEmpty ? [] : expenseIncome;
     positiveCashFlow = positiveCashFlow;
     paidStatus = paidStatus.isEmpty ? [] : paidStatus;
-    transactionTypes =
-        transactionTypes.isEmpty ? [] : transactionTypes;
-    budgetTransactionFilters = budgetTransactionFilters.isEmpty
-        ? []
-        : budgetTransactionFilters;
+    transactionTypes = transactionTypes.isEmpty ? [] : transactionTypes;
+    budgetTransactionFilters =
+        budgetTransactionFilters.isEmpty ? [] : budgetTransactionFilters;
     // reoccurence = [];
     methodAdded = methodAdded.isEmpty ? [] : methodAdded;
   }
@@ -351,16 +346,13 @@ class SearchFilters {
       outString += "paidStatus:-:${element.index}:-:";
     }
     for (TransactionSpecialType? element in transactionTypes) {
-      outString +=
-          "transactionTypes:-:${element?.index ?? null}:-:";
+      outString += "transactionTypes:-:${element?.index ?? null}:-:";
     }
     for (BudgetTransactionFilters element in budgetTransactionFilters) {
-      outString +=
-          "budgetTransactionFilters:-:${element.index}:-:";
+      outString += "budgetTransactionFilters:-:${element.index}:-:";
     }
     for (MethodAdded? element in methodAdded) {
-      outString +=
-          "methodAdded:-:${element?.index ?? null}:-:";
+      outString += "methodAdded:-:${element?.index ?? null}:-:";
     }
     outString += "amountRange:-:$amountRange:-:";
     outString += "dateTimeRange:-:$dateTimeRange:-:";
@@ -1284,8 +1276,7 @@ class AppliedFilterChips extends StatelessWidget {
     // Title contains
     if (searchFilters.titleContains != null) {
       out.add(AppliedFilterChip(
-        label:
-            "${"title-contains".tr()}: ${searchFilters.titleContains ?? ""}",
+        label: "${"title-contains".tr()}: ${searchFilters.titleContains ?? ""}",
         openFiltersSelection: openFiltersSelection,
       ));
     }
@@ -1331,10 +1322,11 @@ class AppliedFilterChips extends StatelessWidget {
     if (searchFilters.amountRange != null) {
       out.add(
         AppliedFilterChip(
-          label: "${convertToMoney(allWallets, searchFilters.amountRange!.start)} – ${convertToMoney(
-                allWallets,
-                searchFilters.amountRange!.end,
-              )}",
+          label:
+              "${convertToMoney(allWallets, searchFilters.amountRange!.start)} – ${convertToMoney(
+            allWallets,
+            searchFilters.amountRange!.end,
+          )}",
           openFiltersSelection: openFiltersSelection,
         ),
       );
@@ -1512,14 +1504,13 @@ class AppliedFilterChips extends StatelessWidget {
         searchFilters.dateTimeRange != null) {
       out.add(AppliedFilterChip(
         label: "${getWordedDateShortMore(
-              searchFilters.dateTimeRange!.start,
-              includeYear:
-                  searchFilters.dateTimeRange!.start != DateTime.now().year,
-            )} – ${getWordedDateShortMore(
-              searchFilters.dateTimeRange!.end,
-              includeYear:
-                  searchFilters.dateTimeRange!.end != DateTime.now().year,
-            )}",
+          searchFilters.dateTimeRange!.start,
+          includeYear:
+              searchFilters.dateTimeRange!.start != DateTime.now().year,
+        )} – ${getWordedDateShortMore(
+          searchFilters.dateTimeRange!.end,
+          includeYear: searchFilters.dateTimeRange!.end != DateTime.now().year,
+        )}",
         openFiltersSelection: () => {openSelectDate!()},
       ));
     }

@@ -87,7 +87,8 @@ class PremiumPage extends StatelessWidget {
                                   CashewProBanner(large: true),
                                   SizedBox(height: 4),
                                   TextFont(
-                                    text: "${"budget-like-a-pro".tr()} $globalAppName Pro",
+                                    text:
+                                        "${"budget-like-a-pro".tr()} $globalAppName Pro",
                                     fontSize: 16,
                                     textColor: Colors.black,
                                     maxLines: 3,
@@ -750,7 +751,8 @@ Future<bool> premiumPopupBudgets(BuildContext context) async {
 Future<bool> premiumPopupObjectives(BuildContext context,
     {required ObjectiveType objectiveType}) async {
   if (hidePremiumPopup()) return true;
-  if ((await database.getAllObjectives(objectiveType: objectiveType)).isNotEmpty) {
+  if ((await database.getAllObjectives(objectiveType: objectiveType))
+      .isNotEmpty) {
     if (await premiumPopupPushRoute(context) == true) {
       return true;
     } else {
@@ -775,7 +777,8 @@ Future<bool> premiumPopupPastBudgets(BuildContext context) async {
 Future premiumPopupAddTransaction(BuildContext context) async {
   if (hidePremiumPopup()) return true;
 
-  print("Checking premium before adding transaction - ${appStateSettings["premiumPopupAddTransactionCount"]}");
+  print(
+      "Checking premium before adding transaction - ${appStateSettings["premiumPopupAddTransactionCount"]}");
 
   try {
     DateTime.parse(appStateSettings["premiumPopupAddTransactionLastShown"]);
@@ -1184,7 +1187,10 @@ class SubscriptionOption extends StatelessWidget {
 
 class LockedFeature extends StatelessWidget {
   const LockedFeature(
-      {required this.child, this.actionAfter, this.showLock = false, super.key});
+      {required this.child,
+      this.actionAfter,
+      this.showLock = false,
+      super.key});
   final Widget child;
   final Function? actionAfter;
   final bool showLock;
@@ -1501,7 +1507,8 @@ class PremiumBanner extends StatelessWidget {
                                         children: [
                                           Flexible(
                                             child: TextFont(
-                                              text: "${"budget-like-a-pro".tr()} $globalAppName Pro",
+                                              text:
+                                                  "${"budget-like-a-pro".tr()} $globalAppName Pro",
                                               fontSize: 15,
                                               maxLines: 3,
                                               textColor: Colors.black,

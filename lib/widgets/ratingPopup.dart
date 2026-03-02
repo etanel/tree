@@ -48,7 +48,8 @@ class _RatingPopupState extends State<RatingPopup> {
   int? selectedStars;
   bool writingFeedback = false;
   final TextEditingController _feedbackController = TextEditingController();
-  final TextEditingController _feedbackControllerEmail = TextEditingController();
+  final TextEditingController _feedbackControllerEmail =
+      TextEditingController();
 
   @override
   void initState() {

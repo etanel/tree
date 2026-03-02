@@ -107,7 +107,8 @@ class _ButtonState extends State<Button> with TickerProviderStateMixin {
               ? appStateSettings["materialYou"]
                   ? Colors.grey
                   : getColor(context, "lightDarkAccentHeavy")
-              : widget.color ?? (appStateSettings["materialYou"]
+              : widget.color ??
+                  (appStateSettings["materialYou"]
                       ? dynamicPastel(
                           context, Theme.of(context).colorScheme.primary,
                           amount: 0.15)
@@ -154,7 +155,8 @@ class _ButtonState extends State<Button> with TickerProviderStateMixin {
                         child: Icon(
                           widget.icon,
                           size: 21,
-                          color: widget.iconColor ?? Theme.of(context)
+                          color: widget.iconColor ??
+                              Theme.of(context)
                                   .colorScheme
                                   .onSecondaryContainer,
                         ),

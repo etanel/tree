@@ -322,17 +322,11 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
       String selectedRecurrenceDisplay = "";
       Budget tempBudget = getCustomCycleTempBudget("");
       if (tempBudget.periodLength == 1) {
-        selectedRecurrenceDisplay = "${tempBudget.periodLength} ${nameRecurrence[tempBudget.reoccurrence]
-                .toString()
-                .toLowerCase()
-                .tr()
-                .toLowerCase()}";
+        selectedRecurrenceDisplay =
+            "${tempBudget.periodLength} ${nameRecurrence[tempBudget.reoccurrence].toString().toLowerCase().tr().toLowerCase()}";
       } else {
-        selectedRecurrenceDisplay = "${tempBudget.periodLength} ${namesRecurrence[tempBudget.reoccurrence]
-                .toString()
-                .toLowerCase()
-                .tr()
-                .toLowerCase()}";
+        selectedRecurrenceDisplay =
+            "${tempBudget.periodLength} ${namesRecurrence[tempBudget.reoccurrence].toString().toLowerCase().tr().toLowerCase()}";
       }
       return SelectedPeriodHeaderLabel(
         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -357,25 +351,24 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
     }
 
     Widget selectedTabPeriodSelected(VoidCallback onTap) => AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
-              child: selectedDateTimeRange == null
-                  ? Container(
-                      key: ValueKey(selectedDateTimeRange),
-                    )
-                  : SelectedPeriodHeaderLabel(
-                      key: ValueKey(selectedDateTimeRange),
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                      textColor:
-                          Theme.of(context).colorScheme.onTertiaryContainer,
-                      text: selectedDateTimeRange != null
-                          ? timeRangeString
-                          : getLabelOfSelectedCustomPeriod(""),
-                      onTap: onTap,
-                      iconData: appStateSettings["outlinedIcons"]
-                          ? Icons.timelapse_outlined
-                          : Icons.timelapse_rounded,
-                    ),
-            );
+          duration: Duration(milliseconds: 500),
+          child: selectedDateTimeRange == null
+              ? Container(
+                  key: ValueKey(selectedDateTimeRange),
+                )
+              : SelectedPeriodHeaderLabel(
+                  key: ValueKey(selectedDateTimeRange),
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  textColor: Theme.of(context).colorScheme.onTertiaryContainer,
+                  text: selectedDateTimeRange != null
+                      ? timeRangeString
+                      : getLabelOfSelectedCustomPeriod(""),
+                  onTap: onTap,
+                  iconData: appStateSettings["outlinedIcons"]
+                      ? Icons.timelapse_outlined
+                      : Icons.timelapse_rounded,
+                ),
+        );
 
     Widget clearSelectedPeriodButton = AnimatedSizeSwitcher(
       child: selectedDateTimeRange == null
@@ -676,8 +669,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
           openPage: TransactionsSearchPage(
             initialFilters: widget.wallet != null
                 ? SearchFilters().copyWith(walletPks: walletPks)
-                : (searchFilters ?? SearchFilters())
-                    ?.copyWith(
+                : (searchFilters ?? SearchFilters())?.copyWith(
                     dateTimeRange: getDateTimeRangeForPassedSearchFilters(
                       cycleSettingsExtension: "",
                       selectedDateTimeRange: selectedDateTimeRange,
@@ -766,8 +758,8 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                         selectedDateTimeRange) ==
                                 null,
                             openPage: TransactionsSearchPage(
-                              initialFilters: (searchFilters ?? SearchFilters())
-                                  ?.copyWith(
+                              initialFilters:
+                                  (searchFilters ?? SearchFilters())?.copyWith(
                                 dateTimeRange:
                                     getDateTimeRangeForPassedSearchFilters(
                                         cycleSettingsExtension: "",
@@ -796,8 +788,8 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                         AmountSpentEntryRow(
                           forceShow: true,
                           openPage: TransactionsSearchPage(
-                            initialFilters: (searchFilters ?? SearchFilters())
-                                ?.copyWith(
+                            initialFilters:
+                                (searchFilters ?? SearchFilters())?.copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
                                       cycleSettingsExtension: "",
@@ -824,8 +816,8 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                         AmountSpentEntryRow(
                           forceShow: true,
                           openPage: TransactionsSearchPage(
-                            initialFilters: (searchFilters ?? SearchFilters())
-                                ?.copyWith(
+                            initialFilters:
+                                (searchFilters ?? SearchFilters())?.copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
                                       cycleSettingsExtension: "",
@@ -889,8 +881,9 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                   selectedDateTimeRange == null
                               ? CreditDebtTransactions(isCredit: true)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters ?? SearchFilters())
-                                      ?.copyWith(
+                                  initialFilters:
+                                      (searchFilters ?? SearchFilters())
+                                          ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                             cycleSettingsExtension: "",
@@ -935,8 +928,9 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                   selectedDateTimeRange == null
                               ? CreditDebtTransactions(isCredit: false)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters ?? SearchFilters())
-                                      ?.copyWith(
+                                  initialFilters:
+                                      (searchFilters ?? SearchFilters())
+                                          ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                             cycleSettingsExtension: "",
@@ -982,8 +976,9 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               ? UpcomingOverdueTransactions(
                                   overdueTransactions: false)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters ?? SearchFilters())
-                                      ?.copyWith(
+                                  initialFilters:
+                                      (searchFilters ?? SearchFilters())
+                                          ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                                   cycleSettingsExtension: "",
@@ -1032,8 +1027,9 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               ? UpcomingOverdueTransactions(
                                   overdueTransactions: true)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters ?? SearchFilters())
-                                      ?.copyWith(
+                                  initialFilters:
+                                      (searchFilters ?? SearchFilters())
+                                          ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
                                                   cycleSettingsExtension: "",
@@ -1847,8 +1843,8 @@ class _WalletDetailsCategorySelectionState
                 pushRoute(
                   context,
                   TransactionsSearchPage(
-                    initialFilters: (widget.searchFilters ?? SearchFilters())
-                        ?.copyWith(
+                    initialFilters:
+                        (widget.searchFilters ?? SearchFilters())?.copyWith(
                       dateTimeRange:
                           widget.getDateTimeRangeForPassedSearchFilters(),
                       walletPks: widget.wallet == null
@@ -2642,10 +2638,7 @@ class _AllSpendingPastSpendingGraphState
                     gradient: LinearGradient(
                       colors: [
                         Theme.of(context).colorScheme.surface,
-                        Theme.of(context)
-                            .colorScheme
-                            .surface
-                            .withOpacity(0.0),
+                        Theme.of(context).colorScheme.surface.withOpacity(0.0),
                       ],
                       begin: AlignmentDirectional.topCenter,
                       end: AlignmentDirectional.bottomCenter,
@@ -2852,11 +2845,12 @@ class AmountSpentEntryRow extends StatelessWidget {
               type: ContextMenuButtonType.copy,
               onPressed: () {
                 ContextMenuController.removeAny();
-                copyToClipboard("$label${addAmountToString("", totalCount, extraText: extraText)} • ${convertToMoney(
-                      Provider.of<AllWallets>(context, listen: false),
-                      totalSpent,
-                      finalNumber: totalSpent.abs(),
-                    )}");
+                copyToClipboard(
+                    "$label${addAmountToString("", totalCount, extraText: extraText)} • ${convertToMoney(
+                  Provider.of<AllWallets>(context, listen: false),
+                  totalSpent,
+                  finalNumber: totalSpent.abs(),
+                )}");
               },
             ),
           ],
