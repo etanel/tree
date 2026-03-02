@@ -1,7 +1,6 @@
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/struct/notificationsGlobal.dart';
-import 'package:tree/widgets/lineGraph.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;

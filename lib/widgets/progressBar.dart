@@ -10,8 +10,8 @@ class ProgressBar extends StatelessWidget {
     required this.currentPercent,
     required this.color,
     this.height = 10,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

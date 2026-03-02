@@ -45,7 +45,7 @@ class LogService {
   List<String> getLogs() => _logs;
 }
 
-captureLogs(Function body) {
+void captureLogs(Function body) {
   runZonedGuarded(
     () async {
       await body();

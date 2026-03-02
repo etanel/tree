@@ -20,7 +20,7 @@ class SelectItems extends StatefulWidget {
   final bool allSelected;
 
   const SelectItems({
-    Key? key,
+    super.key,
     required this.initialItems,
     required this.items,
     this.onChanged,
@@ -33,7 +33,7 @@ class SelectItems extends StatefulWidget {
     this.getColor,
     this.highlightSelected = false,
     this.allSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   State<SelectItems> createState() => _SelectItemsState();
@@ -48,6 +48,7 @@ class _SelectItemsState extends State<SelectItems> {
     currentItems = widget.initialItems;
   }
 
+  @override
   void didUpdateWidget(oldWidget) {
     if (oldWidget != widget && widget.syncWithInitial) {
       setState(() {
@@ -99,14 +100,16 @@ class _SelectItemsState extends State<SelectItems> {
                       ? Theme.of(context).colorScheme.secondaryContainer
                       : Colors.transparent,
               onTap: () {
-                if (currentItems.contains(item))
+                if (currentItems.contains(item)) {
                   currentItems.remove(item);
-                else
+                } else {
                   currentItems.add(item);
+                }
                 setState(() {});
                 if (widget.onChanged != null) widget.onChanged!(currentItems);
-                if (widget.onChangedSingleItem != null)
+                if (widget.onChangedSingleItem != null) {
                   widget.onChangedSingleItem!(item);
+                }
               },
               child: ListTile(
                 title: Transform.translate(

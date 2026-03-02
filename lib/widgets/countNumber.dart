@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class CountUp extends StatefulWidget {
   const CountUp({
-    Key? key,
+    super.key,
     required this.count,
     this.fontSize = 16,
     this.prefix = "",
@@ -17,12 +17,12 @@ class CountUp extends StatefulWidget {
     this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.start,
     this.textColor,
-    this.maxLines = null,
+    this.maxLines,
     this.duration = const Duration(milliseconds: 3000),
     this.decimals = 2,
     this.curve = Curves.easeOutExpo,
     this.walletPkForCurrency,
-  }) : super(key: key);
+  });
 
   final double count;
   final double fontSize;
@@ -89,7 +89,7 @@ bool isWholeNumber(num value) => value is int || value == value.roundToDouble();
 
 class CountNumber extends StatefulWidget {
   const CountNumber({
-    Key? key,
+    super.key,
     required this.count,
     required this.textBuilder,
     this.fontSize = 16,
@@ -98,7 +98,7 @@ class CountNumber extends StatefulWidget {
     this.initialCount = 0,
     this.decimals,
     this.lazyFirstRender = true,
-  }) : super(key: key);
+  });
 
   final double count;
   final Widget Function(double amount) textBuilder;

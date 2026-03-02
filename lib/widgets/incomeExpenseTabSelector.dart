@@ -28,7 +28,7 @@ class IncomeExpenseTabSelector extends StatefulWidget {
   final Color? incomeIconColor;
   final Color? expenseIconColor;
 
-  IncomeExpenseTabSelector({
+  const IncomeExpenseTabSelector({super.key, 
     required this.onTabChanged,
     required this.initialTabIsIncome,
     this.color,
@@ -67,8 +67,9 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
           vsync: this,
           initialIndex: selectedIncome ? 1 : 0,
         );
-    if (widget.tabController != null)
+    if (widget.tabController != null) {
       _incomeTabController.addListener(onControllerTabSwitch);
+    }
   }
 
   @override
@@ -91,8 +92,9 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
   @override
   void dispose() {
     if (widget.tabController == null) _incomeTabController.dispose();
-    if (widget.tabController != null)
+    if (widget.tabController != null) {
       _incomeTabController.removeListener(onControllerTabSwitch);
+    }
     super.dispose();
   }
 
@@ -104,14 +106,12 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
               getPlatform() == PlatformOS.isIOS ? 10 : 15)
           : BorderRadiusDirectional.zero,
       child: Material(
-        color: widget.unselectedColor == null
-            ? appStateSettings["materialYou"]
+        color: widget.unselectedColor ?? (appStateSettings["materialYou"]
                 ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                 : Theme.of(context).brightness == Brightness.dark
                     ? getColor(context, "lightDarkAccentHeavyLight")
                         .withOpacity(0.5)
-                    : Colors.black.withOpacity(0.03)
-            : widget.unselectedColor,
+                    : Colors.black.withOpacity(0.03)),
         child: TabBar(
           splashFactory:
               getPlatform() == PlatformOS.isIOS ? NoSplash.splashFactory : null,
@@ -120,9 +120,7 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
           indicatorColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.tab,
           indicator: BoxDecoration(
-            color: widget.color != null
-                ? widget.color
-                : (appStateSettings["materialYou"]
+            color: widget.color ?? (appStateSettings["materialYou"]
                     ? Theme.of(context).colorScheme.primary.withOpacity(0.25)
                     : Theme.of(context).brightness == Brightness.dark
                         ? getColor(context, "black").withOpacity(0.15)
@@ -164,12 +162,13 @@ class _IncomeExpenseTabSelectorState extends State<IncomeExpenseTabSelector>
         ),
       ),
     );
-    if (widget.belowWidgetBuilder == null)
+    if (widget.belowWidgetBuilder == null) {
       return tabSelector;
-    else
+    } else {
       return Column(
         children: [tabSelector, widget.belowWidgetBuilder!(selectedIncome)],
       );
+    }
   }
 }
 

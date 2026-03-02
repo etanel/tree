@@ -53,8 +53,8 @@ NumberPadFormat getNumberPadFormat() {
 }
 
 class SelectAmount extends StatefulWidget {
-  SelectAmount({
-    Key? key,
+  const SelectAmount({
+    super.key,
     required this.setSelectedAmount,
     this.amountPassed = "", //the string of calculations
     this.next,
@@ -77,7 +77,7 @@ class SelectAmount extends StatefulWidget {
     this.decimals,
     this.amountTappableBuilder,
     this.showCalculation = true,
-  }) : super(key: key);
+  });
   final Function(double, String) setSelectedAmount;
   final String amountPassed;
   final VoidCallback? next;
@@ -109,7 +109,7 @@ class SelectAmount extends StatefulWidget {
 class _SelectAmountState extends State<SelectAmount> {
   String amount = "";
 
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
   late String? walletPkForCurrency;
   late String? selectedWalletPk = widget.selectedWalletPk;
@@ -293,53 +293,54 @@ class _SelectAmountState extends State<SelectAmount> {
 
   void addToAmount(String input, {bool hapticFeedback = true}) {
     if (appStateSettings["numberPadHapticFeedback"] == true && hapticFeedback) {
-      if (includesOperations(input, false))
+      if (includesOperations(input, false)) {
         HapticFeedback.mediumImpact();
-      else
+      } else {
         HapticFeedback.selectionClick();
+      }
     }
     // bottomSheetControllerGlobal.snapToExtent(0);
     String amountClone = amount;
     if (input == "." &&
-        !decimalCheck(operationsWithSpaces(amountClone + "."))) {
-    } else if (amount.length == 0 && !includesOperations(input, false)) {
+        !decimalCheck(operationsWithSpaces("$amountClone."))) {
+    } else if (amount.isEmpty && !includesOperations(input, false)) {
       if (input == "0") {
       } else if (input == ".") {
         setState(() {
-          amount += "0" + input;
+          amount += "0$input";
         });
       } else {
         setState(() {
           amount += input;
         });
       }
-    } else if (amount.length != 0 &&
+    } else if (amount.isNotEmpty &&
             (!includesOperations(amount.substring(amount.length - 1), true) &&
                 includesOperations(input, true)) ||
         !includesOperations(input, true)) {
       setState(() {
         amount += input;
       });
-    } else if (amount.length != 0 &&
+    } else if (amount.isNotEmpty &&
         includesOperations(amount.substring(amount.length - 1), false) &&
         input == ".") {
       setState(() {
-        amount += "0" + input;
+        amount += "0$input";
       });
-    } else if (amount.length != 0 &&
+    } else if (amount.isNotEmpty &&
         amount.substring(amount.length - 1) == "." &&
         includesOperations(input, false)) {
       setState(() {
         amount = amount.substring(0, amount.length - 1) + input;
       });
-    } else if (amount.length != 0 &&
+    } else if (amount.isNotEmpty &&
         includesOperations(amount.substring(amount.length - 1), false) &&
         includesOperations(input, false)) {
       //replace last input operation with a new one
       setState(() {
         amount = amount.substring(0, amount.length - 1) + input;
       });
-    } else if (amount.length <= 0 && input == "-") {
+    } else if (amount.isEmpty && input == "-") {
       setState(() {
         amount = "-";
       });
@@ -360,7 +361,7 @@ class _SelectAmountState extends State<SelectAmount> {
     }
     // bottomSheetControllerGlobal.snapToExtent(0);
     setState(() {
-      if (amount.length > 0) {
+      if (amount.isNotEmpty) {
         amount = amount.substring(0, amount.length - 1);
       }
     });
@@ -460,7 +461,7 @@ class _SelectAmountState extends State<SelectAmount> {
     double result = 0;
     try {
       ContextModel cm = ContextModel();
-      Parser p = new Parser();
+      Parser p = Parser();
       Expression exp = p.parse(changedInput);
       result = exp.evaluate(EvaluationType.REAL, cm);
     } catch (e) {
@@ -482,7 +483,7 @@ class _SelectAmountState extends State<SelectAmount> {
     return true;
   }
 
-  pasteFromClipboard() async {
+  Future<void> pasteFromClipboard() async {
     double? amount = await readAmountFromClipboard();
     if (amount != null) {
       setState(() {
@@ -493,7 +494,7 @@ class _SelectAmountState extends State<SelectAmount> {
     }
   }
 
-  pasteFromClipboardIntoCalculation() async {
+  Future<void> pasteFromClipboardIntoCalculation() async {
     double? amount = await readAmountFromClipboard();
     if (amount != null) {
       for (String number in removeTrailingZeroes(amount.toString()).split("")) {
@@ -510,9 +511,10 @@ class _SelectAmountState extends State<SelectAmount> {
     return RegExp(r'^00').hasMatch(input);
   }
 
-  setSelectedWallet(TransactionWallet wallet) {
-    if (widget.setSelectedWalletPk != null)
+  void setSelectedWallet(TransactionWallet wallet) {
+    if (widget.setSelectedWalletPk != null) {
       widget.setSelectedWalletPk!(wallet.walletPk);
+    }
     setState(() {
       selectedWalletPk = wallet.walletPk;
       walletPkForCurrency = wallet.walletPk;
@@ -525,7 +527,7 @@ class _SelectAmountState extends State<SelectAmount> {
     });
   }
 
-  convertAmountToSelectedCurrency() {
+  void convertAmountToSelectedCurrency() {
     TransactionWallet? walletBefore = getSelectedWallet(listen: false);
     // get the index of the primary wallet
     int index = 0;
@@ -537,9 +539,10 @@ class _SelectAmountState extends State<SelectAmount> {
       index++;
     }
 
-    if (widget.setSelectedWalletPk != null)
+    if (widget.setSelectedWalletPk != null) {
       widget.setSelectedWalletPk!(
           Provider.of<AllWallets>(context, listen: false).list[index].walletPk);
+    }
     setState(() {
       selectedWalletPk =
           Provider.of<AllWallets>(context, listen: false).list[index].walletPk;
@@ -620,6 +623,8 @@ class _SelectAmountState extends State<SelectAmount> {
                     Provider.of<AllWallets>(context).allContainSameCurrency())
             ? SizedBox.shrink()
             : MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: TextScaler.linear(1.0)),
                 child: Padding(
                   padding: const EdgeInsetsDirectional.symmetric(vertical: 3.0),
                   child: AnimatedExpanded(
@@ -668,8 +673,6 @@ class _SelectAmountState extends State<SelectAmount> {
                     ),
                   ),
                 ),
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: TextScaler.linear(1.0)),
               ),
       ],
     );
@@ -1226,14 +1229,14 @@ class NumberPadAmount extends StatelessWidget {
 }
 
 class CalculatorButton extends StatelessWidget {
-  CalculatorButton({
-    Key? key,
+  const CalculatorButton({
+    super.key,
     required this.label,
     required this.editAmount,
-    this.onLongPress = null,
+    this.onLongPress,
     this.disabled = false,
     this.height = 60,
-  }) : super(key: key);
+  });
   final String label;
   final VoidCallback editAmount;
   final VoidCallback? onLongPress;
@@ -1264,7 +1267,7 @@ class CalculatorButton extends StatelessWidget {
                 color: Colors.transparent,
                 onLongPress: onLongPress,
                 onTap: editAmount,
-                child: Container(
+                child: SizedBox(
                   height: height,
                   child: Center(
                     child: label == "<"
@@ -1287,8 +1290,8 @@ class CalculatorButton extends StatelessWidget {
 }
 
 class SelectAmountValue extends StatefulWidget {
-  SelectAmountValue({
-    Key? key,
+  const SelectAmountValue({
+    super.key,
     required this.setSelectedAmount,
     this.amountPassed = "", //the string of calculations
     this.next,
@@ -1298,7 +1301,7 @@ class SelectAmountValue extends StatefulWidget {
     this.suffix = "",
     this.showEnteredNumber = true,
     this.extraWidgetAboveNumbers,
-  }) : super(key: key);
+  });
   final Function(
     double amount,
     String stringAmount,
@@ -1319,7 +1322,7 @@ class SelectAmountValue extends StatefulWidget {
 class _SelectAmountValueState extends State<SelectAmountValue> {
   String amount = "";
 
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
 
   @override
@@ -1434,7 +1437,7 @@ class _SelectAmountValueState extends State<SelectAmountValue> {
       if (amount == "0" || amount == "") {
         if (input == ".") {
           setState(() {
-            amount = "0" + input;
+            amount = "0$input";
           });
         } else {
           setState(() {
@@ -1455,7 +1458,7 @@ class _SelectAmountValueState extends State<SelectAmountValue> {
       HapticFeedback.mediumImpact();
     }
     setState(() {
-      if (amount.length > 0) {
+      if (amount.isNotEmpty) {
         amount = amount.substring(0, amount.length - 1);
       }
     });

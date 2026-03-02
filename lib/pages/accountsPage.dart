@@ -25,7 +25,7 @@ import 'package:tree/widgets/extraInfoBoxes.dart';
 import 'package:tree/widgets/outlinedButtonStacked.dart';
 
 class AccountsPage extends StatefulWidget {
-  const AccountsPage({Key? key}) : super(key: key);
+  const AccountsPage({super.key});
 
   @override
   State<AccountsPage> createState() => AccountsPageState();
@@ -233,10 +233,11 @@ class AccountsPageState extends State<AccountsPage> {
                                       });
                                       await createBackup(context,
                                           deleteOldBackups: true);
-                                      if (mounted)
+                                      if (mounted) {
                                         setState(() {
                                           currentlyExporting = false;
                                         });
+                                      }
                                     },
                                   ),
                                 ),
@@ -294,8 +295,7 @@ class AccountsPageState extends State<AccountsPage> {
                           text: "",
                           richTextSpan: [
                             TextSpan(
-                              text: "why-is-auto-login-disabled-on-web".tr() +
-                                  " ",
+                              text: "${"why-is-auto-login-disabled-on-web".tr()} ",
                               style: TextStyle(
                                 color: getColor(context, "black"),
                                 fontFamily: appStateSettings["font"],
@@ -303,7 +303,7 @@ class AccountsPageState extends State<AccountsPage> {
                               ),
                             ),
                             TextSpan(
-                              text: "read-more-here".tr() + ".",
+                              text: "${"read-more-here".tr()}.",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 decorationStyle: TextDecorationStyle.solid,
@@ -423,7 +423,9 @@ class EnableSignInWithGoogleFlyIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (appStateSettings["enableGoogleLoginFlyIn"] != true ||
-        getIsFullScreen(context) == false) return SizedBox.shrink();
+        getIsFullScreen(context) == false) {
+      return SizedBox.shrink();
+    }
     return const SignInWithGoogleFlyIn();
   }
 }

@@ -102,7 +102,7 @@ class TextInput extends StatelessWidget {
   final bool handleOnTapOutside;
 
   const TextInput({
-    Key? key,
+    super.key,
     required this.labelText,
     this.onChanged,
     this.onSubmitted,
@@ -138,7 +138,7 @@ class TextInput extends StatelessWidget {
     this.autocorrect = true,
     this.maxLength,
     this.handleOnTapOutside = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -178,11 +178,9 @@ class TextInput extends StatelessWidget {
                   !appStateSettings["incognitoKeyboard"],
               scrollPadding: EdgeInsets.only(bottom: 80),
               focusNode: focusNode,
-              keyboardType: keyboardType != null
-                  ? keyboardType
-                  : numbersOnly
+              keyboardType: keyboardType ?? (numbersOnly
                       ? TextInputType.number
-                      : TextInputType.text,
+                      : TextInputType.text),
               maxLines: maxLines,
               minLines: minLines,
               onTap: onTap,
@@ -196,7 +194,7 @@ class TextInput extends StatelessWidget {
               autocorrect: autocorrect,
               style: TextStyle(
                 fontSize:
-                    fontSize != null ? fontSize : (bubbly == false ? 18 : 15),
+                    fontSize ?? (bubbly == false ? 18 : 15),
                 height: kIsWeb
                     ? null
                     : bubbly == true
@@ -209,7 +207,7 @@ class TextInput extends StatelessWidget {
               cursorColor: dynamicPastel(
                   context, Theme.of(context).colorScheme.primary,
                   amount: 0.2, inverse: false),
-              decoration: new InputDecoration(
+              decoration: InputDecoration(
                 counterText: "",
                 hintStyle: TextStyle(color: getColor(context, "textLight")),
                 alignLabelWithHint: true,

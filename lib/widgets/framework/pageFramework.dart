@@ -19,13 +19,13 @@ import 'package:flutter/services.dart';
 ValueNotifier<bool> isSwipingToDismissPageDown = ValueNotifier<bool>(false);
 ValueNotifier<bool> callRefreshToPages = ValueNotifier<bool>(false);
 
-refreshPageFrameworks() async {
+Future<void> refreshPageFrameworks() async {
   callRefreshToPages.value = !callRefreshToPages.value;
 }
 
 class PageFramework extends StatefulWidget {
   const PageFramework({
-    Key? key,
+    super.key,
     this.title = "",
     this.capitalizeTitle = true,
     this.titleWidget,
@@ -74,7 +74,7 @@ class PageFramework extends StatefulWidget {
     this.backButtonOpacity,
     this.forceBackgroundColors = false,
     this.scrollbar = true,
-  }) : super(key: key);
+  });
 
   final String title;
   final bool capitalizeTitle;
@@ -317,7 +317,7 @@ class PageFrameworkState extends State<PageFramework>
   double calculatedYOffsetForY = 0;
   Timer? hapticFeedbackTimer;
 
-  _onPointerMove(PointerMoveEvent ptr) {
+  void _onPointerMove(PointerMoveEvent ptr) {
     if ((widget.onDragDownToDismiss != null ||
             Navigator.of(context).canPop()) &&
         (widget.dragDownToDismissEnabled || widget.backSwipeToDismissEnabled) &&
@@ -359,7 +359,7 @@ class PageFrameworkState extends State<PageFramework>
     }
   }
 
-  _onPointerUp(PointerUpEvent event) async {
+  Future<void> _onPointerUp(PointerUpEvent event) async {
     //How far you need to drag to dismiss
     if (widget.dragDownToDismissEnabled || widget.backSwipeToDismissEnabled) {
       if ((totalDragX >= 90 || totalDragY >= 125) &&
@@ -389,7 +389,7 @@ class PageFrameworkState extends State<PageFramework>
     }
   }
 
-  _onPointerDown(PointerDownEvent event) {
+  void _onPointerDown(PointerDownEvent event) {
     if (event.position.dx < leftBackSwipeDetectionWidth &&
         isBackSideSwiping == false) {
       isBackSideSwiping = true;
@@ -762,13 +762,14 @@ class PageFrameworkState extends State<PageFramework>
       child: child,
     );
 
-    if (widget.selectedTransactionsAppBar != null)
+    if (widget.selectedTransactionsAppBar != null) {
       child = Stack(
         children: [
           child,
           widget.selectedTransactionsAppBar ?? SizedBox.shrink(),
         ],
       );
+    }
 
     Widget childListener = ValueListenableBuilder(
       valueListenable: callRefreshToPages,
@@ -784,9 +785,9 @@ class PageFrameworkState extends State<PageFramework>
 
     if (backButtonEnabled == false) {
       return PullDownToRefreshSync(
-        child: childListener,
         scrollController: _scrollController,
         checkEnabled: () => widget.dragDownToDismissEnabled != false,
+        child: childListener,
       );
     } else {
       return childListener;
@@ -796,7 +797,7 @@ class PageFrameworkState extends State<PageFramework>
 
 class PageFrameworkSliverAppBar extends StatelessWidget {
   const PageFrameworkSliverAppBar({
-    Key? key,
+    super.key,
     this.title = "",
     this.capitalizeTitle = true,
     this.titleWidget,
@@ -821,7 +822,7 @@ class PageFrameworkSliverAppBar extends StatelessWidget {
     this.centeredTitleSmall,
     this.belowAppBarPaddingWhenCenteredTitleSmall,
     this.forceBackgroundColors = false,
-  }) : super(key: key);
+  });
 
   final String title;
   final bool capitalizeTitle;
@@ -875,10 +876,11 @@ class PageFrameworkSliverAppBar extends StatelessWidget {
                     HapticFeedback.mediumImpact();
                   }
 
-                  if (onBackButton != null)
+                  if (onBackButton != null) {
                     onBackButton!();
-                  else
+                  } else {
                     maybePopRoute(context);
+                  }
                 },
                 icon: Icon(
                   getPlatform() == PlatformOS.isIOS
@@ -951,9 +953,7 @@ class PageFrameworkSliverAppBar extends StatelessWidget {
                             ? (enableDoubleColumn(context) ? 19 : 16)
                             : 22,
                         fontWeight: FontWeight.bold,
-                        textColor: textColor == null
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : textColor,
+                        textColor: textColor ?? Theme.of(context).colorScheme.onSecondaryContainer,
                         textAlign: centeredTitleWithDefault
                             ? TextAlign.center
                             : TextAlign.start,
@@ -1047,12 +1047,10 @@ Color calculateAppBarBGColor({
   required Color? appBarBackgroundColor,
   required bool centeredTitleSmall,
 }) {
-  Color appBarBGColorCalculated = appBarBackgroundColor == null
-      ? Theme.of(context).colorScheme.secondaryContainer
-      : appBarBackgroundColor;
+  Color appBarBGColorCalculated = appBarBackgroundColor ?? Theme.of(context).colorScheme.secondaryContainer;
   if (centeredTitleSmall && getPlatform() == PlatformOS.isIOS) {
     appBarBGColorCalculated =
-        appBarBackgroundColor ?? Theme.of(context).colorScheme.background;
+        appBarBackgroundColor ?? Theme.of(context).colorScheme.surface;
   }
   return appBarBGColorCalculated;
 }
@@ -1077,7 +1075,7 @@ List<Widget> getAppBarBackgroundColorLayers({
   );
   return [
     Container(
-      color: appBarBackgroundColor ?? Theme.of(context).colorScheme.background,
+      color: appBarBackgroundColor ?? Theme.of(context).colorScheme.surface,
       // Fixes backdrop not fading correctly when using Impeller (iOS - Flutter v3.13)
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height - 1,
@@ -1089,9 +1087,7 @@ List<Widget> getAppBarBackgroundColorLayers({
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height - 1,
 
-            color: appBarBackgroundColorStart == null
-                ? Theme.of(context).colorScheme.background
-                : appBarBackgroundColorStart,
+            color: appBarBackgroundColorStart ?? Theme.of(context).colorScheme.background,
           ),
     (animationControllerOpacity != null ||
                 percent != null ||

@@ -2475,7 +2475,7 @@ bool showChangelog(
 
   //Don't show changelog on first login and only show if english, unless forced
   if (changelogPoints != null &&
-      changelogPoints.length > 0 &&
+      changelogPoints.isNotEmpty &&
       (forceShow ||
           (appStateSettings["numLogins"] > 1
           //   &&  Localizations.localeOf(context).toString().toLowerCase() == "en"
@@ -2485,11 +2485,11 @@ bool showChangelog(
       PopupFramework(
         title: "changelog".tr(),
         subtitle: getVersionString(),
+        showCloseButton: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [(extraWidget ?? SizedBox.shrink()), ...changelogPoints],
         ),
-        showCloseButton: true,
       ),
       showScrollbar: true,
     );
@@ -2581,10 +2581,11 @@ List<Widget>? getChangelogPointsWidgets(BuildContext context,
         ));
       }
     }
-    if (changelogPoints.length > 0)
+    if (changelogPoints.isNotEmpty) {
       changelogPoints.add(
         SizedBox(height: 10),
       );
+    }
 
     if (!forceShow) changelogPoints.insertAll(0, majorChangelogPointsAtTop);
     return changelogPoints;
@@ -2605,12 +2606,7 @@ int parseVersionInt(String versionString) {
 String getVersionString() {
   String version = packageInfoGlobal?.version ?? "";
   String buildNumber = packageInfoGlobal?.buildNumber ?? "";
-  return "v" +
-      version +
-      "+" +
-      buildNumber +
-      ", db-v" +
-      schemaVersionGlobal.toString();
+  return "v$version+$buildNumber, db-v$schemaVersionGlobal";
 }
 
 class MajorChanges {

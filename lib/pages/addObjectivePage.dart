@@ -43,13 +43,13 @@ import 'package:tree/widgets/selectDateRange.dart';
 import 'package:tree/widgets/tappableTextEntry.dart';
 
 class AddObjectivePage extends StatefulWidget {
-  AddObjectivePage({
-    Key? key,
+  const AddObjectivePage({
+    super.key,
     this.objective,
     required this.routesToPopAfterDelete,
     this.objectiveType = ObjectiveType.goal,
     this.selectedIncome,
-  }) : super(key: key);
+  });
 
   //When a wallet is passed in, we are editing that wallet
   final Objective? objective;
@@ -73,20 +73,20 @@ class _AddObjectivePageState extends State<AddObjectivePage>
   String? selectedEmoji;
   double selectedAmount = 0;
   DateTime selectedStartDate = DateTime.now();
-  DateTime? selectedEndDate = null;
+  DateTime? selectedEndDate;
   late bool selectedIncome = widget.selectedIncome ?? true;
   bool selectedPin = true;
   String selectedWalletPk = appStateSettings["selectedWalletPk"];
   bool isDifferenceOnlyLoan = false;
 
-  FocusNode _titleFocusNode = FocusNode();
-  late TabController _incomeTabController =
+  final FocusNode _titleFocusNode = FocusNode();
+  late final TabController _incomeTabController =
       TabController(length: 2, vsync: this);
 
   late ObjectiveType objectiveType =
       widget.objective?.type ?? widget.objectiveType;
 
-  setSelectedWalletPk(String walletPkPassed) {
+  void setSelectedWalletPk(String walletPkPassed) {
     setState(() {
       selectedWalletPk = walletPkPassed;
     });
@@ -197,7 +197,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
     if (picked != null) setSelectedEndDate(picked);
   }
 
-  setSelectedStartDate(DateTime? date) {
+  void setSelectedStartDate(DateTime? date) {
     if (date != null && date != selectedStartDate) {
       setState(() {
         selectedStartDate = date;
@@ -206,7 +206,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
     determineBottomButton();
   }
 
-  setSelectedEndDate(DateTime? date) {
+  void setSelectedEndDate(DateTime? date) {
     if (date != selectedEndDate) {
       setState(() {
         selectedEndDate = date;
@@ -370,22 +370,20 @@ class _AddObjectivePageState extends State<AddObjectivePage>
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
-  determineBottomButton() {
+  void determineBottomButton() {
     if (selectedTitle != null) {
-      if (canAddObjective != true)
-        this.setState(() {
+      if (canAddObjective != true) {
+        setState(() {
           canAddObjective = true;
         });
+      }
     } else {
-      if (canAddObjective != false)
-        this.setState(() {
+      if (canAddObjective != false) {
+        setState(() {
           canAddObjective = false;
         });
+      }
     }
   }
 
@@ -595,7 +593,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                           setSelectedImage: setSelectedImage,
                           setSelectedEmoji: setSelectedEmoji,
                           selectedImage:
-                              "assets/categories/" + selectedImage.toString(),
+                              "assets/categories/$selectedImage",
                           setSelectedTitle: (String? titleRecommendation) {},
                         ),
                       ),
@@ -635,7 +633,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
             ),
           ),
           SliverToBoxAdapter(
-            child: Container(
+            child: SizedBox(
               height: 65,
               child: SelectColor(
                 horizontalList: true,
@@ -705,7 +703,7 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                                                 ? selectedIncome
                                                     ? "lent".tr()
                                                     : "borrowed".tr()
-                                                : "goal".tr() + " ",
+                                                : "${"goal".tr()} ",
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -855,8 +853,9 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                                       stream: database.getObjective(
                                           widget.objective?.objectivePk ?? "0"),
                                       builder: (context, snapshot) {
-                                        if (snapshot.data == null)
+                                        if (snapshot.data == null) {
                                           return SizedBox.shrink();
+                                        }
                                         Objective objective =
                                             snapshot.data!.copyWith(
                                           income: selectedIncome,
@@ -880,30 +879,22 @@ class _AddObjectivePageState extends State<AddObjectivePage>
                                                           ?.currency,
                                                     );
                                             return TextFont(
-                                              text: (selectedIncome
+                                              text: "${selectedIncome
                                                       ? "lent".tr()
-                                                      : "borrowed".tr()) +
-                                                  " " +
-                                                  "total".tr() +
-                                                  ": " +
-                                                  convertToMoney(
+                                                      : "borrowed".tr()} ${"total".tr()}: ${convertToMoney(
                                                     Provider.of<AllWallets>(
                                                         context),
                                                     selectedAmountConverted,
-                                                  ) +
-                                                  " + " +
-                                                  convertToMoney(
+                                                  )} + ${convertToMoney(
                                                     Provider.of<AllWallets>(
                                                         context),
                                                     objectiveAmount,
-                                                  ) +
-                                                  " = " +
-                                                  convertToMoney(
+                                                  )} = ${convertToMoney(
                                                     Provider.of<AllWallets>(
                                                         context),
                                                     objectiveAmount +
                                                         selectedAmountConverted,
-                                                  ),
+                                                  )}",
                                               fontSize: 14.5,
                                               textAlign: TextAlign.center,
                                               textColor: getColor(
@@ -1054,8 +1045,8 @@ class InstallmentObjectivePopup extends StatefulWidget {
 
 class _InstallmentObjectivePopupState extends State<InstallmentObjectivePopup> {
   bool isNegative = false;
-  TimeOfDay? selectedTime = null;
-  DateTime? selectedDateTime = null;
+  TimeOfDay? selectedTime;
+  DateTime? selectedDateTime;
   String selectedTitle = "";
   String selectedWalletPk = appStateSettings["selectedWalletPk"];
   TransactionCategory? selectedCategory;
@@ -1066,8 +1057,8 @@ class _InstallmentObjectivePopupState extends State<InstallmentObjectivePopup> {
   String selectedRecurrenceDisplay = "month";
   BudgetReoccurence selectedRecurrenceEnum = BudgetReoccurence.monthly;
 
-  int? numberOfInstallmentPayments = null;
-  double? amountPerInstallmentPayment = null;
+  int? numberOfInstallmentPayments;
+  double? amountPerInstallmentPayment;
 
   @override
   void initState() {
@@ -1172,14 +1163,11 @@ class _InstallmentObjectivePopupState extends State<InstallmentObjectivePopup> {
 
     return PopupFramework(
       title: "installment".tr(),
-      subtitle: widget.objective.name +
-          " (" +
-          convertToMoney(
+      subtitle: "${widget.objective.name} (${convertToMoney(
               Provider.of<AllWallets>(context),
               objectiveAmountToPrimaryCurrency(
                       Provider.of<AllWallets>(context), widget.objective) *
-                  ((widget.objective.income) ? 1 : -1)) +
-          ")",
+                  ((widget.objective.income) ? 1 : -1))})",
       underTitleSpace: false,
       hasPadding: false,
       child: Column(

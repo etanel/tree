@@ -88,10 +88,12 @@ Future openBottomSheet(
 }) async {
   //minimize keyboard when open
   minimizeKeyboard(context);
-  if (reAssignBottomSheetControllerGlobal)
-    bottomSheetControllerGlobal = new SheetController();
-  if (useCustomController == true)
-    bottomSheetControllerGlobalCustomAssigned = new SheetController();
+  if (reAssignBottomSheetControllerGlobal) {
+    bottomSheetControllerGlobal = SheetController();
+  }
+  if (useCustomController == true) {
+    bottomSheetControllerGlobalCustomAssigned = SheetController();
+  }
 
   // Fix over-scroll stretch when keyboard pops up quickly
   if (popupWithKeyboard) {
@@ -238,8 +240,8 @@ bool checkIfDefaultThemeData(BuildContext? context) {
         Theme.of(context).primaryColor == ThemeData().primaryColor &&
         Theme.of(context).secondaryHeaderColor ==
             ThemeData().secondaryHeaderColor &&
-        Theme.of(context).colorScheme.background ==
-            ThemeData().colorScheme.background &&
+        Theme.of(context).colorScheme.surface ==
+            ThemeData().colorScheme.surface &&
         Theme.of(context).cardColor == ThemeData().cardColor;
   } catch (e) {
     return true;

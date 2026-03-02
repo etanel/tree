@@ -34,7 +34,7 @@ import 'package:provider/provider.dart';
 import 'exchangeRatesPage.dart';
 
 class EditWalletsPage extends StatefulWidget {
-  EditWalletsPage({Key? key, this.runWhenOpen}) : super(key: key);
+  const EditWalletsPage({super.key, this.runWhenOpen});
 
   final VoidCallback? runWhenOpen;
 
@@ -204,14 +204,14 @@ class _EditWalletsPageState extends State<EditWalletsPage> {
             stream: database.watchAllWalletsWithDetails(
                 searchFor: searchValue == "" ? null : searchValue),
             builder: (context, snapshot) {
-              if (snapshot.hasData && (snapshot.data ?? []).length <= 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isEmpty) {
                 return SliverToBoxAdapter(
                   child: NoResults(
                     message: "no-accounts-found".tr(),
                   ),
                 );
               }
-              if (snapshot.hasData && (snapshot.data ?? []).length > 0) {
+              if (snapshot.hasData && (snapshot.data ?? []).isNotEmpty) {
                 return SliverReorderableList(
                   onReorderStart: (index) {
                     HapticFeedback.heavyImpact();
@@ -309,12 +309,9 @@ class _EditWalletsPageState extends State<EditWalletsPage> {
                               ),
                               TextFont(
                                 textAlign: TextAlign.start,
-                                text: walletWithDetails.numberTransactions
-                                        .toString() +
-                                    " " +
-                                    (walletWithDetails.numberTransactions == 1
+                                text: "${walletWithDetails.numberTransactions} ${walletWithDetails.numberTransactions == 1
                                         ? "transaction".tr().toLowerCase()
-                                        : "transactions".tr().toLowerCase()),
+                                        : "transactions".tr().toLowerCase()}",
                                 fontSize: 14,
                                 textColor: getColor(context, "black")
                                     .withOpacity(0.65),
@@ -339,17 +336,17 @@ class _EditWalletsPageState extends State<EditWalletsPage> {
                     );
                   },
                   itemCount: snapshot.data!.length,
-                  onReorder: (_intPrevious, _intNew) async {
+                  onReorder: (intPrevious, intNew) async {
                     WalletWithDetails oldWalletWithDetails =
-                        snapshot.data![_intPrevious];
+                        snapshot.data![intPrevious];
                     TransactionWallet oldWallet = oldWalletWithDetails.wallet;
 
-                    if (_intNew > _intPrevious) {
+                    if (intNew > intPrevious) {
                       await database.moveWallet(
-                          oldWallet.walletPk, _intNew - 1, oldWallet.order);
+                          oldWallet.walletPk, intNew - 1, oldWallet.order);
                     } else {
                       await database.moveWallet(
-                          oldWallet.walletPk, _intNew, oldWallet.order);
+                          oldWallet.walletPk, intNew, oldWallet.order);
                     }
                     return true;
                   },
@@ -446,7 +443,7 @@ void mergeWalletPopup(
   if (selectedWalletResult != null) {
     final result = await openPopup(
       context,
-      title: "merge-into".tr() + " " + selectedWalletResult.name + "?",
+      title: "${"merge-into".tr()} ${selectedWalletResult.name}?",
       description: "merge-into-description-accounts".tr(),
       icon: appStateSettings["outlinedIcons"]
           ? Icons.merge_outlined
@@ -486,7 +483,7 @@ void mergeWalletPopup(
                 ? Icons.merge_outlined
                 : Icons.merge_rounded,
             description:
-                walletOriginal.name + " → " + selectedWalletResult.name,
+                "${walletOriginal.name} → ${selectedWalletResult.name}",
           ),
         );
       });
@@ -514,9 +511,10 @@ Future<TransactionWallet?> selectWalletPopup(
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<WalletWithDetails> walletsWithoutOneDeleted = snapshot.data!;
-            if (removeWalletPks != null)
+            if (removeWalletPks != null) {
               walletsWithoutOneDeleted.removeWhere((WalletWithDetails w) =>
                   removeWalletPks.contains(w.wallet.walletPk));
+            }
             if (walletsWithoutOneDeleted.isEmpty) {
               return Padding(
                 padding: const EdgeInsetsDirectional.only(bottom: 15),
@@ -582,7 +580,7 @@ Future<TransactionWallet?> selectWalletPopup(
               onLongPress: (Object? object) {
                 TransactionWallet? wallet;
                 if (object is WalletWithDetails) wallet = object.wallet;
-                if (allowEditWallet)
+                if (allowEditWallet) {
                   pushRoute(
                     context,
                     AddWalletPage(
@@ -592,6 +590,7 @@ Future<TransactionWallet?> selectWalletPopup(
                       wallet: wallet,
                     ),
                   );
+                }
               },
             );
           } else {
@@ -677,7 +676,7 @@ class PrimaryCurrencySetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VoidCallback changeCurrencyPopup = () => openPopup(
+    void changeCurrencyPopup() => openPopup(
           context,
           title: "change-currency".tr(),
           icon: appStateSettings["outlinedIcons"]

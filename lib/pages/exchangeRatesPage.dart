@@ -75,7 +75,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
       currencyExchange[key] = null;
     }
     currencyExchange.addAll(appStateSettings["cachedCurrencyExchange"]);
-    if (currencyExchange.keys.length <= 0) {
+    if (currencyExchange.keys.isEmpty) {
       for (String key in currenciesJSON.keys) {
         currencyExchange[key] = 1;
       }
@@ -122,9 +122,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
             openPopup(
               context,
               title: "exchange-rate-notice".tr(),
-              description: "exchange-rate-notice-description".tr() +
-                  "\n\n" +
-                  "select-an-entry-to-set-custom-exchange-rate".tr(),
+              description: "${"exchange-rate-notice-description".tr()}\n\n${"select-an-entry-to-set-custom-exchange-rate".tr()}",
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.info_outlined
                   : Icons.info_outline_rounded,
@@ -224,12 +222,11 @@ class _ExchangeRatesState extends State<ExchangeRates> {
               padding: const EdgeInsetsDirectional.symmetric(
                   horizontal: 17, vertical: 5),
               child: TextFont(
-                text: "1 " +
-                    Provider.of<AllWallets>(context)
+                text: "1 ${Provider.of<AllWallets>(context)
                         .indexedByPk[appStateSettings["selectedWalletPk"]]!
                         .currency
                         .toString()
-                        .allCaps,
+                        .allCaps}",
                 maxLines: 2,
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
@@ -237,7 +234,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
             ),
           ),
         ),
-        currencyExchangeFiltered.keys.length == 0
+        currencyExchangeFiltered.keys.isEmpty
             ? SliverToBoxAdapter(
                 child: NoResults(message: "no-currencies-found".tr()),
               )
@@ -299,11 +296,9 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                                         maxLines: 3,
                                         richTextSpan: [
                                           TextSpan(
-                                            text: (isUnsetCustomCurrency
+                                            text: "${isUnsetCustomCurrency
                                                     ? " " + "1 USD"
-                                                    : "") +
-                                                " = " +
-                                                calculatedExchangeRateString,
+                                                    : ""} = $calculatedExchangeRateString",
                                             style: TextStyle(
                                               color: getColor(context, "black"),
                                               fontFamily:
@@ -313,7 +308,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text: " " + key.allCaps,
+                                            text: " ${key.allCaps}",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontFamily:
@@ -423,7 +418,7 @@ class _SetCustomCurrencyState extends State<SetCustomCurrency> {
                         ?[widget.currencyKey]
                     .toString() ??
                 "0"),
-        suffix: " " + widget.currencyKey.allCaps,
+        suffix: " ${widget.currencyKey.allCaps}",
         nextLabel: "set-amount".tr(),
         next: () {
           popRoute(context);

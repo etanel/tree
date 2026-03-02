@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BarGraph extends StatefulWidget {
-  BarGraph({
+  const BarGraph({
     required this.budget,
     required this.color,
     required this.dateRanges,
@@ -16,8 +16,8 @@ class BarGraph extends StatefulWidget {
     required this.initialBars,
     required this.horizontalLineAt,
     required this.maxY,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Color color;
   final List<DateTimeRange> dateRanges;
@@ -53,7 +53,7 @@ class BarGraphState extends State<BarGraph> {
         end: 30,
         top: 5,
       ),
-      child: Container(
+      child: SizedBox(
         height: 190,
         child: BarChart(
           swapAnimationCurve: Curves.easeInOutCubicEmphasized,

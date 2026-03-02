@@ -6,8 +6,8 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/colors.dart';
 
 class PopupFramework extends StatelessWidget {
-  PopupFramework({
-    Key? key,
+  const PopupFramework({
+    super.key,
     required this.child,
     this.title,
     this.subtitle,
@@ -19,7 +19,7 @@ class PopupFramework extends StatelessWidget {
     this.showCloseButton = false,
     this.icon,
     this.outsideExtraWidget,
-  }) : super(key: key);
+  });
   final Widget child;
   final String? title;
   final String? subtitle;

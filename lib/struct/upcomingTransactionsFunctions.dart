@@ -53,7 +53,7 @@ Future createNewSubscriptionTransaction(
         openSnackbar(
           SnackbarMessage(
             title: "end-date-reached".tr(),
-            description: "for".tr().capitalizeFirst + " " + transactionName,
+            description: "${"for".tr().capitalizeFirst} $transactionName",
             icon: appStateSettings["outlinedIcons"]
                 ? Icons.event_available_outlined
                 : Icons.event_available_rounded,
@@ -74,18 +74,20 @@ Future createNewSubscriptionTransaction(
         bool willBeOverObjective = (totalSpentOfObjective ?? 0) >=
             (objective.amount * (objective.income ? 1 : -1));
 
-        if (objective.income == false)
+        if (objective.income == false) {
           willBeOverObjective = !willBeOverObjective;
+        }
 
         if ((totalSpentOfObjective ?? 0) ==
-            (objective.amount * (objective.income ? 1 : -1)))
+            (objective.amount * (objective.income ? 1 : -1))) {
           willBeOverObjective = true;
+        }
 
         if (willBeOverObjective) {
           openSnackbar(
             SnackbarMessage(
               title: "goal-reached".tr(),
-              description: "for".tr().capitalizeFirst + " " + objective.name,
+              description: "${"for".tr().capitalizeFirst} ${objective.name}",
               icon: appStateSettings["outlinedIcons"]
                   ? Icons.event_available_outlined
                   : Icons.event_available_rounded,
@@ -108,12 +110,8 @@ Future createNewSubscriptionTransaction(
       String transactionName = await getTransactionLabel(transaction);
       openSnackbar(
         SnackbarMessage(
-          title: (transaction.income ? "deposited".tr() : "paid".tr()) +
-              ": " +
-              transactionName,
-          description: "created-new-for".tr() +
-              " " +
-              getWordedDateShort(newDate, lowerCaseTodayTomorrow: true),
+          title: "${transaction.income ? "deposited".tr() : "paid".tr()}: $transactionName",
+          description: "${"created-new-for".tr()} ${getWordedDateShort(newDate, lowerCaseTodayTomorrow: true)}",
           icon: appStateSettings["outlinedIcons"]
               ? Icons.event_repeat_outlined
               : Icons.event_repeat_rounded,
@@ -146,7 +144,9 @@ int? countTransactionOccurrences({
   if (endDate == null ||
       reoccurrence == null ||
       reoccurrence == BudgetReoccurence.custom ||
-      periodLength == null) return null;
+      periodLength == null) {
+    return null;
+  }
 
   int yearOffset = 0;
   int monthOffset = 0;
@@ -203,7 +203,7 @@ String updatePredictableKey(String originalKey) {
 
       return "${parts[0]}::predict::$newNumber";
     } catch (e) {
-      print("Error creating predictable key! " + e.toString());
+      print("Error creating predictable key! $e");
       return uuid.v4();
     }
   } else {
@@ -228,21 +228,14 @@ Future openPayPopup(
         );
   String repeatsLeftLabel = numberRepeats == null
       ? ""
-      : "\n× " +
-          numberRepeats.toString() +
-          " " +
-          "remain".tr() +
-          " " +
-          "until".tr() +
-          " " +
-          getWordedDateShort(transaction.endDate ?? DateTime.now(),
-              includeYear: transaction.endDate?.year != DateTime.now().year);
+      : "\n× $numberRepeats ${"remain".tr()} ${"until".tr()} ${getWordedDateShort(transaction.endDate ?? DateTime.now(),
+              includeYear: transaction.endDate?.year != DateTime.now().year)}";
   return await openPopup(
     context,
     icon: appStateSettings["outlinedIcons"]
         ? Icons.check_circle_outlined
         : Icons.check_circle_rounded,
-    title: (transaction.income ? "deposit".tr() : "pay".tr()) + "?",
+    title: "${transaction.income ? "deposit".tr() : "pay".tr()}?",
     subtitle: transactionName,
     description: (transaction.income
             ? "deposit-description".tr()
@@ -365,12 +358,11 @@ Future openPayDebtCreditPopup(
     icon: appStateSettings["outlinedIcons"]
         ? Icons.check_circle_outlined
         : Icons.check_circle_rounded,
-    title: (transaction.type == TransactionSpecialType.credit
+    title: "${transaction.type == TransactionSpecialType.credit
             ? "collect".tr()
             : transaction.type == TransactionSpecialType.debt
                 ? "settled".tr()
-                : "") +
-        "?",
+                : ""}?",
     subtitle: transactionName,
     description: transaction.type == TransactionSpecialType.credit
         ? "collect-description".tr()
@@ -519,7 +511,7 @@ Future openRemoveSkipPopup(
     icon: appStateSettings["outlinedIcons"]
         ? Icons.unpublished_outlined
         : Icons.unpublished_rounded,
-    title: "remove-skip".tr() + "?",
+    title: "${"remove-skip".tr()}?",
     subtitle: transactionName,
     description: "remove-skip-description".tr(),
     onCancelLabel: "cancel".tr(),
@@ -548,7 +540,7 @@ Future openUnpayPopup(
       icon: appStateSettings["outlinedIcons"]
           ? Icons.unpublished_outlined
           : Icons.unpublished_rounded,
-      title: "remove-payment".tr() + "?",
+      title: "${"remove-payment".tr()}?",
       subtitle: transactionName,
       description: "remove-payment-description".tr(),
       onCancelLabel: "cancel".tr(),
@@ -583,7 +575,7 @@ Future openUnpayDebtCreditPopup(
     icon: appStateSettings["outlinedIcons"]
         ? Icons.unpublished_outlined
         : Icons.unpublished_rounded,
-    title: "remove-payment".tr() + "?",
+    title: "${"remove-payment".tr()}?",
     subtitle: transactionName,
     description: "remove-payment-description".tr(),
     onCancelLabel: "cancel".tr(),
@@ -653,8 +645,7 @@ Future<bool> markSubscriptionsAsPaid(BuildContext context,
     if (hasUpdatedASubscription) {
       await markSubscriptionsAsPaid(context, iteration: (iteration ?? 0) + 1);
     }
-    print("Automatically paid subscriptions with iteration: " +
-        iteration.toString());
+    print("Automatically paid subscriptions with iteration: $iteration");
   }
   return true;
 }

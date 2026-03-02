@@ -16,7 +16,7 @@ Future saveDBFileToDevice({
   try {
     await backupSettings();
   } catch (e) {
-    print("Error creating settings entry in the db: " + e.toString());
+    print("Error creating settings entry in the db: $e");
   }
 
   DBFileInfo currentDBFileInfo = await getCurrentDBFileInfo();
@@ -39,7 +39,7 @@ Future saveDBFileToDevice({
 Future exportDB({required BuildContext boxContext}) async {
   await openLoadingPopupTryCatch(() async {
     String fileName =
-        "cashew-" + cleanFileNameString(DateTime.now().toString()) + ".sql";
+        "cashew-${cleanFileNameString(DateTime.now().toString())}.sql";
     await saveDBFileToDevice(boxContext: boxContext, fileName: fileName);
   });
 }

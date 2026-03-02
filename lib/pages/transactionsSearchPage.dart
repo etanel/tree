@@ -27,8 +27,7 @@ int roundToNearestNextFifthYear(int year) {
 }
 
 class TransactionsSearchPage extends StatefulWidget {
-  const TransactionsSearchPage({this.initialFilters, Key? key})
-      : super(key: key);
+  const TransactionsSearchPage({this.initialFilters, super.key});
 
   final SearchFilters? initialFilters;
 
@@ -45,7 +44,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
   late AnimationController _animationControllerSearch;
   final _debouncer = Debouncer(milliseconds: 500);
   late SearchFilters searchFilters;
-  TextEditingController searchInputController = new TextEditingController();
+  TextEditingController searchInputController = TextEditingController();
 
   @override
   void initState() {
@@ -70,7 +69,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
     super.dispose();
   }
 
-  _scrollListener(position) {
+  void _scrollListener(position) {
     double percent = position / (MediaQuery.paddingOf(context).top + 65 + 50);
     if (percent >= 0 && percent <= 1) {
       _animationControllerSearch.value = 1 - percent;
@@ -131,7 +130,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
   }
 
   Future<void> selectDateRange(BuildContext context) async {
-    final DateTimeRangeOrAllTime? picked = await showCustomDateRangePicker(
+    final DateTimeRangeOrAllTime picked = await showCustomDateRangePicker(
       context,
       DateTimeRangeOrAllTime(
         allTime: searchFilters.dateTimeRange == null,
@@ -141,7 +140,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
       allTimeButton: true,
     );
     if (picked != null) {
-      if (searchFilters.dateTimeRange != picked.dateTimeRange)
+      if (searchFilters.dateTimeRange != picked.dateTimeRange) {
         Future.delayed(Duration(milliseconds: 175), () {
           setState(() {
             searchFilters.dateTimeRange = picked.dateTimeRange;
@@ -152,6 +151,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
             updateGlobalState: false,
           );
         });
+      }
     }
   }
 
@@ -159,7 +159,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value["TransactionsSearch"] ?? []).length > 0) {
+        if ((globalSelectedID.value["TransactionsSearch"] ?? []).isNotEmpty) {
           globalSelectedID.value["TransactionsSearch"] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -214,10 +214,11 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
                         },
                         onChanged: (value) {
                           _debouncer.run(() {
-                            if (searchFilters.searchQuery != value)
+                            if (searchFilters.searchQuery != value) {
                               setState(() {
                                 searchFilters.searchQuery = value;
                               });
+                            }
                           });
                         },
                         padding: EdgeInsetsDirectional.all(0),
@@ -319,15 +320,13 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
                 child: TextFont(
                   text: searchFilters.dateTimeRange == null
                       ? "all-time".tr()
-                      : getWordedDateShortMore(
+                      : "${getWordedDateShortMore(
                               searchFilters.dateTimeRange?.start ??
                                   DateTime.now(),
-                              includeYear: true) +
-                          " – " +
-                          getWordedDateShortMore(
+                              includeYear: true)} – ${getWordedDateShortMore(
                               searchFilters.dateTimeRange?.end ??
                                   DateTime.now(),
-                              includeYear: true),
+                              includeYear: true)}",
                   fontSize: 13,
                   textAlign: TextAlign.center,
                   textColor: getColor(context, "textLight"),

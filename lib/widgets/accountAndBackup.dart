@@ -63,8 +63,9 @@ Future<bool> checkConnection() async {
 
 class GoogleAuthClient extends http.BaseClient {
   final Map<String, String> _headers;
-  final http.Client _client = new http.Client();
+  final http.Client _client = http.Client();
   GoogleAuthClient(this._headers);
+  @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     return _client.send(request..headers.addAll(_headers));
   }
@@ -336,7 +337,7 @@ Future<void> createBackupInBackground(context) async {
     DateTime lastUpdate = DateTime.parse(appStateSettings["lastBackup"]);
     DateTime nextPlannedBackup = lastUpdate
         .add(Duration(days: appStateSettings["autoBackupsFrequency"]));
-    print("next backup planned on " + nextPlannedBackup.toString());
+    print("next backup planned on $nextPlannedBackup");
     if (DateTime.now().millisecondsSinceEpoch >=
         nextPlannedBackup.millisecondsSinceEpoch) {
       print("auto backing up");
@@ -451,10 +452,10 @@ Future<void> createBackup(
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = drive.DriveApi(authenticateClient);
 
-    var media = new drive.Media(
+    var media = drive.Media(
         currentDBFileInfo.mediaStream, currentDBFileInfo.dbFileBytes.length);
 
-    var driveFile = new drive.File();
+    var driveFile = drive.File();
     final timestamp =
         DateFormat("yyyy-MM-dd-hhmmss").format(DateTime.now().toUtc());
     // -$timestamp
@@ -534,14 +535,14 @@ Future<void> deleteRecentBackups(context, amountToKeep,
     }
 
     int index = 0;
-    files.forEach((file) {
+    for (var file in files) {
       // subtract 1 because we just made a backup
       if (index >= amountToKeep - 1) {
         // only delete excess backups that don't belong to a client sync
         if (!isSyncBackupFile(file.name)) deleteBackup(driveApi, file.id ?? "");
       }
       if (!isSyncBackupFile(file.name)) index++;
-    });
+    }
     if (silentDelete == false || silentDelete == null) {
       loadingIndeterminateKey.currentState?.setVisibility(false);
     }
@@ -836,11 +837,11 @@ Future<(drive.DriveApi? driveApi, List<drive.File>?)> getDriveFiles() async {
 
 class BackupManagement extends StatefulWidget {
   const BackupManagement({
-    Key? key,
+    super.key,
     required this.isManaging,
     required this.isClientSync,
     this.hideDownloadButton = false,
-  }) : super(key: key);
+  });
 
   final bool isManaging;
   final bool isClientSync;
@@ -885,7 +886,7 @@ class _BackupManagementState extends State<BackupManagement> {
   @override
   Widget build(BuildContext context) {
     if (widget.isClientSync) {
-      if (filesState.length > 0) {
+      if (filesState.isNotEmpty) {
         print(appStateSettings["devicesHaveBeenSynced"]);
         filesState =
             filesState.where((file) => isSyncBackupFile(file.name)).toList();
@@ -893,7 +894,7 @@ class _BackupManagementState extends State<BackupManagement> {
             updateGlobalState: false);
       }
     } else {
-      if (filesState.length > 0) {
+      if (filesState.isNotEmpty) {
         filesState =
             filesState.where((file) => !isSyncBackupFile(file.name)).toList();
         updateSettings("numBackups", filesState.length,
@@ -910,9 +911,7 @@ class _BackupManagementState extends State<BackupManagement> {
       subtitle: widget.isClientSync
           ? "manage-syncing-info".tr()
           : widget.isManaging
-              ? appStateSettings["backupLimit"].toString() +
-                  " " +
-                  "stored-backups".tr()
+              ? "${appStateSettings["backupLimit"]} ${"stored-backups".tr()}"
               : "overwrite-warning".tr(),
       child: Column(
         children: [
@@ -1097,21 +1096,19 @@ class _BackupManagementState extends State<BackupManagement> {
                                 final result = await openPopup(
                                   context,
                                   title: "load-backup".tr(),
-                                  subtitle: getWordedDateShortMore(
+                                  subtitle: "${getWordedDateShortMore(
                                         (file.value.modifiedTime ??
                                                 DateTime.now())
                                             .toLocal(),
                                         includeTime: true,
                                         includeYear: true,
                                         showTodayTomorrow: false,
-                                      ) +
-                                      "\n" +
-                                      getWordedTime(
+                                      )}\n${getWordedTime(
                                           navigatorKey.currentContext?.locale
                                               .toString(),
                                           (file.value.modifiedTime ??
                                                   DateTime.now())
-                                              .toLocal()),
+                                              .toLocal())}",
                                   beforeDescriptionWidget: Padding(
                                     padding: const EdgeInsetsDirectional.only(
                                       top: 8,
@@ -1213,10 +1210,8 @@ class _BackupManagementState extends State<BackupManagement> {
                                               TextFont(
                                                 text: (isSyncBackupFile(
                                                         file.value.name)
-                                                    ? getDeviceFromSyncBackupFileName(
-                                                            file.value.name) +
-                                                        " " +
-                                                        "sync"
+                                                    ? "${getDeviceFromSyncBackupFileName(
+                                                            file.value.name)} sync"
                                                     : file.value.name ??
                                                         "No name"),
                                                 fontSize: 14,
@@ -1306,7 +1301,7 @@ class _BackupManagementState extends State<BackupManagement> {
                                                         : Icons.delete_rounded,
                                                     title: "delete-backup".tr(),
                                                     subtitle:
-                                                        getWordedDateShortMore(
+                                                        "${getWordedDateShortMore(
                                                               (file.value.modifiedTime ??
                                                                       DateTime
                                                                           .now())
@@ -1315,9 +1310,7 @@ class _BackupManagementState extends State<BackupManagement> {
                                                               includeYear: true,
                                                               showTodayTomorrow:
                                                                   false,
-                                                            ) +
-                                                            "\n" +
-                                                            getWordedTime(
+                                                            )}\n${getWordedTime(
                                                                 navigatorKey
                                                                     .currentContext
                                                                     ?.locale
@@ -1325,7 +1318,7 @@ class _BackupManagementState extends State<BackupManagement> {
                                                                 (file.value.modifiedTime ??
                                                                         DateTime
                                                                             .now())
-                                                                    .toLocal()),
+                                                                    .toLocal())}",
                                                     beforeDescriptionWidget:
                                                         Padding(
                                                       padding:
@@ -1335,17 +1328,14 @@ class _BackupManagementState extends State<BackupManagement> {
                                                         bottom: 5,
                                                       ),
                                                       child: CodeBlock(
-                                                        text: (file.value
+                                                        text: "${file.value
                                                                     .name ??
-                                                                "No name") +
-                                                            "\n" +
-                                                            convertBytesToMB(file
+                                                                "No name"}\n${convertBytesToMB(file
                                                                         .value
                                                                         .size ??
                                                                     "0")
                                                                 .toStringAsFixed(
-                                                                    2) +
-                                                            " MB",
+                                                                    2)} MB",
                                                       ),
                                                     ),
                                                     description: (widget
@@ -1427,7 +1417,7 @@ class _BackupManagementState extends State<BackupManagement> {
                         ),
                 ),
               )
-              .toList(),
+              ,
         ],
       ),
     );
@@ -1447,10 +1437,10 @@ double convertBytesToMB(String bytesString) {
 
 class LoadingShimmerDriveFiles extends StatelessWidget {
   const LoadingShimmerDriveFiles({
-    Key? key,
+    super.key,
     required this.isManaging,
     required this.i,
-  }) : super(key: key);
+  });
 
   final bool isManaging;
   final int i;
@@ -1559,12 +1549,10 @@ Future<bool> saveDriveFileToDevice({
   await for (var data in response.stream) {
     dataStore.insertAll(dataStore.length, data);
   }
-  String fileName = "cashew-" +
-      ((fileToSave.name ?? "") +
+  String fileName = "cashew-${((fileToSave.name ?? "") +
               cleanFileNameString(
                   (fileToSave.modifiedTime ?? DateTime.now()).toString()))
-          .replaceAll(".sqlite", "") +
-      ".sql";
+          .replaceAll(".sqlite", "")}.sql";
 
   return await saveFile(
     boxContext: boxContext,
@@ -1586,9 +1574,7 @@ bool openBackupReminderPopupCheck(BuildContext context) {
       icon: MoreIcons.google_drive,
       iconScale: 0.9,
       title: "backup-your-data-reminder".tr(),
-      description: "backup-your-data-reminder-description".tr() +
-          " " +
-          "google-drive".tr(),
+      description: "${"backup-your-data-reminder-description".tr()} ${"google-drive".tr()}",
       onSubmitLabel: "backup".tr().capitalizeFirst,
       onSubmit: () async {
         popRoute(context);

@@ -46,8 +46,8 @@ class CreditDebtTransactions extends StatefulWidget {
 class CreditDebtTransactionsState extends State<CreditDebtTransactions>
     with SingleTickerProviderStateMixin {
   String pageId = "CreditDebt";
-  late ScrollController _scrollController = ScrollController();
-  late TabController _tabController = TabController(
+  late final ScrollController _scrollController = ScrollController();
+  late final TabController _tabController = TabController(
     length: 2,
     vsync: this,
     initialIndex: appStateSettings["loansLastPage"] == 1 ? 1 : 0,
@@ -55,7 +55,7 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
 
   late bool? isCredit = widget.isCredit;
   String? searchValue;
-  FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   int? numberLongTerm;
   GlobalKey<PageFrameworkState> pageState = GlobalKey();
 
@@ -92,7 +92,7 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
         stream: database.watchAllCreditDebtTransactions(isCredit, searchValue),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data!.length <= 0) {
+            if (snapshot.data!.isEmpty) {
               return SliverToBoxAdapter(
                 child: Center(
                   child: Column(
@@ -238,9 +238,9 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
                             ? 1
                             : 2,
                     onSelected: (int index) {
-                      if (index == 1)
+                      if (index == 1) {
                         isCredit = null;
-                      else if (index == 2)
+                      } else if (index == 2)
                         isCredit = true;
                       else if (index == 3) isCredit = false;
                       setState(() {});
@@ -311,7 +311,7 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
 
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value[pageId] ?? []).length > 0) {
+        if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -339,10 +339,12 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
                             showDifferenceLoans: null,
                             limit: 1),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData == false)
+                          if (snapshot.hasData == false) {
                             return SizedBox.shrink();
-                          if ((snapshot.data?.length ?? 0) <= 0)
+                          }
+                          if ((snapshot.data?.length ?? 0) <= 0) {
                             return SizedBox.shrink();
+                          }
                           return CustomPopupMenuButton(
                             showButtons: enableDoubleColumn(context),
                             keepOutFirst: true,
@@ -390,8 +392,9 @@ class CreditDebtTransactionsState extends State<CreditDebtTransactions>
               title: "loans".tr(),
               dragDownToDismiss: true,
               bodyBuilder: (scrollController, scrollPhysics, sliverAppBar) {
-                if (allLoanObjectivesSnapshot.hasData == false)
+                if (allLoanObjectivesSnapshot.hasData == false) {
                   return SizedBox.shrink();
+                }
                 if ((allLoanObjectivesSnapshot.data?.length ?? 0) <= 0) {
                   numberLongTerm = 0;
                   _tabController.index = 0;

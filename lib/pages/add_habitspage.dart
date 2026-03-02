@@ -383,8 +383,7 @@ class _AddHabitsPageState extends State<AddHabitsPage> {
                             child: SelectCategoryImage(
                               setSelectedImage: setSelectedImage,
                               setSelectedEmoji: setSelectedEmoji,
-                              selectedImage: "assets/categories/" +
-                                  selectedImage.toString(),
+                              selectedImage: "assets/categories/$selectedImage",
                               setSelectedTitle: (String? titleRecommendation) {
                                 if (titleRecommendation != null &&
                                     (selectedTitle == null ||
@@ -445,7 +444,7 @@ class _AddHabitsPageState extends State<AddHabitsPage> {
                 ),
 
                 // ── 2. Colour picker ──────────────────────────────────────
-                Container(
+                SizedBox(
                   height: 65,
                   child: SelectColor(
                     horizontalList: true,
@@ -579,7 +578,7 @@ class _AddHabitsPageState extends State<AddHabitsPage> {
                   child: SettingsContainerSwitch(
                     title: "reminder".tr(),
                     description: reminderEnabled && selectedReminderTime != null
-                        ? "reminder-at".tr() + " $selectedReminderTime"
+                        ? "${"reminder-at".tr()} $selectedReminderTime"
                         : "reminder-description".tr(),
                     icon: appStateSettings["outlinedIcons"]
                         ? Icons.notifications_outlined

@@ -91,7 +91,7 @@ Future importDB(BuildContext context, {ignoreOverwriteWarning = false}) async {
         return await importDBFileFromDevice(context);
       },
       onSuccess: (result) {
-        if (result != null)
+        if (result != null) {
           restartAppPopup(
             context,
             description: kIsWeb
@@ -99,6 +99,7 @@ Future importDB(BuildContext context, {ignoreOverwriteWarning = false}) async {
                 : "restart-required-to-load-backup".tr(),
             // codeBlock: result.toString(),
           );
+        }
       },
     );
   }

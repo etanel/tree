@@ -67,8 +67,8 @@ import 'package:tree/widgets/outlinedButtonStacked.dart';
 
 class MoreActionsPage extends StatefulWidget {
   const MoreActionsPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<MoreActionsPage> createState() => MoreActionsPageState();
@@ -359,8 +359,8 @@ class MorePages extends StatelessWidget {
 
 class EnterName extends StatelessWidget {
   const EnterName({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -727,8 +727,9 @@ class WidgetSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (getPlatform(ignoreEmulation: true) != PlatformOS.isAndroid)
+    if (getPlatform(ignoreEmulation: true) != PlatformOS.isAndroid) {
       return SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1413,8 +1414,9 @@ class _CustomNumberFormatPopupState extends State<CustomNumberFormatPopup> {
                     ? Symbols.decimal_decrease_sharp
                     : Symbols.decimal_decrease_rounded,
                 onTap: () {
-                  if (widget.onChangeAnyOption != null)
+                  if (widget.onChangeAnyOption != null) {
                     widget.onChangeAnyOption!();
+                  }
                   openBottomSheet(
                     context,
                     popupWithKeyboard: true,
@@ -1449,17 +1451,16 @@ class _CustomNumberFormatPopupState extends State<CustomNumberFormatPopup> {
               child: SettingsContainer(
                 isOutlined: true,
                 isOutlinedColumn: true,
-                title: "symbol".tr() +
-                    "\n" +
-                    (numberFormatCurrencyFirst
+                title: "${"symbol".tr()}\n${numberFormatCurrencyFirst
                         ? "before".tr().capitalizeFirst
-                        : "after".tr().capitalizeFirst),
+                        : "after".tr().capitalizeFirst}",
                 icon: appStateSettings["outlinedIcons"]
                     ? Icons.monetization_on_outlined
                     : Icons.monetization_on_rounded,
                 onTap: () {
-                  if (widget.onChangeAnyOption != null)
+                  if (widget.onChangeAnyOption != null) {
                     widget.onChangeAnyOption!();
+                  }
                   setState(() {
                     numberFormatCurrencyFirst = !numberFormatCurrencyFirst;
                   });
@@ -1479,8 +1480,9 @@ class _CustomNumberFormatPopupState extends State<CustomNumberFormatPopup> {
                     ? Symbols.decimal_increase_sharp
                     : Symbols.decimal_increase_rounded,
                 onTap: () {
-                  if (widget.onChangeAnyOption != null)
+                  if (widget.onChangeAnyOption != null) {
                     widget.onChangeAnyOption!();
+                  }
                   openBottomSheet(
                     context,
                     popupWithKeyboard: true,

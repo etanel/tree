@@ -36,12 +36,12 @@ import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class AddWalletPage extends StatefulWidget {
-  AddWalletPage({
-    Key? key,
+  const AddWalletPage({
+    super.key,
     this.wallet,
     required this.routesToPopAfterDelete,
     this.runWhenOpen,
-  }) : super(key: key);
+  });
 
   //When a wallet is passed in, we are editing that wallet
   final TransactionWallet? wallet;
@@ -65,7 +65,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
   String selectedCurrency =
       getDevicesDefaultCurrencyCode(); //if no currency selected use empty string
   int selectedDecimals = 2;
-  FocusNode _titleFocusNode = FocusNode();
+  final FocusNode _titleFocusNode = FocusNode();
 
   void setSelectedTitle(String title) {
     setState(() {
@@ -91,7 +91,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
 
   Future addWallet({bool popContext = true}) async {
     print("Added wallet");
-    final int? rowId = await database.createOrUpdateWallet(
+    final int rowId = await database.createOrUpdateWallet(
         insert: widget.wallet == null, await createTransactionWallet());
 
     // set initial amount
@@ -179,17 +179,19 @@ class _AddWalletPageState extends State<AddWalletPage> {
     super.dispose();
   }
 
-  determineBottomButton() {
+  void determineBottomButton() {
     if (selectedTitle != null && selectedCurrency != "") {
-      if (canAddWallet != true)
-        this.setState(() {
+      if (canAddWallet != true) {
+        setState(() {
           canAddWallet = true;
         });
+      }
     } else {
-      if (canAddWallet != false)
-        this.setState(() {
+      if (canAddWallet != false) {
+        setState(() {
           canAddWallet = false;
         });
+      }
     }
   }
 
@@ -249,7 +251,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
         ),
       ),
     );
-    if (limitReached)
+    if (limitReached) {
       openSnackbar(
         SnackbarMessage(
           title: "maximum-precision".tr(),
@@ -259,11 +261,12 @@ class _AddWalletPageState extends State<AddWalletPage> {
               : Symbols.decimal_increase_rounded,
         ),
       );
+    }
     determineBottomButton();
   }
 
   double initialBalance = 0;
-  openEnterInitialBalanceBottomSheet() {
+  void openEnterInitialBalanceBottomSheet() {
     openBottomSheet(
       context,
       fullSnap: true,
@@ -457,7 +460,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
             child: SizedBox(height: 14),
           ),
           SliverToBoxAdapter(
-            child: Container(
+            child: SizedBox(
               height: 65,
               child: SelectColor(
                 horizontalList: true,
@@ -483,13 +486,14 @@ class _AddWalletPageState extends State<AddWalletPage> {
                     child: SettingsContainer(
                       isOutlined: true,
                       onTap: () async {
-                        if (widget.wallet != null)
+                        if (widget.wallet != null) {
                           mergeWalletPopup(
                             context,
                             walletOriginal: widget.wallet!,
                             routesToPopAfterDelete:
                                 widget.routesToPopAfterDelete,
                           );
+                        }
                       },
                       title: "merge-account".tr(),
                       icon: appStateSettings["outlinedIcons"]
@@ -509,7 +513,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
                   bottom: 10,
                 ),
                 child: WidgetSizeBuilder(widgetBuilder: (Size? size) {
-                  return Container(
+                  return SizedBox(
                     height: size?.height,
                     child: Row(
                       children: [
@@ -620,7 +624,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
                     Padding(
                       padding: const EdgeInsetsDirectional.only(bottom: 14),
                       child: TextFont(
-                        text: "starting-at".tr() + " ",
+                        text: "${"starting-at".tr()} ",
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -720,8 +724,8 @@ class CorrectBalancePopup extends StatefulWidget {
 class _CorrectBalancePopupState extends State<CorrectBalancePopup> {
   double enteredAmount = 0;
   bool isNegative = false;
-  TimeOfDay? selectedTime = null;
-  DateTime? selectedDateTime = null;
+  TimeOfDay? selectedTime;
+  DateTime? selectedDateTime;
   String selectedTitle = "";
 
   @override
@@ -777,8 +781,8 @@ class _CorrectBalancePopupState extends State<CorrectBalancePopup> {
                   context,
                   popupWithKeyboard: true,
                   PopupFramework(
-                    child: editTransferDetails,
                     title: "transaction-details".tr(),
+                    child: editTransferDetails,
                   ),
                 );
                 setState(() {});
@@ -869,10 +873,11 @@ class _CorrectBalancePopupState extends State<CorrectBalancePopup> {
                   onSwitched: (value) {
                     setState(() {
                       isNegative = value;
-                      if (isNegative == true)
+                      if (isNegative == true) {
                         enteredAmount = enteredAmount.abs() * -1;
-                      else
+                      } else {
                         enteredAmount = enteredAmount.abs();
+                      }
                     });
                   },
                   enableBorderRadius: true,
@@ -887,10 +892,11 @@ class _CorrectBalancePopupState extends State<CorrectBalancePopup> {
                 amountPassed: "0",
                 setSelectedAmount: (amount, calculation) {
                   setState(() {
-                    if (isNegative == true)
+                    if (isNegative == true) {
                       enteredAmount = amount.abs() * -1;
-                    else
+                    } else {
                       enteredAmount = amount.abs();
+                    }
                   });
                 },
                 allowZero: true,
@@ -923,16 +929,14 @@ Future<bool> correctWalletBalance(
     TransactionWallet wallet,
     DateTime? dateTime,
     String title) async {
-  String transferString = wallet.name +
-      ": " +
-      convertToMoney(
+  String transferString = "${wallet.name}: ${convertToMoney(
         Provider.of<AllWallets>(context, listen: false),
         newAmount,
         currencyKey: wallet.currency,
         decimals: wallet.decimals,
-      );
+      )}";
 
-  String note = "updated-total-balance".tr() + "\n" + transferString;
+  String note = "${"updated-total-balance".tr()}\n$transferString";
 
   await createCorrectionTransaction(
     differenceAmount,
@@ -960,7 +964,7 @@ Future<TransactionCategory> initializeBalanceCorrectionCategory() async {
     return await database.getCategory("0").$2;
   } catch (e) {
     print(
-        e.toString() + "- creating default category amount balancing category");
+        "$e- creating default category amount balancing category");
     int numberOfCategories =
         (await database.getTotalCountOfCategories())[0] ?? 0;
 
@@ -1054,7 +1058,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
       ? TimeOfDay(
           hour: widget.initialDate!.hour, minute: widget.initialDate!.minute)
       : null;
-  late DateTime? selectedDateTime = widget.initialDate ?? null;
+  late DateTime? selectedDateTime = widget.initialDate;
   late String selectedTitle = widget.initialTitle ?? "";
   late TransactionWallet? walletForCurrency =
       Provider.of<AllWallets>(context, listen: false)
@@ -1106,7 +1110,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
               child: TextFont(
                 text: (wallet?.name ?? "select-account".tr()) +
                     (wallet != null
-                        ? "\n" + (wallet.currency ?? "").toUpperCase()
+                        ? "\n${(wallet.currency ?? "").toUpperCase()}"
                         : ""),
                 fontSize: 17,
                 textAlign: TextAlign.center,
@@ -1173,7 +1177,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
         (isNegative ? " ← " : " → ") +
         getWalletStringName(allWallets, walletTo);
 
-    String note = "transferred-balance".tr() + "\n" + transferString;
+    String note = "${"transferred-balance".tr()}\n$transferString";
 
     // Want these times to be the same so we know the pairing of balance corrections
     DateTime selectedDateTimeSetToNow = selectedDateTime ?? DateTime.now();
@@ -1185,9 +1189,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
       note: note,
       dateTime: selectedDateTimeSetToNow.add(Duration(seconds: 1)),
       title: selectedTitle == ""
-          ? (allWallets.indexedByPk[walletTo!.walletPk]!.name +
-              " " +
-              (isNegative ? "transfer-out".tr() : "transfer-in".tr()))
+          ? ("${allWallets.indexedByPk[walletTo!.walletPk]!.name} ${isNegative ? "transfer-out".tr() : "transfer-in".tr()}")
           : selectedTitle,
     );
 
@@ -1200,9 +1202,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
       note: note,
       dateTime: selectedDateTimeSetToNow,
       title: selectedTitle == ""
-          ? (allWallets.indexedByPk[walletFrom.walletPk]!.name +
-              " " +
-              (isNegative == false ? "transfer-out".tr() : "transfer-in".tr()))
+          ? ("${allWallets.indexedByPk[walletFrom.walletPk]!.name} ${isNegative == false ? "transfer-out".tr() : "transfer-in".tr()}")
           : selectedTitle,
     );
     // Deal with transfer fee
@@ -1295,6 +1295,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
                   context,
                   popupWithKeyboard: true,
                   PopupFramework(
+                    title: "transaction-details".tr(),
                     child: Column(
                       children: [
                         editTransferDetails,
@@ -1307,7 +1308,6 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
                         ),
                       ],
                     ),
-                    title: "transaction-details".tr(),
                   ),
                 );
                 setState(() {});
@@ -1345,10 +1345,11 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
                   onTap: () {
                     setState(() {
                       isNegative = !isNegative;
-                      if (isNegative == true)
+                      if (isNegative == true) {
                         enteredAmount = enteredAmount.abs() * -1;
-                      else
+                      } else {
                         enteredAmount = enteredAmount.abs();
+                      }
                     });
                   },
                   child: Padding(
@@ -1417,10 +1418,11 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
                               allowEditWallet: false,
                               currencyOnly: true,
                             );
-                            if (result is TransactionWallet)
+                            if (result is TransactionWallet) {
                               setState(() {
                                 walletForCurrency = result;
                               });
+                            }
                           },
                     child: Padding(
                       padding: const EdgeInsetsDirectional.symmetric(
@@ -1438,7 +1440,7 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
                             enteredAmount
                                 .abs(), //We flip the arrow instead of showing negative
                             addCurrencyName: true,
-                            currencyKey: walletForCurrency?.currency ?? null,
+                            currencyKey: walletForCurrency?.currency,
                           ),
                           textAlign: TextAlign.center,
                           fontSize: 30,
@@ -1471,10 +1473,11 @@ class _TransferBalancePopupState extends State<TransferBalancePopup> {
             amountPassed: enteredAmount.toString(),
             setSelectedAmount: (amount, calculation) {
               setState(() {
-                if (isNegative == true)
+                if (isNegative == true) {
                   enteredAmount = amount.abs() * -1;
-                else
+                } else {
                   enteredAmount = amount.abs();
+                }
               });
             },
             allowZero: true,

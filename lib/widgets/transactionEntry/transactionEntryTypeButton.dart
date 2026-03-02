@@ -144,9 +144,7 @@ class ActionButton extends StatelessWidget {
                 child: Icon(
                   iconData,
                   color: dealtWith
-                      ? (containerColor == null
-                          ? Theme.of(context).colorScheme.background
-                          : containerColor)
+                      ? (containerColor ?? Theme.of(context).colorScheme.background)
                       : iconColor.withOpacity(0.8),
                   size: 23,
                 ),
@@ -252,21 +250,21 @@ bool isTransactionActionDealtWith(Transaction transaction) {
 String getTransactionActionNameFromType(Transaction transaction) {
   return transaction.type == TransactionSpecialType.credit
       ? transaction.paid
-          ? "collect".tr() + "?"
+          ? "${"collect".tr()}?"
           : "collected".tr()
       : transaction.type == TransactionSpecialType.debt
           ? transaction.paid
-              ? "settle".tr() + "?"
+              ? "${"settle".tr()}?"
               : "settled".tr()
           : transaction.income
               ? (transaction.paid
                   ? "deposited".tr()
                   : transaction.skipPaid
                       ? "skipped".tr()
-                      : "deposit".tr() + "?")
+                      : "${"deposit".tr()}?")
               : (transaction.paid
                   ? "paid".tr()
                   : transaction.skipPaid
                       ? "skipped".tr()
-                      : "pay".tr() + "?");
+                      : "${"pay".tr()}?");
 }

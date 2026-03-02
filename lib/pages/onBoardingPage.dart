@@ -28,10 +28,10 @@ import 'package:tree/widgets/pageIndicator.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({
-    Key? key,
+    super.key,
     this.popNavigationWhenDone = false,
     this.showPreviewDemoButton = true,
-  }) : super(key: key);
+  });
 
   final bool popNavigationWhenDone;
   final bool showPreviewDemoButton;
@@ -48,10 +48,10 @@ class OnBoardingPage extends StatelessWidget {
 
 class OnBoardingPageBody extends StatefulWidget {
   const OnBoardingPageBody({
-    Key? key,
+    super.key,
     this.popNavigationWhenDone = false,
     this.showPreviewDemoButton = true,
-  }) : super(key: key);
+  });
   final bool popNavigationWhenDone;
   final bool showPreviewDemoButton;
 
@@ -88,7 +88,7 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
     super.didChangeDependencies();
   }
 
-  nextNavigation({bool generatePreview = false}) async {
+  Future<void> nextNavigation({bool generatePreview = false}) async {
     if (selectedAmount != null && selectedAmount != 0) {
       int order = await database.getAmountOfBudgets();
       await database.createOrUpdateBudget(
@@ -134,7 +134,7 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
     }
   }
 
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
 
   @override
@@ -367,8 +367,8 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
                                   subtitle:
                                       "select-primary-currency-description"
                                           .tr(),
-                                  child: SizedBox.shrink(),
                                   bottomSafeAreaExtraPadding: false,
+                                  child: SizedBox.shrink(),
                                 ),
                               ),
                               CurrencyPicker(
@@ -524,7 +524,7 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
                             ?.setVisibility(false);
                       },
                       onError: (e) {
-                        print("Error signing in: " + e.toString());
+                        print("Error signing in: $e");
                         loadingIndeterminateKey.currentState
                             ?.setVisibility(false);
                       },
@@ -572,8 +572,9 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
       ),
     ];
 
-    if (numPages != children.length)
+    if (numPages != children.length) {
       print("Error: onboarding pages mismatch in length!");
+    }
 
     return Stack(
       children: [
@@ -590,8 +591,8 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
               foregroundDecoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.background.withOpacity(0.0),
-                    Theme.of(context).colorScheme.background,
+                    Theme.of(context).colorScheme.surface.withOpacity(0.0),
+                    Theme.of(context).colorScheme.surface,
                   ],
                   begin: AlignmentDirectional.topCenter,
                   end: AlignmentDirectional.bottomCenter,
@@ -685,8 +686,7 @@ class OnBoardingPageBodyState extends State<OnBoardingPageBody> {
 }
 
 class OnBoardPage extends StatelessWidget {
-  const OnBoardPage({Key? key, required this.widgets, this.bottomWidget})
-      : super(key: key);
+  const OnBoardPage({super.key, required this.widgets, this.bottomWidget});
   final List<Widget> widgets;
   final Widget? bottomWidget;
   @override

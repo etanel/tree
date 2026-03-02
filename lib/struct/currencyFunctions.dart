@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Map<String, dynamic> currenciesJSON = {};
 
-loadCurrencyJSON() async {
+Future<void> loadCurrencyJSON() async {
   currenciesJSON = await json.decode(
       await rootBundle.loadString('assets/static/generated/currencies.json'));
 }
@@ -25,7 +25,7 @@ Future<bool> getExchangeRates() async {
       cachedCurrencyExchange = json.decode(response.body)?["usd"];
     }
   } catch (e) {
-    print("Error getting currency rates: " + e.toString());
+    print("Error getting currency rates: $e");
     return false;
   }
   // print(cachedCurrencyExchange);

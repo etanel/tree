@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:tree/pages/addButton.dart';
 
 class HomePageWalletList extends StatelessWidget {
+  const HomePageWalletList({super.key});
+
   @override
   Widget build(BuildContext context) {
     const double borderRadius = 15;
@@ -56,7 +58,7 @@ class HomePageWalletList extends StatelessWidget {
                         return Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            if (snapshot.hasData && snapshot.data!.length > 0)
+                            if (snapshot.hasData && snapshot.data!.isNotEmpty)
                               SizedBox(height: 8),
                             for (WalletWithDetails walletDetails
                                 in snapshot.data!)
@@ -66,9 +68,9 @@ class HomePageWalletList extends StatelessWidget {
                                     walletDetails.wallet.walletPk,
                                 walletWithDetails: walletDetails,
                               ),
-                            if (snapshot.hasData && snapshot.data!.length > 0)
+                            if (snapshot.hasData && snapshot.data!.isNotEmpty)
                               SizedBox(height: 8),
-                            if (snapshot.hasData && snapshot.data!.length <= 0)
+                            if (snapshot.hasData && snapshot.data!.isEmpty)
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -130,7 +132,7 @@ class HomePageWalletList extends StatelessWidget {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 if (snapshot.hasData &&
-                                    snapshot.data!.length > 0)
+                                    snapshot.data!.isNotEmpty)
                                   SizedBox(height: 8),
                                 for (WalletWithDetails walletDetails
                                     in snapshot.data!)
@@ -161,7 +163,7 @@ class HomePageWalletList extends StatelessWidget {
                                     ,
                                   ),
                                 if (snapshot.hasData &&
-                                    snapshot.data!.length > 0)
+                                    snapshot.data!.isNotEmpty)
                                   SizedBox(height: 8),
                               ],
                             );

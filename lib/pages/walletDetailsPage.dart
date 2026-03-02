@@ -76,8 +76,9 @@ DateTimeRange? getDateTimeRangeForPassedSearchFilters(
     {required String cycleSettingsExtension,
     DateTimeRange? selectedDateTimeRange}) {
   if (selectedDateTimeRange != null) return selectedDateTimeRange;
-  if (getStartDateOfSelectedCustomPeriod(cycleSettingsExtension) == null)
+  if (getStartDateOfSelectedCustomPeriod(cycleSettingsExtension) == null) {
     return null;
+  }
   return createSafeDateTimeRange(
     start: getStartDateOfSelectedCustomPeriod(cycleSettingsExtension) ??
         DateTime.now().justDay(),
@@ -115,8 +116,7 @@ class WalletDetailsPage extends StatefulWidget {
   final TransactionWallet? wallet;
   final SearchFilters? initialSearchFilters;
   const WalletDetailsPage(
-      {required this.wallet, this.initialSearchFilters, Key? key})
-      : super(key: key);
+      {required this.wallet, this.initialSearchFilters, super.key});
 
   @override
   State<WalletDetailsPage> createState() => WalletDetailsPageState();
@@ -126,11 +126,11 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
     with SingleTickerProviderStateMixin {
   late String listID = widget.wallet == null
       ? "All Spending Summary"
-      : widget.wallet!.walletPk.toString() + " Wallet Summary";
+      : "${widget.wallet!.walletPk} Wallet Summary";
   GlobalKey<PageFrameworkState> pageState = GlobalKey();
   SearchFilters? searchFilters;
-  late ScrollController _scrollController = ScrollController();
-  late TabController _tabController = TabController(
+  late final ScrollController _scrollController = ScrollController();
+  late final TabController _tabController = TabController(
     length: widget.wallet == null ? 2 : 1,
     vsync: this,
     initialIndex: widget.wallet == null
@@ -322,21 +322,17 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
       String selectedRecurrenceDisplay = "";
       Budget tempBudget = getCustomCycleTempBudget("");
       if (tempBudget.periodLength == 1) {
-        selectedRecurrenceDisplay = tempBudget.periodLength.toString() +
-            " " +
-            nameRecurrence[tempBudget.reoccurrence]
+        selectedRecurrenceDisplay = "${tempBudget.periodLength} ${nameRecurrence[tempBudget.reoccurrence]
                 .toString()
                 .toLowerCase()
                 .tr()
-                .toLowerCase();
+                .toLowerCase()}";
       } else {
-        selectedRecurrenceDisplay = tempBudget.periodLength.toString() +
-            " " +
-            namesRecurrence[tempBudget.reoccurrence]
+        selectedRecurrenceDisplay = "${tempBudget.periodLength} ${namesRecurrence[tempBudget.reoccurrence]
                 .toString()
                 .toLowerCase()
                 .tr()
-                .toLowerCase();
+                .toLowerCase()}";
       }
       return SelectedPeriodHeaderLabel(
         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -357,11 +353,10 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
       String endDateString = getWordedDateShort(selectedDateTimeRange!.end);
       timeRangeString = startDateString == endDateString
           ? startDateString
-          : startDateString + " – " + endDateString;
+          : "$startDateString – $endDateString";
     }
 
-    Widget Function(VoidCallback onTap) selectedTabPeriodSelected =
-        (VoidCallback onTap) => AnimatedSwitcher(
+    Widget selectedTabPeriodSelected(VoidCallback onTap) => AnimatedSwitcher(
               duration: Duration(milliseconds: 500),
               child: selectedDateTimeRange == null
                   ? Container(
@@ -681,7 +676,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
           openPage: TransactionsSearchPage(
             initialFilters: widget.wallet != null
                 ? SearchFilters().copyWith(walletPks: walletPks)
-                : (searchFilters == null ? SearchFilters() : searchFilters)
+                : (searchFilters ?? SearchFilters())
                     ?.copyWith(
                     dateTimeRange: getDateTimeRangeForPassedSearchFilters(
                       cycleSettingsExtension: "",
@@ -771,9 +766,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                         selectedDateTimeRange) ==
                                 null,
                             openPage: TransactionsSearchPage(
-                              initialFilters: (searchFilters == null
-                                      ? SearchFilters()
-                                      : searchFilters)
+                              initialFilters: (searchFilters ?? SearchFilters())
                                   ?.copyWith(
                                 dateTimeRange:
                                     getDateTimeRangeForPassedSearchFilters(
@@ -803,9 +796,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                         AmountSpentEntryRow(
                           forceShow: true,
                           openPage: TransactionsSearchPage(
-                            initialFilters: (searchFilters == null
-                                    ? SearchFilters()
-                                    : searchFilters)
+                            initialFilters: (searchFilters ?? SearchFilters())
                                 ?.copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
@@ -833,9 +824,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                         AmountSpentEntryRow(
                           forceShow: true,
                           openPage: TransactionsSearchPage(
-                            initialFilters: (searchFilters == null
-                                    ? SearchFilters()
-                                    : searchFilters)
+                            initialFilters: (searchFilters ?? SearchFilters())
                                 ?.copyWith(
                               dateTimeRange:
                                   getDateTimeRangeForPassedSearchFilters(
@@ -900,9 +889,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                   selectedDateTimeRange == null
                               ? CreditDebtTransactions(isCredit: true)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters == null
-                                          ? SearchFilters()
-                                          : searchFilters)
+                                  initialFilters: (searchFilters ?? SearchFilters())
                                       ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
@@ -948,9 +935,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                                   selectedDateTimeRange == null
                               ? CreditDebtTransactions(isCredit: false)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters == null
-                                          ? SearchFilters()
-                                          : searchFilters)
+                                  initialFilters: (searchFilters ?? SearchFilters())
                                       ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
@@ -997,9 +982,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               ? UpcomingOverdueTransactions(
                                   overdueTransactions: false)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters == null
-                                          ? SearchFilters()
-                                          : searchFilters)
+                                  initialFilters: (searchFilters ?? SearchFilters())
                                       ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
@@ -1049,9 +1032,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
                               ? UpcomingOverdueTransactions(
                                   overdueTransactions: true)
                               : TransactionsSearchPage(
-                                  initialFilters: (searchFilters == null
-                                          ? SearchFilters()
-                                          : searchFilters)
+                                  initialFilters: (searchFilters ?? SearchFilters())
                                       ?.copyWith(
                                     dateTimeRange:
                                         getDateTimeRangeForPassedSearchFilters(
@@ -1212,7 +1193,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
 
     return WillPopScope(
       onWillPop: () async {
-        if ((globalSelectedID.value[listID] ?? []).length > 0) {
+        if ((globalSelectedID.value[listID] ?? []).isNotEmpty) {
           globalSelectedID.value[listID] = [];
           globalSelectedID.notifyListeners();
           return false;
@@ -1234,7 +1215,7 @@ class WalletDetailsPageState extends State<WalletDetailsPage>
             enableDoubleColumn(context) && widget.wallet == null ? false : true,
         expandedHeight:
             enableDoubleColumn(context) && widget.wallet == null ? 56 : null,
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         scrollController: _scrollController,
         key: pageState,
         listID: listID,
@@ -1575,8 +1556,8 @@ class AppBarIconAppear extends StatefulWidget {
   const AppBarIconAppear({
     required this.scrollController,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ScrollController scrollController;
   final Widget child;
@@ -1604,10 +1585,11 @@ class _AppBarIconAppearState extends State<AppBarIconAppear> {
     bool tempAnimateIn;
     if (widget.scrollController.offset /
             widget.scrollController.position.maxScrollExtent >=
-        0.99)
+        0.99) {
       tempAnimateIn = true;
-    else
+    } else {
       tempAnimateIn = false;
+    }
 
     if (tempAnimateIn != animateIn) {
       setState(() {
@@ -1631,8 +1613,8 @@ class SelectedPeriodAppBar extends StatefulWidget {
     required this.forceHide,
     required this.selectPeriodContent,
     required this.animationProgress,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ScrollController scrollController;
   final bool forceHide;
@@ -1662,10 +1644,11 @@ class _SelectedPeriodAppBarState extends State<SelectedPeriodAppBar> {
     bool tempDropdown;
     if (widget.scrollController.offset /
             widget.scrollController.position.maxScrollExtent >=
-        0.99)
+        0.99) {
       tempDropdown = true;
-    else
+    } else {
       tempDropdown = false;
+    }
 
     if (tempDropdown != dropdown) {
       setState(() {
@@ -1700,7 +1683,6 @@ class _SelectedPeriodAppBarState extends State<SelectedPeriodAppBar> {
                   bannerSize = size;
                 },
                 child: Container(
-                  child: widget.selectPeriodContent,
                   decoration: BoxDecoration(
                     boxShadow: boxShadowCheck(boxShadowSharp(context)),
                     color: dynamicPastel(
@@ -1710,6 +1692,7 @@ class _SelectedPeriodAppBarState extends State<SelectedPeriodAppBar> {
                       amountLight: 0.3,
                     ),
                   ),
+                  child: widget.selectPeriodContent,
                 ),
               ),
             ),
@@ -1864,9 +1847,7 @@ class _WalletDetailsCategorySelectionState
                 pushRoute(
                   context,
                   TransactionsSearchPage(
-                    initialFilters: (widget.searchFilters == null
-                            ? SearchFilters()
-                            : widget.searchFilters)
+                    initialFilters: (widget.searchFilters ?? SearchFilters())
                         ?.copyWith(
                       dateTimeRange:
                           widget.getDateTimeRangeForPassedSearchFilters(),
@@ -1921,9 +1902,9 @@ class WalletCategoryPieChart extends StatefulWidget {
 }
 
 class _WalletCategoryPieChartState extends State<WalletCategoryPieChart> {
-  TransactionCategory? selectedCategory = null;
+  TransactionCategory? selectedCategory;
   bool isIncome = false;
-  GlobalKey<PieChartDisplayState> _pieChartDisplayStateKey = GlobalKey();
+  final GlobalKey<PieChartDisplayState> _pieChartDisplayStateKey = GlobalKey();
   bool showAllSubcategories = appStateSettings["showAllSubcategories"];
 
   void toggleAllSubcategories() {
@@ -2063,8 +2044,9 @@ class _WalletCategoryPieChartState extends State<WalletCategoryPieChart> {
                     },
                   ),
                 );
-                if (s.totalSpent != 0)
+                if (s.totalSpent != 0) {
                   totalSpentPercent += category.total.abs() / s.totalSpent;
+                }
               });
               return Column(
                 children: [
@@ -2195,6 +2177,7 @@ class _AllSpendingPastSpendingGraphState
   List<DateTimeRange> dateTimeRanges = [];
   int amountLoaded = 8;
   bool amountLoadedPressedOnce = false;
+  @override
   initState() {
     Future.delayed(Duration.zero, () async {
       loadLines(amountLoaded);
@@ -2435,17 +2418,18 @@ class _AllSpendingPastSpendingGraphState
   }
 
   Widget setupStreamBuilders(
-    Widget builder({
+    Widget Function({
       required double totalNetBefore,
       required double totalIncomeBefore,
       required double totalExpenseBefore,
       required List<TotalWithCount?> netData,
       required List<TotalWithCount?> incomeData,
       required List<TotalWithCount?> expenseData,
-    }),
+    }) builder,
   ) {
-    if (mergedStreamsIncome == null && mergedStreamsExpense == null)
+    if (mergedStreamsIncome == null && mergedStreamsExpense == null) {
       return SliverToBoxAdapter(child: SizedBox.shrink());
+    }
     return StreamBuilder<double?>(
       stream: database.watchTotalNetBeforeStartDate(
         searchFilters: widget.searchFilters
@@ -2488,10 +2472,11 @@ class _AllSpendingPastSpendingGraphState
                       builder: (context, snapshotExpense) {
                         List<TotalWithCount?> expenseData =
                             snapshotExpense.data ?? [];
-                        if (expenseData.length <= 0 && incomeData.length <= 0)
+                        if (expenseData.isEmpty && incomeData.isEmpty) {
                           return SliverToBoxAdapter(
                             child: SizedBox.shrink(),
                           );
+                        }
                         return builder(
                           totalNetBefore: totalNetBefore,
                           totalIncomeBefore: totalIncomeBefore,
@@ -2582,7 +2567,7 @@ class _AllSpendingPastSpendingGraphState
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 child: FadeOutAndLockFeature(
                   hasInitiallyDismissed: allSpendingHistoryDismissedPremium,
                   actionAfter: () {
@@ -2656,10 +2641,10 @@ class _AllSpendingPastSpendingGraphState
                   foregroundDecoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.surface,
                         Theme.of(context)
                             .colorScheme
-                            .background
+                            .surface
                             .withOpacity(0.0),
                       ],
                       begin: AlignmentDirectional.topCenter,
@@ -2793,6 +2778,8 @@ class SelectedPeriodHeaderLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tappable(
       color: color,
+      borderRadius: getPlatform() == PlatformOS.isIOS ? 10 : 15,
+      onTap: onTap,
       child: Padding(
         padding: EdgeInsetsDirectional.symmetric(horizontal: 10, vertical: 5),
         child: Row(
@@ -2820,8 +2807,6 @@ class SelectedPeriodHeaderLabel extends StatelessWidget {
           ],
         ),
       ),
-      borderRadius: getPlatform() == PlatformOS.isIOS ? 10 : 15,
-      onTap: onTap,
     );
   }
 }
@@ -2867,14 +2852,11 @@ class AmountSpentEntryRow extends StatelessWidget {
               type: ContextMenuButtonType.copy,
               onPressed: () {
                 ContextMenuController.removeAny();
-                copyToClipboard(label +
-                    addAmountToString("", totalCount, extraText: extraText) +
-                    " • " +
-                    convertToMoney(
+                copyToClipboard("$label${addAmountToString("", totalCount, extraText: extraText)} • ${convertToMoney(
                       Provider.of<AllWallets>(context, listen: false),
                       totalSpent,
                       finalNumber: totalSpent.abs(),
-                    ));
+                    )}");
               },
             ),
           ],
@@ -2890,6 +2872,10 @@ class AmountSpentEntryRow extends StatelessWidget {
                 return Tappable(
                   color: getColor(context, "lightDarkAccentHeavyLight"),
                   borderRadius: 0,
+                  onTap: () async {
+                    openContainer();
+                  },
+                  onLongPress: onLongPress,
                   child: Padding(
                     padding: const EdgeInsetsDirectional.symmetric(
                         horizontal: 20, vertical: 6),
@@ -2989,10 +2975,6 @@ class AmountSpentEntryRow extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onTap: () async {
-                    openContainer();
-                  },
-                  onLongPress: onLongPress,
                 );
               },
             ),

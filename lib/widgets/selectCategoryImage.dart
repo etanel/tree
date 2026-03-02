@@ -29,14 +29,14 @@ import 'package:flutter/services.dart' hide TextInput;
 // }
 
 class SelectCategoryImage extends StatefulWidget {
-  SelectCategoryImage({
-    Key? key,
+  const SelectCategoryImage({
+    super.key,
     required this.setSelectedImage,
     this.selectedImage,
     required this.setSelectedTitle,
     required this.setSelectedEmoji,
     this.next,
-  }) : super(key: key);
+  });
 
   final Function(String?) setSelectedImage;
   final String? selectedImage;
@@ -83,7 +83,7 @@ class _SelectCategoryImageState extends State<SelectCategoryImage> {
             FilteringTextInputFormatter.allow(RegExp(
                 r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
           ],
-          placeholder: "enter-emoji-placeholder".tr() + " 😀...",
+          placeholder: "${"enter-emoji-placeholder".tr()} 😀...",
           autoFocus: true,
         ),
       ),
@@ -171,17 +171,18 @@ class _SelectCategoryImageState extends State<SelectCategoryImage> {
                 } else {
                   show = true;
                 }
-                if (show)
+                if (show) {
                   return ImageIcon(
                     sizePadding: 8,
                     margin: EdgeInsetsDirectional.all(5),
                     color: Colors.transparent,
                     size: 55,
-                    iconPath: "assets/categories/" + image.icon,
+                    iconPath: "assets/categories/${image.icon}",
                     onTap: () {
                       widget.setSelectedImage(image.icon);
-                      if (context.locale.toString() == "en")
+                      if (context.locale.toString() == "en") {
                         widget.setSelectedTitle(image.mostLikelyCategoryName);
+                      }
                       setState(() {
                         selectedImage = image.icon;
                       });
@@ -194,6 +195,7 @@ class _SelectCategoryImageState extends State<SelectCategoryImage> {
                     },
                     outline: selectedImage == image.icon,
                   );
+                }
                 return SizedBox.shrink();
               }).toList(),
             ),
@@ -324,7 +326,7 @@ class SuggestIconPopup extends StatefulWidget {
 }
 
 class _SuggestIconPopupState extends State<SuggestIconPopup> {
-  TextEditingController _feedbackController = TextEditingController();
+  final TextEditingController _feedbackController = TextEditingController();
 
   @override
   void initState() {
@@ -374,8 +376,8 @@ class _SuggestIconPopupState extends State<SuggestIconPopup> {
 }
 
 class ImageIcon extends StatelessWidget {
-  ImageIcon({
-    Key? key,
+  const ImageIcon({
+    super.key,
     required this.color,
     required this.size,
     this.onTap,
@@ -383,7 +385,7 @@ class ImageIcon extends StatelessWidget {
     this.sizePadding = 20,
     this.outline = false,
     this.iconPath,
-  }) : super(key: key);
+  });
 
   final Color color;
   final double size;

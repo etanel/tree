@@ -20,8 +20,8 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:tree/pages/addButton.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({
-    Key? key,
+  const SelectCategory({
+    super.key,
     this.setSelectedCategory,
     this.setSelectedCategories,
     this.selectedCategory,
@@ -47,7 +47,7 @@ class SelectCategory extends StatefulWidget {
     this.forceSelectAllToFalse = false,
     this.listPadding = const EdgeInsetsDirectional.symmetric(horizontal: 20),
     this.selectedIncome,
-  }) : super(key: key);
+  });
   final Function(TransactionCategory)? setSelectedCategory;
   final Function(List<String>?)? setSelectedCategories;
   final TransactionCategory? selectedCategory;
@@ -102,6 +102,7 @@ class _SelectCategoryState extends State<SelectCategory> {
     _scrollController = ScrollController();
   }
 
+  @override
   void didUpdateWidget(oldWidget) {
     if (widget.selectedCategories != oldWidget.selectedCategories) {
       setState(() {
@@ -110,7 +111,7 @@ class _SelectCategoryState extends State<SelectCategory> {
     }
   }
 
-  setInitialCategories() {
+  void setInitialCategories() {
     if (widget.selectedCategories != null) {
       setState(() {
         selectedCategories = widget.selectedCategories ?? [];
@@ -219,11 +220,11 @@ class _SelectCategoryState extends State<SelectCategory> {
               ));
             }
             return IgnorePointer(
-              ignoring: children.length <= 0,
+              ignoring: children.isEmpty,
               child: AnimatedSizeSwitcher(
-                child: Container(
-                  key: ValueKey(children.length <= 0),
-                  height: children.length <= 0
+                child: SizedBox(
+                  key: ValueKey(children.isEmpty),
+                  height: children.isEmpty
                       ? 0
                       : widget.horizontalListViewHeight,
                   child: ListView(
@@ -385,7 +386,6 @@ class _SelectCategoryState extends State<SelectCategory> {
                         : ((getWidthBottomSheet(context)) ~/ size ~/ 2.1)
                             .toInt(),
                     shrinkWrap: true,
-                    children: categoryIcons,
                     header: widget.header ?? [],
                     footer: [
                       if (widget.addButton != false)
@@ -419,16 +419,16 @@ class _SelectCategoryState extends State<SelectCategory> {
                           ),
                         ),
                     ],
-                    onReorder: (_intPrevious, _intNew) async {
+                    onReorder: (intPrevious, intNew) async {
                       TransactionCategory oldCategory =
-                          snapshot.data![_intPrevious];
+                          snapshot.data![intPrevious];
 
-                      if (_intNew > _intPrevious) {
+                      if (intNew > intPrevious) {
                         await database.moveCategory(
-                            oldCategory.categoryPk, _intNew, oldCategory.order);
+                            oldCategory.categoryPk, intNew, oldCategory.order);
                       } else {
                         await database.moveCategory(
-                            oldCategory.categoryPk, _intNew, oldCategory.order);
+                            oldCategory.categoryPk, intNew, oldCategory.order);
                       }
                       return true;
                     },
@@ -436,6 +436,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                       database.fixOrderCategories();
                       HapticFeedback.heavyImpact();
                     },
+                    children: categoryIcons,
                   ),
                 ),
                 // Center(
@@ -519,7 +520,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                       Container(height: 15),
                       AnimatedSwitcher(
                         duration: Duration(milliseconds: 500),
-                        child: selectedCategories.length > 0
+                        child: selectedCategories.isNotEmpty
                             ? Button(
                                 key: Key("addSuccess"),
                                 label: widget.nextLabel ?? "",

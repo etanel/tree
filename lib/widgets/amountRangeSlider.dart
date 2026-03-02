@@ -45,7 +45,7 @@ class _AmountSlideRangerState extends State<AmountRangeSlider> {
     super.initState();
   }
 
-  updateRange(RangeValues range) {
+  void updateRange(RangeValues range) {
     widget.onChange(range);
     setState(() {
       _currentRangeValues = range;
@@ -108,13 +108,14 @@ class _AmountSlideRangerState extends State<AmountRangeSlider> {
         ),
       ),
     );
-    if (result != false)
+    if (result != false) {
       updateRange(orderAndBoundRangeValues(
         lowerRange,
         _currentRangeValues.end,
         widget.rangeLimit.start,
         widget.rangeLimit.end,
       ));
+    }
   }
 
   void setUpperRangePopup() async {
@@ -164,13 +165,14 @@ class _AmountSlideRangerState extends State<AmountRangeSlider> {
         ),
       ),
     );
-    if (result != false)
+    if (result != false) {
       updateRange(orderAndBoundRangeValues(
         _currentRangeValues.start,
         upperRange,
         widget.rangeLimit.start,
         widget.rangeLimit.end,
       ));
+    }
   }
 
   @override

@@ -42,7 +42,7 @@ class ColorPicker extends StatefulWidget {
   final double? shadeSliderPosition;
   final Color? initialColor;
   final Function(Color, double, double) onChange;
-  ColorPicker({
+  const ColorPicker({super.key, 
     required this.width,
     required this.ringColor,
     required this.ringSize,
@@ -102,14 +102,13 @@ class _ColorPickerState extends State<ColorPicker> {
             ));
     _shadedColor = _calculateShadedColor(_shadeSliderPosition);
     Future.delayed(Duration.zero, () {
-      print("Distance to predicted color: " +
-          colorDistance(widget.initialColor ?? Colors.red, _shadedColor)
-              .toString());
+      print("Distance to predicted color: ${colorDistance(widget.initialColor ?? Colors.red, _shadedColor)}");
 
       if (widget.colorSliderPosition == null &&
-          widget.shadeSliderPosition == null)
+          widget.shadeSliderPosition == null) {
         widget.onChange(widget.initialColor ?? _shadedColor,
             _colorSliderPosition, _shadeSliderPosition);
+      }
     });
   }
 
@@ -118,7 +117,7 @@ class _ColorPickerState extends State<ColorPicker> {
     return [Colors.black, selectedColor, Colors.white];
   }
 
-  _colorChangeHandler(double position) {
+  void _colorChangeHandler(double position) {
     //handle out of bounds positions
     if (position > widget.width - widget.ringSize / 2 + 2) {
       position = widget.width - widget.ringSize / 2 + 2;
@@ -136,7 +135,7 @@ class _ColorPickerState extends State<ColorPicker> {
     widget.onChange(_shadedColor, _colorSliderPosition, _shadeSliderPosition);
   }
 
-  _shadeChangeHandler(double position) {
+  void _shadeChangeHandler(double position) {
     //handle out of bounds gestures
     if (position > widget.width - widget.ringSize / 2 + 2) {
       position = widget.width - widget.ringSize / 2 + 2;
@@ -426,7 +425,7 @@ double findClosestColorPosition(
 
 class RingColorPicker extends StatefulWidget {
   const RingColorPicker({
-    Key? key,
+    super.key,
     required this.pickerColor,
     required this.onColorChanged,
     this.colorPickerHeight = 250.0,
@@ -434,7 +433,7 @@ class RingColorPicker extends StatefulWidget {
     this.pickerAreaBorderRadius = const BorderRadius.all(Radius.zero),
     this.onSelect,
     this.previewBuilder,
-  }) : super(key: key);
+  });
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
@@ -450,7 +449,7 @@ class RingColorPicker extends StatefulWidget {
 
 class _RingColorPickerState extends State<RingColorPicker> {
   HSVColor currentHsvColor = const HSVColor.fromAHSV(0.0, 0.0, 0.0, 0.0);
-  Widget? previewWidget = null;
+  Widget? previewWidget;
 
   @override
   void initState() {
@@ -471,7 +470,7 @@ class _RingColorPickerState extends State<RingColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: widget.colorPickerHeight,
       child: Stack(alignment: AlignmentDirectional.center, children: <Widget>[
         widget.previewBuilder != null

@@ -7,8 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 
 class Tappable extends StatelessWidget {
-  Tappable({
-    Key? key,
+  const Tappable({
+    super.key,
     this.onTap,
     this.onHighlightChanged,
     this.borderRadius = 0,
@@ -19,7 +19,7 @@ class Tappable extends StatelessWidget {
     this.onLongPress,
     this.hasOpacity = true,
     this.disable = false,
-  }) : super(key: key);
+  });
 
   final double borderRadius;
   final BorderRadius? customBorderRadius;
@@ -37,23 +37,24 @@ class Tappable extends StatelessWidget {
     if (disable) return child;
     if (getPlatform() == PlatformOS.isIOS) {
       return FadedButton(
-        child: child,
         onTap: onTap,
         borderRadius: customBorderRadius ?? BorderRadius.circular(borderRadius),
-        color: color ?? Theme.of(context).colorScheme.background,
+        color: color ?? Theme.of(context).colorScheme.surface,
         onLongPress: onLongPress != null
             ? () {
-                if (getPlatform() == PlatformOS.isIOS)
+                if (getPlatform() == PlatformOS.isIOS) {
                   HapticFeedback.heavyImpact();
+                }
                 onLongPress!();
               }
             : null,
         pressedOpacity: hasOpacity ? 0.5 : 1,
+        child: child,
       );
     }
 
     Widget tappable = Material(
-      color: color ?? Theme.of(context).colorScheme.background,
+      color: color ?? Theme.of(context).colorScheme.surface,
       type: type,
       borderRadius:
           customBorderRadius ?? BorderRadiusDirectional.circular(borderRadius),
@@ -64,15 +65,15 @@ class Tappable extends StatelessWidget {
         borderRadius: customBorderRadius ?? BorderRadius.circular(borderRadius),
         onTap: onTap,
         onHighlightChanged: onHighlightChanged,
-        child: child,
         onLongPress: onLongPress,
+        child: child,
       ),
     );
     if (!kIsWeb && onLongPress != null) {
       return tappable;
     }
 
-    Future<void> _onPointerDown(PointerDownEvent event) async {
+    Future<void> onPointerDown(PointerDownEvent event) async {
       // Check if right mouse button clicked
       if (event.kind == PointerDeviceKind.mouse &&
           event.buttons == kSecondaryMouseButton) {
@@ -81,8 +82,8 @@ class Tappable extends StatelessWidget {
     }
 
     return Listener(
+      onPointerDown: onPointerDown,
       child: tappable,
-      onPointerDown: _onPointerDown,
     );
   }
 }
@@ -222,7 +223,7 @@ class _FadedButtonState extends State<FadedButton>
       return tappable;
     }
 
-    Future<void> _onPointerDown(PointerDownEvent event) async {
+    Future<void> onPointerDown(PointerDownEvent event) async {
       // Check if right mouse button clicked
       if (event.kind == PointerDeviceKind.mouse &&
           event.buttons == kSecondaryMouseButton) {
@@ -231,8 +232,8 @@ class _FadedButtonState extends State<FadedButton>
     }
 
     return Listener(
+      onPointerDown: onPointerDown,
       child: tappable,
-      onPointerDown: _onPointerDown,
     );
   }
 }

@@ -33,7 +33,7 @@ bool isCurrentDeviceSyncBackupFile(String? backupFileName) {
 }
 
 String getCurrentDeviceSyncBackupFileName({String? clientIDForSync}) {
-  if (clientIDForSync == null) clientIDForSync = clientID;
+  clientIDForSync ??= clientID;
   return "sync-$clientIDForSync.sqlite";
 }
 
@@ -262,9 +262,6 @@ Future<bool> _syncData(BuildContext context) async {
   }
   final authenticateClient = GoogleAuthClient(authHeaders);
   drive.DriveApi driveApi = drive.DriveApi(authenticateClient);
-  if (driveApi == null) {
-    throw "Failed to login to Google Drive";
-  }
 
   await createSyncBackup();
 
@@ -357,7 +354,7 @@ Future<bool> _syncData(BuildContext context) async {
         );
         // final html.Storage localStorage = html.window.localStorage;
         // localStorage["moor_db_str_syncdb"] = "";
-        throw (e);
+        rethrow;
       }
     } else {
       final dbFolder = await getApplicationDocumentsDirectory();

@@ -156,7 +156,7 @@ GlobalKey<PageNavigationFrameworkState> pageNavigationFrameworkKey =
     GlobalKey();
 
 class InitializeApp extends StatefulWidget {
-  InitializeApp({Key? key}) : super(key: key);
+  const InitializeApp({super.key});
 
   @override
   State<InitializeApp> createState() => _InitializeAppState();
@@ -174,7 +174,7 @@ class _InitializeAppState extends State<InitializeApp> {
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {

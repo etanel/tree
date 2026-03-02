@@ -80,7 +80,7 @@ void runQuickActionsPayLoads(context) async {
       ),
     for (Budget budget in budgets)
       ShortcutItem(
-        type: "openBudget-" + budget.budgetPk.toString(),
+        type: "openBudget-${budget.budgetPk}",
         localizedTitle: budget.name,
         icon: "piggybank",
       ),

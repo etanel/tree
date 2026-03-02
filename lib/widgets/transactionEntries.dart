@@ -196,8 +196,9 @@ class _TransactionEntriesState extends State<TransactionEntries> {
         if (snapshot.data != null && snapshot.hasData) {
           List<TransactionWithCategory> data = snapshot.data ?? [];
           int totalNumberTransactionsAll = data.length;
-          if (loadAll == false)
+          if (loadAll == false) {
             data = data.take(widget.initialLoadLimit ?? 30).toList();
+          }
           globalTransactionsListedOnPageID[widget.listID ?? ""] = data
               .map((t) => t.transaction.transactionPk)
               .take(maxSelectableTransactionsListedOnPage)
@@ -274,14 +275,18 @@ class _TransactionEntriesState extends State<TransactionEntries> {
 
           for (TransactionWithCategory transactionWithCategory in data ?? []) {
             if (widget.pastDaysLimitToShow != null &&
-                totalPastUniqueDays > widget.pastDaysLimitToShow!) break;
+                totalPastUniqueDays > widget.pastDaysLimitToShow!) {
+              break;
+            }
 
             DateTime currentTransactionDate =
                 transactionWithCategory.transaction.dateCreated.justDay();
             if (currentDate == null) {
               currentDate = currentTransactionDate;
               if (currentDate.millisecondsSinceEpoch <
-                  DateTime.now().millisecondsSinceEpoch) totalPastUniqueDays++;
+                  DateTime.now().millisecondsSinceEpoch) {
+                totalPastUniqueDays++;
+              }
             }
             if (currentDate == currentTransactionDate) {
               transactionListForDay.add(transactionWithCategory);
@@ -317,7 +322,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
 
             if (nextTransactionDate == null ||
                 nextTransactionDate != currentTransactionDate) {
-              if (transactionListForDay.length > 0) {
+              if (transactionListForDay.isNotEmpty) {
                 int daysDifference = DateTime.now()
                     .justDay()
                     .difference(currentTransactionDate)
@@ -337,8 +342,9 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                           )
                         : null;
 
-                if (pastTransactionsDivider != null)
+                if (pastTransactionsDivider != null) {
                   notYetAddedPastTransactionsDivider = false;
+                }
 
                 Widget dateDividerWidget = widget.includeDateDivider == false
                     ? SizedBox.shrink()
@@ -420,14 +426,15 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                   List<TransactionWithCategory> transactionListForDayCopy = [
                     ...transactionListForDay
                   ];
-                  if (pastTransactionsDivider != null)
+                  if (pastTransactionsDivider != null) {
                     widgetsOut.add(
                         SliverToBoxAdapter(child: pastTransactionsDivider));
+                  }
                   widgetsOut.add(
                     SliverStickyHeader(
                       header: Transform.translate(
                           offset: Offset(0, -1),
-                          child: transactionListForDay.length > 0
+                          child: transactionListForDay.isNotEmpty
                               ? widget.includeDateDivider == false
                                   ? SizedBox.shrink()
                                   : dateDividerWidget
@@ -466,8 +473,9 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                     widget.renderType ==
                         TransactionEntriesRenderType
                             .implicitlyAnimatedNonSlivers) {
-                  if (pastTransactionsDivider != null)
+                  if (pastTransactionsDivider != null) {
                     widgetsOut.add(pastTransactionsDivider);
+                  }
                   widgetsOut.add(dateDividerWidget);
                   for (int i = 0; i < transactionListForDay.length; i++) {
                     TransactionWithCategory item = transactionListForDay[i];
@@ -519,7 +527,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
             }
           }
 
-          if (totalNumberTransactionsAll > totalNumberTransactions)
+          if (totalNumberTransactionsAll > totalNumberTransactions) {
             viewAllTransactionsWidget = Padding(
               padding: EdgeInsetsDirectional.only(top: 7),
               child: Center(
@@ -532,6 +540,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                 ),
               ),
             );
+          }
           if (widget.renderType != TransactionEntriesRenderType.slivers) {
             widgetsOut.add(viewAllTransactionsWidget);
           }
@@ -552,7 +561,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
 
           widgetsOut.insert(0, futureTransactionsDivider);
 
-          if (widget.enableSpendingSummary)
+          if (widget.enableSpendingSummary) {
             widgetsOut.insert(
               0,
               TransactionsEntriesSpendingSummary(
@@ -567,6 +576,7 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                     : null,
               ),
             );
+          }
 
           if (widget.renderType == TransactionEntriesRenderType.slivers) {
             return MultiSliver(
@@ -632,10 +642,10 @@ class _TransactionEntriesState extends State<TransactionEntries> {
               TransactionEntriesRenderType.nonSlivers) {
             return ListView(
               scrollDirection: Axis.vertical,
-              children: widgetsOut,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               padding: EdgeInsetsDirectional.zero,
+              children: widgetsOut,
             );
           }
         } else {
@@ -669,8 +679,9 @@ class _TransactionEntriesState extends State<TransactionEntries> {
 
   @override
   Widget build(BuildContext context) {
-    if (appStateSettings["netSpendingDayTotal"] == false)
+    if (appStateSettings["netSpendingDayTotal"] == false) {
       return transactionEntryListBuilder(null);
+    }
     return StreamBuilder<double?>(
       // Use a reference point and subtract the totals of the transactions from this reference point to
       // get the net at that point in time
@@ -707,12 +718,13 @@ class _TransactionEntriesState extends State<TransactionEntries> {
                 TransactionEntriesRenderType.slivers ||
             widget.renderType ==
                 TransactionEntriesRenderType.implicitlyAnimatedSlivers ||
-            widget.renderType == TransactionEntriesRenderType.sliversNotSticky)
+            widget.renderType == TransactionEntriesRenderType.sliversNotSticky) {
           return SliverToBoxAdapter(
             child: SizedBox.shrink(),
           );
-        else
+        } else {
           return SizedBox.shrink();
+        }
         return transactionEntryListBuilder(snapshotNetTotal.data);
       },
     );

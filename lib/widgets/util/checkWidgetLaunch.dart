@@ -21,8 +21,9 @@ class AndroidOnly extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    if (getPlatform(ignoreEmulation: true) != PlatformOS.isAndroid)
+    if (getPlatform(ignoreEmulation: true) != PlatformOS.isAndroid) {
       return SizedBox.shrink();
+    }
     return child;
   }
 }
@@ -75,7 +76,9 @@ class _CheckWidgetLaunchState extends State<CheckWidgetLaunch> {
       // the route when this is called so the first time routing does not persist (i.e. we end with one route)
       if (Provider.of<AllWallets>(context, listen: false)
               .indexedByPk[appStateSettings["selectedWalletPk"]] ==
-          null) popAllRoutes(context);
+          null) {
+        popAllRoutes(context);
+      }
 
       openBottomSheet(
         context,
@@ -180,8 +183,10 @@ class RenderHomePageWidgetsState extends State<RenderHomePageWidgets> {
       builder: (context, snapshot) {
         List<String>? walletPks =
             (snapshot.data ?? []).map((item) => item.walletPk).toList();
-        if (walletPks.length <= 0 ||
-            appStateSettings["netWorthAllWallets"] == true) walletPks = null;
+        if (walletPks.isEmpty ||
+            appStateSettings["netWorthAllWallets"] == true) {
+          walletPks = null;
+        }
         return Container(
           child: StreamBuilder<TotalWithCount?>(
             stream: database.watchTotalWithCountOfWallet(
@@ -194,11 +199,9 @@ class RenderHomePageWidgetsState extends State<RenderHomePageWidgets> {
             builder: (context, snapshot) {
               Future.delayed(Duration.zero, () async {
                 int totalCount = snapshot.data?.count ?? 0;
-                String netWorthTransactionsNumber = totalCount.toString() +
-                    " " +
-                    (totalCount == 1
+                String netWorthTransactionsNumber = "$totalCount ${totalCount == 1
                         ? "transaction".tr().toLowerCase()
-                        : "transactions".tr().toLowerCase());
+                        : "transactions".tr().toLowerCase()}";
                 double totalSpent = snapshot.data?.total ?? 0;
                 String netWorthAmount = convertToMoney(
                   Provider.of<AllWallets>(context, listen: false),

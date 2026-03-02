@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 
 class OpenContainerNavigation extends StatelessWidget {
-  OpenContainerNavigation({
-    Key? key,
+  const OpenContainerNavigation({
+    super.key,
     required this.openPage,
     required this.button,
     this.closedColor,
@@ -15,7 +15,7 @@ class OpenContainerNavigation extends StatelessWidget {
     this.customBorderRadius,
     this.onClosed,
     this.onOpen,
-  }) : super(key: key);
+  });
 
   final Widget openPage;
   final Widget Function(VoidCallback openContainer) button;

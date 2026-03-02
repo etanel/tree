@@ -15,15 +15,16 @@ class ViewAllTransactionsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return LowKeyButton(
       onTap: () {
-        if (onPress != null)
+        if (onPress != null) {
           onPress!();
-        else
+        } else {
           PageNavigationFramework.changePage(
             context,
             1,
             switchNavbar:
                 appStateSettings["customNavBarShortcut1"] == "transactions",
           );
+        }
       },
       text: "view-all-transactions".tr(),
     );
@@ -56,6 +57,8 @@ class LowKeyButton extends StatelessWidget {
             (appStateSettings["materialYou"]
                 ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                 : getColor(context, "lightDarkAccent")),
+        onTap: onTap,
+        borderRadius: getPlatform() == PlatformOS.isIOS ? 8 : 13,
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
               horizontal: 15, vertical: 8),
@@ -78,8 +81,6 @@ class LowKeyButton extends StatelessWidget {
             ],
           ),
         ),
-        onTap: onTap,
-        borderRadius: getPlatform() == PlatformOS.isIOS ? 8 : 13,
       ),
     );
   }

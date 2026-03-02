@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class LongPressListener extends StatefulWidget {
-  LongPressListener({
+  const LongPressListener({
     required this.child,
     required this.onLongPress,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final VoidCallback onLongPress;

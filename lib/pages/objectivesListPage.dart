@@ -41,8 +41,7 @@ double getDifferenceOfLoan(
 }
 
 class ObjectivesListPage extends StatefulWidget {
-  const ObjectivesListPage({required this.backButton, Key? key})
-      : super(key: key);
+  const ObjectivesListPage({required this.backButton, super.key});
   final bool backButton;
 
   @override
@@ -141,7 +140,7 @@ class ObjectiveList extends StatelessWidget {
         List<Objective> objectivesList = [...(snapshot.data ?? [])];
         if (showExamplesIfEmpty &&
             (snapshot.hasData == false ||
-                (objectivesList.length <= 0 && snapshot.hasData))) {
+                (objectivesList.isEmpty && snapshot.hasData))) {
           showDemoObjectives = true;
           objectivesList.add(
             Objective(
@@ -320,10 +319,11 @@ class ObjectiveListDifferenceLoan extends StatelessWidget {
   final String? searchFor;
   @override
   Widget build(BuildContext context) {
-    if (appStateSettings["longTermLoansDifferenceFeature"] == false)
+    if (appStateSettings["longTermLoansDifferenceFeature"] == false) {
       return SliverToBoxAdapter(
         child: SizedBox.shrink(),
       );
+    }
     return StreamBuilder<List<Objective>>(
       stream: database.watchAllObjectives(
         objectiveType: ObjectiveType.loan,
@@ -334,10 +334,11 @@ class ObjectiveListDifferenceLoan extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         List<Objective> objectivesList = snapshot.data ?? [];
-        if (objectivesList.length <= 0)
+        if (objectivesList.isEmpty) {
           return SliverToBoxAdapter(
             child: SizedBox.shrink(),
           );
+        }
         return SliverPadding(
           padding: EdgeInsetsDirectional.symmetric(
             vertical: getPlatform() == PlatformOS.isIOS ? 3 : 7,
@@ -397,7 +398,7 @@ class ObjectiveContainer extends StatelessWidget {
             : 20;
     Color containerColor =
         getPlatform() == PlatformOS.isIOS && forceAndroidBubbleDesign == false
-            ? Theme.of(context).colorScheme.background
+            ? Theme.of(context).colorScheme.surface
             : getColor(context, "lightDarkAccentHeavyLight");
     EdgeInsetsDirectional containerPadding = EdgeInsetsDirectional.only(
       start:
@@ -428,7 +429,7 @@ class ObjectiveContainer extends StatelessWidget {
             openPage: ObjectivePage(objectivePk: objective.objectivePk),
             borderRadius: borderRadius,
             closedColor: containerColor,
-            button: (openContainer()) {
+            button: (Function() openContainer) {
               return Tappable(
                 onLongPress: () {
                   pushRoute(
@@ -566,16 +567,13 @@ class ObjectiveContainer extends StatelessWidget {
                                                 ? (objective.income
                                                     ? "lent".tr()
                                                     : "borrowed".tr())
-                                                : (numberTransactions
-                                                        .toString() +
-                                                    " " +
-                                                    (numberTransactions == 1
+                                                : ("$numberTransactions ${numberTransactions == 1
                                                         ? "transaction"
                                                             .tr()
                                                             .toLowerCase()
                                                         : "transactions"
                                                             .tr()
-                                                            .toLowerCase()))),
+                                                            .toLowerCase()}")),
                                             fontSize: 15,
                                             textColor:
                                                 getColor(context, "black")
@@ -764,7 +762,7 @@ class ObjectiveContainerDifferenceLoan extends StatelessWidget {
         : 20;
     Color containerColor =
         getPlatform() == PlatformOS.isIOS && forceAndroidBubbleDesign == false
-            ? Theme.of(context).colorScheme.background
+            ? Theme.of(context).colorScheme.surface
             : getColor(context, "lightDarkAccentHeavyLight");
     Widget child = WatchTotalAndAmountOfObjective(
       objective: objective,
@@ -788,7 +786,7 @@ class ObjectiveContainerDifferenceLoan extends StatelessWidget {
             openPage: ObjectivePage(objectivePk: objective.objectivePk),
             borderRadius: borderRadius,
             closedColor: containerColor,
-            button: (openContainer()) {
+            button: (Function() openContainer) {
               return Tappable(
                 onLongPress: () {
                   pushRoute(
@@ -857,15 +855,13 @@ class ObjectiveContainerDifferenceLoan extends StatelessWidget {
                                           snapshot.data ?? 0;
                                       return TextFont(
                                         textAlign: TextAlign.start,
-                                        text: numberTransactions.toString() +
-                                            " " +
-                                            (numberTransactions == 1
+                                        text: "$numberTransactions ${numberTransactions == 1
                                                 ? "transaction"
                                                     .tr()
                                                     .toLowerCase()
                                                 : "transactions"
                                                     .tr()
-                                                    .toLowerCase()),
+                                                    .toLowerCase()}",
                                         fontSize: 14,
                                         textColor: getColor(context, "black")
                                             .withOpacity(0.65),
@@ -956,14 +952,12 @@ String getObjectiveStatus(BuildContext context, Objective objective,
   } else {
     content = (addSpendingSavingIndication
             ? (objective.income
-                ? (objective.type == ObjectiveType.loan
+                ? "${objective.type == ObjectiveType.loan
                         ? "collect".tr()
-                        : "save".tr()) +
-                    " "
-                : (objective.type == ObjectiveType.loan
+                        : "save".tr()} "
+                : "${objective.type == ObjectiveType.loan
                         ? "pay".tr()
-                        : "spend".tr()) +
-                    " ")
+                        : "spend".tr()} ")
             : "") +
         convertToMoney(Provider.of<AllWallets>(context), amount.abs()) +
         "/" +
@@ -1046,10 +1040,11 @@ class WatchTotalAndAmountOfObjective extends StatelessWidget {
                             .toStringAsFixed(numberDecimals)) ==
                         0) &&
                     snapshot.hasData &&
-                    snapshotAmount.hasData)
+                    snapshotAmount.hasData) {
                   percentageTowardsGoal = 1;
-                else
+                } else {
                   percentageTowardsGoal = 0;
+                }
               }
               return builder(
                   objectiveAmount * (objective.income ? -1 : 1),

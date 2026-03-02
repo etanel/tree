@@ -7,7 +7,7 @@ import 'package:tree/colors.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 
 class GlobalSnackbar extends StatefulWidget {
-  const GlobalSnackbar({Key? key}) : super(key: key);
+  const GlobalSnackbar({super.key});
 
   @override
   State<GlobalSnackbar> createState() => GlobalSnackbarState();
@@ -38,13 +38,13 @@ class GlobalSnackbarState extends State<GlobalSnackbar>
   List<SnackbarMessage> currentQueue = [];
   SnackbarMessage? currentMessage;
 
-  post(SnackbarMessage message, {bool postIfQueue = true}) {
-    if (currentQueue.length >= 1 && !postIfQueue) return;
+  void post(SnackbarMessage message, {bool postIfQueue = true}) {
+    if (currentQueue.isNotEmpty && !postIfQueue) return;
     currentQueue.add(message);
     if (currentQueue.length <= 1) animateIn(message);
   }
 
-  animateIn(SnackbarMessage message) {
+  void animateIn(SnackbarMessage message) {
     setState(() {
       currentMessage = currentQueue[0];
     });
@@ -61,7 +61,7 @@ class GlobalSnackbarState extends State<GlobalSnackbar>
     currentTimeout!.start();
   }
 
-  animateOut() {
+  void animateOut() {
     currentTimeout?.cancel();
     _animationControllerY.animateTo(0,
         curve: Curves.elasticOut,
@@ -69,12 +69,12 @@ class GlobalSnackbarState extends State<GlobalSnackbar>
             milliseconds:
                 ((_animationControllerY.value - 0.5).abs() * 800 + 2000)
                     .toInt()));
-    if (currentQueue.length >= 1) {
+    if (currentQueue.isNotEmpty) {
       currentQueue.removeAt(0);
     }
-    if (currentQueue.length >= 1) {
+    if (currentQueue.isNotEmpty) {
       Future.delayed(Duration(milliseconds: 150), () {
-        if (currentQueue.length >= 1) animateIn(currentQueue[0]);
+        if (currentQueue.isNotEmpty) animateIn(currentQueue[0]);
       });
     }
   }
@@ -89,7 +89,7 @@ class GlobalSnackbarState extends State<GlobalSnackbar>
         vsync: this, duration: Duration(milliseconds: 1000));
   }
 
-  _onPointerMove(PointerMoveEvent ptr) {
+  void _onPointerMove(PointerMoveEvent ptr) {
     if (ptr.delta.dy <= 0) {
       totalMovedNegative += ptr.delta.dy;
     }
@@ -105,7 +105,7 @@ class GlobalSnackbarState extends State<GlobalSnackbar>
     currentTimeout!.pause();
   }
 
-  _onPointerUp(PointerUpEvent event) {
+  void _onPointerUp(PointerUpEvent event) {
     if (totalMovedNegative <= -200) {
       // if user drags it around but has a net negative, swipe up
       animateOut();

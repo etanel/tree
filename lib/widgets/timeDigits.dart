@@ -41,7 +41,7 @@ class TimeDigits extends StatelessWidget {
               : timeOfDay.hour.toString();
     }
     minutes = timeOfDay.minute.toString().length == 1
-        ? "0" + timeOfDay.minute.toString()
+        ? "0${timeOfDay.minute}"
         : timeOfDay.minute.toString();
     DateTime dateTimeFromTime = DateTime(
       DateTime.now().year,

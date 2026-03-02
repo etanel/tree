@@ -26,7 +26,7 @@ import 'package:tree/widgets/sliverStickyHeaderIfTall.dart';
 import 'package:tree/widgets/changePagesArrows.dart';
 
 class TransactionsListPage extends StatefulWidget {
-  const TransactionsListPage({Key? key}) : super(key: key);
+  const TransactionsListPage({super.key});
 
   @override
   State<TransactionsListPage> createState() => TransactionsListPageState();
@@ -35,8 +35,8 @@ class TransactionsListPage extends StatefulWidget {
 class TransactionsListPageState extends State<TransactionsListPage>
     with TickerProviderStateMixin {
   final pageId = "Transactions";
-  ScrollController _scrollController = ScrollController();
-  PageController _pageController = PageController(initialPage: 1000000);
+  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController(initialPage: 1000000);
   List<int> selectedTransactionIDs = [];
   GlobalKey<MonthSelectorState> monthSelectorStateKey = GlobalKey();
   SearchFilters searchFilters = SearchFilters();
@@ -258,15 +258,12 @@ class TransactionsListPageState extends State<TransactionsListPage>
                                     : TransactionEntriesRenderType
                                         .implicitlyAnimatedSlivers,
                                 startDate,
-                                new DateTime(startDate.year,
+                                DateTime(startDate.year,
                                     startDate.month + 1, startDate.day - 1),
                                 listID: pageId,
-                                noResultsMessage: "no-transactions-for".tr() +
-                                    " " +
-                                    getMonth(startDate,
+                                noResultsMessage: "${"no-transactions-for".tr()} ${getMonth(startDate,
                                         includeYear: startDate.year !=
-                                            DateTime.now().year) +
-                                    ".",
+                                            DateTime.now().year)}.",
                                 showTotalCashFlow: true,
                                 enableSpendingSummary: true,
                                 showSpendingSummary: appStateSettings[
@@ -386,8 +383,9 @@ class ShowTransactionsBalanceTransferTabSettingToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<AllWallets>(context).indexedByPk.keys.length <= 1)
+    if (Provider.of<AllWallets>(context).indexedByPk.keys.length <= 1) {
       return SizedBox.shrink();
+    }
     return SettingsContainerSwitch(
       title: "show-balance-transfer-tab".tr(),
       description: "show-balance-transfer-tab-description".tr(),

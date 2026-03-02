@@ -90,7 +90,7 @@ class _HomePageObjectivesState extends State<HomePageObjectives> {
                       );
                     }).toList() ??
                     []);
-                if (objectiveContainers.length <= 0) return SizedBox.shrink();
+                if (objectiveContainers.isEmpty) return SizedBox.shrink();
 
                 List<Widget> objectiveItems = [
                   ...objectiveContainers,
@@ -149,6 +149,9 @@ class _HomePageObjectivesState extends State<HomePageObjectives> {
                                 addAutomaticKeepAlives: true,
                                 clipBehavior: Clip.none,
                                 scrollDirection: Axis.horizontal,
+                                padding: EdgeInsetsDirectional.symmetric(
+                                  horizontal: 10,
+                                ),
                                 children: [
                                   for (Widget widget in objectiveItems)
                                     Padding(
@@ -160,9 +163,6 @@ class _HomePageObjectivesState extends State<HomePageObjectives> {
                                       ),
                                     )
                                 ],
-                                padding: EdgeInsetsDirectional.symmetric(
-                                  horizontal: 10,
-                                ),
                               ),
                             )
                           : CarouselSlider(
@@ -198,7 +198,7 @@ class _HomePageObjectivesState extends State<HomePageObjectives> {
                     snapshot.data != null &&
                     (snapshot.data?.length ?? 0) > 0) {
                   List<Widget> objectiveItems = [
-                    if (snapshot.hasData && snapshot.data!.length > 0)
+                    if (snapshot.hasData && snapshot.data!.isNotEmpty)
                       SizedBox(height: 8),
                     ...(snapshot.data?.map((Objective objective) {
                           return ObjectiveContainerDifferenceLoan(
@@ -209,7 +209,7 @@ class _HomePageObjectivesState extends State<HomePageObjectives> {
                           );
                         }).toList() ??
                         []),
-                    if (snapshot.hasData && snapshot.data!.length > 0)
+                    if (snapshot.hasData && snapshot.data!.isNotEmpty)
                       SizedBox(height: 8),
                   ];
 
@@ -299,7 +299,7 @@ class EditHomePagePinnedGoalsPopup extends StatelessWidget {
                   borderRadius: BorderRadiusDirectional.circular(15),
                   child: TotalSpentToggle(isForGoalTotal: true),
                 ),
-              if (allObjectives.length <= 0)
+              if (allObjectives.isEmpty)
                 NoResultsCreate(
                   message: objectiveType == ObjectiveType.goal
                       ? "no-goals-found".tr()
@@ -321,7 +321,7 @@ class EditHomePagePinnedGoalsPopup extends StatelessWidget {
                     objective.objectivePk.toString()
                 ],
                 getColor: (objectivePk, selected) {
-                  for (Objective objective in allObjectives)
+                  for (Objective objective in allObjectives) {
                     if (objective.objectivePk.toString() ==
                         objectivePk.toString()) {
                       return HexColor(objective.colour,
@@ -329,14 +329,16 @@ class EditHomePagePinnedGoalsPopup extends StatelessWidget {
                                   Theme.of(context).colorScheme.primary)
                           .withOpacity(selected == true ? 0.7 : 0.5);
                     }
+                  }
                   return null;
                 },
                 displayFilter: (objectivePk) {
-                  for (Objective objective in allObjectives)
+                  for (Objective objective in allObjectives) {
                     if (objective.objectivePk.toString() ==
                         objectivePk.toString()) {
                       return objective.name;
                     }
+                  }
                   return "";
                 },
                 initialItems: [
@@ -365,7 +367,7 @@ class EditHomePagePinnedGoalsPopup extends StatelessWidget {
                   );
                 },
               ),
-              if (allObjectives.length > 0)
+              if (allObjectives.isNotEmpty)
                 AddButton(
                   onTap: () {},
                   height: 50,

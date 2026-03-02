@@ -71,7 +71,7 @@ AppColors getAppColors(
                 ? Color(0x0F000000)
                 : Color(0xFFF0F0F0),
             "standardContainerColor": getPlatform() == PlatformOS.isIOS
-                ? themeData.colorScheme.background
+                ? themeData.colorScheme.surface
                 : appStateSettings["materialYou"]
                     ? lightenPastel(
                         themeData.colorScheme.secondaryContainer,
@@ -109,7 +109,7 @@ AppColors getAppColors(
                 ? Color(0x13FFFFFF)
                 : Color(0x6F363636),
             "standardContainerColor": getPlatform() == PlatformOS.isIOS
-                ? themeData.colorScheme.background
+                ? themeData.colorScheme.surface
                 : appStateSettings["materialYou"]
                     ? darkenPastel(
                         themeData.colorScheme.secondaryContainer,
@@ -217,12 +217,8 @@ Color dynamicPastel(
   double? amountLight,
   double? amountDark,
 }) {
-  if (amountLight == null) {
-    amountLight = amount;
-  }
-  if (amountDark == null) {
-    amountDark = amount;
-  }
+  amountLight ??= amount;
+  amountDark ??= amount;
   if (amountLight > 1) {
     amountLight = 1;
   }
@@ -260,7 +256,7 @@ class HexColor extends Color {
       hexColor = hexColor.replaceAll("#", "");
       hexColor = hexColor.replaceAll("0x", "");
       if (hexColor.length == 6) {
-        hexColor = "FF" + hexColor;
+        hexColor = "FF$hexColor";
       }
       return int.parse(hexColor, radix: 16);
     } catch (e) {
@@ -277,7 +273,7 @@ String? toHexString(Color? color) {
     return null;
   }
   String valueString = color.value.toRadixString(16);
-  return "0x" + valueString;
+  return "0x$valueString";
 }
 
 List<Color> selectableColors(context) {
@@ -361,7 +357,7 @@ Future<bool> systemColorByDefault() async {
   if (getPlatform() == PlatformOS.isAndroid) {
     if (supportsSystemColor()) {
       int? androidVersion = await getAndroidVersion();
-      print("Android version: " + androidVersion.toString());
+      print("Android version: $androidVersion");
       if (androidVersion != null && androidVersion >= 12) {
         return true;
       }
@@ -440,10 +436,7 @@ ColorScheme getGrayScaleColorScheme(Brightness brightness) {
       onErrorContainer: Colors.black,
       surface: Colors.grey[200]!,
       onSurface: Colors.black,
-      background:
-          appStateSettings["materialYou"] ? Colors.blueGrey[50]! : Colors.white,
-      onBackground: Colors.black,
-      surfaceVariant: Colors.grey[100]!,
+      surfaceContainerHighest: Colors.grey[100]!,
       onSurfaceVariant: Colors.black,
       outline: Colors.grey[500]!,
       outlineVariant: Colors.grey[400],
@@ -475,13 +468,7 @@ ColorScheme getGrayScaleColorScheme(Brightness brightness) {
       onErrorContainer: Colors.white,
       surface: Colors.grey[900]!,
       onSurface: Colors.white,
-      background: appStateSettings["forceFullDarkBackground"] == true
-          ? Colors.black
-          : appStateSettings["materialYou"]
-              ? Color(0xFF0F0F0F)
-              : Colors.black,
-      onBackground: Colors.white,
-      surfaceVariant: Colors.grey[800]!,
+      surfaceContainerHighest: Colors.grey[800]!,
       onSurfaceVariant: Colors.white,
       outline: Colors.grey[600]!,
       outlineVariant: Colors.grey[500],
@@ -558,7 +545,7 @@ Color getBottomNavbarBackgroundColor({
 String colorToHex(Color color) {
   Color opaqueColor = color.withAlpha(255);
   String hexString = opaqueColor.value.toRadixString(16).padLeft(6, '0');
-  return "#" + hexString.substring(2);
+  return "#${hexString.substring(2)}";
 }
 
 class CustomColorTheme extends StatelessWidget {

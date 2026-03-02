@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:tree/functions.dart';
 
 class FadeIn extends StatefulWidget {
-  FadeIn({Key? key, required this.child, this.duration}) : super(key: key);
+  const FadeIn({super.key, required this.child, this.duration});
 
   final Widget child;
   final Duration? duration;
@@ -59,15 +59,15 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
 }
 
 class ScaleIn extends StatefulWidget {
-  ScaleIn({
-    Key? key,
+  const ScaleIn({
+    super.key,
     required this.child,
     this.duration,
     this.curve = const ElasticOutCurve(0.5),
     this.delay = Duration.zero,
     this.loopDelay = Duration.zero,
     this.loop = false,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Duration? duration;
@@ -105,7 +105,7 @@ class _ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
       });
     }
 
-    if (widget.loop)
+    if (widget.loop) {
       _controller.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           Future.delayed(widget.loopDelay, () {
@@ -117,6 +117,7 @@ class _ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
           _controller.forward();
         }
       });
+    }
   }
 
   @override
@@ -147,7 +148,7 @@ class ScalingWidget extends StatefulWidget {
   final String keyToWatch;
   final Widget child;
 
-  ScalingWidget({required this.keyToWatch, required this.child});
+  const ScalingWidget({super.key, required this.keyToWatch, required this.child});
 
   @override
   _ScalingWidgetState createState() => _ScalingWidgetState();
@@ -216,8 +217,8 @@ class ScaledAnimatedSwitcher extends StatelessWidget {
     required this.keyToWatch,
     required this.child,
     this.duration = const Duration(milliseconds: 450),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String keyToWatch;
   final Widget child;
@@ -261,7 +262,7 @@ class ScaledAnimatedSwitcher extends StatelessWidget {
 enum Direction { vertical, horizontal }
 
 class SlideFadeTransition extends StatefulWidget {
-  SlideFadeTransition({
+  const SlideFadeTransition({super.key, 
     required this.child,
     this.offset = 1,
     this.curve = Curves.decelerate,
@@ -356,11 +357,11 @@ class _SlideFadeTransitionState extends State<SlideFadeTransition>
 
 class AnimateFABDelayed extends StatefulWidget {
   const AnimateFABDelayed({
-    Key? key,
+    super.key,
     required this.fab,
     this.delay = const Duration(milliseconds: 250),
     this.enabled,
-  }) : super(key: key);
+  });
 
   final Widget fab;
   final Duration delay;
@@ -376,18 +377,20 @@ class _AnimateFABDelayedState extends State<AnimateFABDelayed> {
   @override
   void initState() {
     super.initState();
-    if (appStateSettings["appAnimations"] == AppAnimations.all.index)
+    if (appStateSettings["appAnimations"] == AppAnimations.all.index) {
       Future.delayed(widget.delay, () {
         setState(() {
           scaleIn = true;
         });
       });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (appStateSettings["appAnimations"] != AppAnimations.all.index)
+    if (appStateSettings["appAnimations"] != AppAnimations.all.index) {
       return widget.fab;
+    }
     return AnimateFAB(
       condition: widget.enabled ?? scaleIn,
       fab: widget.fab,
@@ -397,14 +400,14 @@ class _AnimateFABDelayedState extends State<AnimateFABDelayed> {
 
 class ShakeAnimation extends StatefulWidget {
   const ShakeAnimation({
-    Key? key,
+    super.key,
     this.duration = const Duration(milliseconds: 2500),
     this.deltaX = 20,
     this.curve = const ElasticInOutCurve(0.19),
     required this.child,
     this.animate = true,
     required this.delay,
-  }) : super(key: key);
+  });
 
   final Duration duration;
   final double deltaX;
@@ -424,10 +427,11 @@ class _ShakeAnimationState extends State<ShakeAnimation> {
   @override
   void initState() {
     _future = Future.delayed(widget.delay, () {
-      if (mounted)
+      if (mounted) {
         setState(() {
           startAnimation = true;
         });
+      }
     });
     // Future.delayed(
     //     widget.delay + widget.duration - Duration(milliseconds: 1600),
@@ -480,8 +484,8 @@ class AnimatedClipRRect extends StatelessWidget {
     this.curve = Curves.linear,
     required this.borderRadius,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Duration duration;
   final Curve curve;
@@ -530,8 +534,8 @@ class AnimatedScaleOpacity extends StatelessWidget {
         scale: animateIn ? 1 : 0,
         duration: duration,
         curve: curve,
-        child: child,
         alignment: alignment.toAlignment(),
+        child: child,
       ),
     );
   }
@@ -543,8 +547,8 @@ class BouncingWidget extends StatefulWidget {
   final double amountEnd;
   final Duration duration;
 
-  BouncingWidget(
-      {required this.child,
+  const BouncingWidget(
+      {super.key, required this.child,
       required this.animate,
       this.amountEnd = -8,
       this.duration = const Duration(milliseconds: 800)});

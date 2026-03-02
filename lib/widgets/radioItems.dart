@@ -18,7 +18,7 @@ class RadioItems<T> extends StatefulWidget {
   final bool Function(T item)? getSelected;
 
   const RadioItems({
-    Key? key,
+    super.key,
     required this.initial,
     required this.items,
     this.getDescription,
@@ -30,7 +30,7 @@ class RadioItems<T> extends StatefulWidget {
     this.getSelected,
     this.ifNullSelectNone = false,
     this.itemsAreFonts = false,
-  }) : super(key: key);
+  });
 
   @override
   State<RadioItems<T>> createState() => _RadioItemsState<T>();
@@ -53,8 +53,9 @@ class _RadioItemsState<T> extends State<RadioItems<T>> {
       index += 1;
       bool selected = false;
       if (currentValue == item ||
-          (widget.getSelected != null && widget.getSelected!(item)))
+          (widget.getSelected != null && widget.getSelected!(item))) {
         selected = true;
+      }
       if (item == null && widget.ifNullSelectNone == true) selected = false;
       bool noDescription =
           widget.getDescription == null || widget.getDescription!(item) == "";
@@ -150,7 +151,7 @@ class _RadioItemsState<T> extends State<RadioItems<T>> {
                 },
                 fillColor: widget.colorFilter != null &&
                         widget.colorFilter!(item) != null
-                    ? MaterialStateColor.resolveWith(
+                    ? WidgetStateColor.resolveWith(
                         (states) => widget.colorFilter!(item)!)
                     : null,
                 activeColor: Theme.of(context).colorScheme.primary,
@@ -187,7 +188,7 @@ class CheckItems<T> extends StatefulWidget {
   final IconData? unSelectedIcon;
 
   const CheckItems({
-    Key? key,
+    super.key,
     this.initial,
     required this.items,
     required this.onChanged,
@@ -201,7 +202,7 @@ class CheckItems<T> extends StatefulWidget {
     this.triggerInitialOnChanged = true,
     this.selectedIcon,
     this.unSelectedIcon,
-  }) : super(key: key);
+  });
 
   @override
   State<CheckItems<T>> createState() => _CheckItemsState<T>();
@@ -219,6 +220,7 @@ class _CheckItemsState<T> extends State<CheckItems<T>> {
     });
   }
 
+  @override
   void didUpdateWidget(oldWidget) {
     if (oldWidget != widget && widget.syncWithInitial) {
       setState(() {
