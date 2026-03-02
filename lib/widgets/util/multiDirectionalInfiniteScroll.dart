@@ -90,7 +90,7 @@ class MultiDirectionalInfiniteScrollState
     if (_scrollController.position.minScrollExtent == clampedPosition ||
         _scrollController.position.maxScrollExtent == clampedPosition) {
       // Update the scroll position for the possibility of a new item being added
-      _scrollController.notifyListeners();
+      _scrollController.jumpTo(_scrollController.offset);
       Future.delayed(Duration(milliseconds: 1), () {
         clampedPosition = positionToScroll.clamp(
             _scrollController.position.minScrollExtent,
@@ -161,11 +161,9 @@ class MultiDirectionalInfiniteScrollState
     return MouseRegion(
       onEnter: (_) {
         cancelParentScroll.value = true;
-        cancelParentScroll.notifyListeners();
       },
       onExit: (_) {
         cancelParentScroll.value = false;
-        cancelParentScroll.notifyListeners();
       },
       child: Listener(
         onPointerSignal: (event) {

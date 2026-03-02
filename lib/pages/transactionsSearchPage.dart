@@ -139,19 +139,17 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
       initialEntryMode: DatePickerEntryMode.input,
       allTimeButton: true,
     );
-    if (picked != null) {
-      if (searchFilters.dateTimeRange != picked.dateTimeRange) {
-        Future.delayed(Duration(milliseconds: 175), () {
-          setState(() {
-            searchFilters.dateTimeRange = picked.dateTimeRange;
-          });
-          updateSettings(
-            "searchTransactionsSetFiltersString",
-            searchFilters.getFilterString(),
-            updateGlobalState: false,
-          );
+    if (searchFilters.dateTimeRange != picked.dateTimeRange) {
+      Future.delayed(Duration(milliseconds: 175), () {
+        setState(() {
+          searchFilters.dateTimeRange = picked.dateTimeRange;
         });
-      }
+        updateSettings(
+          "searchTransactionsSetFiltersString",
+          searchFilters.getFilterString(),
+          updateGlobalState: false,
+        );
+      });
     }
   }
 
@@ -161,7 +159,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
       onWillPop: () async {
         if ((globalSelectedID.value["TransactionsSearch"] ?? []).isNotEmpty) {
           globalSelectedID.value["TransactionsSearch"] = [];
-          globalSelectedID.notifyListeners();
+          globalSelectedID.value = Map.from(globalSelectedID.value);
           return false;
         } else {
           return true;

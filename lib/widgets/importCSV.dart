@@ -470,7 +470,7 @@ class _ImportCSVState extends State<ImportCSV> {
                 : Icons.check_circle_outline_rounded,
             title: "${"done".tr()}!",
             description:
-                "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0 ? (" " + "errors".tr().capitalizeFirst + ": " + numberOfErrors.toString() + ".") : ""}",
+                "${"successfully-imported".tr().capitalizeFirst} ${fileContents.length - firstEntryIndex - numberOfErrors} ${"transactions".tr().toLowerCase()}.${numberOfErrors > 0 ? (" ${"errors".tr().capitalizeFirst}: $numberOfErrors.") : ""}",
             onSubmitLabel: "ok".tr(),
             onSubmit: () {
               popRoute(context);
@@ -887,7 +887,6 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
       note = row[assignedColumns["note"]!["setHeaderIndex"]].toString().trim();
     }
 
-    String categoryFk = "0";
     TransactionCategory selectedCategory;
     try {
       selectedCategory = await database.getCategoryInstanceGivenName(
@@ -944,7 +943,7 @@ class _ImportingEntriesPopupState extends State<ImportingEntriesPopup> {
 
       // }
     }
-    categoryFk = selectedCategory.categoryPk;
+    // categoryFk is derived from selectedCategory below
 
     // This will cause the app to crash if importing too many, so we now use batching
     // if (name != "") {

@@ -8,7 +8,7 @@ import 'package:tree/widgets/globalSnackbar.dart';
 import 'package:tree/widgets/navigationFramework.dart';
 import 'package:tree/widgets/openPopup.dart';
 import 'package:tree/widgets/openSnackbar.dart';
-import 'package:tree/widgets/restartApp.dart';
+
 import 'package:tree/widgets/selectAmount.dart';
 import 'package:tree/widgets/textInput.dart';
 import 'package:tree/widgets/timeDigits.dart';
@@ -800,9 +800,8 @@ double getTotalSubscriptions(AllWallets allWallets,
     for (Transaction subscription in subscriptions) {
       subscription = subscription.copyWith(
           amount: subscription.amount *
-              (amountRatioToPrimaryCurrencyGivenPk(
-                      allWallets, subscription.walletFk) ??
-                  0));
+              amountRatioToPrimaryCurrencyGivenPk(
+                  allWallets, subscription.walletFk));
       if (subscription.type == TransactionSpecialType.upcoming) {
         total += subscription.amount;
       } else if (subscription.periodLength == 0) {
@@ -918,39 +917,28 @@ String pluralString(bool condition, String string) {
 bool lockAppWaitForRestart = false;
 void restartAppPopup(context,
     {String? subtitle, String? description, String? codeBlock}) async {
-  // For now, enforce this until better solution found
-  if (kIsWeb || true) {
-    // Lock the side navigation
-    lockAppWaitForRestart = true;
-    appStateKey.currentState?.refreshAppState();
+  // Lock the side navigation
+  lockAppWaitForRestart = true;
+  appStateKey.currentState?.refreshAppState();
 
-    openPopup(
-      context,
-      title: kIsWeb
-          ? "please-refresh-the-application".tr()
-          : "please-restart-the-application".tr(),
-      description: description,
-      subtitle: subtitle,
-      descriptionWidget: codeBlock == null
-          ? null
-          : Padding(
-              padding: const EdgeInsetsDirectional.only(top: 8, bottom: 12),
-              child: CodeBlock(text: codeBlock),
-            ),
-      icon: appStateSettings["outlinedIcons"]
-          ? Icons.restart_alt_outlined
-          : Icons.restart_alt_rounded,
-      barrierDismissible: false,
-      // Show code widget with the name of the file monospace font
-    );
-  } else {
-    // Pop all routes, select home tab
-    RestartApp.restartApp(context);
-    popAllRoutes(context);
-    Future.delayed(Duration(milliseconds: 100), () {
-      PageNavigationFramework.changePage(context, 0, switchNavbar: true);
-    });
-  }
+  openPopup(
+    context,
+    title: kIsWeb
+        ? "please-refresh-the-application".tr()
+        : "please-restart-the-application".tr(),
+    description: description,
+    subtitle: subtitle,
+    descriptionWidget: codeBlock == null
+        ? null
+        : Padding(
+            padding: const EdgeInsetsDirectional.only(top: 8, bottom: 12),
+            child: CodeBlock(text: codeBlock),
+          ),
+    icon: appStateSettings["outlinedIcons"]
+        ? Icons.restart_alt_outlined
+        : Icons.restart_alt_rounded,
+    barrierDismissible: false,
+  );
 }
 
 String filterEmailTitle(string) {
@@ -1113,7 +1101,7 @@ Future<String> getDeviceInfo() async {
       return info.model;
     } else if (Platform.isIOS) {
       IosDeviceInfo info = await deviceInfo.iosInfo;
-      return info.utsname.machine ?? info.model ?? "iOS";
+      return info.utsname.machine;
     } else if (Platform.isLinux) {
       LinuxDeviceInfo info = await deviceInfo.linuxInfo;
       return info.machineId ?? "Linux";

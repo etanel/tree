@@ -249,6 +249,7 @@ class _CacheCategoryIconState extends State<CacheCategoryIcon> {
 
   @override
   void didUpdateWidget(covariant CacheCategoryIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
     if (widget.iconName != oldWidget.iconName ||
         widget.size != oldWidget.size) {
       setState(() {

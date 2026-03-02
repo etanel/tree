@@ -657,11 +657,8 @@ class _BudgetHistoryLineGraphState extends State<_BudgetHistoryLineGraph> {
                   value,
                   titleMeta,
                 ) {
-                  bool show = false;
                   if (value == 0) {
-                    show = true;
                   } else if (value <= widget.maxY && value > widget.minY) {
-                    show = true;
                   } else {
                     return SizedBox.shrink();
                   }

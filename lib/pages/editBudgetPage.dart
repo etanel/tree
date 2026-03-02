@@ -2,18 +2,14 @@ import 'package:tree/colors.dart';
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/pages/addBudgetPage.dart';
-import 'package:tree/pages/editCategoriesPage.dart';
 import 'package:tree/struct/databaseGlobal.dart';
 import 'package:tree/struct/settings.dart';
-import 'package:tree/struct/shareBudget.dart';
-import 'package:tree/widgets/animatedExpanded.dart';
 import 'package:tree/widgets/button.dart';
 import 'package:tree/widgets/dropdownSelect.dart';
 import 'package:tree/widgets/fab.dart';
 import 'package:tree/widgets/fadeIn.dart';
 import 'package:tree/widgets/framework/popupFramework.dart';
 import 'package:tree/widgets/globalSnackbar.dart';
-import 'package:tree/widgets/navigationFramework.dart';
 import 'package:tree/widgets/noResults.dart';
 import 'package:tree/widgets/openBottomSheet.dart';
 import 'package:tree/widgets/openPopup.dart';
@@ -339,7 +335,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                                         } else {
                                           return TextFont(
                                             textAlign: TextAlign.start,
-                                            text: "/" " " + "transactions".tr(),
+                                            text: "/ ${"transactions".tr()}",
                                             fontSize: 14,
                                             textColor:
                                                 getColor(context, "black")

@@ -626,9 +626,7 @@ class _AddTransactionPageState extends State<AddTransactionPage>
   Transaction createTransaction({bool removeShared = false}) {
     bool? createdAnotherFutureTransaction =
         widget.transaction?.createdAnotherFutureTransaction;
-    bool paid = widget.transaction != null
-        ? widget.transaction!.paid
-        : selectedType == null;
+    // paid is determined by selectedPaid
     bool skipPaid = widget.transaction != null
         ? widget.transaction!.skipPaid
         : selectedType == null;
@@ -640,10 +638,8 @@ class _AddTransactionPageState extends State<AddTransactionPage>
 
       if ([TransactionSpecialType.credit, TransactionSpecialType.debt]
           .contains(selectedType)) {
-        paid = true;
         skipPaid = false;
       } else {
-        paid = false;
         skipPaid = false;
       }
     }

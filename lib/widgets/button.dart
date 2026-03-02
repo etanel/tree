@@ -278,9 +278,8 @@ class ButtonIcon extends StatelessWidget {
         margin: padding,
         child: Icon(
           icon,
-          color: iconColor == null
-              ? Theme.of(context).colorScheme.onSecondaryContainer
-              : iconColor,
+          color:
+              iconColor ?? Theme.of(context).colorScheme.onSecondaryContainer,
           size: size - iconPadding,
         ),
       ),

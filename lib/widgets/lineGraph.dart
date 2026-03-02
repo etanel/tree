@@ -24,7 +24,6 @@ class _LineChart extends StatefulWidget {
     this.extraLeftPaddingIfSmall = 0,
     this.colors = const [],
     this.amountBefore = 0,
-    super.key,
   });
 
   final List<List<FlSpot>> spots;
@@ -213,19 +212,15 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
               value,
               titleMeta,
             ) {
-              bool show = false;
               if (value == titleMeta.max || value == titleMeta.min) {
                 return SizedBox.shrink();
               } else if (value == 0) {
-                show = true;
               } else if (value < widget.maxPair.y &&
                   value > 1 &&
                   value < titleMeta.max) {
-                show = true;
               } else if (value > widget.minPair.y &&
                   value < 1 &&
                   value > titleMeta.min) {
-                show = true;
               } else {
                 return SizedBox.shrink();
               }

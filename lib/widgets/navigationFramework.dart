@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:tree/colors.dart';
 import 'package:tree/database/initializeDefaultDatabase.dart';
 import 'package:tree/database/tables.dart';
@@ -38,17 +37,13 @@ import 'package:tree/struct/shareBudget.dart';
 import 'package:tree/struct/syncClient.dart';
 import 'package:tree/widgets/accountAndBackup.dart';
 import 'package:tree/widgets/bottomNavBar.dart';
-import 'package:tree/widgets/button.dart';
 import 'package:tree/widgets/categoryIcon.dart';
 import 'package:tree/widgets/fab.dart';
 import 'package:tree/widgets/framework/popupFramework.dart';
 import 'package:tree/widgets/iconButtonScaled.dart';
-import 'package:tree/widgets/importDB.dart';
-import 'package:tree/widgets/moreIcons.dart';
 import 'package:tree/widgets/navigationSidebar.dart';
 import 'package:tree/widgets/notificationsSettings.dart';
 import 'package:tree/widgets/openBottomSheet.dart';
-import 'package:tree/widgets/openContainerNavigation.dart';
 import 'package:tree/widgets/openPopup.dart';
 import 'package:tree/widgets/openSnackbar.dart';
 import 'package:tree/widgets/outlinedButtonStacked.dart';
@@ -62,7 +57,6 @@ import 'package:tree/widgets/globalLoadingProgress.dart';
 import 'package:tree/widgets/globalSnackbar.dart';
 import 'package:tree/pages/editCategoriesPage.dart';
 import 'package:tree/struct/upcomingTransactionsFunctions.dart';
-import 'package:tree/widgets/tappable.dart';
 import 'package:tree/widgets/transactionEntry/transactionEntry.dart';
 import 'package:tree/widgets/transactionEntry/transactionLabel.dart';
 import 'package:tree/widgets/util/checkWidgetLaunch.dart';
@@ -235,7 +229,7 @@ class HandleWillPopScope extends StatelessWidget {
           if (globalSelectedID.value[key]?.isNotEmpty == true) notEmpty++;
           globalSelectedID.value[key] = [];
         }
-        globalSelectedID.notifyListeners();
+        globalSelectedID.value = Map.from(globalSelectedID.value);
 
         // Allow the back button to exit the app when on home
         if (notEmpty <= 0) {

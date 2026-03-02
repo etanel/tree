@@ -29,12 +29,12 @@ final InAppReview inAppReview = InAppReview.instance;
 bool openRatingPopupCheck(BuildContext context) {
   // Disable this for now, we have the new in-home page review popup
   return false;
-  if ((appStateSettings["numLogins"] + 1) % 10 == 0 &&
-      appStateSettings["submittedFeedback"] != true) {
-    openBottomSheet(context, RatingPopup(), fullSnap: true);
-    return true;
-  }
-  return false;
+  // if ((appStateSettings["numLogins"] + 1) % 10 == 0 &&
+  //     appStateSettings["submittedFeedback"] != true) {
+  //   openBottomSheet(context, RatingPopup(), fullSnap: true);
+  //   return true;
+  // }
+  // return false;
 }
 
 class RatingPopup extends StatefulWidget {
@@ -231,8 +231,7 @@ Future<bool> shareFeedback(String feedbackText, String feedbackType,
       "appVersion": getVersionString(),
     };
 
-    DocumentReference feedbackCreatedOnCloud =
-        await db.collection("feedback").add(feedbackEntry);
+    await db.collection("feedback").add(feedbackEntry);
 
     openSnackbar(SnackbarMessage(
         title: "feedback-shared".tr(),

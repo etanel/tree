@@ -387,9 +387,7 @@ class _FreePremiumMessageState extends State<FreePremiumMessage> {
                   fontSize: 14,
                   expandedLayout: true,
                   label: "unlock-for-free".tr() +
-                      (timerUp == false
-                          ? (" " "(" + remainingTime.toString() + ")")
-                          : ""),
+                      (timerUp == false ? (" ($remainingTime)") : ""),
                   onTap: () {
                     if (timerUp) {
                       popRoute(context, true); //Pop current popup route

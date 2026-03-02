@@ -9,7 +9,6 @@ import 'package:tree/pages/objectivesListPage.dart';
 import 'package:tree/struct/currencyFunctions.dart';
 import 'package:tree/struct/databaseGlobal.dart';
 import 'package:tree/struct/settings.dart';
-import 'package:tree/widgets/animatedExpanded.dart';
 import 'package:tree/widgets/categoryIcon.dart';
 import 'package:tree/widgets/dropdownSelect.dart';
 import 'package:tree/widgets/fab.dart';

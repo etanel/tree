@@ -11,12 +11,10 @@ import 'package:tree/struct/currencyFunctions.dart';
 import 'package:tree/struct/databaseGlobal.dart';
 import 'package:tree/struct/settings.dart';
 import 'package:tree/struct/shareBudget.dart';
-import 'package:tree/widgets/button.dart';
 import 'package:tree/widgets/dropdownSelect.dart';
 import 'package:tree/widgets/globalSnackbar.dart';
 import 'package:tree/widgets/incomeExpenseTabSelector.dart';
 import 'package:tree/widgets/navigationFramework.dart';
-import 'package:tree/widgets/navigationSidebar.dart';
 import 'package:tree/widgets/openBottomSheet.dart';
 import 'package:tree/widgets/openPopup.dart';
 import 'package:tree/widgets/framework/pageFramework.dart';
@@ -35,7 +33,6 @@ import 'package:tree/widgets/textWidgets.dart';
 import 'package:tree/widgets/util/showDatePicker.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -364,7 +361,7 @@ class _AddBudgetPageState extends State<AddBudgetPage> {
       if (widget.budget == null) {
         bool result = await premiumPopupBudgets(context);
         if (result == true && widget.isAddedOnlyBudget != true) {
-          dynamic result = await openBottomSheet(
+          await openBottomSheet(
             context,
             fullSnap: false,
             SelectBudgetTypePopup(setBudgetType: setSelectedBudgetType),
@@ -381,7 +378,7 @@ class _AddBudgetPageState extends State<AddBudgetPage> {
           //     ),
           //   );
           // }
-          dynamic result2 = await openBottomSheet(
+          await openBottomSheet(
             context,
             fullSnap: false,
             SelectBudgetIncomeTypePopup(setBudgetIncome: setSelectedIncome),

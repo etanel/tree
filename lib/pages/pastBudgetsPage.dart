@@ -60,7 +60,7 @@ class PastBudgetsPage extends StatelessWidget {
 }
 
 class _PastBudgetsPageContent extends StatefulWidget {
-  const _PastBudgetsPageContent({super.key, required this.budget});
+  const _PastBudgetsPageContent({required this.budget});
   final Budget budget;
 
   @override

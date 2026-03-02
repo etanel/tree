@@ -80,7 +80,6 @@ class BudgetPage extends StatelessWidget {
 
 class _BudgetPageContent extends StatefulWidget {
   const _BudgetPageContent({
-    super.key,
     required this.budget,
     this.dateForRange,
     this.dateForRangeIndex = 0,
@@ -265,7 +264,7 @@ class _BudgetPageContentState extends State<_BudgetPageContent> {
       onWillPop: () async {
         if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
-          globalSelectedID.notifyListeners();
+          globalSelectedID.value = Map.from(globalSelectedID.value);
           return false;
         } else {
           return true;
@@ -1051,6 +1050,7 @@ class _BudgetLineGraphState extends State<BudgetLineGraph> {
 
   @override
   void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
     if (oldWidget != widget) {
       _init();
     }
@@ -1058,6 +1058,7 @@ class _BudgetLineGraphState extends State<BudgetLineGraph> {
 
   @override
   initState() {
+    super.initState();
     _init();
   }
 

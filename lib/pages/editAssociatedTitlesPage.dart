@@ -1,7 +1,6 @@
 import 'package:tree/database/tables.dart';
 import 'package:tree/functions.dart';
 import 'package:tree/pages/addAssociatedTitlePage.dart';
-import 'package:tree/pages/editBudgetPage.dart';
 import 'package:tree/struct/databaseGlobal.dart';
 import 'package:tree/struct/settings.dart';
 import 'package:tree/widgets/animatedExpanded.dart';

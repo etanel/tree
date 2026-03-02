@@ -154,11 +154,8 @@ class BarGraphState extends State<BarGraph> {
                     value,
                     titleMeta,
                   ) {
-                    bool show = false;
                     if (value == 0) {
-                      show = true;
                     } else if (value < widget.maxY && value > 1) {
-                      show = true;
                     } else {
                       return SizedBox.shrink();
                     }

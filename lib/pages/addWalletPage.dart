@@ -96,12 +96,10 @@ class _AddWalletPageState extends State<AddWalletPage> {
 
     // set initial amount
     if (widget.wallet == null && initialBalance != 0) {
-      if (rowId != null) {
-        final TransactionWallet walletJustAdded =
-            await database.getWalletFromRowId(rowId);
-        await correctWalletBalance(context, initialBalance, initialBalance,
-            walletJustAdded, DateTime.now(), "");
-      }
+      final TransactionWallet walletJustAdded =
+          await database.getWalletFromRowId(rowId);
+      await correctWalletBalance(context, initialBalance, initialBalance,
+          walletJustAdded, DateTime.now(), "");
     }
 
     if (popContext) {

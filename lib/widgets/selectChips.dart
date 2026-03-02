@@ -291,11 +291,11 @@ class _SelectChipsState<T> extends State<SelectChips<T>> {
                                       padding: scrollPadding,
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
-                                        children: children,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
+                                        children: children,
                                       ),
                                     )
                                   : ScrollablePositionedList.builder(

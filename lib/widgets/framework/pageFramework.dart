@@ -335,7 +335,6 @@ class PageFrameworkState extends State<PageFramework>
 
         if (totalDragX > 20) {
           isSwipingToDismissPageDown.value = true;
-          isSwipingToDismissPageDown.notifyListeners();
         }
       }
       if (swipeDownToDismiss && widget.dragDownToDismissEnabled) {
@@ -351,7 +350,6 @@ class PageFrameworkState extends State<PageFramework>
 
         if (totalDragY > 20) {
           isSwipingToDismissPageDown.value = true;
-          isSwipingToDismissPageDown.notifyListeners();
         }
       }
       _animationControllerDragY.value =
@@ -385,7 +383,6 @@ class PageFrameworkState extends State<PageFramework>
       isBackSideSwiping = false;
       _animationControllerDragY.reverse();
       isSwipingToDismissPageDown.value = false;
-      isSwipingToDismissPageDown.notifyListeners();
     }
   }
 
@@ -1090,7 +1087,7 @@ List<Widget> getAppBarBackgroundColorLayers({
             height: MediaQuery.sizeOf(context).height - 1,
 
             color: appBarBackgroundColorStart ??
-                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.surface,
           ),
     (animationControllerOpacity != null ||
                 percent != null ||

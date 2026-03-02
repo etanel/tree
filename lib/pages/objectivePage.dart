@@ -62,7 +62,6 @@ class ObjectivePage extends StatelessWidget {
 
 class _ObjectivePageContent extends StatefulWidget {
   const _ObjectivePageContent({
-    super.key,
     required this.objective,
   });
 
@@ -183,7 +182,7 @@ class _ObjectivePageContentState extends State<_ObjectivePageContent> {
       onWillPop: () async {
         if ((globalSelectedID.value[pageId] ?? []).isNotEmpty) {
           globalSelectedID.value[pageId] = [];
-          globalSelectedID.notifyListeners();
+          globalSelectedID.value = Map.from(globalSelectedID.value);
           return false;
         } else {
           return true;
