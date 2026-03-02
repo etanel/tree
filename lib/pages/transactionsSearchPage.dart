@@ -151,7 +151,7 @@ class TransactionsSearchPageState extends State<TransactionsSearchPage>
         );
       });
     }
-    }
+  }
 
   @override
   Widget build(BuildContext context) {

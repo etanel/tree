@@ -1515,9 +1515,9 @@ Future<bool> generateLoanTransactionsFromBillSummary(
           Provider.of<AllWallets>(context, listen: false),
           amountSpent,
         )}${percentOfTotal < 1 ? (" / ${convertToMoney(
-              Provider.of<AllWallets>(context, listen: false),
-              billSplitterItem.cost * multiplierAmount,
-            )}") : ""}";
+            Provider.of<AllWallets>(context, listen: false),
+            billSplitterItem.cost * multiplierAmount,
+          )}") : ""}";
         note += "\n";
       }
       note = note.trim();

@@ -100,7 +100,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
           await database.getWalletFromRowId(rowId);
       await correctWalletBalance(context, initialBalance, initialBalance,
           walletJustAdded, DateTime.now(), "");
-        }
+    }
 
     if (popContext) {
       savingHapticFeedback();
